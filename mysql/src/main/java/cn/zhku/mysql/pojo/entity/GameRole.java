@@ -1,0 +1,73 @@
+package cn.zhku.mysql.pojo.entity;
+
+import java.io.Serializable;
+
+public class GameRole implements Serializable {
+    private Long id;
+
+    private String roleName;
+
+    private Long hp;
+
+    private Long mp;
+
+    private String position;
+
+    private static final long serialVersionUID = 1L;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName == null ? null : roleName.trim();
+    }
+
+    public Long getHp() {
+        return hp;
+    }
+
+    public void setHp(Long hp) {
+        this.hp = hp;
+    }
+
+    public Long getMp() {
+        return mp;
+    }
+
+    public void setMp(Long mp) {
+        this.mp = mp;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position == null ? null : position.trim();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", roleName=").append(roleName);
+        sb.append(", hp=").append(hp);
+        sb.append(", mp=").append(mp);
+        sb.append(", position=").append(position);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
+}
