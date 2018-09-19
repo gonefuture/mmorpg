@@ -13,8 +13,8 @@ import lombok.Data;
 public class Adventurer extends Role {
 
 
-    public Adventurer(String name, int hp, int mp) {
-        super(name, hp, mp);
+    public Adventurer(long id, String name, long hp, long mp) {
+        super(id,name, hp, mp);
     }
 
 

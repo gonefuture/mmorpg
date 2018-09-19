@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.zhku.mysql.pojo.entity.PlayerRolesMapper" >
-  <resultMap id="BaseResultMap" type="cn.zhku.mysql.pojo.entity.PlayerRoles" >
+<mapper namespace="com.wan37.mysql.pojo.mapper.PlayerRolesMapper" >
+  <resultMap id="BaseResultMap" type="com.wan37.mysql.pojo.entity.PlayerRoles" >
     <result column="player_id" property="playerId" jdbcType="BIGINT" />
     <result column="game_role_id" property="gameRoleId" jdbcType="BIGINT" />
   </resultMap>
@@ -66,7 +66,7 @@
   <sql id="Base_Column_List" >
     player_id, game_role_id
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.zhku.mysql.pojo.entity.PlayerRolesExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.PlayerRolesExample" >
     select
     <if test="distinct" >
       distinct
@@ -80,17 +80,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="cn.zhku.mysql.pojo.entity.PlayerRolesExample" >
+  <delete id="deleteByExample" parameterType="com.wan37.mysql.pojo.entity.PlayerRolesExample" >
     delete from player_roles
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.zhku.mysql.pojo.entity.PlayerRoles" >
+  <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.PlayerRoles" >
     insert into player_roles (player_id, game_role_id)
     values (#{playerId,jdbcType=BIGINT}, #{gameRoleId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.zhku.mysql.pojo.entity.PlayerRoles" >
+  <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.PlayerRoles" >
     insert into player_roles
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="playerId != null" >
@@ -109,7 +109,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.zhku.mysql.pojo.entity.PlayerRolesExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.wan37.mysql.pojo.entity.PlayerRolesExample" resultType="java.lang.Integer" >
     select count(*) from player_roles
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />

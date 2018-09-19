@@ -1,3 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/game?useUnicode=true&characterEncoding=utf-8&useSSL=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  check-config-location: true
+  type-aliases-package: com.wan37.mysql.pojo.entity
 
 debug: true
 

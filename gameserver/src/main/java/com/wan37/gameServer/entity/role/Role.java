@@ -9,22 +9,29 @@ import lombok.Data;
  * @version 1.00
  * Description: 角色骨架类
  */
+
 @Data
 public abstract class Role {
     // 角色名字
-    private String name;
-    private long hp;
-    private long mp;
+    protected long id;
+    protected String name;
+    protected long hp;
+    protected long mp;
 
     // 所处位置
-    private Position position;
+    protected Position position;
 
     // 角色状态
 
     //public String roleState();
 
 
-    Role(String name, long hp, long mp) {
+    public Role(){
+
+    }
+
+    public Role(Long id, String name, long hp, long mp) {
+        this.id =  id;
         this.name = name;
         this.hp = hp;
         this.mp = mp;

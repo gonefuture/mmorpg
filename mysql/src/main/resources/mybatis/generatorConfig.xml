@@ -35,7 +35,7 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="cn.zhku.mysql.pojo.entity" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.wan37.mysql.pojo.entity" targetProject="src/main/java">
             <!-- 是否在当前路径下新加一层schema,eg:
             fase路径：com.sky.ssm.po ； true路径：com.sky.ssm.po.[shemaName]
              -->
@@ -52,7 +52,7 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- 生成mapxml对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="cn.zhku.mysql.pojo.entity" targetProject="src/main/java"
+        <javaClientGenerator targetPackage="com.wan37.mysql.pojo.mapper" targetProject="src/main/java"
                              type="XMLMAPPER" >
             <!-- 是否在当前路径下新加一层schema,eg:
             fase路径：com.sky.ssm.mapper ； true路径：com.sky.ssm.mapper.[shemaName]

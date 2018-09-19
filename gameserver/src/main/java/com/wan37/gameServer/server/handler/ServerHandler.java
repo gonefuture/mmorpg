@@ -11,7 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 
@@ -30,14 +30,15 @@ import javax.annotation.Resource;
 @ChannelHandler.Sharable
 public class ServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
-    @Autowired
+    @Resource
     private RoleMoveService roleMoveService ;
 
+    @Resource
+    private GameCacheManager gameCacheManager ;
 
     //  当客户端连上服务器的时候触发此函数
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        GameCacheManager gameCacheManager = GameCacheManager.getInstance();
 
         gameCacheManager.put("hero", RoleLoginService.createRole());
         log.info("客户端: " + ctx.channel().id() + " 加入连接",CharsetUtil.UTF_8);
@@ -54,16 +55,15 @@ public class ServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
-        Channel channel = ctx.channel();
-        //当有用户发送消息的时候，对其他的用户发送消息
 
 
         log.info("服务端接收到信息： "+byteBuf.toString(CharsetUtil.UTF_8));
         // 将收到的消息写给发送者,而不冲刷出站消息
 
-        // 角色移动
-        System.out.println("ServerHandler ===="+roleMoveService);
 
+
+        // 角色移动
+        roleMoveService.move();
         ctx.writeAndFlush(Unpooled.copiedBuffer(roleMoveService.currentLocation(), CharsetUtil.UTF_8));
 
         ctx.writeAndFlush(Unpooled.copiedBuffer("向"+ byteBuf.toString(CharsetUtil.UTF_8)+

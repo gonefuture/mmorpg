@@ -5,6 +5,8 @@ import com.wan37.gameServer.entity.role.Adventurer;
 import com.wan37.gameServer.entity.role.Role;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -15,12 +17,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoleLoginService {
 
-    public final static Role adventurer = createRole();
+
 
 
     public static synchronized Role createRole() {
+
+        Random r = new Random();
         // 创新新的冒险者
-        Role role = new Adventurer("贪婪的冒险者",9999,9999);
+        Role role = new Adventurer(r.nextLong(),"贪婪的冒险者",9999,9999);
 
         Position position = new Position(0,0);
         role.setPosition(position);
