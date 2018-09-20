@@ -1,5 +1,7 @@
 package com.wan37.gameClient;
 
+import com.wan37.gameClient.coder.MessageDecoder;
+import com.wan37.gameClient.coder.MessageEncoder;
 import com.wan37.gameClient.handler.GameClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -33,9 +35,6 @@ import java.io.InputStreamReader;
 @Slf4j
 public class GameClient {
 
-    @Resource
-    private GameClientHandler gameClientHandler;
-
     private String ip;
 
     private int port;
@@ -58,7 +57,13 @@ public class GameClient {
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(gameClientHandler);
+
+                ch.pipeline()
+                        // 编码器
+                        .addLast(new MessageEncoder())
+                        //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
+                        //.addLast(new MessageDecoder(Integer.MAX_VALUE, 1, 4))
+                        ;//.addLast(new GameClientHandler());
             }
         });
         try {
@@ -74,6 +79,7 @@ public class GameClient {
                     }
                     log.debug("客户端发送的信息： "+content);
                     channel.writeAndFlush(Unpooled.copiedBuffer(content,CharsetUtil.UTF_8));
+
                 }
             }
             //指定所使用的NIO传输channel

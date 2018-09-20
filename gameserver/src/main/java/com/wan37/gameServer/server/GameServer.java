@@ -1,6 +1,9 @@
 package com.wan37.gameServer.server;
 
 
+import com.wan37.gameServer.server.dispatcher.RequestDispatcher;
+import com.wan37.gameServer.server.handler.MessageDecoder;
+import com.wan37.gameServer.server.handler.MessageEncoder;
 import com.wan37.gameServer.server.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -46,7 +49,14 @@ public class GameServer {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 // 这里添加业务处理handler
-                ch.pipeline().addLast( serverHandler);
+                ch.pipeline()//.addLast( serverHandler)
+                // 编码器
+                .addLast(new MessageEncoder())
+                //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
+                .addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
+                // 消息业务分派器
+                .addLast(new RequestDispatcher())
+                ;
             }
         });
 

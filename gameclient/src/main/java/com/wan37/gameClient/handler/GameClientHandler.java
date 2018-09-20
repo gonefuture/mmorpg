@@ -6,6 +6,7 @@ package com.wan37.gameClient.handler;
  */
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -31,7 +32,8 @@ public class GameClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         // 当被通知Channel是活跃的时候,发送一条信息
-        //ctx.writeAndFlush(Unpooled.copiedBuffer(Unpooled.copiedBuffer("客户端: " + ctx.channel().id() + "连接",CharsetUtil.UTF_8)));
+        ctx.writeAndFlush(Unpooled.copiedBuffer(Unpooled.copiedBuffer("客户端: " +
+                ctx.channel().id() + "连接",CharsetUtil.UTF_8)));
     }
 
 
