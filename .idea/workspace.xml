@@ -4,9 +4,6 @@
     <list default="true" id="61d2bb31-4020-4ab8-8ed0-3c22174020dd" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/GameClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/handler/GameClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/handler/GameClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/IController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/GameServer.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/mysql/target/" />
     <ignored path="$PROJECT_DIR$/gameserver/target/" />
@@ -24,26 +21,8 @@
       <file leaf-file-name="GameClientHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/handler/GameClientHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
+            <state relative-caret-position="13">
               <caret line="27" column="6" lean-forward="true" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/common/Message.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameServer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/GameServer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="29">
-              <caret line="55" column="61" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -65,8 +44,8 @@
       <file leaf-file-name="GameClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/GameClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="583">
-              <caret line="80" column="24" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
+            <state relative-caret-position="146">
+              <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -98,20 +77,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameOutHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/handler/GameOutHandler.java">
+      <file leaf-file-name="GameServer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/GameServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="290">
+              <caret line="55" column="61" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MessageEncoder.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GameOutHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/handler/GameOutHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="19" column="52" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChannelOutboundHandlerAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.1.29.Final/netty-all-4.1.29.Final-sources.jar!/io/netty/channel/ChannelOutboundHandlerAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1232">
+              <caret line="101" selection-start-line="101" selection-end-line="104" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MessageEncoder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/coder/MessageEncoder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+            <state relative-caret-position="190">
+              <caret line="25" column="40" lean-forward="true" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -659,7 +659,7 @@
       <workItem from="1537257534370" duration="499000" />
       <workItem from="1537258054034" duration="8437000" />
       <workItem from="1537321049549" duration="16711000" />
-      <workItem from="1537405432972" duration="26793000" />
+      <workItem from="1537405432972" duration="27569000" />
     </task>
     <task id="LOCAL-00001" summary="基于MyBatis的持久化模块测试成功。&#10;修改了一些配置文件和配置类。&#10; &#10; 下一步：设计请求分发的Handler，使得Netty连接与业务逻辑分离。">
       <created>1537352660024</created>
@@ -668,11 +668,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537352660024</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="增添了有关消息分发的代码。&#10;增添了消息通讯协议格式，编码器，解码器&#10;:bug:但是客户端netty代码测试时遇到bug，发现客户端发送的信息不经过编码器直接发送了，找了好久原因，估计是因为直接在channel中写入控制台数据的原因。">
+      <created>1537444447182</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1537444447182</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52440000" />
+    <option name="totallyTimeSpent" value="53216000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -687,12 +694,12 @@
       <window_info anchor="right" id="Maven Projects" order="8" weight="0.2841823" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.48787448" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.48787448" />
       <window_info anchor="bottom" id="Spring" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.20684735" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.36376604" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5749386" visible="true" weight="0.25603217" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5749386" visible="true" weight="0.25603217" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info id="Structure" order="1" sideWeight="0.42506143" side_tool="true" weight="0.35321715" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -718,16 +725,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="基于MyBatis的持久化模块测试成功。&#10;修改了一些配置文件和配置类。&#10; &#10; 下一步：设计请求分发的Handler，使得Netty连接与业务逻辑分离。" />
-    <option name="LAST_COMMIT_MESSAGE" value="基于MyBatis的持久化模块测试成功。&#10;修改了一些配置文件和配置类。&#10; &#10; 下一步：设计请求分发的Handler，使得Netty连接与业务逻辑分离。" />
+    <MESSAGE value="增添了有关消息分发的代码。&#10;增添了消息通讯协议格式，编码器，解码器&#10;:bug:但是客户端netty代码测试时遇到bug，发现客户端发送的信息不经过编码器直接发送了，找了好久原因，估计是因为直接在channel中写入控制台数据的原因。" />
+    <option name="LAST_COMMIT_MESSAGE" value="增添了有关消息分发的代码。&#10;增添了消息通讯协议格式，编码器，解码器&#10;:bug:但是客户端netty代码测试时遇到bug，发现客户端发送的信息不经过编码器直接发送了，找了好久原因，估计是因为直接在channel中写入控制台数据的原因。" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mysql/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="60" selection-start-line="60" selection-end-line="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -985,13 +986,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/GameServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="55" column="61" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/common/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
@@ -1003,18 +997,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/GameClientApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" column="5" lean-forward="true" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#256#257#0" expanded="true" />
-            <element signature="e#328#329#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1038,34 +1020,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/coder/MessageEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="25" column="40" lean-forward="true" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.1.29.Final/netty-all-4.1.29.Final-sources.jar!/io/netty/channel/ChannelOutboundHandlerAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1232">
+          <caret line="101" selection-start-line="101" selection-end-line="104" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/GameClientApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="5" lean-forward="true" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#256#257#0" expanded="true" />
+            <element signature="e#328#329#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/handler/GameOutHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/handler/GameClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="27" column="6" lean-forward="true" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/GameClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="80" column="24" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
+        <state relative-caret-position="225">
+          <caret line="19" column="52" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/coder/MessageEncoder.java">
+    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/handler/GameClientHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+        <state relative-caret-position="13">
+          <caret line="27" column="6" lean-forward="true" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameClient/GameClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/GameServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="55" column="61" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
         </state>
       </provider>
     </entry>

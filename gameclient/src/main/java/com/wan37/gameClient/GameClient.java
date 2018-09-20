@@ -3,6 +3,7 @@ package com.wan37.gameClient;
 import com.wan37.gameClient.coder.MessageDecoder;
 import com.wan37.gameClient.coder.MessageEncoder;
 import com.wan37.gameClient.handler.GameClientHandler;
+import com.wan37.gameClient.handler.GameOutHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -61,9 +62,11 @@ public class GameClient {
                 ch.pipeline()
                         // 编码器
                         .addLast(new MessageEncoder())
+                        .addLast(new GameOutHandler())
                         //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
                         //.addLast(new MessageDecoder(Integer.MAX_VALUE, 1, 4))
-                        ;//.addLast(new GameClientHandler());
+                        //.addLast(new GameClientHandler())
+                        ;
             }
         });
         try {
