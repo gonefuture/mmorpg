@@ -2,6 +2,7 @@ package com.wan37.gameServer.server.handler;
 
 import com.wan37.gameServer.common.Message;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
@@ -29,10 +30,6 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-
-        log.info(in.toString(CharsetUtil.UTF_8));
-        //log.info("数据包长度"+in.readableBytes());
-        log.info("===============");
 
         //已经处理了TCP的粘包拆包问题，我们需要把字节流解码为业务对象Message
         ByteBuf buf = (ByteBuf) super.decode(ctx, in);
@@ -67,7 +64,6 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         buf.readBytes(values);
         message.setContent(values);
 
-        log.info(message.toString());
         return message;
     }
 }

@@ -53,9 +53,9 @@ public class GameServer {
                 // 编码器
                 .addLast(new MessageEncoder())
                 //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
-                .addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
+                .addLast(new MessageDecoder(1000*10 , 1, 4))
                 // 消息业务分派器
-                .addLast(new RequestDispatcher())
+                .addLast(new ServerHandler())
                 ;
             }
         });

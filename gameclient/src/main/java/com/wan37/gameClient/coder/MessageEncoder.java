@@ -18,6 +18,8 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
     // 填充协议实体。
     @Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
+        //log.info("客户端 编码器 " );
+
         // 定义数据的长度
         int length = msg.getContent().length + 11;
         out.writeByte(-128)

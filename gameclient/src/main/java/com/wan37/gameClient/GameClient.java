@@ -1,28 +1,26 @@
 package com.wan37.gameClient;
 
-import com.wan37.gameClient.coder.MessageDecoder;
+
 import com.wan37.gameClient.coder.MessageEncoder;
-import com.wan37.gameClient.handler.GameClientHandler;
-import com.wan37.gameClient.handler.GameOutHandler;
+
+
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.CharsetUtil;
+import io.netty.channel.Channel;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import com.wan37.gameServer.common.Message;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -31,21 +29,20 @@ import java.io.InputStreamReader;
  * Description: JavaLearn
  */
 
-
-@Component
 @Slf4j
+@Component
 public class GameClient {
 
-    private String ip;
+    private String ip = "127.0.0.1";
 
-    private int port;
+    private int port = 8000;
+
+    // 停止标志位
+    private boolean stop = false;
 
 
-    public GameClient() {
-        this.ip = "127.0.0.1";
-        this.port = 8000;
-    }
 
+    @PostConstruct
     public void run() throws IOException {
         //设置一个多线程循环器
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -58,15 +55,13 @@ public class GameClient {
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-
                 ch.pipeline()
-                        // 编码器
                         .addLast(new MessageEncoder())
-                        .addLast(new GameOutHandler())
-                        //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
-                        //.addLast(new MessageDecoder(Integer.MAX_VALUE, 1, 4))
+                        //.addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
+
+                        // 处理器
                         //.addLast(new GameClientHandler())
-                        ;
+                ;
             }
         });
         try {
@@ -81,7 +76,10 @@ public class GameClient {
                         System.exit(1);
                     }
                     log.debug("客户端发送的信息： "+content);
-                    channel.writeAndFlush(Unpooled.copiedBuffer(content,CharsetUtil.UTF_8));
+                    //channel.writeAndFlush(Unpooled.copiedBuffer(content,CharsetUtil.UTF_8));
+                    Message message = new Message();
+                    message.setContent(content.getBytes());
+                    channel.writeAndFlush(message);
 
                 }
             }
@@ -96,17 +94,6 @@ public class GameClient {
     }
 
     public static void main(String[] args) throws Exception {
-
         new GameClient().run();
-    }
-
-    @PostConstruct
-    public void start() {
-        try {
-            log.info("启动客户端");
-          run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

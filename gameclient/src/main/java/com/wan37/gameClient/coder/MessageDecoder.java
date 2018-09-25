@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
-
     // maxFrameLength 数据帧的最大长度
     // lengthFieldOffset 长度字段所在位置的偏移量
     // lengthFieldLength 长度字段占用的数据长度
