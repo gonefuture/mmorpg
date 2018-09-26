@@ -2,12 +2,12 @@ package com.wan37.gameServer.service;
 
 
 
-import com.wan37.gameServer.common.MapMarker;
+import com.wan37.common.entity.MapMarker;
 import com.wan37.gameServer.entity.map.GameMap;
 import com.wan37.gameServer.entity.map.Position;
 import com.wan37.gameServer.entity.role.Adventurer;
 import com.wan37.gameServer.entity.role.Role;
-import com.wan37.gameServer.manager.GameCacheManager;
+import com.wan37.gameServer.manager.CacheManager;
 import com.wan37.mysql.pojo.entity.GameRole;
 import com.wan37.mysql.pojo.mapper.GameRoleMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +29,7 @@ public class RoleMoveService {
 
     private GameMap gameMap = new GameMap("桃花源",10,10);
     private MapMarker[][] map = new MapMarker[10][10];
-    @Resource
-    private  GameCacheManager gameCacheManager;
+
 
     @Resource
     private GameRoleMapper gameRoleMapper;
@@ -63,7 +62,7 @@ public class RoleMoveService {
 
         // 保存角色信息
 
-        Role role = (Adventurer) gameCacheManager.get("hero");
+        Role role = (Adventurer) CacheManager.gameCache.getIfPresent("1");
 
         GameRole gameRole = new GameRole();
 
@@ -75,7 +74,7 @@ public class RoleMoveService {
     }
 
     public String currentLocation() {
-        Role role = (Adventurer) gameCacheManager.get("hero");
+        Role role = (Adventurer) CacheManager.gameCache.getIfPresent("1");
         Position p = role.getPosition();
         map[p.getX()][p.getY()] = MapMarker.ROLE;
         return gameMap.StringMap();

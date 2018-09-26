@@ -1,6 +1,7 @@
 package com.wan37.gameClient;
 
 
+import com.wan37.common.entity.Message;
 import com.wan37.gameClient.coder.MessageEncoder;
 
 
@@ -20,7 +21,7 @@ import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import com.wan37.gameServer.common.Message;
+
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -59,7 +60,8 @@ public class GameClient {
                         .addLast(new MessageEncoder())
                         //.addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
 
-                        // 处理器
+                        // 处理器1543
+
                         //.addLast(new GameClientHandler())
                 ;
             }
@@ -78,6 +80,8 @@ public class GameClient {
                     log.debug("客户端发送的信息： "+content);
                     //channel.writeAndFlush(Unpooled.copiedBuffer(content,CharsetUtil.UTF_8));
                     Message message = new Message();
+                    message.setMsgId(1000);
+                    message.setType((byte)1);
                     message.setContent(content.getBytes());
                     channel.writeAndFlush(message);
 

@@ -1,5 +1,6 @@
 package com.wan37.gameServer.common;
 
+import com.wan37.common.entity.Message;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -10,7 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
  */
 
 @FunctionalInterface
-public interface Controller {
+public interface IController {
 
     // 接收派发的数据，处理业务
     void handle(ISession session, ChannelHandlerContext ctx, Message message);

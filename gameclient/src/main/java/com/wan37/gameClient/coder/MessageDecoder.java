@@ -1,6 +1,7 @@
 package com.wan37.gameClient.coder;
 
-import com.wan37.gameServer.common.Message;
+
+import com.wan37.common.entity.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;

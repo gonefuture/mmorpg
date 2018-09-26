@@ -31,6 +31,9 @@ public class GameServer {
     @Resource
     private ServerHandler serverHandler;
 
+    @Resource
+    private RequestDispatcher requestDispatcher;
+
     //绑定端口
     private void bind(int port) throws Exception {
         // 逻辑线程组
@@ -41,9 +44,9 @@ public class GameServer {
         ServerBootstrap bootstrap = new ServerBootstrap(); // 启动器
         bootstrap.group(bossGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG, 1024) // 最大客户端连接数为1024
+                //.option(ChannelOption.SO_BACKLOG, 1024) // 最大客户端连接数为1024
                 //是否启用心跳保活机制
-                .childOption(ChannelOption.SO_KEEPALIVE, true)
+                //.childOption(ChannelOption.SO_KEEPALIVE, true)
         .childHandler(new ChannelInitializer<SocketChannel>() {
 
             @Override
@@ -53,9 +56,9 @@ public class GameServer {
                 // 编码器
                 .addLast(new MessageEncoder())
                 //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
-                .addLast(new MessageDecoder(1000*10 , 1, 4))
+                .addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
                 // 消息业务分派器
-                .addLast(new ServerHandler())
+                .addLast(requestDispatcher)
                 ;
             }
         });

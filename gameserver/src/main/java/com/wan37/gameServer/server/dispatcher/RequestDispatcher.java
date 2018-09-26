@@ -1,12 +1,13 @@
 package com.wan37.gameServer.server.dispatcher;
 
-import com.wan37.gameServer.common.Controller;
-import com.wan37.gameServer.common.Message;
-import com.wan37.gameServer.common.MsgId;
+import com.wan37.gameServer.common.IController;
+import com.wan37.common.entity.Message;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.server.cotroller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
  */
 
 @Slf4j
+@Component
 public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
 
     @Resource
@@ -28,7 +30,8 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
 
         log.info(msg.toString());
-        Controller controller = controllerManager.get(MsgId.HEllO_1000.getMsgId());
+        log.info("controllerManager"+controllerManager);
+        IController controller = controllerManager.get(MsgId.HEllO_1000.getMsgId());
         controller.handle(null,ctx,msg);
      }
 

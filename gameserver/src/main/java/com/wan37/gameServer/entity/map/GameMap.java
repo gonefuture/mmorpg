@@ -1,7 +1,7 @@
 package com.wan37.gameServer.entity.map;
 
 
-import com.wan37.gameServer.common.MapMarker;
+import com.wan37.common.entity.MapMarker;
 
 /**
  * @author gonefuture  gonefuture@qq.com

@@ -1,4 +1,4 @@
-package com.wan37.gameServer.common;
+package com.wan37.common.entity;
 
 /**
  * @author gonefuture  gonefuture@qq.com

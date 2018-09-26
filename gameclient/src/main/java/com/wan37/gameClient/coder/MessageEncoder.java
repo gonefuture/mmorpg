@@ -1,8 +1,10 @@
 package com.wan37.gameClient.coder;
 
-import com.wan37.gameServer.common.Message;
+
+import com.wan37.common.entity.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,14 +24,17 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
 
         // 定义数据的长度
         int length = msg.getContent().length + 11;
+        msg.setLength(length);
+        log.info("信息长度： "+length);
         out.writeByte(-128)
                 .writeInt(length)
                 .writeInt(msg.getMsgId())
-                .writeInt(msg.getType())
-                .writeInt(msg.getFlag())
+                .writeByte(msg.getType())
+                .writeByte(msg.getFlag())
                 .writeBytes(msg.getContent());
 
         log.info("客户端编码： " + msg);
+        log.info("客户端发送的内容主体" + new String(msg.getContent()));
         ctx.flush();
     }
 }

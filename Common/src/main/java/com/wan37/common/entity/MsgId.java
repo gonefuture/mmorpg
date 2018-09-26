@@ -1,4 +1,4 @@
-package com.wan37.gameServer.common;
+package com.wan37.common.entity;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -8,11 +8,13 @@ package com.wan37.gameServer.common;
  */
 public enum MsgId {
 
+
+
     // 打招呼
-    HEllO_1000(1000),
+    HEllO(1000),
 
     // 移动
-    MOVE_2000(2000);
+    MOVE(2000);
 
 
     // MsgId

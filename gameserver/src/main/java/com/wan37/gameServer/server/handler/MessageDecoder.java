@@ -1,12 +1,10 @@
 package com.wan37.gameServer.server.handler;
 
-import com.wan37.gameServer.common.Message;
+import com.wan37.common.entity.Message;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -31,8 +29,17 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
 
+        //in.readByte();
+        //log.info("收到信息的长度标志"+in.readInt());
+        log.info("消息： "+in);
+
+
+
         //已经处理了TCP的粘包拆包问题，我们需要把字节流解码为业务对象Message
-        ByteBuf buf = (ByteBuf) super.decode(ctx, in);
+        //ByteBuf buf = (ByteBuf) super.decode(ctx, in);
+        ByteBuf buf = in;
+
+        log.info("处理粘包和拆包后"+buf);
         if (buf == null) {
             return null;
         }
@@ -51,6 +58,7 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
 
         Message message = new Message();
+        message.setLength(length);
         message.setFlag(flag);
         message.setType(type);
         message.setMsgId(msgId);
@@ -64,6 +72,8 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         buf.readBytes(values);
         message.setContent(values);
 
+        log.info("message： "+message);
+        log.info("内容： "+new String(message.getContent()));
         return message;
     }
 }

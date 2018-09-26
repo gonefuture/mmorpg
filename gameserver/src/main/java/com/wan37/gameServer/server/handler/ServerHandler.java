@@ -1,11 +1,8 @@
 package com.wan37.gameServer.server.handler;
 
-import com.wan37.gameServer.manager.GameCacheManager;
-import com.wan37.gameServer.service.RoleLoginService;
 import com.wan37.gameServer.service.RoleMoveService;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -33,8 +30,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Resource
     private RoleMoveService roleMoveService ;
 
-    @Resource
-    private GameCacheManager gameCacheManager ;
+
 
     //  当客户端连上服务器的时候触发此函数
     @Override

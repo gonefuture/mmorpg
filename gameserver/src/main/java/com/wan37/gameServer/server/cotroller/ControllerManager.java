@@ -1,11 +1,11 @@
 package com.wan37.gameServer.server.cotroller;
 
-import com.wan37.gameServer.common.Controller;
-import com.wan37.gameServer.common.MsgId;
-import com.wan37.gameServer.controller.HelloController;
+import com.wan37.gameServer.common.IController;
+import com.wan37.common.entity.MsgId;
+import com.wan37.gameServer.controller.HelloIController;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,22 +17,24 @@ import java.util.Map;
  */
 
 @Component
+@Slf4j
 public class ControllerManager {
 
-    private Map<Integer,Controller>  controllerMap = new HashMap<>();
+    private Map<Integer,IController>  controllerMap = new HashMap<>();
 
 
     ControllerManager(){
         init();
+        log.info("控制器管理器初始化成功");
     }
 
 
     private void init() {
-        controllerMap.put(MsgId.HEllO_1000.getMsgId(),new HelloController());
+        controllerMap.put(MsgId.HEllO_1000.getMsgId(),new HelloIController());
     }
 
 
-    public Controller get(int msgId) {
+    public IController get(int msgId) {
         return controllerMap.get(msgId);
     }
 }

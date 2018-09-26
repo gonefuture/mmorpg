@@ -1,6 +1,6 @@
 package com.wan37.gameServer.server.handler;
 
-import com.wan37.gameServer.common.Message;
+import com.wan37.common.entity.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -21,8 +21,8 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
         out.writeByte(-128)
                 .writeInt(length)
                 .writeInt(msg.getMsgId())
-                .writeInt(msg.getType())
-                .writeInt(msg.getFlag())
+                .writeByte(msg.getType())
+                .writeByte(msg.getFlag())
                 .writeBytes(msg.getContent());
 
         ctx.flush();
