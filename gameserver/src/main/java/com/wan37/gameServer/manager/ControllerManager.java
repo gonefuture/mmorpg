@@ -1,8 +1,11 @@
-package com.wan37.gameServer.server.cotroller;
+package com.wan37.gameServer.manager;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
+import com.wan37.gameServer.controller.GameRoleLoginController;
 import com.wan37.gameServer.controller.HelloIController;
+import com.wan37.gameServer.controller.PlayerLoginController;
+import com.wan37.gameServer.controller.RoleMoveCotroller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +23,8 @@ import java.util.Map;
 @Slf4j
 public class ControllerManager {
 
-    private Map<Integer,IController>  controllerMap = new HashMap<>();
+    // MsgId标志和服务之间的映射
+    private Map<Integer,IController>  controllerMapping = new HashMap<>();
 
 
     ControllerManager(){
@@ -30,11 +34,13 @@ public class ControllerManager {
 
 
     private void init() {
-        controllerMap.put(MsgId.HEllO_1000.getMsgId(),new HelloIController());
+        controllerMapping.put(MsgId.PLAYER_LOGIN.getMsgId(),new PlayerLoginController());
+        controllerMapping.put(MsgId.GAME_ROLE_LOGIN.getMsgId(),new GameRoleLoginController());
+        controllerMapping.put(MsgId.MOVE.getMsgId(), new RoleMoveCotroller());
     }
 
 
     public IController get(int msgId) {
-        return controllerMap.get(msgId);
+        return controllerMapping.get(msgId);
     }
 }

@@ -70,6 +70,7 @@ public class GameClient {
             //连接服务
             Channel channel = bootstrap.connect(ip, port).sync().channel();
             while (true) {
+                System.out.println("请选择你的操作");
                 //向服务端发送内容
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String content = reader.readLine();
@@ -77,10 +78,10 @@ public class GameClient {
                     if (StringUtils.equalsIgnoreCase(content, "q")) {
                         System.exit(1);
                     }
-                    log.debug("客户端发送的信息： "+content);
+                    //log.debug("客户端发送的信息： "+content);
                     //channel.writeAndFlush(Unpooled.copiedBuffer(content,CharsetUtil.UTF_8));
                     Message message = new Message();
-                    message.setMsgId(1000);
+                    message.setMsgId(1001);
                     message.setType((byte)1);
                     message.setContent(content.getBytes());
                     channel.writeAndFlush(message);

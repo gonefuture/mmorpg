@@ -3,7 +3,7 @@ package com.wan37.gameServer.server.dispatcher;
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.server.cotroller.ControllerManager;
+import com.wan37.gameServer.manager.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +29,8 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
 
-        log.info(msg.toString());
-        log.info("controllerManager"+controllerManager);
-        IController controller = controllerManager.get(MsgId.HEllO_1000.getMsgId());
+        log.info("收到的信息： "+msg.toString());
+        IController controller = controllerManager.get(msg.getMsgId());
         controller.handle(null,ctx,msg);
      }
 
