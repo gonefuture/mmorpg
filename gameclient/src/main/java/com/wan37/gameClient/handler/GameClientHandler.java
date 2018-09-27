@@ -5,6 +5,7 @@ package com.wan37.gameClient.handler;
  *  说明：
  */
 
+import com.wan37.common.entity.Message;
 import io.netty.buffer.ByteBuf;
 
 
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 // 标记该类的实例可以被多个Channel共享
 @ChannelHandler.Sharable
-public class GameClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class GameClientHandler extends SimpleChannelInboundHandler<Message> {
 
 
     @Override
@@ -45,10 +46,10 @@ public class GameClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, Message message) throws Exception {
         // 记录信息已经被接受
         log.info(
-                "客户端:"+ ctx.channel().id() + "接受到信息: \n"+  byteBuf.toString(CharsetUtil.UTF_8)
+                "客户端:"+ ctx.channel().id() + "接受到信息: \n"+ new String((message.getContent()))
         );
     }
 }

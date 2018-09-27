@@ -1,8 +1,14 @@
 package com.wan37.gameServer.controller;
 
+import com.wan37.common.entity.Message;
+import com.wan37.gameServer.common.IController;
+import com.wan37.gameServer.common.ISession;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.CharsetUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -11,17 +17,16 @@ import io.netty.util.CharsetUtil;
  * @version 1.00
  * Description: JavaLearn
  */
-public class RoleMoveController {
+
+@Slf4j
+@Component
+public class RoleMoveController  implements IController {
 
     private ByteBuf in;
 
-    public RoleMoveController(ByteBuf byteBuf) {
-        this.in = byteBuf;
-    }
 
-
-    public ByteBuf result() {
-        return Unpooled.copiedBuffer("你移动的方向是"+in.toString(CharsetUtil.UTF_8),
-                CharsetUtil.UTF_8);
+    @Override
+    public void handle(ISession session, ChannelHandlerContext ctx, Message message) {
+        
     }
 }

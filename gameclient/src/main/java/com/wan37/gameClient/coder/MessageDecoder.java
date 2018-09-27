@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
+
     // maxFrameLength 数据帧的最大长度
     // lengthFieldOffset 长度字段所在位置的偏移量
     // lengthFieldLength 长度字段占用的数据长度
@@ -27,10 +28,11 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-        log.debug("客户端解码: "+ in.toString( CharsetUtil.UTF_8));
 
         //已经处理了TCP的粘包拆包问题，我们需要把字节流解码为业务对象Message
-        ByteBuf buf = (ByteBuf) super.decode(ctx, in);
+        //ByteBuf buf = (ByteBuf) super.decode(ctx, in);
+        ByteBuf buf = in;
+
         if (buf == null) {
             return null;
         }
@@ -49,6 +51,7 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
 
         Message message = new Message();
+        message.setLength(length);
         message.setFlag(flag);
         message.setType(type);
         message.setMsgId(msgId);
@@ -62,6 +65,7 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         buf.readBytes(values);
         message.setContent(values);
 
+        log.info("内容： "+new String(message.getContent()));
         return message;
     }
 }

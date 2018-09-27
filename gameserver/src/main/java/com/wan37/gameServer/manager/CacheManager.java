@@ -6,6 +6,8 @@ import com.google.common.cache.CacheLoader;
 import com.wan37.gameServer.entity.map.Position;
 import com.wan37.gameServer.entity.role.Adventurer;
 import com.wan37.gameServer.entity.role.Role;
+import com.wan37.mysql.pojo.entity.GameRole;
+import com.wan37.mysql.pojo.entity.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -36,14 +38,23 @@ public class CacheManager {
             ).build();
 
 
-    private CacheManager(){
-        Random r = new Random();
-        // 创新新的冒险者
-        Role role = new Adventurer(r.nextLong(),"贪婪的冒险者",9999,9999);
+    public static void cachePlayer(Long id , Player player) {
+        String key = "player:"+id;
+        gameCache.put(key,player);
+    }
 
-        Position position = new Position(0,0);
-        role.setPosition(position);
-        gameCache.put("1", role);
+    public static Player getPlayer(Long id) {
+        return (Player) gameCache.getIfPresent("player:"+id);
+    }
+
+
+    public static void cacheRole(Long id , GameRole gameRole) {
+        String key = "gameRole:"+id;
+        gameCache.put(key,gameRole);
+    }
+
+    public static Player getRole(Long id) {
+        return (Player) gameCache.getIfPresent("gameRole:"+id);
     }
 
 }

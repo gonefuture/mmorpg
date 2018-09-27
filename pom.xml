@@ -16,7 +16,7 @@
         <module>mysql</module>
         <module>gameclient</module>
         <module>common</module>
-    </modules>c
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

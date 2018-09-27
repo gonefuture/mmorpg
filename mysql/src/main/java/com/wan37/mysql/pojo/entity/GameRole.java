@@ -5,13 +5,15 @@ import java.io.Serializable;
 public class GameRole implements Serializable {
     private Long id;
 
-    private String roleName;
+    private String name;
 
     private Long hp;
 
     private Long mp;
 
     private String position;
+
+    private Integer state;
 
     private static final long serialVersionUID = 1L;
 
@@ -23,12 +25,12 @@ public class GameRole implements Serializable {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getName() {
+        return name;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName == null ? null : roleName.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public Long getHp() {
@@ -55,6 +57,14 @@ public class GameRole implements Serializable {
         this.position = position == null ? null : position.trim();
     }
 
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -62,10 +72,11 @@ public class GameRole implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", roleName=").append(roleName);
+        sb.append(", name=").append(name);
         sb.append(", hp=").append(hp);
         sb.append(", mp=").append(mp);
         sb.append(", position=").append(position);
+        sb.append(", state=").append(state);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

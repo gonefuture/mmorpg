@@ -12,4 +12,7 @@ mybatis:
   type-aliases-package: com.wan37.mysql.pojo.entity
 
 debug: true
+logging:
+  level:
+    com.wan37: debug
 

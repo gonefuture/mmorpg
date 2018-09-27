@@ -2,9 +2,11 @@ package com.wan37.gameClient;
 
 
 import com.wan37.common.entity.Message;
+import com.wan37.gameClient.coder.MessageDecoder;
 import com.wan37.gameClient.coder.MessageEncoder;
 
 
+import com.wan37.gameClient.handler.GameClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
@@ -58,11 +60,9 @@ public class GameClient {
             protected void initChannel(SocketChannel ch) throws Exception {
                 ch.pipeline()
                         .addLast(new MessageEncoder())
-                        //.addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
-
-                        // 处理器1543
-
-                        //.addLast(new GameClientHandler())
+                        .addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
+                        // 处理器
+                        .addLast(new GameClientHandler())
                 ;
             }
         });
@@ -70,7 +70,7 @@ public class GameClient {
             //连接服务
             Channel channel = bootstrap.connect(ip, port).sync().channel();
             while (true) {
-                System.out.println("请选择你的操作");
+                System.out.println("请输入您的操作：  操作 + 数据（多个数据之间用空格隔开）");
                 //向服务端发送内容
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String content = reader.readLine();
@@ -79,9 +79,9 @@ public class GameClient {
                         System.exit(1);
                     }
                     //log.debug("客户端发送的信息： "+content);
-                    //channel.writeAndFlush(Unpooled.copiedBuffer(content,CharsetUtil.UTF_8));
+                    String[] array = content.split(" ");
                     Message message = new Message();
-                    message.setMsgId(1001);
+                    message.setMsgId(Integer.valueOf(array[0]));
                     message.setType((byte)1);
                     message.setContent(content.getBytes());
                     channel.writeAndFlush(message);

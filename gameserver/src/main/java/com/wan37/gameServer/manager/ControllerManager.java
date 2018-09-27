@@ -3,12 +3,13 @@ package com.wan37.gameServer.manager;
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.controller.GameRoleLoginController;
-import com.wan37.gameServer.controller.HelloIController;
 import com.wan37.gameServer.controller.PlayerLoginController;
-import com.wan37.gameServer.controller.RoleMoveCotroller;
+import com.wan37.gameServer.controller.RoleMoveController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,15 +29,26 @@ public class ControllerManager {
 
 
     ControllerManager(){
-        init();
+
         log.info("控制器管理器初始化成功");
     }
 
+    @Resource
+    private PlayerLoginController playerLoginController;
 
+    @Resource
+    private GameRoleLoginController gameRoleLoginController;
+
+    @Resource
+    private RoleMoveController roleMoveController;
+
+
+    // 加载MsgId与控制器之间的关系
+    @PostConstruct
     private void init() {
-        controllerMapping.put(MsgId.PLAYER_LOGIN.getMsgId(),new PlayerLoginController());
-        controllerMapping.put(MsgId.GAME_ROLE_LOGIN.getMsgId(),new GameRoleLoginController());
-        controllerMapping.put(MsgId.MOVE.getMsgId(), new RoleMoveCotroller());
+        controllerMapping.put(MsgId.PLAYER_LOGIN.getMsgId(),playerLoginController);
+        controllerMapping.put(MsgId.GAME_ROLE_LOGIN.getMsgId(),gameRoleLoginController);
+        controllerMapping.put(MsgId.MOVE.getMsgId(), roleMoveController);
     }
 
 
