@@ -17,6 +17,8 @@ public class GameRole implements Serializable {
 
     private Integer scene;
 
+    private Long playerId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -75,6 +77,14 @@ public class GameRole implements Serializable {
         this.scene = scene;
     }
 
+    public Long getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(Long playerId) {
+        this.playerId = playerId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -88,6 +98,7 @@ public class GameRole implements Serializable {
         sb.append(", position=").append(position);
         sb.append(", state=").append(state);
         sb.append(", scene=").append(scene);
+        sb.append(", playerId=").append(playerId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

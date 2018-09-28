@@ -1,15 +1,11 @@
 package com.wan37.gameServer.service;
 
-import com.wan37.gameServer.entity.map.Position;
-import com.wan37.gameServer.entity.role.Adventurer;
-import com.wan37.gameServer.entity.role.Role;
-import com.wan37.gameServer.manager.CacheManager;
+import com.wan37.gameServer.manager.cache.RoleCacheManager;
 import com.wan37.mysql.pojo.entity.GameRole;
 import com.wan37.mysql.pojo.mapper.GameRoleMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Random;
 
 
 /**
@@ -22,12 +18,25 @@ import java.util.Random;
 public class RoleLoginService {
 
     @Resource
+    private RoleCacheManager roleCacheManager;
+
+    @Resource
     private GameRoleMapper gameRoleMapper;
 
-    public GameRole login(Long id) {
-        GameRole gameRole =  gameRoleMapper.selectByPrimaryKey(id);
-        CacheManager.cacheGameRole(id,gameRole);
-        return gameRole;
+
+    /**
+     *  角色登陆
+     */
+    public GameRole login(Long roleId) {
+        GameRole gameRoleCache  = roleCacheManager.get(roleId);
+
+        if (gameRoleCache == null) {
+            GameRole gameRole =  gameRoleMapper.selectByPrimaryKey(roleId);
+            roleCacheManager.put(roleId,gameRole);
+            return gameRole;
+        } else {
+            return gameRoleCache;
+        }
     }
 
 }

@@ -1,9 +1,11 @@
 package com.wan37.gameServer.service;
 
-import com.wan37.gameServer.manager.CacheManager;
+import com.wan37.gameServer.manager.cache.RoleCacheManager;
 import com.wan37.mysql.pojo.entity.GameRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -16,8 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoleMoveService  {
 
+    @Resource
+    private RoleCacheManager roleCacheManager;
+
+
     public void moveScene(long roleId,int sceneId) {
-        GameRole gameRole = CacheManager.getGameRole(roleId);
+        GameRole gameRole =roleCacheManager.get(roleId);
         gameRole.setScene(sceneId);
     }
 

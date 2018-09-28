@@ -71,7 +71,7 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         message.setContent(values);
 
         //log.info("message： "+message);
-        log.info("手法哦的内容： "+new String(message.getContent()));
+        log.info("收到的内容： "+new String(message.getContent()));
         return message;
     }
 }

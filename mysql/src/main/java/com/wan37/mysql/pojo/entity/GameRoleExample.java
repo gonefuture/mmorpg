@@ -543,6 +543,66 @@ public class GameRoleExample {
             addCriterion("scene not between", value1, value2, "scene");
             return (Criteria) this;
         }
+
+        public Criteria andPlayerIdIsNull() {
+            addCriterion("player_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdIsNotNull() {
+            addCriterion("player_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdEqualTo(Long value) {
+            addCriterion("player_id =", value, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdNotEqualTo(Long value) {
+            addCriterion("player_id <>", value, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdGreaterThan(Long value) {
+            addCriterion("player_id >", value, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("player_id >=", value, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdLessThan(Long value) {
+            addCriterion("player_id <", value, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdLessThanOrEqualTo(Long value) {
+            addCriterion("player_id <=", value, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdIn(List<Long> values) {
+            addCriterion("player_id in", values, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdNotIn(List<Long> values) {
+            addCriterion("player_id not in", values, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdBetween(Long value1, Long value2) {
+            addCriterion("player_id between", value1, value2, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdNotBetween(Long value1, Long value2) {
+            addCriterion("player_id not between", value1, value2, "playerId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

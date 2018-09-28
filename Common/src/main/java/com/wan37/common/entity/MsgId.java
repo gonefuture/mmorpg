@@ -21,11 +21,8 @@ public enum MsgId {
     // 角色登陆
     GAME_ROLE_LOGIN(1002),
 
-
-
     // 移动
     MOVE(3000);
-
 
     // MsgId
     private int msgId;
