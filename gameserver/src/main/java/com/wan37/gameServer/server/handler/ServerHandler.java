@@ -1,6 +1,6 @@
 package com.wan37.gameServer.server.handler;
 
-import com.wan37.gameServer.service.RoleMoveService;
+import com.wan37.gameServer.service.OldMapRoleMoveService;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
@@ -26,9 +26,6 @@ import javax.annotation.Resource;
 @Component
 @ChannelHandler.Sharable
 public class ServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
-
-    @Resource
-    private RoleMoveService roleMoveService ;
 
 
 

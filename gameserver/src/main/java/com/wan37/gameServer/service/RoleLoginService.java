@@ -3,6 +3,7 @@ package com.wan37.gameServer.service;
 import com.wan37.gameServer.entity.map.Position;
 import com.wan37.gameServer.entity.role.Adventurer;
 import com.wan37.gameServer.entity.role.Role;
+import com.wan37.gameServer.manager.CacheManager;
 import com.wan37.mysql.pojo.entity.GameRole;
 import com.wan37.mysql.pojo.mapper.GameRoleMapper;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,9 @@ public class RoleLoginService {
     private GameRoleMapper gameRoleMapper;
 
     public GameRole login(Long id) {
-        return gameRoleMapper.selectByPrimaryKey(id);
+        GameRole gameRole =  gameRoleMapper.selectByPrimaryKey(id);
+        CacheManager.cacheGameRole(id,gameRole);
+        return gameRole;
     }
 
 }

@@ -31,15 +31,13 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
 
         //in.readByte();
         //log.info("收到信息的长度标志"+in.readInt());
-        log.info("消息： "+in);
-
 
 
         //已经处理了TCP的粘包拆包问题，我们需要把字节流解码为业务对象Message
         //ByteBuf buf = (ByteBuf) super.decode(ctx, in);
         ByteBuf buf = in;
 
-        log.info("处理粘包和拆包后"+buf);
+        //log.info("处理粘包和拆包后"+buf);
         if (buf == null) {
             return null;
         }
@@ -72,8 +70,8 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         buf.readBytes(values);
         message.setContent(values);
 
-        log.info("message： "+message);
-        log.info("内容： "+new String(message.getContent()));
+        //log.info("message： "+message);
+        log.info("手法哦的内容： "+new String(message.getContent()));
         return message;
     }
 }

@@ -2,16 +2,10 @@ package com.wan37.gameServer.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.wan37.gameServer.entity.map.Position;
-import com.wan37.gameServer.entity.role.Adventurer;
-import com.wan37.gameServer.entity.role.Role;
+
 import com.wan37.mysql.pojo.entity.GameRole;
 import com.wan37.mysql.pojo.entity.Player;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,7 +15,6 @@ import java.util.concurrent.TimeUnit;
  * Description: mmorpg
  */
 @Slf4j
-@Component
 public class CacheManager {
 
     public static Cache<Object, Object> gameCache = CacheBuilder.newBuilder()
@@ -38,23 +31,32 @@ public class CacheManager {
             ).build();
 
 
-    public static void cachePlayer(Long id , Player player) {
+    public static void cachePlayer(long id , Player player) {
         String key = "player:"+id;
         gameCache.put(key,player);
     }
 
-    public static Player getPlayer(Long id) {
+    public static Player getPlayer(long id) {
         return (Player) gameCache.getIfPresent("player:"+id);
     }
 
 
-    public static void cacheRole(Long id , GameRole gameRole) {
+    public static void cacheGameRole(long id , GameRole gameRole) {
         String key = "gameRole:"+id;
         gameCache.put(key,gameRole);
     }
 
-    public static Player getRole(Long id) {
-        return (Player) gameCache.getIfPresent("gameRole:"+id);
+    public static GameRole getGameRole(long id) {
+        return (GameRole) gameCache.getIfPresent("gameRole:"+id);
+    }
+
+
+    public static void put(Object key, Object value) {
+        gameCache.put(key, value);
+    }
+
+    public static Object get(Object key) {
+        return gameCache.getIfPresent(key);
     }
 
 }

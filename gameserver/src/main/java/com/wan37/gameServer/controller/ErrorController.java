@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 public class ErrorController implements IController {
     @Override
     public void handle(ISession session, ChannelHandlerContext ctx, Message message) {
+        log.debug("请求的服务不存在");
         ctx.write(Unpooled.copiedBuffer("你请求的服务不存在",CharsetUtil.UTF_8));
         ctx.write(Unpooled.copiedBuffer("客户端刚才发送的信息为： ",CharsetUtil.UTF_8)
                 + new String(message.getContent()));

@@ -28,8 +28,7 @@ import javax.annotation.Resource;
 @ChannelHandler.Sharable
 public class GameServer {
 
-    @Resource
-    private ServerHandler serverHandler;
+
 
     @Resource
     private RequestDispatcher requestDispatcher;

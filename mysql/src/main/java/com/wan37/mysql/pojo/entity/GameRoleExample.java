@@ -483,6 +483,66 @@ public class GameRoleExample {
             addCriterion("state not between", value1, value2, "state");
             return (Criteria) this;
         }
+
+        public Criteria andSceneIsNull() {
+            addCriterion("scene is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneIsNotNull() {
+            addCriterion("scene is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneEqualTo(Integer value) {
+            addCriterion("scene =", value, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneNotEqualTo(Integer value) {
+            addCriterion("scene <>", value, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneGreaterThan(Integer value) {
+            addCriterion("scene >", value, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneGreaterThanOrEqualTo(Integer value) {
+            addCriterion("scene >=", value, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneLessThan(Integer value) {
+            addCriterion("scene <", value, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneLessThanOrEqualTo(Integer value) {
+            addCriterion("scene <=", value, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneIn(List<Integer> values) {
+            addCriterion("scene in", values, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneNotIn(List<Integer> values) {
+            addCriterion("scene not in", values, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneBetween(Integer value1, Integer value2) {
+            addCriterion("scene between", value1, value2, "scene");
+            return (Criteria) this;
+        }
+
+        public Criteria andSceneNotBetween(Integer value1, Integer value2) {
+            addCriterion("scene not between", value1, value2, "scene");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
