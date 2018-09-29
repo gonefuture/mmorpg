@@ -71,9 +71,10 @@
            <columnOverride column="PRICE" javaType="double" />
           </table> -->
         <!-- 指定数据库表，要生成哪些表，就写哪些表，要和数据库中对应，不能写错！ -->
-        <table tableName="game_role"/>
-        <table tableName="player"/>
-        <table tableName="scene"/>
+        <table tableName="t_user"/>
+        <table tableName="t_player"/>
+        <table tableName="t_scene"/>
+        <table tableName="t_game_object"/>
 
     </context>
 </generatorConfiguration>

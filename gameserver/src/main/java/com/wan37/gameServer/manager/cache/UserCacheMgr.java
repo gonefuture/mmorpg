@@ -2,8 +2,8 @@ package com.wan37.gameServer.manager.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.mysql.pojo.entity.GameRole;
-import com.wan37.mysql.pojo.entity.Player;
+import com.wan37.gameServer.entity.User;
+
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
  * Description: mmorpg
  */
 @Component
-public class RoleCacheManager implements GameCacheManager<Long, GameRole>{
+public class UserCacheMgr implements GameCacheManager<String, User>{
 
-    private static Cache<Long, GameRole> gameCache = CacheBuilder.newBuilder()
+    private static Cache<String, User> userCache = CacheBuilder.newBuilder()
             // 设置并发级别，最多8个线程同时写
             .concurrencyLevel(10)
             // 设置写缓存后，三小时过期
@@ -30,13 +30,22 @@ public class RoleCacheManager implements GameCacheManager<Long, GameRole>{
                     notification -> System.out.println(notification.getKey() + "was removed, cause is" + notification.getCause())
             ).build();
 
+    /**
+     *  key为channel id
+     */
     @Override
-    public GameRole get(Long key) {
-        return gameCache.getIfPresent(key);
+    public User get(String key) {
+        return userCache.getIfPresent(key);
     }
 
+
+
+
+    /**
+     *  key为channel id
+     */
     @Override
-    public void put(Long key, GameRole value) {
-        gameCache.put(key, value);
+    public void put(String key, User value) {
+        userCache.put(key, value);
     }
 }

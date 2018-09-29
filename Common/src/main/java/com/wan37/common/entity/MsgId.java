@@ -16,13 +16,16 @@ public enum MsgId {
     HEllO(1000),
 
     // 玩家登陆
-    PLAYER_LOGIN(1001),
+    USER_LOGIN(1001),
+
+    // 加载游戏列表
+    LIST_GAME_ROLES(1002),
 
     // 角色登陆
-    GAME_ROLE_LOGIN(1002),
+    PLAYER_LOGIN(2001),
 
     // 移动
-    MOVE(3000);
+    MOVE(3001);
 
     // MsgId
     private int msgId;

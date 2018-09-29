@@ -1,24 +1,27 @@
 package com.wan37.gameServer.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.common.ISession;
-import com.wan37.common.entity.Message;
+import com.wan37.gameServer.entity.Player;
 import com.wan37.gameServer.service.PlayerLoginService;
-import com.wan37.mysql.pojo.entity.GameRole;
-import com.wan37.mysql.pojo.entity.Player;
+import com.wan37.gameServer.service.PlayerMoveService;
+import com.wan37.gameServer.service.UserLoginService;
+import com.wan37.mysql.pojo.entity.TScene;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/9/26 15:50
+ * time 2018/9/26 17:09
  * @version 1.00
- * Description: 玩家登陆
+ * Description: mmorpg
  */
+
 @Slf4j
 @Component
 public class PlayerLoginController implements IController {
@@ -26,21 +29,35 @@ public class PlayerLoginController implements IController {
     @Resource
     private PlayerLoginService playerLoginService;
 
+    @Resource
+    private PlayerMoveService playerMoveService;
+
+    @Resource
+    private UserLoginService userLoginService;
+
     @Override
     public void handle(ISession session, ChannelHandlerContext ctx, Message message) {
-        // 以字符串的形式解析客户端发过来的内容
-        String content = new String(message.getContent());
-        String[] arry = content.split(" ");
-        Long id = Long.valueOf(arry[1]);
-        String password = arry[2];
-        List<GameRole>  gameRoleList= playerLoginService.login(id,password);
+        String[] array = new String(message.getContent()).split(" ");
+        Long playerId = Long.valueOf(array[1]);
+        String result = null;
+        String cacheId =ctx.channel().id().asLongText();
 
-        if ( gameRoleList == null) {
-            message.setContent("用户不存在或者用户密码错误".getBytes());
+        if (userLoginService.isUserOnline(cacheId) ){
+            Player player = playerLoginService.login(playerId,cacheId);
+            TScene tScene = playerMoveService.currentScene(cacheId);
+            log.debug("player"+player);
+            result = JSON.toJSON(player)
+                    + "\n 移动成功， 你所在位置为"
+                    +JSON.toJSON(tScene);
+            message.setFlag((byte) 1);
         } else {
-            message.setContent(gameRoleList.toString().getBytes());
+            result = "用户尚未登陆，不能加载角色";
+            message.setFlag((byte) -1);
         }
-        log.info("发送回去的信息："+message);
+
+
+        message.setContent(result.getBytes());
+        log.debug("角色登陆返回的信息: "+ result);
         ctx.writeAndFlush(message);
     }
 }

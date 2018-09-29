@@ -2,9 +2,10 @@ package com.wan37.gameServer.manager;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.controller.GameRoleLoginController;
+import com.wan37.gameServer.controller.ListGameRoleController;
 import com.wan37.gameServer.controller.PlayerLoginController;
-import com.wan37.gameServer.controller.RoleMoveController;
+import com.wan37.gameServer.controller.PlayerMoveController;
+import com.wan37.gameServer.controller.UserLoginController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -34,21 +35,32 @@ public class ControllerManager {
     }
 
     @Resource
-    private PlayerLoginController playerLoginController;
+    private UserLoginController userLoginController;
 
     @Resource
-    private GameRoleLoginController gameRoleLoginController;
+    private PlayerLoginController  playerLoginController;
 
     @Resource
-    private RoleMoveController roleMoveController;
+    private PlayerMoveController playerMoveController;
+
+    @Resource
+    private ListGameRoleController listGameRoleController;
 
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
     private void init() {
+        controllerMapping.put(MsgId.USER_LOGIN.getMsgId(), userLoginController);
         controllerMapping.put(MsgId.PLAYER_LOGIN.getMsgId(),playerLoginController);
-        controllerMapping.put(MsgId.GAME_ROLE_LOGIN.getMsgId(),gameRoleLoginController);
-        controllerMapping.put(MsgId.MOVE.getMsgId(), roleMoveController);
+        controllerMapping.put(MsgId.MOVE.getMsgId(), playerMoveController);
+        add(MsgId.LIST_GAME_ROLES.getMsgId(),listGameRoleController);
+    }
+
+
+
+
+    private void add(Integer msgId, IController controller) {
+        controllerMapping.put(msgId, controller);
     }
 
 
