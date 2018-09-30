@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.service.PlayerLoginService;
 import com.wan37.gameServer.service.PlayerMoveService;
 import com.wan37.gameServer.service.UserLoginService;
@@ -34,6 +35,11 @@ public class PlayerLoginController implements IController {
     @Resource
     private UserLoginService userLoginService;
 
+    @Resource
+    private PlayerCacheMgr playerCacheMgr;
+
+
+
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] array = new String(message.getContent()).split(" ");
@@ -43,7 +49,12 @@ public class PlayerLoginController implements IController {
 
         if (userLoginService.isUserOnline(channelId) && playerLoginService.hasPlayer(channelId, playerId) ){
             Player player = playerLoginService.login(playerId,channelId);
+            // 保存playerId跟ChannelHandlerContext之间的关系
+            playerCacheMgr.savePlayerId(playerId,ctx);
+
             TScene tScene = playerMoveService.currentScene(channelId);
+            // 将角色加入场景
+            playerMoveService.putPlayerInScene(tScene,player);
             log.debug("player"+player);
             result = JSON.toJSON(player)
                     + "\n 你所在位置为"

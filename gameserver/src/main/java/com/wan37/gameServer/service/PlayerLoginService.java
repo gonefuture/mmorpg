@@ -51,8 +51,6 @@ public class PlayerLoginService {
             BeanUtils.copyProperties(tPlayer,player);
             // 以channel id 为键储存玩家数据
             playerCacheMgr.put( channelId,player);
-            // 保存playerId跟channelId之间的关系
-            playerCacheMgr.savePlayerId(playerId,channelId);
 
             return player;
         } else {
@@ -63,7 +61,7 @@ public class PlayerLoginService {
 
 
     /**
-     *  判断用户是否拥有这个账号
+     *  判断用户是否拥有这个角色
      */
 
     public boolean hasPlayer(String channelId, Long playerId) {

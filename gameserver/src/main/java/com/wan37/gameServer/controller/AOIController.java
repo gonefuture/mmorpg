@@ -48,7 +48,7 @@ public class AOIController implements IController {
         } else {
             result.put("我发现： ","这个地方空无一物");
         }
-        log.debug("当前场景的玩家对象： "+tGameObjectList);
+        log.debug("当前场景的玩家对象： "+playerList);
         message.setFlag((byte)1);
         message.setContent(JSON.toJSONString(result).getBytes());
         ctx.writeAndFlush(message);

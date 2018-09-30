@@ -8,6 +8,8 @@ import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.SceneCacheMgr;
 import com.wan37.mysql.pojo.entity.TGameObject;
 import com.wan37.mysql.pojo.entity.TScene;
+import io.netty.channel.ChannelHandlerContext;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,6 +35,10 @@ public class AOIService {
     @Resource
     private PlayerCacheMgr playerCacheMgr;
 
+
+    @Resource
+    private PlayerDataService playerDataService;
+
     public List<TGameObject> aoi(int sceneId) {
         TScene tScene= sceneCacheMgr.get(sceneId);
         String[]  gameObjectIdList = tScene.getGameObjectIds().split(",");
@@ -51,8 +57,11 @@ public class AOIService {
         String[]  playerIdList = tScene.getPlayers().split(",");
 
         Arrays.stream(playerIdList).forEach( playerId -> {
-            Player player =   playerCacheMgr.get(playerId);
-            playerList.add(player);
+            if (Strings.isNotBlank(playerId ) ) {
+                ChannelHandlerContext ctx =   playerCacheMgr.getCxtByPlayerId(Long.valueOf(playerId));
+                Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+                playerList.add(player);
+            }
         });
 
         return playerList;
