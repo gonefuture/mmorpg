@@ -45,7 +45,8 @@ public class PlayerLoginService {
     public Player login(Long playerId, String channelId) {
         Player playerCache  = playerCacheMgr.get(channelId);
 
-        if (playerCache == null) {
+        // 如果角色缓存为空 或者 不是相同的角色，那就从数据库查询
+        if (playerCache == null || !playerCache.getId().equals(playerId)) {
             TPlayer tPlayer=  tPlayerMapper.selectByPrimaryKey(playerId);
             Player player = new Player();
             BeanUtils.copyProperties(tPlayer,player);

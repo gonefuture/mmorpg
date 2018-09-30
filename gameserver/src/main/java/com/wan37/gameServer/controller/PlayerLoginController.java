@@ -46,11 +46,10 @@ public class PlayerLoginController implements IController {
         Long playerId = Long.valueOf(array[1]);
         String result = null;
         String channelId = ctx.channel().id().asLongText();
-
         if (userLoginService.isUserOnline(channelId) && playerLoginService.hasPlayer(channelId, playerId) ){
             Player player = playerLoginService.login(playerId,channelId);
             // 保存playerId跟ChannelHandlerContext之间的关系
-            playerCacheMgr.savePlayerId(playerId,ctx);
+            playerCacheMgr.savePlayerCtx(playerId,ctx);
 
             TScene tScene = playerMoveService.currentScene(channelId);
             // 将角色加入场景

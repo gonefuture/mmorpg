@@ -44,7 +44,7 @@ public class UserLoginService {
     public boolean login(Long userId, String password, String channelId) {
         User userCache = userCacheMgr.get(channelId);
 
-        if (userCache == null) {
+        if (userCache == null || !userCache.getId().equals(userId)) {
             // 缓存中不存在用户,所以用户不在线
             TUser tUser= tUserMapper.selectByPrimaryKey(userId);
             if (tUser == null) {

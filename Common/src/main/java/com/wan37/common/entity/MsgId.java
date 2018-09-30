@@ -30,6 +30,9 @@ public enum MsgId {
     // AOI, 显示场景内各种游戏对象
     AOI(3002),
 
+    // 与NPC，怪物对话
+    DIALOG(40001),
+
     ;
     // MsgId
     private int msgId;
