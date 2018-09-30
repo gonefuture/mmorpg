@@ -3,7 +3,6 @@ package com.wan37.gameServer.controller;
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.common.ISession;
 import com.wan37.gameServer.entity.Player;
 import com.wan37.gameServer.service.PlayerLoginService;
 import com.wan37.gameServer.service.PlayerMoveService;
@@ -36,7 +35,7 @@ public class PlayerLoginController implements IController {
     private UserLoginService userLoginService;
 
     @Override
-    public void handle(ISession session, ChannelHandlerContext ctx, Message message) {
+    public void handle(ChannelHandlerContext ctx, Message message) {
         String[] array = new String(message.getContent()).split(" ");
         Long playerId = Long.valueOf(array[1]);
         String result = null;
@@ -47,7 +46,7 @@ public class PlayerLoginController implements IController {
             TScene tScene = playerMoveService.currentScene(cacheId);
             log.debug("player"+player);
             result = JSON.toJSON(player)
-                    + "\n 移动成功， 你所在位置为"
+                    + "\n 你所在位置为"
                     +JSON.toJSON(tScene);
             message.setFlag((byte) 1);
         } else {

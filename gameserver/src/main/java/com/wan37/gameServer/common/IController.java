@@ -14,6 +14,6 @@ import io.netty.channel.ChannelHandlerContext;
 public interface IController {
 
     // 接收派发的数据，处理业务
-    void handle(ISession session, ChannelHandlerContext ctx, Message message);
+    void handle(ChannelHandlerContext ctx, Message message);
 
 }

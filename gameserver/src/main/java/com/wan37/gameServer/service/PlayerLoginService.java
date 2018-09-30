@@ -25,6 +25,9 @@ public class PlayerLoginService {
     @Resource
     private TPlayerMapper tPlayerMapper;
 
+    @Resource
+    private PlayerDataService playerDataService;
+
 
     /**
      *  角色登陆
@@ -36,7 +39,11 @@ public class PlayerLoginService {
             TPlayer tPlayer=  tPlayerMapper.selectByPrimaryKey(playerId);
             Player player = new Player();
             BeanUtils.copyProperties(tPlayer,player);
+            // 以channel id 为键储存玩家数据
             playerCacheMgr.put( channelId,player);
+            // 保存playerId跟channelId之间的关系
+            playerCacheMgr.savePlayerId(playerId,channelId);
+
             return player;
         } else {
             return playerCache;

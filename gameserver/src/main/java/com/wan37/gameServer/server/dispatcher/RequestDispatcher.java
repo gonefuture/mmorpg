@@ -54,9 +54,9 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
         log.info("收到的信息： "+msg.toString());
         IController controller = controllerManager.get(msg.getMsgId());
         if (controller == null) {
-            errorController.handle(null, ctx ,msg);
+            errorController.handle( ctx ,msg);
         } else {
-            controller.handle(null,ctx,msg);
+            controller.handle(ctx,msg);
         }
      }
 

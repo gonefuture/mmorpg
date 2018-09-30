@@ -2,10 +2,7 @@ package com.wan37.gameServer.manager;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.controller.ListGameRoleController;
-import com.wan37.gameServer.controller.PlayerLoginController;
-import com.wan37.gameServer.controller.PlayerMoveController;
-import com.wan37.gameServer.controller.UserLoginController;
+import com.wan37.gameServer.controller.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +43,9 @@ public class ControllerManager {
     @Resource
     private ListGameRoleController listGameRoleController;
 
+    @Resource
+    private AOIController aoiController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -54,6 +54,7 @@ public class ControllerManager {
         controllerMapping.put(MsgId.PLAYER_LOGIN.getMsgId(),playerLoginController);
         controllerMapping.put(MsgId.MOVE.getMsgId(), playerMoveController);
         add(MsgId.LIST_GAME_ROLES.getMsgId(),listGameRoleController);
+        add(MsgId.AOI.getMsgId(),aoiController);
     }
 
 

@@ -7,7 +7,7 @@ package com.wan37.common.entity;
  * Description: 通用服务id，服务端根据这个字节分发请求
  * 1. 1000 - 1999 之间的服务与玩家，角色登陆相关
  * 2. 2000 - 2999 之间的服务与获取游戏内信息有关
- * 1. 1000 - 1999 之间的服务与角色移动相关
+ * 1. 1000 - 1999 之间的服务与角色场景相关
  *
  */
 public enum MsgId {
@@ -24,15 +24,18 @@ public enum MsgId {
     // 角色登陆
     PLAYER_LOGIN(2001),
 
-    // 移动
-    MOVE(3001);
+    // 角色移动
+    MOVE(3001),
 
+    // AOI, 显示场景内各种游戏对象
+    AOI(3002),
+
+    ;
     // MsgId
     private int msgId;
 
     MsgId(int msgId) {
         this.msgId = msgId;
-
     }
 
     public int getMsgId() {

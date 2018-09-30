@@ -2,16 +2,12 @@ package com.wan37.gameServer.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.common.ISession;
-import com.wan37.gameServer.entity.Player;
 import com.wan37.gameServer.service.UserLoginService;
-import com.wan37.mysql.pojo.entity.TPlayer;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -28,7 +24,7 @@ public class UserLoginController implements IController {
     private UserLoginService userLoginService;
 
     @Override
-    public void handle(ISession session, ChannelHandlerContext ctx, Message message) {
+    public void handle(ChannelHandlerContext ctx, Message message) {
         String[] array = new String(message.getContent()).split(" ");
 
         boolean flag = userLoginService.login(Long.valueOf(array[1]), array[2],
