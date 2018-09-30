@@ -2,6 +2,7 @@ package com.wan37.gameServer.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
+import com.wan37.gameServer.manager.cache.UserCacheMgr;
 import com.wan37.gameServer.service.UserLoginService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +24,21 @@ public class UserLoginController implements IController {
     @Resource
     private UserLoginService userLoginService;
 
+    @Resource
+    private UserCacheMgr userCacheMgr;
+
+
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] array = new String(message.getContent()).split(" ");
-
-        boolean flag = userLoginService.login(Long.valueOf(array[1]), array[2],
+        long userId =  Long.valueOf(array[1]);
+        String password = array[2];
+        boolean flag = userLoginService.login(userId, password,
                 ctx.channel().id().asLongText());
         String result = null;
         if (flag) {
+            // 将用户id放入缓存
+            userCacheMgr.saveCtx(userId,ctx);
             result = "登陆成功,请发送指令 1002 加载角色列表";
         } else {
            result = "登陆失败，请检查用户名或密码";

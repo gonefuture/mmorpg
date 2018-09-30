@@ -1,13 +1,16 @@
 package com.wan37.gameServer.service;
 
 import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.entity.User;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
+import com.wan37.gameServer.manager.cache.UserCacheMgr;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -27,6 +30,13 @@ public class PlayerLoginService {
 
     @Resource
     private PlayerDataService playerDataService;
+
+    @Resource
+    private UserCacheMgr userCacheMgr;
+
+
+    @Resource
+    private  UserLoginService userLoginService;
 
 
     /**
@@ -50,4 +60,20 @@ public class PlayerLoginService {
         }
     }
 
+
+
+    /**
+     *  判断用户是否拥有这个账号
+     */
+
+    public boolean hasPlayer(String channelId, Long playerId) {
+        User user = userCacheMgr.get(channelId);
+        List<TPlayer>  tPlayerList = userLoginService.findPlayers(user.getId());
+        for (TPlayer tPlayer : tPlayerList) {
+            if (tPlayer.getId().equals(playerId)) {
+                return true;
+            }
+        }
+        return  false;
+    }
 }

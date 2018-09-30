@@ -39,11 +39,11 @@ public class PlayerLoginController implements IController {
         String[] array = new String(message.getContent()).split(" ");
         Long playerId = Long.valueOf(array[1]);
         String result = null;
-        String cacheId =ctx.channel().id().asLongText();
+        String channelId = ctx.channel().id().asLongText();
 
-        if (userLoginService.isUserOnline(cacheId) ){
-            Player player = playerLoginService.login(playerId,cacheId);
-            TScene tScene = playerMoveService.currentScene(cacheId);
+        if (userLoginService.isUserOnline(channelId) && playerLoginService.hasPlayer(channelId, playerId) ){
+            Player player = playerLoginService.login(playerId,channelId);
+            TScene tScene = playerMoveService.currentScene(channelId);
             log.debug("player"+player);
             result = JSON.toJSON(player)
                     + "\n 你所在位置为"

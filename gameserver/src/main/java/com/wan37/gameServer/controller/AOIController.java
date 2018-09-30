@@ -44,11 +44,11 @@ public class AOIController implements IController {
 
         if (tGameObjectList.size() != 0) {
             result.put("这里有玩家:",playerList);
-            result.put("其他人分别是： ", tGameObjectList);
+            result.put("发现： ", tGameObjectList);
         } else {
             result.put("我发现： ","这个地方空无一物");
         }
-        log.debug("当前场景的游戏对象： "+tGameObjectList);
+        log.debug("当前场景的玩家对象： "+tGameObjectList);
         message.setFlag((byte)1);
         message.setContent(JSON.toJSONString(result).getBytes());
         ctx.writeAndFlush(message);

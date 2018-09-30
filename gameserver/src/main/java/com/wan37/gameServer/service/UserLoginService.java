@@ -93,4 +93,7 @@ public class UserLoginService {
          User user = userCacheMgr.get(channelId);
         return user != null;
     }
+
+
+
 }
