@@ -2,29 +2,22 @@ package com.wan37.gameServer.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.service.PlayerQuitService;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
-import javax.annotation.Resource;
-
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/9/30 17:34
+ * time 2018/10/8 12:20
  * @version 1.00
- * Description: 玩家退出控制器
+ * Description: 角色使用技能
  */
 
 @Controller
-public class PlayerQuitController implements IController {
+public class UseSkillsController implements IController {
 
-    @Resource
-    private PlayerQuitService playerQuitService;
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
 
-        // 断开连接退出
-        playerQuitService.logout(ctx);
     }
 }

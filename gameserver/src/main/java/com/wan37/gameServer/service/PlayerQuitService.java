@@ -2,7 +2,10 @@ package com.wan37.gameServer.service;
 
 import com.wan37.gameServer.entity.Player;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
+import com.wan37.mysql.pojo.entity.TPlayer;
+import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import io.netty.channel.ChannelHandlerContext;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +22,9 @@ public class PlayerQuitService  {
     @Resource
     private PlayerCacheMgr playerCacheMgr;
 
+    @Resource
+    private TPlayerMapper tPlayerMapper;
+
     /**
      *  注销角色
      */
@@ -28,13 +34,33 @@ public class PlayerQuitService  {
         ctx.close();
     }
 
-
+    /**
+     *  请除与角色相关的缓存
+     */
     public void cleanPlayerCache(ChannelHandlerContext ctx) {
         String channelId = ctx.channel().id().asLongText();
         Player player = playerCacheMgr.get(channelId);
-        // 移除角色所有的缓存
-        playerCacheMgr.removePlayerCxt(player.getId());
-        playerCacheMgr.removePlayerByChannelId(channelId);
+        if (player != null) {
+            // 移除角色所有的缓存
+            playerCacheMgr.removePlayerCxt(player.getId());
+            playerCacheMgr.removePlayerByChannelId(channelId);
+        }
+    }
+
+
+    /**
+     *  保存角色信息
+     */
+    public void savePlayer(ChannelHandlerContext ctx) {
+        String channelId = ctx.channel().id().asLongText();
+        Player player = playerCacheMgr.get(channelId);
+
+        if (player != null) {
+            // 持久化角色信息
+            TPlayer tPlayer = new TPlayer();
+            BeanUtils.copyProperties(player,tPlayer);
+            tPlayerMapper.insert(tPlayer);
+        }
     }
 
 

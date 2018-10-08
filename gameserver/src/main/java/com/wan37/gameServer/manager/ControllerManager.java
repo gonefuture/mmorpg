@@ -46,15 +46,25 @@ public class ControllerManager {
     @Resource
     private AOIController aoiController;
 
+    @Resource
+    private PlayerQuitController playerQuitController;
+
+
+    @Resource
+    private UseSkillsController useSkillsController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
     private void init() {
-        controllerMapping.put(MsgId.USER_LOGIN.getMsgId(), userLoginController);
-        controllerMapping.put(MsgId.PLAYER_LOGIN.getMsgId(),playerLoginController);
-        controllerMapping.put(MsgId.MOVE.getMsgId(), playerMoveController);
+        add(MsgId.USER_LOGIN.getMsgId(), userLoginController);
+        add(MsgId.PLAYER_LOGIN.getMsgId(),playerLoginController);
+        add(MsgId.MOVE.getMsgId(), playerMoveController);
         add(MsgId.LIST_GAME_ROLES.getMsgId(),listGameRoleController);
         add(MsgId.AOI.getMsgId(),aoiController);
+        add(MsgId.PLAYER_EXIT.getMsgId(),playerQuitController);
+
+        add(MsgId.USE_SKILLS.getMsgId(), userLoginController);
     }
 
 

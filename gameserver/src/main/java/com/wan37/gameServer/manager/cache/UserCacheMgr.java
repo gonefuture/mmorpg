@@ -7,14 +7,13 @@ import com.wan37.gameServer.entity.User;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Component;
 
-import java.nio.channels.Channel;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author gonefuture  gonefuture@qq.com
  * time 2018/9/28 15:44
  * @version 1.00
- * Description: mmorpg
+ * Description: 用户数据缓存
  */
 @Component
 public class UserCacheMgr implements GameCacheManager<String, User>{
@@ -33,7 +32,7 @@ public class UserCacheMgr implements GameCacheManager<String, User>{
             ).build();
 
 
-    private static Cache<Long,ChannelHandlerContext> idSUserCache = CacheBuilder.newBuilder().build();
+    private static Cache<Long,ChannelHandlerContext> idUserCache = CacheBuilder.newBuilder().build();
 
     /**
      *  key为channel id
@@ -56,7 +55,7 @@ public class UserCacheMgr implements GameCacheManager<String, User>{
      *    通过Player id 获取ChannelHandlerContext
      */
     public ChannelHandlerContext getCtxById(long userId) {
-        return idSUserCache.getIfPresent(userId);
+        return idUserCache.getIfPresent(userId);
     }
 
 
@@ -64,6 +63,6 @@ public class UserCacheMgr implements GameCacheManager<String, User>{
      * 以Player id 为键，ChannelHandlerContext上下文为值
      */
     public void saveCtx(long userId, ChannelHandlerContext ctx) {
-        idSUserCache.put(userId,ctx);
+        idUserCache.put(userId,ctx);
     }
 }

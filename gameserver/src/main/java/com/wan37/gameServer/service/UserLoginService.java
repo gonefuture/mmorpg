@@ -4,6 +4,7 @@ package com.wan37.gameServer.service;
 
 
 import com.wan37.gameServer.entity.User;
+import com.wan37.gameServer.manager.cache.PlayerListCacheMgr;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.entity.TPlayerExample;
@@ -38,6 +39,9 @@ public class UserLoginService {
     @Resource
     private UserCacheMgr userCacheMgr;
 
+    @Resource
+    private PlayerListCacheMgr playerListCacheMgr;
+
     /*
        * 判断用户id和密码是否正确
      */
@@ -66,6 +70,8 @@ public class UserLoginService {
         } else {
             // 缓存中有用户存在,且检验密码成功
             if (userCache.getPassword().equals(password)) {
+                // 替换channelId和用户缓存的联系
+                userCacheMgr.put(channelId,userCache);
                 return true;
             } else {
                 return false;
@@ -78,12 +84,22 @@ public class UserLoginService {
      *  根据用户id产找游戏角色列表
      */
      public List<TPlayer> findPlayers(Long userId) {
-        // 通过game_role表的player_id 查找与之相关的角色
-        TPlayerExample tPlayerExample = new TPlayerExample();
-        tPlayerExample.createCriteria().andPlayerIdEqualTo(userId);
-        List<TPlayer> tPlayerList = tPlayerMapper.selectByExample(tPlayerExample);
-        log.debug("查出的角色列表： "+ tPlayerList);
-        return tPlayerList;
+         //
+         List<TPlayer> tPlayerListCache = playerListCacheMgr.get(userId);
+
+         if (tPlayerListCache == null) {
+             // 通过t_player表的player_id 查找与之相关的角色
+             TPlayerExample tPlayerExample = new TPlayerExample();
+             tPlayerExample.createCriteria().andPlayerIdEqualTo(userId);
+             List<TPlayer> tPlayerList = tPlayerMapper.selectByExample(tPlayerExample);
+             log.debug("查出的角色列表： "+ tPlayerList);
+
+             // 将角色列表加入缓存
+             playerListCacheMgr.put(userId, tPlayerList);
+             return tPlayerList;
+         }
+
+         return tPlayerListCache;
     }
 
     /**

@@ -12,26 +12,30 @@ package com.wan37.common.entity;
  */
 public enum MsgId {
 
-    // 打招呼
-    HEllO(1000),
 
-    // 玩家登陆
+    // 玩家登陆, 参数为 用户账号和密码，例： 1001 2 123456
     USER_LOGIN(1001),
 
-    // 加载游戏列表
+    // 加载游戏列表 无参数，例： 1002
     LIST_GAME_ROLES(1002),
 
-    // 角色登陆
+    // 角色登陆 ，参数为 当前用户下的角色id，例： 2001 1313
     PLAYER_LOGIN(2001),
 
-    // 角色移动
+    // 玩家退出，无参数， 例： 2002
+    PLAYER_EXIT(2002),
+
+    // 角色移动， 参数 场景id ， 例： 3001 2
     MOVE(3001),
 
     // AOI, 显示场景内各种游戏对象
     AOI(3002),
 
+    // 使用技能
+    USE_SKILLS(3003),
+
     // 与NPC，怪物对话
-    DIALOG(40001),
+    DIALOG(4001),
 
     ;
     // MsgId
