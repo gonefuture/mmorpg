@@ -65,4 +65,12 @@ public class UserCacheMgr implements GameCacheManager<String, User>{
     public void saveCtx(long userId, ChannelHandlerContext ctx) {
         idUserCache.put(userId,ctx);
     }
+
+    /**
+     *  移除键为channel id， 值为 用户数据的缓存
+     */
+
+    public void removeUser(String channelId) {
+        channelUserCache.invalidate(channelId);
+    }
 }

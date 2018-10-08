@@ -3,7 +3,7 @@ package com.wan37.gameServer.controller;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
-import com.wan37.gameServer.service.UserLoginService;
+import com.wan37.gameServer.service.UserService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 public class UserLoginController implements IController {
 
     @Resource
-    private UserLoginService userLoginService;
+    private UserService userService;
 
     @Resource
     private UserCacheMgr userCacheMgr;
@@ -33,8 +33,8 @@ public class UserLoginController implements IController {
         String[] array = new String(message.getContent()).split(" ");
         long userId =  Long.valueOf(array[1]);
         String password = array[2];
-        boolean flag = userLoginService.login(userId, password,
-                ctx.channel().id().asLongText());
+        boolean flag = userService.login(userId, password,
+                ctx);
         String result = null;
         if (flag) {
             // 将用户id放入缓存，与channel上下文联系起来

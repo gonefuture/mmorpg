@@ -26,11 +26,10 @@ public class PlayerQuitService  {
     private TPlayerMapper tPlayerMapper;
 
     /**
-     *  注销角色
+     *  注销当前角色
      */
     public void logout(ChannelHandlerContext ctx) {
         cleanPlayerCache(ctx);
-
         ctx.close();
     }
 
@@ -59,7 +58,7 @@ public class PlayerQuitService  {
             // 持久化角色信息
             TPlayer tPlayer = new TPlayer();
             BeanUtils.copyProperties(player,tPlayer);
-            tPlayerMapper.insert(tPlayer);
+            tPlayerMapper.updateByPrimaryKey(tPlayer);
         }
     }
 

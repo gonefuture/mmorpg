@@ -7,7 +7,7 @@ import com.wan37.gameServer.entity.Player;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.service.PlayerLoginService;
 import com.wan37.gameServer.service.PlayerMoveService;
-import com.wan37.gameServer.service.UserLoginService;
+import com.wan37.gameServer.service.UserService;
 import com.wan37.mysql.pojo.entity.TScene;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class PlayerLoginController implements IController {
     private PlayerMoveService playerMoveService;
 
     @Resource
-    private UserLoginService userLoginService;
+    private UserService userService;
 
     @Resource
     private PlayerCacheMgr playerCacheMgr;
@@ -46,7 +46,7 @@ public class PlayerLoginController implements IController {
         Long playerId = Long.valueOf(array[1]);
         String result = null;
         String channelId = ctx.channel().id().asLongText();
-        if (userLoginService.isUserOnline(channelId) && playerLoginService.hasPlayer(channelId, playerId) ){
+        if (userService.isUserOnline(channelId) && playerLoginService.hasPlayer(channelId, playerId) ){
             Player player = playerLoginService.login(playerId,channelId);
             // 保存playerId跟ChannelHandlerContext之间的关系
             playerCacheMgr.savePlayerCtx(playerId,ctx);

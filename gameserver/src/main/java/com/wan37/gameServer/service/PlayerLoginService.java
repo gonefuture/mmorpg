@@ -36,7 +36,7 @@ public class PlayerLoginService {
 
 
     @Resource
-    private  UserLoginService userLoginService;
+    private UserService userService;
 
 
     /**
@@ -67,7 +67,7 @@ public class PlayerLoginService {
 
     public boolean hasPlayer(String channelId, Long playerId) {
         User user = userCacheMgr.get(channelId);
-        List<TPlayer>  tPlayerList = userLoginService.findPlayers(user.getId());
+        List<TPlayer>  tPlayerList = userService.findPlayers(user.getId());
         for (TPlayer tPlayer : tPlayerList) {
             if (tPlayer.getId().equals(playerId)) {
                 return true;

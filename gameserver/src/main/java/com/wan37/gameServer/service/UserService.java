@@ -12,6 +12,7 @@ import com.wan37.mysql.pojo.entity.TUser;
 
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import com.wan37.mysql.pojo.mapper.TUserMapper;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.BeanUtils;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class UserLoginService {
+public class UserService {
 
     @Resource
     private TUserMapper tUserMapper;
@@ -42,21 +43,26 @@ public class UserLoginService {
     @Resource
     private PlayerListCacheMgr playerListCacheMgr;
 
+
+
     /*
        * 判断用户id和密码是否正确
      */
-    public boolean login(Long userId, String password, String channelId) {
+    public boolean login(Long userId, String password, ChannelHandlerContext ctx) {
+        String channelId = ctx.channel().id().asLongText();
         User userCache = userCacheMgr.get(channelId);
-
+        // 缓存中不存在用户,或者当前连接在线的不是现在要登陆的账号，所以缓存中不存在用户。
         if (userCache == null || !userCache.getId().equals(userId)) {
-            // 缓存中不存在用户,所以用户不在线
             TUser tUser= tUserMapper.selectByPrimaryKey(userId);
             if (tUser == null) {
                 // 数据库找不到用户，
                 return false;
             } else {
-                // 登陆成功
+                // 密码校对成功，登陆成功
                 if (tUser.getPassword().equals(password)) {
+                    // 注销之前登陆的用户
+                    logoutUser(userId);
+
                     User user = new User();
                     BeanUtils.copyProperties(tUser,user);
                     user.setChannelId(channelId);
@@ -70,6 +76,9 @@ public class UserLoginService {
         } else {
             // 缓存中有用户存在,且检验密码成功
             if (userCache.getPassword().equals(password)) {
+
+                //  替换channelId和用户缓存的联系,关闭连接
+                logoutUser(userId);
                 // 替换channelId和用户缓存的联系
                 userCacheMgr.put(channelId,userCache);
                 return true;
@@ -78,6 +87,7 @@ public class UserLoginService {
             }
         }
     }
+
 
 
     /**
@@ -108,6 +118,19 @@ public class UserLoginService {
     public boolean isUserOnline(String channelId) {
          User user = userCacheMgr.get(channelId);
         return user != null;
+    }
+
+
+
+    public void logoutUser(long userId) {
+
+        ChannelHandlerContext ctx = userCacheMgr.getCtxById(userId);
+        if (ctx != null) {
+            userCacheMgr.removeUser(ctx.channel().id().asLongText());
+            // 关闭连接
+            ctx.close();
+        }
+
     }
 
 
