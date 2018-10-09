@@ -75,6 +75,7 @@
         <table tableName="t_player"/>
         <table tableName="t_scene"/>
         <table tableName="t_game_object"/>
+        <table tableName="t_skill"/>
 
     </context>
 </generatorConfiguration>

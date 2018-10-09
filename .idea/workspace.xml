@@ -2,14 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f2c5bb63-9ae2-4b69-aca5-a20bb5e01ed3" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/Common/src/main/java/com/wan37/common/entity/EorroMsg.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/SkillsCacheMgr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameObjectService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gameserver/src/test/java/com/wan37/gameServer/service/GameObjectServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/ListGameRoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/ListGameRoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerLoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UserLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UserLoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/UserCacheMgr.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/UserCacheMgr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerLoginService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerQuitService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerQuitService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UserLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UseSkillsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UseSkillsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/ControllerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/ControllerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameObjectCacheMgr.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameObjectCacheMgr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/AOIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/AOIService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameSceneService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameSceneService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UseSkillsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UseSkillsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/entity/TGameObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/entity/TGameObjectExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/entity/TPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/entity/TPlayerExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/entity/TScene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/entity/TSceneExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/entity/TUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/entity/TUserExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/mapper/TGameObjectMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/mapper/TPlayerMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/mapper/TSceneMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/java/com/wan37/mysql/pojo/mapper/TUserMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/resources/mapper/TGameObjectMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/resources/mapper/TPlayerMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/resources/mapper/TSceneMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/resources/mapper/TUserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql/src/main/resources/mybatis/generatorConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mysql/src/main/resources/mybatis/generatorConfig.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/mysql/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -39,11 +59,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PlayerQuitService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerQuitService.java">
+      <file leaf-file-name="UseSkillsService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UseSkillsService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
+            <state relative-caret-position="374">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -51,37 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerMoveController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerMoveController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserCacheMgr.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/UserCacheMgr.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="54" column="45" lean-forward="true" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1885#1886#0" expanded="true" />
-                <element signature="e#1916#1917#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserLoginController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UserLoginController.java">
+      <file leaf-file-name="UseSkillsController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UseSkillsController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="200">
-              <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
+              <caret line="54" column="35" lean-forward="true" selection-start-line="54" selection-start-column="35" selection-end-line="54" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -89,11 +83,62 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserService.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UserService.java">
+      <file leaf-file-name="GameServerApplication.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/GameServerApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="62" column="32" selection-start-line="62" selection-start-column="32" selection-end-line="62" selection-end-column="32" />
+            <state relative-caret-position="190">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
+              <folding>
+                <element signature="e#331#332#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EorroMsg.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Common/src/main/java/com/wan37/common/entity/EorroMsg.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="356">
+              <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SkillsCacheMgr.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/SkillsCacheMgr.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="889">
+              <caret line="62" column="23" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1472#1473#0" expanded="true" />
+                <element signature="e#1528#1529#0" expanded="true" />
+                <element signature="e#1593#1594#0" expanded="true" />
+                <element signature="e#1640#1641#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameObjectService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameObjectService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="34" column="35" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#444#445#0" expanded="true" />
+                <element signature="e#491#492#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameObjectServiceTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/test/java/com/wan37/gameServer/service/GameObjectServiceTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="15" column="9" lean-forward="true" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -101,44 +146,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ListGameRoleController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/ListGameRoleController.java">
+      <file leaf-file-name="GameObjectCacheMgr.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameObjectCacheMgr.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="-205">
+              <caret line="28" column="33" lean-forward="true" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1524#1525#0" expanded="true" />
+                <element signature="e#1580#1581#0" expanded="true" />
+                <element signature="e#1647#1648#0" expanded="true" />
+                <element signature="e#1693#1694#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RequestDispatcher.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/dispatcher/RequestDispatcher.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="61">
-              <caret line="51" column="33" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlayerLoginService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerLoginService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="54" selection-start-line="54" selection-end-line="54" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/IService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -146,11 +165,20 @@
       <file leaf-file-name="GameSceneService.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameSceneService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="154">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ControllerManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/ControllerManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="113">
+              <caret line="66" column="60" selection-start-line="66" selection-start-column="60" selection-end-line="66" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -198,10 +226,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/SceneManager.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/factory/CacheFactory.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameCacheManager.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/RoleCacheManager.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/RoleMoveController.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/handler/MessageDecoder.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/RoleMoveService.java" />
@@ -214,8 +238,6 @@
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/entity/User.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/HelloIController.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/entity/GameScene.java" />
-        <option value="$PROJECT_DIR$/mysql/src/main/resources/mybatis/generatorConfig.xml" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameSceneService.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/entity/Player.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/entity/NPC.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/entity/Monster.java" />
@@ -224,31 +246,37 @@
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/common/IController.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/ErrorController.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/ListGameRoleController.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameObjectCacheMgr.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerDataService.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerMoveService.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerMoveController.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/SceneCacheMgr.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/AOIController.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/AOIService.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/QuitController.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerLoginService.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerLoginController.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerQuitController.java" />
         <option value="$PROJECT_DIR$/Common/src/main/java/com/wan37/common/entity/MsgId.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UseSkillsCotroller.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UseSkillsService.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/ControllerManager.java" />
         <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UseSkillsController.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/dispatcher/RequestDispatcher.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/PlayerCacheMgr.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/PlayerListCacheMgr.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UserLoginService.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/UserCacheMgr.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UserLoginController.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerQuitService.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UserService.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerQuitService.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameObjectCacheMgr.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/AOIService.java" />
+        <option value="$PROJECT_DIR$/mysql/src/main/resources/mybatis/generatorConfig.xml" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/SkillsCacheMgr.java" />
+        <option value="$PROJECT_DIR$/Common/src/main/java/com/wan37/common/entity/EorroMsg.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameSceneService.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/ControllerManager.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UseSkillsController.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UseSkillsService.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameObjectService.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/test/java/com/wan37/gameServer/service/GameObjectServiceTest.java" />
       </list>
     </option>
   </component>
@@ -313,7 +341,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -485,6 +514,40 @@
             <path>
               <item name="mmorpg" type="b2602c69:ProjectViewProjectNode" />
               <item name="mmorpg" type="462c0819:PsiDirectoryNode" />
+              <item name="gameserver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mmorpg" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mmorpg" type="462c0819:PsiDirectoryNode" />
+              <item name="gameserver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mmorpg" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mmorpg" type="462c0819:PsiDirectoryNode" />
+              <item name="gameserver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gameServer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mmorpg" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mmorpg" type="462c0819:PsiDirectoryNode" />
+              <item name="gameserver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gameServer" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mmorpg" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mmorpg" type="462c0819:PsiDirectoryNode" />
               <item name="mysql" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -538,8 +601,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -547,6 +609,7 @@
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SearchEverywhereHistoryKey" value="TGameObject&#9;PSI&#9;JAVA://com.wan37.gameServer.service.GameSceneService#tGameObject" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -572,7 +635,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.GameServerApplication">
+  <component name="RunManager" selected="JUnit.GameObjectServiceTest.testIsGameObjectDead">
     <configuration name="GameClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.wan37.gameClient.GameClient" />
       <module name="gameclient" />
@@ -597,6 +660,29 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="GameObjectServiceTest.testIsGameObjectDead" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="gameserver" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.wan37.gameServer.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.wan37.gameServer.service" />
+      <option name="MAIN_CLASS_NAME" value="com.wan37.gameServer.service.GameObjectServiceTest" />
+      <option name="METHOD_NAME" value="testIsGameObjectDead" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -661,9 +747,11 @@
       <item itemvalue="Spring Boot.GameServerApplication" />
       <item itemvalue="Spring Boot.GameClientApplication" />
       <item itemvalue="Application.GameServer" />
+      <item itemvalue="JUnit.GameObjectServiceTest.testIsGameObjectDead" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GameObjectServiceTest.testIsGameObjectDead" />
         <item itemvalue="Spring Boot.GameServerApplication" />
         <item itemvalue="Application.GameServer" />
         <item itemvalue="Spring Boot.GameClientApplication" />
@@ -687,7 +775,8 @@
       <workItem from="1538101322182" duration="17726000" />
       <workItem from="1538184536831" duration="28807000" />
       <workItem from="1538269737254" duration="29781000" />
-      <workItem from="1538959903191" duration="14457000" />
+      <workItem from="1538959903191" duration="21270000" />
+      <workItem from="1539048114115" duration="13889000" />
     </task>
     <task id="LOCAL-00001" summary="为客户端和服务端添加了解码器和编码器。&#10;解决了客户端编码器失效的问题。&#10;然而，解码器帧长度溢出的问题还是没有解决，谷歌了好久。">
       <created>1537876297587</created>
@@ -766,43 +855,51 @@
       <option name="project" value="LOCAL" />
       <updated>1538985022402</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="修复了关于同一个用户账户在线期间再登陆的问题。最近的用户登陆会把前面的用户挤下线，前面的在线的角色信息会持久化并断开连接。用户所有权始终再最新登陆那一个用户里。">
+      <created>1538989999996</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1538989999996</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="149452000" />
+    <option name="totallyTimeSpent" value="170154000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Palette" order="2" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.37232524" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info id="Image Layers" order="3" />
-      <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5013405" side_tool="true" weight="0.31383738" />
-      <window_info anchor="right" id="Maven Projects" order="7" weight="0.2386059" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5020107" side_tool="true" weight="0.3452211" />
+      <window_info anchor="right" id="Maven Projects" order="6" weight="0.2386059" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32952926" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49865952" visible="true" weight="0.54350924" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49798927" visible="true" weight="0.23252496" />
       <window_info anchor="bottom" id="Spring" order="9" weight="0.32952926" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.32952926" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8097561" visible="true" weight="0.28217158" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8097561" visible="true" weight="0.28016084" />
       <window_info anchor="right" id="Database" order="8" weight="0.32908848" />
       <window_info id="Structure" order="1" sideWeight="0.609375" side_tool="true" weight="0.52112675" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
       <window_info id="UI Designer" order="5" />
-      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.40941513" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.5420827" />
     </layout>
@@ -857,37 +954,19 @@
     <MESSAGE value="修复了用户登陆时的一些问题。添加检验用户所拥有的角色的功能。" />
     <MESSAGE value="完成AOI功能，正常展示位于场景中的实体。" />
     <MESSAGE value="将用户角色列表加入缓存，第一次登陆时需要查数据库，第二次登陆时直接从缓存中取出。角色列表的缓存大概在无操作三小时后释放。" />
-    <option name="LAST_COMMIT_MESSAGE" value="将用户角色列表加入缓存，第一次登陆时需要查数据库，第二次登陆时直接从缓存中取出。角色列表的缓存大概在无操作三小时后释放。" />
+    <MESSAGE value="修复了关于同一个用户账户在线期间再登陆的问题。最近的用户登陆会把前面的用户挤下线，前面的在线的角色信息会持久化并断开连接。用户所有权始终再最新登陆那一个用户里。" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复了关于同一个用户账户在线期间再登陆的问题。最近的用户登陆会把前面的用户挤下线，前面的在线的角色信息会持久化并断开连接。用户所有权始终再最新登陆那一个用户里。" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="5" />
     </breakpoint-manager>
   </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/handler/MessageDecoder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1292">
-          <caret line="73" column="20" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/config/NettyConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/entity/role/Adventurer.java" />
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/entity/role/Role.java" />
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameCacheManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Common/src/main/java/com/wan37/common/entity/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
@@ -910,13 +989,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="358">
           <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysql/src/main/resources/mybatis/generatorConfig.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="76" column="39" selection-start-line="76" selection-start-column="39" selection-end-line="76" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -958,17 +1030,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/GameServerApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="e#259#260#0" expanded="true" />
-            <element signature="e#331#332#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/entity/SceneActor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -993,41 +1054,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerMoveService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="44" column="49" selection-start-line="44" selection-start-column="49" selection-end-line="44" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="48" column="34" lean-forward="true" selection-start-line="48" selection-start-column="32" selection-end-line="48" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/AOIService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="59" column="45" selection-start-line="59" selection-start-column="45" selection-end-line="59" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameObjectCacheMgr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-137">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1524#1525#0" expanded="true" />
-            <element signature="e#1580#1581#0" expanded="true" />
-            <element signature="e#1648#1649#0" expanded="true" />
-            <element signature="e#1694#1695#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1038,26 +1068,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/AOIController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="57" column="1" selection-start-line="57" selection-start-column="1" selection-end-line="57" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mysql/src/main/resources/sql/game.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerQuitController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
           <caret line="24" column="68" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="68" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1068,13 +1082,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/ControllerManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="67" column="5" lean-forward="true" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -1082,16 +1089,6 @@
             <caret line="37" selection-start-line="37" selection-end-line="37" />
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UseSkillsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="15" column="29" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1121,52 +1118,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/PlayerCacheMgr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2098#2099#0" expanded="true" />
-            <element signature="e#2149#2150#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerLoginController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="878">
           <caret line="69" column="35" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/PlayerListCacheMgr.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
-          <folding>
-            <element signature="e#914#915#0" expanded="true" />
-            <element signature="e#954#955#0" expanded="true" />
-            <element signature="e#1047#1048#0" expanded="true" />
-            <element signature="e#1077#1078#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UseSkillsService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerMoveController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1190,39 +1145,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameSceneService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/UserCacheMgr.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="54" column="45" lean-forward="true" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1885#1886#0" expanded="true" />
-            <element signature="e#1916#1917#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/dispatcher/RequestDispatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
-          <caret line="51" column="33" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerQuitService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
+        <state relative-caret-position="817">
+          <caret line="54" column="45" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1231,7 +1157,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UserLoginController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
+        <state relative-caret-position="532">
           <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1241,8 +1167,75 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/ListGameRoleController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
+        <state relative-caret-position="456">
           <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/server/dispatcher/RequestDispatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="722">
+          <caret line="51" column="29" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerQuitService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="988">
+          <caret line="60" column="45" selection-start-line="60" selection-start-column="45" selection-end-line="60" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/PlayerMoveService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="75" column="53" lean-forward="true" selection-start-line="75" selection-start-column="53" selection-end-line="75" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/AOIController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="57" column="1" selection-start-line="57" selection-start-column="1" selection-end-line="57" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/PlayerMoveController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="36" column="59" selection-start-line="36" selection-start-column="59" selection-end-line="36" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/PlayerCacheMgr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/PlayerListCacheMgr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1251,8 +1244,138 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
+        <state relative-caret-position="130">
           <caret line="62" column="32" selection-start-line="62" selection-start-column="32" selection-end-line="62" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/AOIService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="47" column="87" selection-start-line="47" selection-start-column="87" selection-end-line="47" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysql/src/main/resources/sql/game.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-855" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysql/src/main/resources/mybatis/generatorConfig.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="77" column="33" selection-start-line="77" selection-start-column="33" selection-end-line="77" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/software/Java/jdk1.8.0_172/src.zip!/java/lang/Integer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-654">
+          <caret line="51" column="19" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Common/src/main/java/com/wan37/common/entity/EorroMsg.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/GameServerApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#331#332#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/SkillsCacheMgr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="889">
+          <caret line="62" column="23" selection-start-line="62" selection-start-column="23" selection-end-line="62" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1472#1473#0" expanded="true" />
+            <element signature="e#1528#1529#0" expanded="true" />
+            <element signature="e#1593#1594#0" expanded="true" />
+            <element signature="e#1640#1641#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/cache/GameObjectCacheMgr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-205">
+          <caret line="28" column="33" lean-forward="true" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1524#1525#0" expanded="true" />
+            <element signature="e#1580#1581#0" expanded="true" />
+            <element signature="e#1647#1648#0" expanded="true" />
+            <element signature="e#1693#1694#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameSceneService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/manager/ControllerManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="66" column="60" selection-start-line="66" selection-start-column="60" selection-end-line="66" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/controller/UseSkillsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="54" column="35" lean-forward="true" selection-start-line="54" selection-start-column="35" selection-end-line="54" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/UseSkillsService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameServer/service/GameObjectService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="34" column="35" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#444#445#0" expanded="true" />
+            <element signature="e#491#492#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/test/java/com/wan37/gameServer/service/GameObjectServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="15" column="9" lean-forward="true" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
