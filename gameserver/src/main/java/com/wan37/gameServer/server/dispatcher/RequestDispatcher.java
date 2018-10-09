@@ -48,12 +48,15 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     // 当客户端断开连接的时候触发函数
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+
+        ctx.writeAndFlush("正在断开连接");
         // 将角色信息保存到数据库
         playerQuitService.savePlayer(ctx);
 
         // 清除缓存
         playerQuitService.cleanPlayerCache(ctx);
         log.info("客户端: " + ctx.channel().id() + " 已经离线");
+
     }
 
 
@@ -74,6 +77,12 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         ctx.writeAndFlush("服务器内部发生错误");
         log.error("服务器内部发生错误");
+
+        // 将角色信息保存到数据库
+        playerQuitService.savePlayer(ctx);
+        // 清除缓存
+        playerQuitService.cleanPlayerCache(ctx);
+
         throw new RuntimeException(cause.getCause());
     }
 }

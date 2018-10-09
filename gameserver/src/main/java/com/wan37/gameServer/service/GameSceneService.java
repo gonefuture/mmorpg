@@ -24,14 +24,14 @@ public class GameSceneService {
     @Resource
     private TSceneMapper tSceneMapper;
 
-    @Resource
-    private TGameObject tGameObject;
 
 
 
     public TScene findTScene(int sceneId) {
         return tSceneMapper.selectByPrimaryKey(sceneId);
     }
+
+
 
 
 

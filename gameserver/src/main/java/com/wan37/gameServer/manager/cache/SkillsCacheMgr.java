@@ -3,7 +3,8 @@ package com.wan37.gameServer.manager.cache;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.mysql.pojo.entity.TGameObject;
-import com.wan37.mysql.pojo.mapper.TGameObjectMapper;
+import com.wan37.mysql.pojo.entity.TSkill;
+import com.wan37.mysql.pojo.mapper.TSkillMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +14,20 @@ import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/9/30 10:41
+ * time 2018/10/9 10:01
  * @version 1.00
  * Description: mmorpg
  */
 
-@Component
 @Slf4j
-public class GameObjectCacheMgr implements GameCacheManager<Long, TGameObject> {
+@Component
+public class SkillsCacheMgr implements GameCacheManager<Integer, TSkill>{
 
-    private static Cache<Long, TGameObject> gameObjectCache = CacheBuilder.newBuilder()
+    @Resource
+    private TSkillMapper tSkillMapper;
+
+
+    private static Cache<Integer, TSkill> skillsCache = CacheBuilder.newBuilder()
             // 设置并发级别，最多8个线程同时写
             .concurrencyLevel(10)
             // 设置缓存容器的初始容量为100
@@ -33,28 +38,29 @@ public class GameObjectCacheMgr implements GameCacheManager<Long, TGameObject> {
                     notification -> System.out.println(notification.getKey() + "was removed, cause is" + notification.getCause())
             ).build();
 
-    @Resource
-    private TGameObjectMapper tGameObjectMapper;
 
+    /**
+     *     初始化技能
+      */
     @PostConstruct
     public void init() {
-        List<TGameObject> tGameObjectList  = tGameObjectMapper.selectByExample(null);
-        for (TGameObject tGameObject : tGameObjectList) {
-            gameObjectCache.put(tGameObject.getId(), tGameObject);
+        List<TSkill> tSkillList = tSkillMapper.selectByExample(null);
+
+        for (TSkill skill: tSkillList) {
+            skillsCache.put(skill.getId(), skill);
         }
 
-        log.info("游戏对象资源加载完毕");
+
     }
 
 
     @Override
-    public TGameObject get(Long gameObjectId) {
-        return gameObjectCache.getIfPresent(gameObjectId);
+    public TSkill get(Integer skillId) {
+        return skillsCache.getIfPresent(skillId);
     }
 
     @Override
-    public void put(Long gameObjectId, TGameObject value) {
-        gameObjectCache.put(gameObjectId,value);
+    public void put(Integer skillId, TSkill value) {
+        skillsCache.put(skillId, value);
     }
-
 }

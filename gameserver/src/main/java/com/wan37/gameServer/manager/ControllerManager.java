@@ -64,7 +64,7 @@ public class ControllerManager {
         add(MsgId.AOI.getMsgId(),aoiController);
         add(MsgId.PLAYER_EXIT.getMsgId(),playerQuitController);
 
-        add(MsgId.USE_SKILLS.getMsgId(), userLoginController);
+        add(MsgId.USE_SKILLS.getMsgId(), useSkillsController);
     }
 
 

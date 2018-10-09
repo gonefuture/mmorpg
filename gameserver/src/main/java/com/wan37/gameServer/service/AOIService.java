@@ -45,7 +45,7 @@ public class AOIService {
         List<TGameObject> tGameObjectList = new ArrayList<>();
 
         Arrays.stream(gameObjectIdList).forEach( gameObjectId -> {
-            TGameObject tGameObject = gameObjectCacheMgr.get(gameObjectId);
+            TGameObject tGameObject = gameObjectCacheMgr.get(Long.valueOf(gameObjectId));
             tGameObjectList.add(tGameObject);
         } );
         return tGameObjectList;

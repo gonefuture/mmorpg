@@ -26,5 +26,6 @@ public class PlayerQuitController implements IController {
 
         // 断开连接退出
         playerQuitService.logout(ctx);
+
     }
 }
