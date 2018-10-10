@@ -24,7 +24,7 @@ public class UseSkillsService {
     private PlayerDataService playerDataService;
 
     @Resource
-    private GameSceneService gameSceneService;
+    private SkillsService skillsService;
 
     @Resource
     private GameObjectService gameObjectService;
@@ -69,7 +69,11 @@ public class UseSkillsService {
      */
     public boolean canUseSkill(Player player, TSkill tSkill) {
         // 角色状态为-1时角色死亡不能使用技能，mp小于技能mp消耗时不能使用技能
-        if (player.getState() != -1 && player.getMp()>tSkill.getMpConsumption()) {
+        if (player.getState() != -1
+                && player.getMp()>tSkill.getMpConsumption()
+                // 检查技能是否处于冷却状态
+                && skillsService.checkCD(player,tSkill)
+                ) {
             return true;
         } else {
             return false;

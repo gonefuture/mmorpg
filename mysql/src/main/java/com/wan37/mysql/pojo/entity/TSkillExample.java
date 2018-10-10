@@ -304,52 +304,52 @@ public class TSkillExample {
             return (Criteria) this;
         }
 
-        public Criteria andCdEqualTo(Integer value) {
+        public Criteria andCdEqualTo(Long value) {
             addCriterion("cd =", value, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdNotEqualTo(Integer value) {
+        public Criteria andCdNotEqualTo(Long value) {
             addCriterion("cd <>", value, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdGreaterThan(Integer value) {
+        public Criteria andCdGreaterThan(Long value) {
             addCriterion("cd >", value, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andCdGreaterThanOrEqualTo(Long value) {
             addCriterion("cd >=", value, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdLessThan(Integer value) {
+        public Criteria andCdLessThan(Long value) {
             addCriterion("cd <", value, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdLessThanOrEqualTo(Integer value) {
+        public Criteria andCdLessThanOrEqualTo(Long value) {
             addCriterion("cd <=", value, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdIn(List<Integer> values) {
+        public Criteria andCdIn(List<Long> values) {
             addCriterion("cd in", values, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdNotIn(List<Integer> values) {
+        public Criteria andCdNotIn(List<Long> values) {
             addCriterion("cd not in", values, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdBetween(Integer value1, Integer value2) {
+        public Criteria andCdBetween(Long value1, Long value2) {
             addCriterion("cd between", value1, value2, "cd");
             return (Criteria) this;
         }
 
-        public Criteria andCdNotBetween(Integer value1, Integer value2) {
+        public Criteria andCdNotBetween(Long value1, Long value2) {
             addCriterion("cd not between", value1, value2, "cd");
             return (Criteria) this;
         }
@@ -531,6 +531,126 @@ public class TSkillExample {
 
         public Criteria andLevelNotBetween(Integer value1, Integer value2) {
             addCriterion("level not between", value1, value2, "level");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNull() {
+            addCriterion("state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNotNull() {
+            addCriterion("state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateEqualTo(Integer value) {
+            addCriterion("state =", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotEqualTo(Integer value) {
+            addCriterion("state <>", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThan(Integer value) {
+            addCriterion("state >", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("state >=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThan(Integer value) {
+            addCriterion("state <", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThanOrEqualTo(Integer value) {
+            addCriterion("state <=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIn(List<Integer> values) {
+            addCriterion("state in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotIn(List<Integer> values) {
+            addCriterion("state not in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateBetween(Integer value1, Integer value2) {
+            addCriterion("state between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("state not between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeIsNull() {
+            addCriterion("activeTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeIsNotNull() {
+            addCriterion("activeTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeEqualTo(Long value) {
+            addCriterion("activeTime =", value, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeNotEqualTo(Long value) {
+            addCriterion("activeTime <>", value, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeGreaterThan(Long value) {
+            addCriterion("activeTime >", value, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("activeTime >=", value, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeLessThan(Long value) {
+            addCriterion("activeTime <", value, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeLessThanOrEqualTo(Long value) {
+            addCriterion("activeTime <=", value, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeIn(List<Long> values) {
+            addCriterion("activeTime in", values, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeNotIn(List<Long> values) {
+            addCriterion("activeTime not in", values, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeBetween(Long value1, Long value2) {
+            addCriterion("activeTime between", value1, value2, "activetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActivetimeNotBetween(Long value1, Long value2) {
+            addCriterion("activeTime not between", value1, value2, "activetime");
             return (Criteria) this;
         }
     }

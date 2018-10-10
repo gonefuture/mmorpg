@@ -9,13 +9,17 @@ public class TSkill implements Serializable {
 
     private Integer skillsType;
 
-    private Integer cd;
+    private Long cd;
 
     private Long mpConsumption;
 
     private Long hpLose;
 
     private Integer level;
+
+    private Integer state;
+
+    private Long activetime;
 
     private static final long serialVersionUID = 1L;
 
@@ -43,11 +47,11 @@ public class TSkill implements Serializable {
         this.skillsType = skillsType;
     }
 
-    public Integer getCd() {
+    public Long getCd() {
         return cd;
     }
 
-    public void setCd(Integer cd) {
+    public void setCd(Long cd) {
         this.cd = cd;
     }
 
@@ -75,6 +79,22 @@ public class TSkill implements Serializable {
         this.level = level;
     }
 
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Long getActivetime() {
+        return activetime;
+    }
+
+    public void setActivetime(Long activetime) {
+        this.activetime = activetime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -88,6 +108,8 @@ public class TSkill implements Serializable {
         sb.append(", mpConsumption=").append(mpConsumption);
         sb.append(", hpLose=").append(hpLose);
         sb.append(", level=").append(level);
+        sb.append(", state=").append(state);
+        sb.append(", activetime=").append(activetime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

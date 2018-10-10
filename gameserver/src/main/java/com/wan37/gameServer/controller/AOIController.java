@@ -1,6 +1,7 @@
 package com.wan37.gameServer.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.entity.Player;
@@ -35,22 +36,23 @@ public class AOIController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        HashMap<String,Object>  result = new HashMap<>();
+
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
 
+        // 分别获取场景内的玩家和游戏对象
         List<TGameObject> tGameObjectList = aoiService.aoi(player.getScene());
         List<Player> playerList = aoiService.getPlayerInScene(player.getScene());
 
-
-        if (tGameObjectList.size() != 0) {
+        HashMap<String,Object>  result = new HashMap<>();
+        if (tGameObjectList.size() == 0 && playerList.size() == 0) {
+            result.put("我发现： ","这个地方空无一物");
+        } else {
             result.put("这里有玩家:",playerList);
             result.put("发现： ", tGameObjectList);
-        } else {
-            result.put("我发现： ","这个地方空无一物");
         }
-        log.debug("当前场景的玩家对象： "+playerList);
+        log.debug("当前场景的玩家对象有{}个，分别为{} ",playerList.size(),playerList);
         message.setFlag((byte)1);
-        message.setContent(JSON.toJSONString(result).getBytes());
+        message.setContent(JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect).getBytes());
         ctx.writeAndFlush(message);
     }
 

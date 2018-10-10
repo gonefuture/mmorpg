@@ -2,9 +2,8 @@ package com.wan37.gameServer.server.dispatcher;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.controller.ErrorController;
-import com.wan37.gameServer.manager.ControllerManager;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import com.wan37.gameServer.service.PlayerQuitService;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

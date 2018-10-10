@@ -1,4 +1,4 @@
-package com.wan37.gameServer.manager;
+package com.wan37.gameServer.manager.controller;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
