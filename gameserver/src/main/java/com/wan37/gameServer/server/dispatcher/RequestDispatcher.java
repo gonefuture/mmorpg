@@ -78,9 +78,9 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
         log.error("服务器内部发生错误");
 
         // 将角色信息保存到数据库
-        playerQuitService.savePlayer(ctx);
+        //playerQuitService.savePlayer(ctx);
         // 清除缓存
-        playerQuitService.cleanPlayerCache(ctx);
+        //playerQuitService.cleanPlayerCache(ctx);
 
         throw new RuntimeException(cause.getCause());
     }

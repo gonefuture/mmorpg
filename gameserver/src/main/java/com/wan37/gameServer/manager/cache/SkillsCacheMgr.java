@@ -28,14 +28,9 @@ public class SkillsCacheMgr implements GameCacheManager<Integer, TSkill>{
 
 
     private static Cache<Integer, TSkill> skillsCache = CacheBuilder.newBuilder()
-            // 设置并发级别，最多8个线程同时写
-            .concurrencyLevel(10)
-            // 设置缓存容器的初始容量为100
-            .initialCapacity(100)
-            .maximumSize(5000)
             .recordStats()
             .removalListener(
-                    notification -> System.out.println(notification.getKey() + "was removed, cause is" + notification.getCause())
+                    notification -> log.debug(notification.getKey() + "技能被移除, 原因是" + notification.getCause())
             ).build();
 
 

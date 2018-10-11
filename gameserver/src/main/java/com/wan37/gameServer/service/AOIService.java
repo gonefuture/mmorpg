@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -54,15 +55,15 @@ public class AOIService {
     public List<Player> getPlayerInScene(int sceneId) {
         List<Player> playerList = new ArrayList<>();
         TScene tScene = sceneCacheMgr.get(sceneId);
-        String[]  playerIdList = tScene.getPlayers().split(",");
+        Map playerMap = JSON.parseObject(tScene.getPlayers(),Map.class);
 
-        Arrays.stream(playerIdList).forEach( playerId -> {
-            if (Strings.isNotBlank(playerId ) ) {
-                ChannelHandlerContext ctx =   playerCacheMgr.getCxtByPlayerId(Long.valueOf(playerId));
-                Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
-                playerList.add(player);
-            }
-        });
+        for (Object playerId: playerMap.keySet())  {
+            ChannelHandlerContext ctx =   playerCacheMgr.getCxtByPlayerId((int)playerId);
+            Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+            playerList.add(player);
+        }
+
+
 
         return playerList;
     }

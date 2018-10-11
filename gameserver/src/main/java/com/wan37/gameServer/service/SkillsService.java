@@ -25,7 +25,7 @@ public class SkillsService {
      */
     public boolean checkCD(Player player, TSkill tSkill) {
        if (player != null && tSkill != null) {
-           TSkill playerSkill = player.getTSkillMap().get(tSkill.getId());
+           TSkill playerSkill = player.getSkillMap().get(tSkill.getId());
            // 如果没有使用这个技能，立刻使用并计算cd
            if (playerSkill == null) {
                startSkill(player,tSkill);
@@ -50,7 +50,7 @@ public class SkillsService {
 
     public void startSkill(Player player, TSkill tSkill) {
         tSkill.setActivetime(System.currentTimeMillis());
-        player.getTSkillMap().put(tSkill.getId(),tSkill);
+        player.getSkillMap().put(tSkill.getId(),tSkill);
     }
 
 

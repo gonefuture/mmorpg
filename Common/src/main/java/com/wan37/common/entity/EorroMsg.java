@@ -6,7 +6,7 @@ import lombok.Data;
  * @author gonefuture  gonefuture@qq.com
  * time 2018/10/9 12:12
  * @version 1.00
- * Description: mmorpg
+ * Description: 错误信息实体类
  */
 @Data
 public class EorroMsg {

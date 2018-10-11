@@ -13,12 +13,12 @@ public interface GameCacheManager<K,V> {
     /*
      * 获取缓存数据
      */
-    V get(K key);
+    V get(K id);
 
     /*
      添加数据
       */
-    void put(K key, V value);
+    void put(K id, V value);
 
 
 }

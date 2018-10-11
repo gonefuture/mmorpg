@@ -25,6 +25,7 @@ public enum MsgId {
     // 玩家退出，无参数， 例： 2002
     PLAYER_EXIT(2002),
 
+
     // 角色移动， 参数 场景id ， 例： 3001 2
     MOVE(3001),
 
