@@ -39,7 +39,7 @@ public class PlayerMoveController implements IController {
         int willMoveSceneId =  Integer.valueOf(array[1]);
 
         GameScene gameScene = sceneCacheMgr.get(willMoveSceneId);
-        Map result = new HashMap();
+        Map<String, Object> result = new HashMap<>();
         if (playerMoveService.moveScene(ctx.channel().id().asLongText(),willMoveSceneId)) {
             // 获取当前角色所在的场景
 

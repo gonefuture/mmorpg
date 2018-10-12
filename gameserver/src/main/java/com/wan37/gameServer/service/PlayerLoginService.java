@@ -1,9 +1,11 @@
 package com.wan37.gameServer.service;
 
+
 import com.wan37.gameServer.entity.Player;
 import com.wan37.gameServer.entity.User;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
+import com.wan37.mysql.pojo.entity.TBuffer;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import org.springframework.beans.BeanUtils;
@@ -38,6 +40,8 @@ public class PlayerLoginService {
     @Resource
     private UserService userService;
 
+    @Resource
+    private BufferService bufferService;
 
     /**
      *  角色登陆
@@ -52,6 +56,9 @@ public class PlayerLoginService {
             BeanUtils.copyProperties(tPlayer,player);
             // 以channel id 为键储存玩家数据
             playerCacheMgr.put( channelId,player);
+
+            TBuffer tBuffer = bufferService.getTBuffer(105);
+            bufferService.startBuffer(player,tBuffer);
 
             return player;
         } else {

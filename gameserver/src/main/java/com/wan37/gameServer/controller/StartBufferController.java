@@ -36,8 +36,7 @@ public class StartBufferController implements IController {
         String[] param = new String(message.getContent()).split(" ");
         int bufferId = Integer.valueOf(param[1]);
 
-
-        TBuffer  tBuffer = bufferService.getBuffer(bufferId);
+        TBuffer  tBuffer = bufferService.getTBuffer(bufferId);
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
         boolean flag = bufferService.startBuffer(player,tBuffer);
 

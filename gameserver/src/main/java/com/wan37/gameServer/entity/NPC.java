@@ -12,4 +12,7 @@ import lombok.Data;
 
 @Data
 public class NPC  extends TGameObject implements SceneActor{
+
+    // 死亡时间
+    private long deadTime;
 }

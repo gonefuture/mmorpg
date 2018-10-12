@@ -1,5 +1,8 @@
 package com.wan37.gameServer.service;
 
+import com.wan37.gameServer.entity.GameScene;
+import com.wan37.gameServer.entity.Monster;
+import com.wan37.gameServer.entity.NPC;
 import com.wan37.gameServer.entity.Player;
 import com.wan37.gameServer.manager.cache.SkillsCacheMgr;
 import com.wan37.mysql.pojo.entity.TGameObject;
@@ -27,37 +30,42 @@ public class UseSkillsService {
     private SkillsService skillsService;
 
     @Resource
-    private GameObjectService gameObjectService;
+    private GameSceneService gameSceneService;
 
     @Resource
     private SkillsCacheMgr skillsCacheMgr;
 
 
 
-    public boolean attackGameObjectBySkill(String channelId, int skillId, long gameObjectId) {
+    public Monster attackMonsterBySkill(String channelId, int skillId, long gameObjectId) {
         Player player = playerDataService.getPlayer(channelId);
-        TGameObject tGameObject = gameObjectService.getGameObject(gameObjectId);
+        if (player == null)
+            return null;
+        // 获取角色所在场景中的怪物
+        GameScene gameScene = gameSceneService.findTScene(player.getScene());
+        Monster monster = gameScene.getMonsters().get(gameObjectId);
+
         TSkill tSkill =  skillsCacheMgr.get(skillId);
 
-        log.info("条件："+player+" "+tGameObject+" "+tSkill);
-        if (player != null && tGameObject != null && tSkill != null &&
+        if ( monster != null && tSkill != null &&
         canUseSkill(player,tSkill)
                 ) {
             // 消耗角色的mp
             player.setMp(player.getMp() - tSkill.getMpConsumption());
 
             // 损伤怪物或NPC的hp
-            tGameObject.setHp(tGameObject.getHp() - tSkill.getHpLose());
-            if (tGameObject.getHp() <0 ) {
+            monster.setHp(monster.getHp() - tSkill.getHpLose());
+            if (monster.getHp() <0 ) {
                 // 如果血量小于零，标记游戏对象为死亡状态。
-                tGameObject.setState(-1);
-                tGameObject.setHp((long)0);
+                monster.setState(-1);
+                monster.setHp((long)0);
+                monster.setDeadTime(System.currentTimeMillis());
             }
 
-            gameObjectService.cacheGameObject(tGameObject.getId(),tGameObject);
-            return true;
+            gameScene.getMonsters().put(monster.getId(),monster);
+            return monster;
         } else {
-            return false;
+            return null;
         }
     }
 

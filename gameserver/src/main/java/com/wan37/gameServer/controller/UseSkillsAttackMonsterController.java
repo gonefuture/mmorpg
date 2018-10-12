@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.EorroMsg;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
+import com.wan37.gameServer.entity.Monster;
 import com.wan37.gameServer.service.GameObjectService;
 import com.wan37.gameServer.service.UseSkillsService;
-import com.wan37.mysql.pojo.entity.TGameObject;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  */
 
 @Controller
-public class UseSkillsController implements IController {
+public class UseSkillsAttackMonsterController implements IController {
 
     @Resource
     private UseSkillsService useSkillsService;
@@ -36,15 +36,15 @@ public class UseSkillsController implements IController {
 
         String result = null;
 
-        boolean flag = useSkillsService.attackGameObjectBySkill( ctx.channel().id().asLongText(),
+        Monster monster = useSkillsService.attackMonsterBySkill( ctx.channel().id().asLongText(),
                 skillId,
                 gameObjectId
         );
 
-        if (flag) {
+        if (monster != null) {
             message.setFlag((byte)1);
-            TGameObject tGameObject = gameObjectService.getGameObject(gameObjectId);
-            result = JSON.toJSONString(tGameObject);
+
+            result = JSON.toJSONString(monster);
         } else {
             // 失败标记
             message.setFlag((byte)-1);

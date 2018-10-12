@@ -51,7 +51,7 @@ public class ControllerManager {
 
 
     @Resource
-    private UseSkillsController useSkillsController;
+    private UseSkillsAttackMonsterController useSkillsAttackMonsterController;
 
     @Resource
     private StartBufferController startBufferController;
@@ -66,7 +66,7 @@ public class ControllerManager {
         add(MsgId.LIST_GAME_ROLES.getMsgId(),listGameRoleController);
         add(MsgId.AOI.getMsgId(),aoiController);
         add(MsgId.PLAYER_EXIT.getMsgId(),playerQuitController);
-        add(MsgId.USE_SKILLS.getMsgId(), useSkillsController);
+        add(MsgId.USE_SKILLS.getMsgId(), useSkillsAttackMonsterController);
         add(MsgId.START_BUFFER.getMsgId(),startBufferController);
     }
 

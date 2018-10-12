@@ -1,12 +1,11 @@
 package com.wan37.gameServer.manager.Scene;
 
-import com.wan37.gameServer.entity.GameScene;
-import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.entity.*;
+import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
 import com.wan37.gameServer.manager.cache.SceneCacheMgr;
-import com.wan37.gameServer.manager.task.TaskManager;
 import com.wan37.gameServer.service.GameSceneService;
 
-import com.wan37.mysql.pojo.entity.TScene;
+import com.wan37.mysql.pojo.entity.TGameObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +13,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -36,20 +37,88 @@ public class SceneManager {
     @Resource
     private GameSceneService gameSceneService;
 
+    @Resource
+    private GameObjectCacheMgr gameObjectCacheMgr;
+
+
+
+
     @PostConstruct
-    private void init() {
+    private void tick() {
+        executorService.scheduleAtFixedRate(
+                this::refreshScene,
+                1000, 300, TimeUnit.MILLISECONDS);
+        log.debug("场景定时器启动");
+    }
+
+
+    private void refreshScene() {
         List<GameScene>  gameSceneList= sceneCacheMgr.list();
         for (GameScene gameScene : gameSceneList) {
-            //List<Player> playerList = tScene.getPlayers();
+            // 刷新怪物和NPC
+            refreshMonsters(gameScene);
+            refreshNPCs(gameScene);
+
         }
     }
 
 
+    private void refreshMonsters(GameScene gameScene) {
+
+        Map<Long,Monster> monsterMap = gameScene.getMonsters();
+        for (Monster monster : monsterMap.values()) {
+            if (monster.getState() == -1 &&
+                    monster.getDeadTime()+monster.getRefreshTime() <System.currentTimeMillis()) {
+                TGameObject tGameObject = gameObjectCacheMgr.get(monster.getId());
+                monster.setHp(tGameObject.getHp());
+                monster.setState(monster.getState());
+            }
+        }
+    }
 
 
+    private void refreshNPCs(GameScene gameScene) {
+
+        Map<Long, NPC> npcMap = gameScene.getNpcs();
+        for (NPC npc : npcMap.values()) {
+            if (npc.getState() == -1 &&
+                    npc.getDeadTime()+ npc.getRefreshTime() <System.currentTimeMillis()) {
+                TGameObject tGameObject = gameObjectCacheMgr.get(npc.getId());
+                npc.setHp(tGameObject.getHp());
+                npc.setState(npc.getState());
+            }
+        }
+    }
 
 
+    private void refreshBuffer(GameScene gameScene) {
+        Map<Long,Player> playerMap = gameScene.getPlayers();
+        for ( Player player : playerMap.values()) {
+            List<Buffer> bufferList = player.getBufferList();
+            for (Buffer buffer : bufferList) {
+                bufferEeffect(player,buffer);
+                // 间隔时间进度
+                long progress = buffer.getStartTime() + buffer.getIntervalTime();
+                if (  progress <System.currentTimeMillis() &&
+                        buffer.getTimes() != 0) {    // 静态buffer
+                    bufferEeffect(player,buffer);
+                    // 如果持续时间是永久的，就不用减少生效次数
+                    if (buffer.getDuration() != -1)
+                        buffer.setTimes(buffer.getTimes() -1 );
+                    buffer.setStartTime(progress);
+                } else {
+                    player.getBufferList().remove(buffer);
+                }
+            }
+        }
+    }
 
-
+    /**
+     *  buffer对于玩家的作用效果
+     */
+    private void bufferEeffect(Player player, Buffer buffer) {
+        player.setHp(player.getHp() + buffer.getHp());
+        player.setHp(player.getMp() + buffer.getMp());
+    }
 
 }

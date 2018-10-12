@@ -613,6 +613,66 @@ public class TGameObjectExample {
             addCriterion("role_type not between", value1, value2, "roleType");
             return (Criteria) this;
         }
+
+        public Criteria andRefreshTimeIsNull() {
+            addCriterion("refresh_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeIsNotNull() {
+            addCriterion("refresh_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeEqualTo(Long value) {
+            addCriterion("refresh_time =", value, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeNotEqualTo(Long value) {
+            addCriterion("refresh_time <>", value, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeGreaterThan(Long value) {
+            addCriterion("refresh_time >", value, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeGreaterThanOrEqualTo(Long value) {
+            addCriterion("refresh_time >=", value, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeLessThan(Long value) {
+            addCriterion("refresh_time <", value, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeLessThanOrEqualTo(Long value) {
+            addCriterion("refresh_time <=", value, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeIn(List<Long> values) {
+            addCriterion("refresh_time in", values, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeNotIn(List<Long> values) {
+            addCriterion("refresh_time not in", values, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeBetween(Long value1, Long value2) {
+            addCriterion("refresh_time between", value1, value2, "refreshTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefreshTimeNotBetween(Long value1, Long value2) {
+            addCriterion("refresh_time not between", value1, value2, "refreshTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

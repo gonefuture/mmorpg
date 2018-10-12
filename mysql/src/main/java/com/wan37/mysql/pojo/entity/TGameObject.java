@@ -19,6 +19,8 @@ public class TGameObject implements Serializable {
 
     private Integer roleType;
 
+    private Long refreshTime;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -85,6 +87,14 @@ public class TGameObject implements Serializable {
         this.roleType = roleType;
     }
 
+    public Long getRefreshTime() {
+        return refreshTime;
+    }
+
+    public void setRefreshTime(Long refreshTime) {
+        this.refreshTime = refreshTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -99,6 +109,7 @@ public class TGameObject implements Serializable {
         sb.append(", skills=").append(skills);
         sb.append(", state=").append(state);
         sb.append(", roleType=").append(roleType);
+        sb.append(", refreshTime=").append(refreshTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

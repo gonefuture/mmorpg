@@ -10,6 +10,7 @@
     <result column="skills" property="skills" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="role_type" property="roleType" jdbcType="INTEGER" />
+    <result column="refresh_time" property="refreshTime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, hp, mp, talk, skills, state, role_type
+    id, name, hp, mp, talk, skills, state, role_type, refresh_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TGameObjectExample" >
     select
@@ -105,10 +106,10 @@
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TGameObject" >
     insert into t_game_object (id, name, hp, mp, 
       talk, skills, state, 
-      role_type)
+      role_type, refresh_time)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{hp,jdbcType=BIGINT}, #{mp,jdbcType=BIGINT}, 
       #{talk,jdbcType=VARCHAR}, #{skills,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{roleType,jdbcType=INTEGER})
+      #{roleType,jdbcType=INTEGER}, #{refreshTime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TGameObject" >
     insert into t_game_object
@@ -137,6 +138,9 @@
       <if test="roleType != null" >
         role_type,
       </if>
+      <if test="refreshTime != null" >
+        refresh_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -162,6 +166,9 @@
       </if>
       <if test="roleType != null" >
         #{roleType,jdbcType=INTEGER},
+      </if>
+      <if test="refreshTime != null" >
+        #{refreshTime,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -198,6 +205,9 @@
       <if test="record.roleType != null" >
         role_type = #{record.roleType,jdbcType=INTEGER},
       </if>
+      <if test="record.refreshTime != null" >
+        refresh_time = #{record.refreshTime,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +222,8 @@
       talk = #{record.talk,jdbcType=VARCHAR},
       skills = #{record.skills,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
-      role_type = #{record.roleType,jdbcType=INTEGER}
+      role_type = #{record.roleType,jdbcType=INTEGER},
+      refresh_time = #{record.refreshTime,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +252,9 @@
       <if test="roleType != null" >
         role_type = #{roleType,jdbcType=INTEGER},
       </if>
+      <if test="refreshTime != null" >
+        refresh_time = #{refreshTime,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -252,7 +266,8 @@
       talk = #{talk,jdbcType=VARCHAR},
       skills = #{skills,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
-      role_type = #{roleType,jdbcType=INTEGER}
+      role_type = #{roleType,jdbcType=INTEGER},
+      refresh_time = #{refreshTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
