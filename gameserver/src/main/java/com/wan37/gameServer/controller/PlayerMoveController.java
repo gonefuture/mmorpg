@@ -1,7 +1,9 @@
 package com.wan37.gameServer.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
+import com.wan37.gameServer.entity.GameScene;
 import com.wan37.gameServer.manager.cache.SceneCacheMgr;
 import com.wan37.gameServer.service.PlayerMoveService;
 import com.wan37.mysql.pojo.entity.TScene;
@@ -10,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -34,18 +38,19 @@ public class PlayerMoveController implements IController {
         String[] array = new String(message.getContent()).split(" ");
         int willMoveSceneId =  Integer.valueOf(array[1]);
 
-        TScene tScene = sceneCacheMgr.get(willMoveSceneId);
-        String result = null;
+        GameScene gameScene = sceneCacheMgr.get(willMoveSceneId);
+        Map result = new HashMap();
         if (playerMoveService.moveScene(ctx.channel().id().asLongText(),willMoveSceneId)) {
             // 获取当前角色所在的场景
 
-            result = ("你所在的地方是： "+tScene.toString());
+            result.put("你所在的地方是： ",gameScene.toString());
         } else {
-            result = "这个地点不能到： "+tScene.toString()+ "\n 当前所处的地方是"+
-                    playerMoveService.currentScene(ctx.channel().id().asLongText());
+            result.put("这个地点不能到： ",gameScene.toString());
+            GameScene currentScene = playerMoveService.currentScene(ctx.channel().id().asLongText());
+            result.put("\n 当前所处的地方是",currentScene);
         }
 
-        message.setContent(result.getBytes());
+        message.setContent(JSON.toJSONString(result).getBytes());
         ctx.writeAndFlush(message);
     }
 }

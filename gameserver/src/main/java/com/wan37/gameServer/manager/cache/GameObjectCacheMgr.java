@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -57,4 +58,9 @@ public class GameObjectCacheMgr implements GameCacheManager<Long, TGameObject> {
         gameObjectCache.put(gameObjectId,value);
     }
 
+
+
+    public Map<Long,TGameObject> list() {
+        return gameObjectCache.asMap();
+    }
 }

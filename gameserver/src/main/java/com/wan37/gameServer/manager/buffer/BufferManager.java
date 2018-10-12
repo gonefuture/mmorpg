@@ -2,6 +2,8 @@ package com.wan37.gameServer.manager.buffer;
 
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author gonefuture  gonefuture@qq.com
  * time 2018/10/11 12:09
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BufferManager {
+
+
 
 
 

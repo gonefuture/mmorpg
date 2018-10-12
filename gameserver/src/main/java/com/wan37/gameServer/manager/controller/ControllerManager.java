@@ -53,6 +53,9 @@ public class ControllerManager {
     @Resource
     private UseSkillsController useSkillsController;
 
+    @Resource
+    private StartBufferController startBufferController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -63,8 +66,8 @@ public class ControllerManager {
         add(MsgId.LIST_GAME_ROLES.getMsgId(),listGameRoleController);
         add(MsgId.AOI.getMsgId(),aoiController);
         add(MsgId.PLAYER_EXIT.getMsgId(),playerQuitController);
-
         add(MsgId.USE_SKILLS.getMsgId(), useSkillsController);
+        add(MsgId.START_BUFFER.getMsgId(),startBufferController);
     }
 
 

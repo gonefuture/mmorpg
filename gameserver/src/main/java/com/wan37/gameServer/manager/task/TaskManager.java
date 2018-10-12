@@ -19,9 +19,17 @@ public class TaskManager {
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(20);
 
 
-    public Future<EventData> register(long timeout, Callable<EventData> callback) {
-        return executorService.schedule(callback,timeout, TimeUnit.MILLISECONDS);
+    public Future<EventData> schedule(long delay, Callable<EventData> callback) {
+        return executorService.schedule(callback,delay, TimeUnit.MILLISECONDS);
     }
+
+    public ScheduledFuture<?> scheduleAtFixedRate(long initDely , long delay , Runnable runnable) {
+        return executorService.scheduleAtFixedRate(runnable,initDely,delay, TimeUnit.MILLISECONDS);
+    }
+
+
+
+
     public void unregister(long tick_id) {
 
     }

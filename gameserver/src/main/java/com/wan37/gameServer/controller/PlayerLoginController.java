@@ -3,6 +3,7 @@ package com.wan37.gameServer.controller;
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
+import com.wan37.gameServer.entity.GameScene;
 import com.wan37.gameServer.entity.Player;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.service.PlayerLoginService;
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
  * @author gonefuture  gonefuture@qq.com
  * time 2018/9/26 17:09
  * @version 1.00
- * Description: mmorpg
+ * Description: 角色登陆控制器
  */
 
 @Slf4j
@@ -51,13 +52,13 @@ public class PlayerLoginController implements IController {
             // 保存playerId跟ChannelHandlerContext之间的关系
             playerCacheMgr.savePlayerCtx(playerId,ctx);
 
-            TScene tScene = playerMoveService.currentScene(channelId);
+            GameScene gameScene = playerMoveService.currentScene(channelId);
             // 将角色加入场景
-            playerMoveService.putPlayerInScene(tScene,player);
+            playerMoveService.putPlayerInScene(gameScene,player);
             log.debug("player"+player);
             result = JSON.toJSON(player)
                     + "\n 你所在位置为"
-                    +JSON.toJSON(tScene);
+                    +JSON.toJSON(gameScene);
             message.setFlag((byte) 1);
         } else {
             result = "用户尚未登陆，不能加载角色";

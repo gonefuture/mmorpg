@@ -1,10 +1,12 @@
 package com.wan37.gameServer.service;
 
+import com.wan37.gameServer.entity.NPC;
 import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
 import com.wan37.mysql.pojo.entity.TGameObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -33,13 +35,8 @@ public class GameObjectService {
      *  游戏对象为state属性为-1时，表示死亡状态。
      */
     public boolean isGameObjectDead(TGameObject tGameObject){
-        if (tGameObject != null && tGameObject.getState() != -1 ) {
-            return true;
-        } else {
-            return false;
-        }
+        return tGameObject != null && tGameObject.getState() != -1;
     }
-
 
 
 }

@@ -35,6 +35,9 @@ public enum MsgId {
     // 使用技能
     USE_SKILLS(3003),
 
+    // buffer开始
+    START_BUFFER(3004),
+
     // 与NPC，怪物对话
     DIALOG(4001),
 

@@ -7,7 +7,6 @@
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="neighbors" property="neighbors" jdbcType="VARCHAR" />
     <result column="game_object_ids" property="gameObjectIds" jdbcType="VARCHAR" />
-    <result column="players" property="players" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, state, neighbors, game_object_ids, players
+    id, name, state, neighbors, game_object_ids
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TSceneExample" >
     select
@@ -102,11 +101,9 @@
   </delete>
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TScene" >
     insert into t_scene (id, name, state, 
-      neighbors, game_object_ids, players
-      )
+      neighbors, game_object_ids)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{neighbors,jdbcType=VARCHAR}, #{gameObjectIds,jdbcType=VARCHAR}, #{players,jdbcType=VARCHAR}
-      )
+      #{neighbors,jdbcType=VARCHAR}, #{gameObjectIds,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TScene" >
     insert into t_scene
@@ -126,9 +123,6 @@
       <if test="gameObjectIds != null" >
         game_object_ids,
       </if>
-      <if test="players != null" >
-        players,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -145,9 +139,6 @@
       </if>
       <if test="gameObjectIds != null" >
         #{gameObjectIds,jdbcType=VARCHAR},
-      </if>
-      <if test="players != null" >
-        #{players,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -175,9 +166,6 @@
       <if test="record.gameObjectIds != null" >
         game_object_ids = #{record.gameObjectIds,jdbcType=VARCHAR},
       </if>
-      <if test="record.players != null" >
-        players = #{record.players,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -189,8 +177,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       neighbors = #{record.neighbors,jdbcType=VARCHAR},
-      game_object_ids = #{record.gameObjectIds,jdbcType=VARCHAR},
-      players = #{record.players,jdbcType=VARCHAR}
+      game_object_ids = #{record.gameObjectIds,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -210,9 +197,6 @@
       <if test="gameObjectIds != null" >
         game_object_ids = #{gameObjectIds,jdbcType=VARCHAR},
       </if>
-      <if test="players != null" >
-        players = #{players,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -221,8 +205,7 @@
     set name = #{name,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       neighbors = #{neighbors,jdbcType=VARCHAR},
-      game_object_ids = #{gameObjectIds,jdbcType=VARCHAR},
-      players = #{players,jdbcType=VARCHAR}
+      game_object_ids = #{gameObjectIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

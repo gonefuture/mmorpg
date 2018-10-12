@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
+import com.wan37.gameServer.entity.Monster;
+import com.wan37.gameServer.entity.NPC;
 import com.wan37.gameServer.entity.Player;
 
 import com.wan37.gameServer.service.AOIService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -39,16 +42,19 @@ public class AOIController implements IController {
 
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
 
+        int sceneId = player.getScene();
         // 分别获取场景内的玩家和游戏对象
-        List<TGameObject> tGameObjectList = aoiService.aoi(player.getScene());
-        List<Player> playerList = aoiService.getPlayerInScene(player.getScene());
+        Map<Long,NPC> npCMap = aoiService.getNPCs(sceneId );
+        Map<Long,Monster> monsterMap = aoiService.getMonsters(sceneId);
+        List<Player> playerList = aoiService.getPlayerInScene(sceneId );
 
         HashMap<String,Object>  result = new HashMap<>();
-        if (tGameObjectList.size() == 0 && playerList.size() == 0) {
+        if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {
             result.put("我发现： ","这个地方空无一物");
         } else {
-            result.put("这里有玩家:",playerList);
-            result.put("发现： ", tGameObjectList);
+            result.put("场景内玩家:",playerList);
+            result.put("场景内NPC： ", npCMap);
+            result.put("场景内怪物",monsterMap);
         }
         log.debug("当前场景的玩家对象有{}个，分别为{} ",playerList.size(),playerList);
         message.setFlag((byte)1);

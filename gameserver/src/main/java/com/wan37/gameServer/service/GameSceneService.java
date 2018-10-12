@@ -1,6 +1,8 @@
 package com.wan37.gameServer.service;
 
 
+import com.wan37.gameServer.entity.GameScene;
+import com.wan37.gameServer.manager.cache.SceneCacheMgr;
 import com.wan37.mysql.pojo.entity.TGameObject;
 import com.wan37.mysql.pojo.entity.TScene;
 import com.wan37.mysql.pojo.mapper.TSceneMapper;
@@ -22,13 +24,13 @@ import java.util.List;
 public class GameSceneService {
 
     @Resource
-    private TSceneMapper tSceneMapper;
+    private SceneCacheMgr sceneCacheMgr;
 
 
 
 
-    public TScene findTScene(int sceneId) {
-        return tSceneMapper.selectByPrimaryKey(sceneId);
+    public GameScene findTScene(int sceneId) {
+        return sceneCacheMgr.get(sceneId);
     }
 
 

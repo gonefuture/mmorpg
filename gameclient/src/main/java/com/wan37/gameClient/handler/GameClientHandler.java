@@ -48,8 +48,7 @@ public class GameClientHandler extends SimpleChannelInboundHandler<Message> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message message) throws Exception {
         // 记录信息已经被接受
-        //log.info(
-         //       "客户端:"+ ctx.channel().id() + "接受到信息: \n"+ new String((message.getContent()))
-        //);
+        //log.info("客户端:"+ ctx.channel().id() + "接受到信息: \n"+ new String((message.getContent())));
+        System.out.println(new String((message.getContent())));
     }
 }

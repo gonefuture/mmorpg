@@ -1,9 +1,13 @@
 package com.wan37.gameServer.entity;
 
+
 import com.wan37.mysql.pojo.entity.TScene;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -13,16 +17,19 @@ import java.util.List;
  */
 
 @Slf4j
+@Data
 public class GameScene  extends TScene {
 
-    // 相邻场景
-    private List<Player> neighbors;
+    // 处于场景的玩家
+    private Map<Long,Player> players = new ConcurrentHashMap<>();
 
-    // 处于场景的NPC
-    private List<NPC> NPCs;
 
-    // 处于场景的怪物
-    private Monster monsters;
+    // 处于场景中的NPC
+    private  Map<Long, NPC> npcs = new ConcurrentHashMap<>();
+
+    // 处于场景中的怪物
+
+    private Map<Long,Monster> monsters = new ConcurrentHashMap<>();
 
 
 

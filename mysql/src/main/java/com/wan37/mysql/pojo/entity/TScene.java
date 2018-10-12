@@ -13,8 +13,6 @@ public class TScene implements Serializable {
 
     private String gameObjectIds;
 
-    private String players;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -57,14 +55,6 @@ public class TScene implements Serializable {
         this.gameObjectIds = gameObjectIds == null ? null : gameObjectIds.trim();
     }
 
-    public String getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(String players) {
-        this.players = players == null ? null : players.trim();
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -76,7 +66,6 @@ public class TScene implements Serializable {
         sb.append(", state=").append(state);
         sb.append(", neighbors=").append(neighbors);
         sb.append(", gameObjectIds=").append(gameObjectIds);
-        sb.append(", players=").append(players);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
