@@ -1,4 +1,4 @@
-package com.wan37.gameServer.manager.Scene;
+package com.wan37.gameServer.manager.scene;
 
 import com.wan37.gameServer.entity.*;
 import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
@@ -58,7 +58,7 @@ public class SceneManager {
             // 刷新怪物和NPC
             refreshMonsters(gameScene);
             refreshNPCs(gameScene);
-
+            refreshBuffer(gameScene);
         }
     }
 
