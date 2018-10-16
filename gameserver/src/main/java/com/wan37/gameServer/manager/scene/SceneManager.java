@@ -47,7 +47,7 @@ public class SceneManager {
     private void tick() {
         executorService.scheduleAtFixedRate(
                 this::refreshScene,
-                1000, 300, TimeUnit.MILLISECONDS);
+                1000, 20, TimeUnit.MILLISECONDS);
         log.debug("场景定时器启动");
     }
 
@@ -96,18 +96,19 @@ public class SceneManager {
         for ( Player player : playerMap.values()) {
             List<Buffer> bufferList = player.getBufferList();
             for (Buffer buffer : bufferList) {
-                bufferEeffect(player,buffer);
+                long now  = System.currentTimeMillis();
                 // 间隔时间进度
-                long progress = buffer.getStartTime() + buffer.getIntervalTime();
-                if (  progress <System.currentTimeMillis() &&
+                long progress = buffer.getStartTime() ;
+                //log.debug("progress {}", progress);
+                //log.debug("now {}", now);
+                if (  progress < now &&
                         buffer.getTimes() != 0) {    // 静态buffer
-                    bufferEeffect(player,buffer);
+                    bufferEffect(player,buffer);
                     // 如果持续时间是永久的，就不用减少生效次数
                     if (buffer.getDuration() != -1)
                         buffer.setTimes(buffer.getTimes() -1 );
-                    buffer.setStartTime(progress);
-                } else {
-                    player.getBufferList().remove(buffer);
+                    buffer.setStartTime(progress + buffer.getIntervalTime());
+                    log.debug("buffer.getStartTime(){}", buffer.getStartTime());
                 }
             }
         }
@@ -116,9 +117,10 @@ public class SceneManager {
     /**
      *  buffer对于玩家的作用效果
      */
-    private void bufferEeffect(Player player, Buffer buffer) {
+    private void bufferEffect(Player player, Buffer buffer) {
         player.setHp(player.getHp() + buffer.getHp());
-        player.setHp(player.getMp() + buffer.getMp());
+        player.setMp(player.getMp() + buffer.getMp());
+        log.debug("player {},hp {} ,Mp() {}",player,player.getHp(),player.getMp());
     }
 
 }
