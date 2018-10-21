@@ -2,6 +2,7 @@ package com.wan37.gameServer.manager.scene;
 
 import com.wan37.gameServer.entity.*;
 import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
+import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.SceneCacheMgr;
 import com.wan37.gameServer.service.GameSceneService;
 
@@ -35,7 +36,7 @@ public class SceneManager {
     private SceneCacheMgr sceneCacheMgr;
 
     @Resource
-    private GameSceneService gameSceneService;
+    private PlayerCacheMgr playerCacheMgr;
 
     @Resource
     private GameObjectCacheMgr gameObjectCacheMgr;
@@ -101,14 +102,16 @@ public class SceneManager {
                 long progress = buffer.getStartTime() ;
                 //log.debug("progress {}", progress);
                 //log.debug("now {}", now);
-                if (  progress < now &&
+                // 只有当当前时间超过预定的间隔时间时才会触发效果
+                if (  progress <= now &&
                         buffer.getTimes() != 0) {    // 静态buffer
                     bufferEffect(player,buffer);
                     // 如果持续时间是永久的，就不用减少生效次数
                     if (buffer.getDuration() != -1)
                         buffer.setTimes(buffer.getTimes() -1 );
+                    // 加上间隔时间
                     buffer.setStartTime(progress + buffer.getIntervalTime());
-                    log.debug("buffer.getStartTime(){}", buffer.getStartTime());
+                    //log.debug("buffer.getStartTime(){}", buffer.getStartTime());
                 }
             }
         }
@@ -118,9 +121,11 @@ public class SceneManager {
      *  buffer对于玩家的作用效果
      */
     private void bufferEffect(Player player, Buffer buffer) {
+
+        if ()
         player.setHp(player.getHp() + buffer.getHp());
         player.setMp(player.getMp() + buffer.getMp());
-        log.debug("player {},hp {} ,Mp() {}",player,player.getHp(),player.getMp());
+        //log.debug("player {},hp {} ,Mp() {}",player,player.getHp(),player.getMp());
     }
 
 }
