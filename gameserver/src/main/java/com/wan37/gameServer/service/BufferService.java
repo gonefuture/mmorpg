@@ -32,6 +32,8 @@ public class BufferService {
         Buffer buffer = new Buffer();
         BeanUtils.copyProperties(tBuffer,buffer);
         if (player != null ) {
+            // 记录开始时间
+            buffer.setStartTime(System.currentTimeMillis());
             player.getBufferList().add(buffer);
 
             if (buffer.getDuration() != -1) {
