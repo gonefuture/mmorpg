@@ -16,6 +16,28 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`game` /*!40100 DEFAULT CHARACTER SET ut
 
 USE `game`;
 
+/*Table structure for table `t_buffer` */
+
+DROP TABLE IF EXISTS `t_buffer`;
+
+CREATE TABLE `t_buffer` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT '1' COMMENT '类型，静态、动态、状态buffer',
+  `cover` int(11) NOT NULL DEFAULT '1' COMMENT '是否可覆盖',
+  `hp` int(11) NOT NULL DEFAULT '0',
+  `mp` int(11) NOT NULL DEFAULT '0',
+  `state` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
+  `duration` bigint(20) NOT NULL COMMENT '持续时间（单位毫秒）',
+  `interval_time` int(11) NOT NULL COMMENT '生效间隔时间',
+  `times` int(11) NOT NULL DEFAULT '1' COMMENT '生效间隔',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_buffer` */
+
+insert  into `t_buffer`(`id`,`name`,`type`,`cover`,`hp`,`mp`,`state`,`duration`,`interval_time`,`times`) values (101,'狂暴',1,1,0,0,101,120000,0,1),(102,'英勇',1,1,0,0,102,120000,0,1),(103,'蝰蛇守护',2,1,0,-5,0,20000,0,1),(104,'复苏之风',2,1,20,0,0,60000,1000,10),(105,'魔法值恢复',2,1,0,5,0,3000,2000,5);
+
 /*Table structure for table `t_game_object` */
 
 DROP TABLE IF EXISTS `t_game_object`;
@@ -24,17 +46,18 @@ CREATE TABLE `t_game_object` (
   `id` bigint(20) NOT NULL,
   `name` varchar(32) NOT NULL,
   `hp` bigint(20) NOT NULL,
-  `mp` bigint(20) DEFAULT NULL,
-  `talk` varchar(256) DEFAULT NULL COMMENT '谈话',
-  `skills` varchar(100) DEFAULT NULL COMMENT '技能',
+  `mp` bigint(20) NOT NULL,
+  `talk` varchar(256) NOT NULL COMMENT '谈话',
+  `skills` varchar(100) NOT NULL COMMENT '技能',
   `state` int(11) NOT NULL COMMENT '状态',
   `role_type` int(11) NOT NULL,
+  `refresh_time` bigint(20) NOT NULL COMMENT '死亡后的刷新时间，单位毫秒',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_game_object` */
 
-insert  into `t_game_object`(`id`,`name`,`hp`,`mp`,`talk`,`skills`,`state`,`role_type`) values (1,'软泥怪1',1,NULL,'哇哇',NULL,1,2),(2,'软泥怪2',1,NULL,'哇哇哇',NULL,1,2),(3,'新手村村长',1,NULL,'欢迎来到新手村！',NULL,1,1),(4,'黑衣人',100,NULL,'十步杀一人，千里不留行。',NULL,1,1),(5,'伊利丹',20000,10000,'你们这是自寻死路！！','1，2，3，4，5，5',1,2);
+insert  into `t_game_object`(`id`,`name`,`hp`,`mp`,`talk`,`skills`,`state`,`role_type`,`refresh_time`) values (1,'软泥怪1',5,5,'哇哇','1',1,2,20000),(2,'软泥怪2',5,5,'哇哇哇','1',1,2,20000),(3,'新手村村长',20,32,'欢迎来到新手村！','1',1,1,30000),(4,'黑衣人',100,5,'十步杀一人，千里不留行。','1',1,1,30000),(5,'伊利丹',20000,10000,'你们这是自寻死路！！','1，2，3，4，5，5',1,2,30000),(6,'疯狂的地精',500,45,'时间就是金钱！','2',1,2,10000),(7,'鱼人',500,40,'噢哇','1',1,2,10000);
 
 /*Table structure for table `t_player` */
 
@@ -43,18 +66,18 @@ DROP TABLE IF EXISTS `t_player`;
 CREATE TABLE `t_player` (
   `id` bigint(20) NOT NULL,
   `name` varchar(32) NOT NULL,
-  `hp` bigint(20) DEFAULT NULL,
-  `mp` bigint(20) DEFAULT NULL,
-  `position` varchar(32) DEFAULT NULL,
+  `hp` bigint(20) NOT NULL,
+  `mp` bigint(20) NOT NULL,
+  `position` varchar(32) NOT NULL,
   `state` int(11) NOT NULL,
-  `scene` int(11) DEFAULT NULL,
+  `scene` int(11) NOT NULL,
   `player_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_player` */
 
-insert  into `t_player`(`id`,`name`,`hp`,`mp`,`position`,`state`,`scene`,`player_id`) values (1212,'阿尔萨斯',NULL,NULL,NULL,0,2,13533805040),(1235,'只会装死的猎人 233',242,2247,NULL,0,2,1),(1313,'蓝色巨龙卡雷苟斯',4545,1454,NULL,0,1,2),(4556,'瞬发炉石的萨满祭司',11212,1212,NULL,0,2,13533805040),(14154,'被猎人捉了当宠物的德鲁伊大咕咕',2424,44,NULL,0,5,1),(1493484114469936429,'死在冲锋路上的狂暴战',9999,9999,NULL,0,1,13533805040);
+insert  into `t_player`(`id`,`name`,`hp`,`mp`,`position`,`state`,`scene`,`player_id`) values (1212,'阿尔萨斯',1000,1100,'0',0,2,13533805040),(1235,'只会装死的猎人 233',242,2247,'0',0,3,1),(1313,'蓝色巨龙卡雷苟斯',4545,1454,'0',0,5,2),(4556,'瞬发炉石的萨满祭司',11212,1212,'0',0,2,13533805040),(14154,'被猎人捉了当宠物的德鲁伊大咕咕',2424,44,'0',0,5,1),(1493484114469936429,'死在冲锋路上的狂暴战',9999,9999,'0',0,1,13533805040);
 
 /*Table structure for table `t_scene` */
 
@@ -66,13 +89,45 @@ CREATE TABLE `t_scene` (
   `state` int(11) NOT NULL COMMENT '场景的状态',
   `neighbors` varchar(100) NOT NULL,
   `game_object_ids` varchar(200) NOT NULL COMMENT '场景内游戏对象',
-  `players` varchar(200) NOT NULL COMMENT '游戏内在线的玩家，不需要持久化',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_scene` */
 
-insert  into `t_scene`(`id`,`name`,`state`,`neighbors`,`game_object_ids`,`players`) values (1,'新手村',1,'2','1,5',''),(2,'泰达希尔',1,'3,4','1,2',''),(3,'桃花源',1,'4,5','2,3,4',''),(4,'提瑞斯法森林',1,'5','1,2,3,4',''),(5,'城堡',1,'6','5,1,2',''),(6,'紫禁之巅',1,'1,7','1,2,3,,4,5',''),(7,'伽蓝之洞',1,'1，2，3，4，5，6','1','');
+insert  into `t_scene`(`id`,`name`,`state`,`neighbors`,`game_object_ids`) values (1,'新手村',1,'2','1,5'),(2,'泰达希尔',1,'1,3,4','1,2'),(3,'桃花源',1,'2,4,5','2,3,4'),(4,'提瑞斯法森林',1,'3,5','1,2,3,4'),(5,'城堡',1,'4,6','5,1,2'),(6,'紫禁之巅',1,'1,7,6','1,2,3,,4,5'),(7,'伽蓝之洞',1,'1,2,3,4,5,6','1');
+
+/*Table structure for table `t_skill` */
+
+DROP TABLE IF EXISTS `t_skill`;
+
+CREATE TABLE `t_skill` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `skills_type` int(11) NOT NULL,
+  `cd` bigint(11) NOT NULL,
+  `mp_consumption` bigint(20) NOT NULL,
+  `hp_lose` bigint(20) NOT NULL,
+  `level` int(11) NOT NULL,
+  `state` int(11) NOT NULL,
+  `activeTime` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_skill` */
+
+insert  into `t_skill`(`id`,`name`,`skills_type`,`cd`,`mp_consumption`,`hp_lose`,`level`,`state`,`activeTime`) values (1001,'剑刃风暴',1,30,50,120,10,0,0),(1002,'冲锋',1,40,30,10,5,0,0),(1003,'暴风雪',1,30,80,60,10,0,0),(1004,'奥术飞弹',1,10,30,50,5,0,0);
+
+/*Table structure for table `t_state` */
+
+DROP TABLE IF EXISTS `t_state`;
+
+CREATE TABLE `t_state` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_state` */
 
 /*Table structure for table `t_user` */
 
