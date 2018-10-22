@@ -6,6 +6,7 @@ import com.wan37.mysql.pojo.entity.TSkill;
 import lombok.Data;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +26,14 @@ public class Player extends TPlayer {
     Map<Integer, TSkill> skillMap = new ConcurrentHashMap<>();
 
     // 角色当前的buffer,因为可能拥有多个重复的技能，所以这里使用List保存
-     List<Buffer> bufferList = new CopyOnWriteArrayList<>();
+    List<Buffer> bufferList = new CopyOnWriteArrayList<>();
+
+    // 物品
+    List<Goods> goodsList = new ArrayList<>();
+
+    // 武器
+    List<Equipment> equipmentList = new ArrayList<>();
+
 
 
 

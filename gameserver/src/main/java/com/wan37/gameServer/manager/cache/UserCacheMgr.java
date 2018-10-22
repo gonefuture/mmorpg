@@ -28,7 +28,7 @@ public class UserCacheMgr implements GameCacheManager<String, User>{
             .maximumSize(5000)
             .recordStats()
             .removalListener(
-                    notification -> System.out.println(notification.getKey() + "was removed, cause is" + notification.getCause())
+                    notification -> System.out.println(notification.getKey() + "用户被移除, 原因是" + notification.getCause())
             ).build();
 
 

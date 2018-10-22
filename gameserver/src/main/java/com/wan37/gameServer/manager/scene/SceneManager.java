@@ -4,7 +4,7 @@ import com.wan37.gameServer.entity.*;
 import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.SceneCacheMgr;
-import com.wan37.gameServer.service.GameSceneService;
+
 
 import com.wan37.mysql.pojo.entity.TGameObject;
 import lombok.extern.slf4j.Slf4j;
@@ -122,7 +122,7 @@ public class SceneManager {
      */
     private void bufferEffect(Player player, Buffer buffer) {
 
-        if ()
+
         player.setHp(player.getHp() + buffer.getHp());
         player.setMp(player.getMp() + buffer.getMp());
         //log.debug("player {},hp {} ,Mp() {}",player,player.getHp(),player.getMp());

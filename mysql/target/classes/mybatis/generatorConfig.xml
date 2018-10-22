@@ -5,7 +5,7 @@
     <!-- 引入配置文件 -->
     <!-- 	<properties resource="db.properties"/> -->
     <!-- 指定数据连接驱动jar地址 -->
-    <classPathEntry location="C:\github\mmorpg\mysql\mysql-connector-java-5.1.47.jar"/>
+    <classPathEntry location="C:\project\mmorpg\mysql\mysql-connector-java-5.1.47.jar"/>
     <!-- 一个数据库一个context -->
     <context id="msql" targetRuntime="MyBatis3" >
 
@@ -28,7 +28,7 @@
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/game"
                         userId="root"
-                        password="123" />
+                        password="123456" />
         <!--password="123456" />-->
         <!-- 类型转换 -->
         <javaTypeResolver>
@@ -79,6 +79,7 @@
         <table tableName="t_skill"/>
         <table tableName="t_state"/>
         <table tableName="t_buffer"/>
+        <table tableName="t_goods"/>
 
     </context>
 </generatorConfiguration>

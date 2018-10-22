@@ -30,7 +30,7 @@ public class PlayerCacheMgr implements GameCacheManager<String, Player> {
             .maximumSize(5000)
             .recordStats()
             .removalListener(
-                    notification -> System.out.println(notification.getKey() + "was removed, cause is" + notification.getCause())
+                    notification -> System.out.println(notification.getKey() + "玩家被移除，原因是" + notification.getCause())
             ).build();
 
     private static Cache<Long, ChannelHandlerContext> playerCtxCache = CacheBuilder.newBuilder().build();
