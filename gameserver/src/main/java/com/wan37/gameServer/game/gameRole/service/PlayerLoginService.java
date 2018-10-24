@@ -7,7 +7,7 @@ import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
 import com.wan37.gameServer.service.BufferService;
-import com.wan37.gameServer.service.UserService;
+import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.mysql.pojo.entity.TBuffer;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;

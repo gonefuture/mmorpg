@@ -66,9 +66,7 @@ public class ThingsService {
                 player.getBags().add(things);
             }
         });
-
     }
-
 
 
 }

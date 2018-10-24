@@ -1,4 +1,4 @@
-package com.wan37.gameServer.service;
+package com.wan37.gameServer.game.user.service;
 
 
 

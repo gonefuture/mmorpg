@@ -1,9 +1,9 @@
-package com.wan37.gameServer.controller;
+package com.wan37.gameServer.game.user.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
+import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
-import com.wan37.gameServer.service.UserService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

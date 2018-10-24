@@ -84,7 +84,6 @@ public class GameClient {
                     message.setType((byte)1);
                     message.setContent(content.getBytes());
                     channel.writeAndFlush(message);
-
                 }
             }
             //指定所使用的NIO传输channel
