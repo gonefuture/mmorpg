@@ -1,7 +1,8 @@
 package com.wan37.gameServer.service;
 
 import com.wan37.gameServer.entity.GameScene;
-import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.game.gameRole.modle.Player;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.SceneCacheMgr;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author gonefuture  gonefuture@qq.com

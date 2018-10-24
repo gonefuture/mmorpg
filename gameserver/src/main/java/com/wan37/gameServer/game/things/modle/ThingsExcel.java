@@ -13,8 +13,8 @@ import lombok.Data;
 @Data
 public class ThingsExcel {
 
-    @EntityName(id = true)
-    private Integer no;
+    //@EntityName(id = true)
+    //private Integer no;
 
     @EntityName(column="物品编号")
     private Integer  id;
@@ -22,12 +22,14 @@ public class ThingsExcel {
     @EntityName(column="物品名称")
     private String  name;
 
-
     @EntityName(column="触发效果")
     private Integer  buffer;
 
     @EntityName(column="能否绑定")
-    private Integer  isBind;
+    private Integer isBind;
+
+    @EntityName(column = "类型")
+    private Integer type;
 
 
 }

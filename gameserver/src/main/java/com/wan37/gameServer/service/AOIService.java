@@ -1,19 +1,16 @@
 package com.wan37.gameServer.service;
 
-import com.alibaba.fastjson.JSON;
 import com.wan37.gameServer.entity.*;
+import com.wan37.gameServer.game.gameRole.modle.Player;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.SceneCacheMgr;
-import com.wan37.mysql.pojo.entity.TGameObject;
-import com.wan37.mysql.pojo.entity.TScene;
 import io.netty.channel.ChannelHandlerContext;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 

@@ -1,6 +1,7 @@
 package com.wan37.gameServer.entity;
 
 
+import com.wan37.gameServer.game.gameRole.modle.Player;
 import com.wan37.mysql.pojo.entity.TScene;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

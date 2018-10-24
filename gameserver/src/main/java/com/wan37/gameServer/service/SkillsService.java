@@ -1,12 +1,11 @@
 package com.wan37.gameServer.service;
 
-import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.game.gameRole.modle.Player;
 import com.wan37.gameServer.manager.cache.SkillsCacheMgr;
 import com.wan37.mysql.pojo.entity.TSkill;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com

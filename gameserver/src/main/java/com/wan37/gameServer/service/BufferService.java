@@ -1,7 +1,7 @@
 package com.wan37.gameServer.service;
 
 import com.wan37.gameServer.entity.Buffer;
-import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.game.gameRole.modle.Player;
 import com.wan37.gameServer.manager.cache.BufferCacheMgr;
 import com.wan37.gameServer.manager.task.TaskManager;
 import com.wan37.mysql.pojo.entity.TBuffer;

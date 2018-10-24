@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wan37.mysql.pojo.mapper.TGoodsMapper" >
-  <resultMap id="BaseResultMap" type="com.wan37.mysql.pojo.entity.TGoods" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
+<mapper namespace="com.wan37.mysql.pojo.mapper.TThingsMapper" >
+  <resultMap id="BaseResultMap" type="com.wan37.mysql.pojo.entity.TThings" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="player_id" property="playerId" jdbcType="BIGINT" />
     <result column="number" property="number" jdbcType="INTEGER" />
-    <result column="buffer" property="buffer" jdbcType="INTEGER" />
-    <result column="is_bingding" property="isBingding" jdbcType="BIT" />
+    <result column="state" property="state" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, number, buffer, is_bingding
+    id, player_id, number, state
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TGoodsExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TThingsExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_goods
+    from t_things
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,88 +82,69 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_goods
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_goods
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.wan37.mysql.pojo.entity.TGoodsExample" >
-    delete from t_goods
+  <delete id="deleteByExample" parameterType="com.wan37.mysql.pojo.entity.TThingsExample" >
+    delete from t_things
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TGoods" >
-    insert into t_goods (id, name, number, 
-      buffer, is_bingding)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
-      #{buffer,jdbcType=INTEGER}, #{isBingding,jdbcType=BIT})
+  <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TThings" >
+    insert into t_things (id, player_id, number, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{playerId,jdbcType=BIGINT}, #{number,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TGoods" >
-    insert into t_goods
+  <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TThings" >
+    insert into t_things
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="playerId != null" >
+        player_id,
       </if>
       <if test="number != null" >
         number,
       </if>
-      <if test="buffer != null" >
-        buffer,
-      </if>
-      <if test="isBingding != null" >
-        is_bingding,
+      <if test="state != null" >
+        state,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="playerId != null" >
+        #{playerId,jdbcType=BIGINT},
       </if>
       <if test="number != null" >
         #{number,jdbcType=INTEGER},
       </if>
-      <if test="buffer != null" >
-        #{buffer,jdbcType=INTEGER},
-      </if>
-      <if test="isBingding != null" >
-        #{isBingding,jdbcType=BIT},
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.wan37.mysql.pojo.entity.TGoodsExample" resultType="java.lang.Integer" >
-    select count(*) from t_goods
+  <select id="countByExample" parameterType="com.wan37.mysql.pojo.entity.TThingsExample" resultType="java.lang.Integer" >
+    select count(*) from t_things
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update t_goods
+    update t_things
     <set >
       <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.playerId != null" >
+        player_id = #{record.playerId,jdbcType=BIGINT},
       </if>
       <if test="record.number != null" >
         number = #{record.number,jdbcType=INTEGER},
       </if>
-      <if test="record.buffer != null" >
-        buffer = #{record.buffer,jdbcType=INTEGER},
-      </if>
-      <if test="record.isBingding != null" >
-        is_bingding = #{record.isBingding,jdbcType=BIT},
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -172,40 +152,13 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update t_goods
-    set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
+    update t_things
+    set id = #{record.id,jdbcType=INTEGER},
+      player_id = #{record.playerId,jdbcType=BIGINT},
       number = #{record.number,jdbcType=INTEGER},
-      buffer = #{record.buffer,jdbcType=INTEGER},
-      is_bingding = #{record.isBingding,jdbcType=BIT}
+      state = #{record.state,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wan37.mysql.pojo.entity.TGoods" >
-    update t_goods
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="number != null" >
-        number = #{number,jdbcType=INTEGER},
-      </if>
-      <if test="buffer != null" >
-        buffer = #{buffer,jdbcType=INTEGER},
-      </if>
-      <if test="isBingding != null" >
-        is_bingding = #{isBingding,jdbcType=BIT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TGoods" >
-    update t_goods
-    set name = #{name,jdbcType=VARCHAR},
-      number = #{number,jdbcType=INTEGER},
-      buffer = #{buffer,jdbcType=INTEGER},
-      is_bingding = #{isBingding,jdbcType=BIT}
-    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

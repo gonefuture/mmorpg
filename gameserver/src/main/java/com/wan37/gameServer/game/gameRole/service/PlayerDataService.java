@@ -1,8 +1,7 @@
-package com.wan37.gameServer.service;
+package com.wan37.gameServer.game.gameRole.service;
 
-import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.game.gameRole.modle.Player;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
-import com.wan37.mysql.pojo.entity.TScene;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

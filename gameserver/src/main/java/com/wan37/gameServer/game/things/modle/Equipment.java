@@ -1,6 +1,6 @@
-package com.wan37.gameServer.entity;
+package com.wan37.gameServer.game.things.modle;
 
-import com.wan37.mysql.pojo.entity.TGoods;
+
 import lombok.Data;
 
 /**
@@ -11,6 +11,6 @@ import lombok.Data;
  */
 
 @Data
-public class Equipment  extends TGoods {
+public class Equipment extends Things {
 
 }

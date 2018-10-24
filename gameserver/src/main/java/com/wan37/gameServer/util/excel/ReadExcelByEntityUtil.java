@@ -20,7 +20,7 @@ import java.util.*;
  * 将poi进行简单的封装，通过注解和反射，将excel中的集合和实体的set方法对应，形成执行集，再将执行集进行遍历，对bean进行封装，转化为
  * 主要支持任意实体，
  *  支持excel文件中字段的不规则排序
- * @author
+ * @author g
  *
  * @param <T>
  */
@@ -37,12 +37,10 @@ public class ReadExcelByEntityUtil<T> {
 	private Map<Integer,T> map; //最终结果集
   	
 	private Class<T> entity;  //泛型类
+
+    private List<Class> typeList; //转化类型
 	
-	private Field[] fields;   //泛型方法集
-	
-	private List<Class> TypeList; //转化类型
-	
-	private Map<String,String> mapByAno=new HashMap<String,String>();//初始化集：<注解,属性名>
+	private Map<String,String> mapByAno=new HashMap<>();//初始化集：<注解,属性名>
 
 	/**
 	 * 构造工具类
@@ -78,17 +76,17 @@ public class ReadExcelByEntityUtil<T> {
 			throw new RuntimeException(e);
 		}
 		if(this.entity != null){
-		    fields = entity.getDeclaredFields();//获取到属性字段
-            TypeList = new ArrayList<Class>();
-            for(Field f:fields){
+            //泛型方法集
+            Field[] fields = entity.getDeclaredFields();
+            typeList = new ArrayList<>();
+            for(Field f: fields){
                 //设置强制访问
                 f.setAccessible(true);
                 EntityName annotation = f.getAnnotation(EntityName.class);
                 if(!annotation.id()){
                     //对true的字段进行拦截
                     mapByAno.put(annotation.column(),f.getName());
-                    TypeList.add(annotation.clazz());
-                    logger.debug("annotation.column()"+annotation.column()+"  "+f.getName());
+                    typeList.add(f.getType());
                 }
             }
 		}
@@ -103,12 +101,10 @@ public class ReadExcelByEntityUtil<T> {
 	/**
 	 * 
 	 * 将excel数据内容填充到map
-	 * @throws Exception 
 	 */
-	public void setEntityMap() throws Exception{
-		this.map = new HashMap<Integer, T>();  
-		T t= null;
-		String methodName = null;
+	private void setEntityMap() throws Exception{
+		this.map = new HashMap<>();
+		T t;
 		List<String> InvokeList = setInvokeList();
         sheet = wb.getSheetAt(0);  
         //总行数  
@@ -119,15 +115,15 @@ public class ReadExcelByEntityUtil<T> {
         
        
         for (int i = 1; i <= rowNum; i++) {   //从第二行开始，遍历每一行
-            row = sheet.getRow(i);                        
+            row = sheet.getRow(i);
             t = exchangeEntity(InvokeList, colNum);  
             map.put(i-1, t);  //将封装好的实体放入map
         } 
 	}
 
 
-	public T exchangeEntity(List<String> InvokeList, int colNum){
-		T t=null;
+	private T exchangeEntity(List<String> InvokeList, int colNum){
+		T t ;
 		try {
 			DecimalFormat df = new DecimalFormat("#");          // 对长数字段进行string的转化
 			String methodName;
@@ -135,106 +131,90 @@ public class ReadExcelByEntityUtil<T> {
 			t = entity.newInstance();  //每次新建一个T
 			while (j < colNum) {  
 			    Object obj = getCellFormatValue(row.getCell(j));  //
-			    Class cs = TypeList.get(j);
+			    Class clazz = typeList.get(j);
 			    methodName=InvokeList.get(j);
-			    Method method = t.getClass().getMethod(methodName, TypeList.get(j));
-			    if(obj==null||obj.equals("")){
+			    Method method = t.getClass().getMethod(methodName, typeList.get(j));
+			    // logger.debug("cell的数据 {}" , obj);
+			    if(obj == null || obj.equals("")){
 			    	try {
-						method.invoke(t, (Object)null); //Object转化，很关键
+						method.invoke(t, (Object) null); //Object转化，很关键
 					} catch (Exception e) {
 						return t;
 					} 
 			    }else{
 			    	Object cast;
-			    	if(cs.getName().equals("java.lang.String")){
-			    		//在这里拦截“excel中读取为double,date,int,boolean”，实际的实体函数形参却是String类型的
-			    		if(obj.getClass().getName().equals("java.lang.Double")){
-			    			cast = df.format(obj);
-			            }else{
-			            	cast = String.valueOf(obj);
-			            }
-			    			
-			    	}else if(cs.getName().equals("java.lang.Integer")){//形参需要的类型
-			    		if(obj.getClass().getName().equals("java.lang.Double")){
-			    			String intNUm = df.format(obj);
-			    			cast = Integer.valueOf(intNUm);
-			            }else{
-			            	 cast = cs.cast(obj); //可对类型进行扩展
-			            }
-			    	}else{
-			    		 cast = cs.cast(obj);
-			    	}                                  
-			    	System.out.println(cast);
+                    switch (clazz.getName()) {
+                        case "java.lang.Integer": {
+                            //形参需要的类型
+                            if (obj.getClass().getName().equals("java.lang.Double")) {
+                                String intNUm = df.format(obj);
+                                cast = Integer.valueOf(intNUm);
+                            } else {
+                                cast = clazz.cast(obj); //可对类型进行扩展
+                            }
+                            break;
+                        }
+                        case "java.lang.String": {
+                            //在这里拦截“excel中读取为double,date,int,boolean”，实际的实体函数形参却是String类型的
+                            if (obj.getClass().getName().equals("java.lang.Double")) {
+                                cast = df.format(obj);
+                            } else {
+                                cast = String.valueOf(obj);
+                            }
+                            break;
+                        }
+                        default: {
+                            cast = clazz.cast(obj);
+                            break;
+                        }
+                    }
+			    	//logger.debug("cell中的数据"+cast);
 					method.invoke(t, cast);
 			    }
 			    j++;  
 			}
 		} catch (Exception e) {
-
-			return t;//有异常返回一个空t
+            throw new RuntimeException(e);
+			//return t;//有异常返回一个空t
 		}
 		return t;
 	}
-	
-	
-	
-	public Class judgeMethodType(String methodName) throws Exception{
-		T t = entity.newInstance();
-		Class[] paramTypes = null;
-		Method[]  methods = t.getClass().getMethods();//全部方法
-		 try {
-			for (int  i = 0;  i< methods.length; i++) {
-			     if(methodName.equals(methods[i].getName())){//和传入方法名匹配 
-			         Class[] params = methods[i].getParameterTypes();
-			            paramTypes = new Class[ params.length] ;
-			            for (int j = 0; j < params.length; j++) {
-								paramTypes[j] = Class.forName(params[j].getName());
-			            }
-			            break; 
-			        }
-			    }
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			logger.error(" 文件找不到FileNotFoundException", e);
-		}
-		 return paramTypes[0];
-	}
+
 	
 	
 	
 	/**
 	 * 将标题头和实体的属性set方法对应上,形成一个执行函数集list,之后调用这个函数时，每次遍历list，然后invoke即可
-	 * @throws Exception 
 	 *
 	 */
 	private List<String> setInvokeList() throws Exception{
 		if(wb==null){  
             throw new Exception("Workbook对象为空！");  
         }  
-		List<String> invokeList = new ArrayList<String>();
+		List<String> invokeList = new ArrayList<>();
 		
 		List<String> readExcelTitle = readExcelTitle();
 		
-		StringBuffer sb = new StringBuffer("set");
+		StringBuffer sb;
 		//System.out.println("setInvokeList的判断"+readExcelTitle.size()+"?==?"+mapByAno.size());
 		if(readExcelTitle.size()!=mapByAno.size()){
-			System.out.println("KD:excel表头跟注解数量不对应");
+			logger.error(" excel表头跟注解数量不对应");
 			return null;
 		}else{
 			for (String obj : readExcelTitle) {
 				if(mapByAno.get(obj)==null){
-					System.out.println("KD:excel表头跟注解名称不对应");
+                    logger.error(" excel表头跟注解名称不对应");
 					return null;
 				}
-				String fieldname = mapByAno.get(obj);
-				mapByAno.remove(obj, fieldname);			//每拿一个put掉一个
+				String fieldName = mapByAno.get(obj);
+				mapByAno.remove(obj, fieldName);			//每拿一个put掉一个
 				sb = new StringBuffer("set");
-				String method = sb.append(fieldname.substring(0, 1).toUpperCase())
-						.append(fieldname.substring(1)).toString();
+				String method = sb.append(fieldName.substring(0, 1).toUpperCase())
+						.append(fieldName.substring(1)).toString();
 				invokeList.add(method);
 			}
 			if(!mapByAno.isEmpty()){
-				System.out.println("KD:excel表头跟注解名称不对应");
+				logger.error(" excel表头跟注解名称不对应");
 				return null;
 			}
 			return invokeList;
@@ -250,7 +230,7 @@ public class ReadExcelByEntityUtil<T> {
 	  *
 	  */
 	 @SuppressWarnings("deprecation")
-	 public List<String> readExcelTitle() throws Exception{
+     private List<String> readExcelTitle() throws Exception{
 		 if(wb == null){
 			 throw new Exception(" workbook对象为空");
 		 }
@@ -258,55 +238,67 @@ public class ReadExcelByEntityUtil<T> {
 		 row = sheet.getRow(0);
 		 //标题总列数
 		int colNum = row.getPhysicalNumberOfCells();  //去掉对空列的计数
-		 
-		 //System.out.println("colNum:"+colNum);
-		 List<String> list = new ArrayList<String>();
+
+		 List<String> list = new ArrayList<>();
 		 for(int i = 0;i<colNum;i++){
-			 if(row.getCell(i)== null||row.getCell(i).equals("")){
+			 if(row.getCell(i)== null||"".equals(row.getCell(i).toString())){
 				 list.add(null);
-				 logger.debug("row.getCell(i)" + row.getCell(i));
              }else {
 				 list.add((String) getCellFormatValue(row.getCell(i)));
-                 logger.debug("(String) getCellFormatValue(row.getCell(i))"
-                         + (String) getCellFormatValue(row.getCell(i)));
 			 }
 		}
 		 return list;
 	 }
 	 
 	 @SuppressWarnings("deprecation")
-	 private Object getCellFormatValue(Cell cell) {  
-		 	DecimalFormat df = new DecimalFormat("#");          // 对长数字段进行string的转化
-	        Object cellvalue = null;  
-	        if (cell != null) {  
-	            // 判断当前Cell的Type  
-	            switch (cell.getCellType()) {  
-	            case Cell.CELL_TYPE_NUMERIC:// 如果当前Cell的Type为NUMERIC  
-	            case Cell.CELL_TYPE_FORMULA: {  
-	                // 判断当前的cell是否为Date  
-	                if (DateUtil.isCellDateFormatted(cell)) {
-                        cellvalue = cell.getDateCellValue();
-	                } else {// 如果是纯数字  
-	                    // 取得当前Cell的数值  
-	                    cellvalue = cell.getNumericCellValue();
-	                    /*if(cellvalue.getClass().getName().equals("java.lang.Double")){
-	                    	cellvalue = df.format(cellvalue);
-	                    }如果在此处拦截double就会使得所有的double都变成string，而有的时候我并不需要转成string */
-	                }  
-	                break;  
-	            }  
-	            case Cell.CELL_TYPE_STRING:// 如果当前Cell的Type为STRING  
-	                // 取得当前的Cell字符串  
-	                cellvalue = cell.getRichStringCellValue().getString();  
-	                break;  
-	            default:// 默认的Cell值  
-	                cellvalue = "";  
-	            }  
-	        } else {  
-	            cellvalue = "";  
-	        }  
-	        return cellvalue;  
-	    }  
+	 private Object getCellFormatValue(Cell cell) {
+	     DecimalFormat df = new DecimalFormat("#");          // 对长数字段进行string的转化
+            Object cellValue ;
+            if (cell != null) {
+                // 判断当前Cell的Type
+                //logger.info("当前的类型cell.getCellType()"+cell.getCellType());
+                switch (cell.getCellType()) {
+                    case Cell.CELL_TYPE_NUMERIC: {
+                        // 如果当前Cell的Type为NUMERIC
+                        cellValue = (int) cell.getNumericCellValue();
+                        //logger.debug("数字类型 "+cellValue);
+                        break;
+                    }
+                    case Cell.CELL_TYPE_FORMULA: {
+                        // 判断当前的cell是否为Date
+                        if (DateUtil.isCellDateFormatted(cell)) {
+                            cellValue = cell.getDateCellValue();
+                        } else {// 如果是纯数字
+                            // 取得当前Cell的数值
+                            cellValue = cell.getNumericCellValue();
+                            /*if(cellValue.getClass().getName().equals("java.lang.Double")){
+                                cellValue = df.format(cellValue);
+                            }如果在此处拦截double就会使得所有的double都变成string，而有的时候我并不需要转成string */
+                        }
+                        break;
+                    }
+                    case Cell.CELL_TYPE_STRING: {
+                        // 如果当前Cell的Type为STRING
+                        // 取得当前的Cell字符串
+                        cellValue = cell.getRichStringCellValue().getString();
+                       // logger.debug("字符类型 "+cellValue);
+                        break;
+                    }
+                    default: {
+                        //  logger.debug("默认"); // 默认的Cell值
+                        cellValue = "";
+
+                    }
+                }
+            } else {
+                cellValue = "";
+            }
+            return cellValue;
+	    }
+
+
+
+
 	 
 	
 }

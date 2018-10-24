@@ -6,11 +6,10 @@ import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.entity.Monster;
 import com.wan37.gameServer.entity.NPC;
-import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.game.gameRole.modle.Player;
 
 import com.wan37.gameServer.service.AOIService;
-import com.wan37.gameServer.service.PlayerDataService;
-import com.wan37.mysql.pojo.entity.TGameObject;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,10 +1,12 @@
-package com.wan37.gameServer.service;
+package com.wan37.gameServer.game.gameRole.service;
 
 
-import com.wan37.gameServer.entity.Player;
+import com.wan37.gameServer.game.gameRole.modle.Player;
 import com.wan37.gameServer.entity.User;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
+import com.wan37.gameServer.service.BufferService;
+import com.wan37.gameServer.service.UserService;
 import com.wan37.mysql.pojo.entity.TBuffer;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
@@ -54,6 +56,10 @@ public class PlayerLoginService {
             TPlayer tPlayer=  tPlayerMapper.selectByPrimaryKey(playerId);
             Player player = new Player();
             BeanUtils.copyProperties(tPlayer,player);
+
+            // 玩家初始化
+            player.init();
+
             // 以channel id 为键储存玩家数据
             playerCacheMgr.put( channelId,player);
 

@@ -17,4 +17,6 @@ public class ThingsExcelUtil extends ReadExcelByEntityUtil<ThingsExcel> {
     public ThingsExcelUtil(String filepath)  {
         super(filepath);
     }
+
+
 }

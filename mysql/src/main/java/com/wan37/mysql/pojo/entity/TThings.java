@@ -2,33 +2,31 @@ package com.wan37.mysql.pojo.entity;
 
 import java.io.Serializable;
 
-public class TGoods implements Serializable {
-    private Long id;
+public class TThings implements Serializable {
+    private Integer id;
 
-    private String name;
+    private Long playerId;
 
     private Integer number;
 
-    private Integer buffer;
-
-    private Boolean isBingding;
+    private Integer state;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getPlayerId() {
+        return playerId;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setPlayerId(Long playerId) {
+        this.playerId = playerId;
     }
 
     public Integer getNumber() {
@@ -39,20 +37,12 @@ public class TGoods implements Serializable {
         this.number = number;
     }
 
-    public Integer getBuffer() {
-        return buffer;
+    public Integer getState() {
+        return state;
     }
 
-    public void setBuffer(Integer buffer) {
-        this.buffer = buffer;
-    }
-
-    public Boolean getIsBingding() {
-        return isBingding;
-    }
-
-    public void setIsBingding(Boolean isBingding) {
-        this.isBingding = isBingding;
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     @Override
@@ -62,10 +52,9 @@ public class TGoods implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", playerId=").append(playerId);
         sb.append(", number=").append(number);
-        sb.append(", buffer=").append(buffer);
-        sb.append(", isBingding=").append(isBingding);
+        sb.append(", state=").append(state);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

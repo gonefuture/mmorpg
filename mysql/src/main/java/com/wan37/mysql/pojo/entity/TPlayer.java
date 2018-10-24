@@ -19,6 +19,8 @@ public class TPlayer implements Serializable {
 
     private Long playerId;
 
+    private String bag;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -85,6 +87,14 @@ public class TPlayer implements Serializable {
         this.playerId = playerId;
     }
 
+    public String getBag() {
+        return bag;
+    }
+
+    public void setBag(String bag) {
+        this.bag = bag == null ? null : bag.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -99,6 +109,7 @@ public class TPlayer implements Serializable {
         sb.append(", state=").append(state);
         sb.append(", scene=").append(scene);
         sb.append(", playerId=").append(playerId);
+        sb.append(", bag=").append(bag);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
