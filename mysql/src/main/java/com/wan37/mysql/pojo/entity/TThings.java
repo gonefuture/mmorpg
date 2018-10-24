@@ -3,7 +3,7 @@ package com.wan37.mysql.pojo.entity;
 import java.io.Serializable;
 
 public class TThings implements Serializable {
-    private Integer id;
+    private Integer thingsId;
 
     private Long playerId;
 
@@ -13,12 +13,12 @@ public class TThings implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
+    public Integer getThingsId() {
+        return thingsId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setThingsId(Integer thingsId) {
+        this.thingsId = thingsId;
     }
 
     public Long getPlayerId() {
@@ -51,7 +51,7 @@ public class TThings implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
+        sb.append(", thingsId=").append(thingsId);
         sb.append(", playerId=").append(playerId);
         sb.append(", number=").append(number);
         sb.append(", state=").append(state);

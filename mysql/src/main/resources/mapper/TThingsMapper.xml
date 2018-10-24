@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wan37.mysql.pojo.mapper.TThingsMapper" >
   <resultMap id="BaseResultMap" type="com.wan37.mysql.pojo.entity.TThings" >
-    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="things_id" property="thingsId" jdbcType="INTEGER" />
     <result column="player_id" property="playerId" jdbcType="BIGINT" />
     <result column="number" property="number" jdbcType="INTEGER" />
     <result column="state" property="state" jdbcType="INTEGER" />
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, player_id, number, state
+    things_id, player_id, number, state
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TThingsExample" >
     select
@@ -89,16 +89,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TThings" >
-    insert into t_things (id, player_id, number, 
+    insert into t_things (things_id, player_id, number, 
       state)
-    values (#{id,jdbcType=INTEGER}, #{playerId,jdbcType=BIGINT}, #{number,jdbcType=INTEGER}, 
+    values (#{thingsId,jdbcType=INTEGER}, #{playerId,jdbcType=BIGINT}, #{number,jdbcType=INTEGER}, 
       #{state,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TThings" >
     insert into t_things
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="thingsId != null" >
+        things_id,
       </if>
       <if test="playerId != null" >
         player_id,
@@ -111,8 +111,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="thingsId != null" >
+        #{thingsId,jdbcType=INTEGER},
       </if>
       <if test="playerId != null" >
         #{playerId,jdbcType=BIGINT},
@@ -134,8 +134,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update t_things
     <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.thingsId != null" >
+        things_id = #{record.thingsId,jdbcType=INTEGER},
       </if>
       <if test="record.playerId != null" >
         player_id = #{record.playerId,jdbcType=BIGINT},
@@ -153,7 +153,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update t_things
-    set id = #{record.id,jdbcType=INTEGER},
+    set things_id = #{record.thingsId,jdbcType=INTEGER},
       player_id = #{record.playerId,jdbcType=BIGINT},
       number = #{record.number,jdbcType=INTEGER},
       state = #{record.state,jdbcType=INTEGER}

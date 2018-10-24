@@ -44,20 +44,5 @@ public class Player extends TPlayer {
     List<Equipment> equipmentList = new ArrayList<>();
 
 
-    public void init() {
-        ThingsService thingsService = new ThingsService();
-        List<Things> thingsList = thingsService.getThingsByPlayerId(getPlayerId());
-        thingsList.forEach((things) -> {
-            if (things.getType() == 1 && things.getState() == 1) {
-                // 类型为装备
-                Equipment equipment = new Equipment();
-                BeanUtils.copyProperties(things,equipment);
-                equipmentList.add(equipment);
-            } else {
-                bags.add(things);
-            }
-        });
 
-
-    }
 }

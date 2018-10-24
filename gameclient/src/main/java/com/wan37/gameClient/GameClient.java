@@ -44,7 +44,6 @@ public class GameClient {
     private boolean stop = false;
 
 
-
     @PostConstruct
     public void run() throws IOException {
         //设置一个多线程循环器

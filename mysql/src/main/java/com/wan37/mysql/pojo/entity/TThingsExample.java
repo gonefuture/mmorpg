@@ -104,63 +104,63 @@ public class TThingsExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andIdIsNull() {
-            addCriterion("id is null");
+        public Criteria andThingsIdIsNull() {
+            addCriterion("things_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+        public Criteria andThingsIdIsNotNull() {
+            addCriterion("things_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Integer value) {
-            addCriterion("id =", value, "id");
+        public Criteria andThingsIdEqualTo(Integer value) {
+            addCriterion("things_id =", value, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Integer value) {
-            addCriterion("id <>", value, "id");
+        public Criteria andThingsIdNotEqualTo(Integer value) {
+            addCriterion("things_id <>", value, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Integer value) {
-            addCriterion("id >", value, "id");
+        public Criteria andThingsIdGreaterThan(Integer value) {
+            addCriterion("things_id >", value, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("id >=", value, "id");
+        public Criteria andThingsIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("things_id >=", value, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Integer value) {
-            addCriterion("id <", value, "id");
+        public Criteria andThingsIdLessThan(Integer value) {
+            addCriterion("things_id <", value, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
-            addCriterion("id <=", value, "id");
+        public Criteria andThingsIdLessThanOrEqualTo(Integer value) {
+            addCriterion("things_id <=", value, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Integer> values) {
-            addCriterion("id in", values, "id");
+        public Criteria andThingsIdIn(List<Integer> values) {
+            addCriterion("things_id in", values, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Integer> values) {
-            addCriterion("id not in", values, "id");
+        public Criteria andThingsIdNotIn(List<Integer> values) {
+            addCriterion("things_id not in", values, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Integer value1, Integer value2) {
-            addCriterion("id between", value1, value2, "id");
+        public Criteria andThingsIdBetween(Integer value1, Integer value2) {
+            addCriterion("things_id between", value1, value2, "thingsId");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("id not between", value1, value2, "id");
+        public Criteria andThingsIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("things_id not between", value1, value2, "thingsId");
             return (Criteria) this;
         }
 

@@ -46,7 +46,7 @@ public class UserService {
 
 
     /*
-       * 判断用户id和密码是否正确
+     * 判断用户id和密码是否正确
      */
     public boolean login(Long userId, String password, ChannelHandlerContext ctx) {
         String channelId = ctx.channel().id().asLongText();
@@ -93,30 +93,30 @@ public class UserService {
     /**
      *  根据用户id产找游戏角色列表
      */
-     public List<TPlayer> findPlayers(Long userId) {
-         //
-         List<TPlayer> tPlayerListCache = playerListCacheMgr.get(userId);
+    public List<TPlayer> findPlayers(Long userId) {
+        //
+        List<TPlayer> tPlayerListCache = playerListCacheMgr.get(userId);
 
-         if (tPlayerListCache == null) {
-             // 通过t_player表的player_id 查找与之相关的角色
-             TPlayerExample tPlayerExample = new TPlayerExample();
-             tPlayerExample.createCriteria().andPlayerIdEqualTo(userId);
-             List<TPlayer> tPlayerList = tPlayerMapper.selectByExample(tPlayerExample);
-             log.debug("查出的角色列表： "+ tPlayerList);
+        if (tPlayerListCache == null) {
+            // 通过t_player表的player_id 查找与之相关的角色
+            TPlayerExample tPlayerExample = new TPlayerExample();
+            tPlayerExample.createCriteria().andUserIdEqualTo(userId);
+            List<TPlayer> tPlayerList = tPlayerMapper.selectByExample(tPlayerExample);
+            log.debug("查出的角色列表： "+ tPlayerList);
 
-             // 将角色列表加入缓存
-             playerListCacheMgr.put(userId, tPlayerList);
-             return tPlayerList;
-         }
+            // 将角色列表加入缓存
+            playerListCacheMgr.put(userId, tPlayerList);
+            return tPlayerList;
+        }
 
-         return tPlayerListCache;
+        return tPlayerListCache;
     }
 
     /**
      * 判断用户是否在线
      */
     public boolean isUserOnline(String channelId) {
-         User user = userCacheMgr.get(channelId);
+        User user = userCacheMgr.get(channelId);
         return user != null;
     }
 

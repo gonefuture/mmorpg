@@ -544,63 +544,63 @@ public class TPlayerExample {
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdIsNull() {
-            addCriterion("player_id is null");
+        public Criteria andUserIdIsNull() {
+            addCriterion("user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdIsNotNull() {
-            addCriterion("player_id is not null");
+        public Criteria andUserIdIsNotNull() {
+            addCriterion("user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdEqualTo(Long value) {
-            addCriterion("player_id =", value, "playerId");
+        public Criteria andUserIdEqualTo(Long value) {
+            addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdNotEqualTo(Long value) {
-            addCriterion("player_id <>", value, "playerId");
+        public Criteria andUserIdNotEqualTo(Long value) {
+            addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdGreaterThan(Long value) {
-            addCriterion("player_id >", value, "playerId");
+        public Criteria andUserIdGreaterThan(Long value) {
+            addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("player_id >=", value, "playerId");
+        public Criteria andUserIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdLessThan(Long value) {
-            addCriterion("player_id <", value, "playerId");
+        public Criteria andUserIdLessThan(Long value) {
+            addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdLessThanOrEqualTo(Long value) {
-            addCriterion("player_id <=", value, "playerId");
+        public Criteria andUserIdLessThanOrEqualTo(Long value) {
+            addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdIn(List<Long> values) {
-            addCriterion("player_id in", values, "playerId");
+        public Criteria andUserIdIn(List<Long> values) {
+            addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdNotIn(List<Long> values) {
-            addCriterion("player_id not in", values, "playerId");
+        public Criteria andUserIdNotIn(List<Long> values) {
+            addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdBetween(Long value1, Long value2) {
-            addCriterion("player_id between", value1, value2, "playerId");
+        public Criteria andUserIdBetween(Long value1, Long value2) {
+            addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdNotBetween(Long value1, Long value2) {
-            addCriterion("player_id not between", value1, value2, "playerId");
+        public Criteria andUserIdNotBetween(Long value1, Long value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
 
