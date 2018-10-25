@@ -1,6 +1,8 @@
 package com.wan37.gameServer.game.gameRole.service;
 
 import com.wan37.gameServer.game.RoleProperty.service.RolePropertyService;
+import com.wan37.gameServer.game.gameRole.manager.BagsManager;
+import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
@@ -19,7 +21,6 @@ import javax.annotation.Resource;
 @Slf4j
 public class PlayerDataService {
 
-
     @Resource
     private PlayerCacheMgr playerCacheMgr;
 
@@ -28,6 +29,9 @@ public class PlayerDataService {
 
     @Resource
     private RolePropertyService rolePropertyService;
+
+    @Resource
+    private BagsManager bagsManager;
 
 
     public Player getPlayer(String channelId) {
@@ -40,15 +44,24 @@ public class PlayerDataService {
      * @param player 角色
      */
     public void initPlayer(Player player) {
+
+        // 加载背包
+        Bags bags = new Bags();
+        bags.setPlayerId(player.getId());
+        bagsManager.put(player.getId(), bags);
+
         // 加载物品装备
         thingsService.loadThings(player);
 
         // 加载属性
         rolePropertyService.loadRoleProperty(player);
 
-
-
     }
+
+
+
+
+
 
 
 }

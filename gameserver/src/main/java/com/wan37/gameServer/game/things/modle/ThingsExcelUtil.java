@@ -8,7 +8,7 @@ import com.wan37.gameServer.util.excel.ReadExcelByEntity;
  * @version 1.00
  * Description: Excel读取辅助类
  */
-public class ThingsExcelUtil extends ReadExcelByEntity<ThingsExcel> {
+public class ThingsExcelUtil extends ReadExcelByEntity<Things> {
     /**
      * 构造工具类
      *

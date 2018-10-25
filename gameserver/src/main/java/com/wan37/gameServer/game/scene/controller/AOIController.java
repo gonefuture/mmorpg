@@ -53,10 +53,10 @@ public class AOIController implements IController {
         } else {
             sb.append("场景内玩家:");
             playerList.forEach( (p -> {
-                sb.append(p).append("\n");
+                sb.append(JSON.toJSONString(p)).append("\n");
             }));
-            sb. append("场景内NPC： ").append(npCMap).append("\n");
-            sb. append("场景内怪物: ").append(monsterMap).append("\n");
+            sb. append("场景内NPC： ").append(JSON.toJSONString(npCMap)).append("\n");
+            sb. append("场景内怪物: ").append(JSON.toJSONString(monsterMap)).append("\n");
         }
         log.debug("当前场景的玩家对象有{}个，分别为{} ",playerList.size(),playerList);
         message.setFlag((byte)1);

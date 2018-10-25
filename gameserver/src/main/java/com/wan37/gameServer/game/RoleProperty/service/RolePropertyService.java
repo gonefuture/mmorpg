@@ -2,10 +2,12 @@ package com.wan37.gameServer.game.RoleProperty.service;
 
 import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -17,6 +19,7 @@ import java.util.List;
 
 
 @Service
+@Slf4j
 public class RolePropertyService {
 
 
@@ -29,11 +32,16 @@ public class RolePropertyService {
      * @param player 角色属性
      */
     public void loadRoleProperty(Player player) {
-        List<RoleProperty> rolePropertyList = player.getRolePropertyList();
+        Map<Integer,RoleProperty> rolePropertyMap = player.getRolePropertyMap();
         for (int key=1; key <=8; key++ ) {
             RoleProperty roleProperty = rolePropertyManager.get(key);
-            rolePropertyList.add(roleProperty);
+            rolePropertyMap.put(roleProperty.getKey(),roleProperty);
+            log.debug("rolePropertyMap {}",rolePropertyMap);
         }
 
+    }
+
+    public RoleProperty getRoleProperty(Integer id) {
+        return rolePropertyManager.get(id);
     }
 }

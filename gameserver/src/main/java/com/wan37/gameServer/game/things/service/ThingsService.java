@@ -1,15 +1,18 @@
 package com.wan37.gameServer.game.things.service;
 
+import com.alibaba.fastjson.JSON;
+import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
+import com.wan37.gameServer.game.RoleProperty.service.RolePropertyService;
+import com.wan37.gameServer.game.gameRole.manager.BagsManager;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
-import com.wan37.gameServer.game.things.modle.Equipment;
+import com.wan37.gameServer.game.things.modle.ThingProperty;
 import com.wan37.gameServer.game.things.modle.Things;
 import com.wan37.mysql.pojo.entity.TThings;
 import com.wan37.mysql.pojo.entity.TThingsExample;
 
 import com.wan37.mysql.pojo.mapper.TThingsMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,9 +32,15 @@ public class ThingsService {
     @Resource
     private TThingsMapper tThingsMapper;
 
-
     @Resource
     private ThingsCacheMgr thingsCacheMgr;
+
+    @Resource
+    private RolePropertyService rolePropertyService;
+
+    @Resource
+    private BagsManager bagsManager;
+
 
     public List<Things> getThingsByPlayerId(long playerId) {
         TThingsExample tThingsExample = new TThingsExample();
@@ -45,7 +54,6 @@ public class ThingsService {
                 things.setState(tThings.getState());
                 thingsList.add(things);
             }
-
         });
         return thingsList;
     }
@@ -54,15 +62,37 @@ public class ThingsService {
     public void loadThings(Player player) {
         List<Things> thingsList = getThingsByPlayerId(player.getId());
         thingsList.forEach((things) -> {
-            if (things.getType() == 1 && things.getState() == 1) {
-                // 类型为装备
-                Equipment equipment = new Equipment();
-                BeanUtils.copyProperties(things,equipment);
-                player.getEquipmentList().add(equipment);
+            loadThingsProperties(things);
+            // 类型为装备且处于穿戴状态的，放入装备栏
+            if (things.getKind() == 1 && things.getState() == 1) {
+                player.getEquipmentBar().add(player,things);
             } else {
-                player.getBags().add(things);
+                // 其他物品放背包
+                bagsManager.
+                        get(player.getId()).
+                        getThingsList().add(things);
             }
         });
+    }
+
+
+    private void loadThingsProperties(Things things) {
+        List<ThingProperty> thingProperties =  JSON.parseArray(things.getRoleProperties(),ThingProperty.class);
+        if (thingProperties != null) {
+            thingProperties.forEach( thingProperty -> {
+                String rolePropertyId = thingProperty.getRolePropertyId();
+                    if (rolePropertyId != null) {
+                        RoleProperty roleProperty = rolePropertyService.
+                                getRoleProperty(Integer.valueOf(rolePropertyId));
+                        things.getThingRoleProperty()
+                                .add(roleProperty);
+                    }
+                }
+            );
+
+        }
+        log.debug("things.getRoleProperties() {}", things.getRoleProperties());
+        log.debug("thingProperties {}", thingProperties);
     }
 
 

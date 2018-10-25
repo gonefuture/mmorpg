@@ -3,6 +3,8 @@ package com.wan37.gameServer.manager.controller;
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.controller.*;
+import com.wan37.gameServer.game.gameRole.controller.PlayerLoginController;
+import com.wan37.gameServer.game.gameRole.controller.PlayerQuitController;
 import com.wan37.gameServer.game.scene.controller.AOIController;
 import com.wan37.gameServer.game.scene.controller.PlayerMoveController;
 import com.wan37.gameServer.game.user.controller.UserLoginController;
@@ -38,7 +40,7 @@ public class ControllerManager {
     private UserLoginController userLoginController;
 
     @Resource
-    private PlayerLoginController  playerLoginController;
+    private PlayerLoginController playerLoginController;
 
     @Resource
     private PlayerMoveController playerMoveController;

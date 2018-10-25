@@ -20,11 +20,18 @@ public class RoleProperty implements IExcel<Integer> {
     @EntityName(column = "属性名")
     private String name;
 
-    @EntityName(column = "属性值")
+    @EntityName(column = "标准属性值")
     private Integer value;
 
-    @EntityName(column = "类型")
+    @EntityName(column = "种类")
     private String type;
+
+    @EntityName(column = "属性描述")
+    private String describe;
+
+
+    private Integer currentValue;
+
 
 
     @Override

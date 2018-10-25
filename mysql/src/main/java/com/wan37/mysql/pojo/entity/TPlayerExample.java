@@ -294,6 +294,66 @@ public class TPlayerExample {
             return (Criteria) this;
         }
 
+        public Criteria andExpIsNull() {
+            addCriterion("exp is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpIsNotNull() {
+            addCriterion("exp is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpEqualTo(Integer value) {
+            addCriterion("exp =", value, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpNotEqualTo(Integer value) {
+            addCriterion("exp <>", value, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpGreaterThan(Integer value) {
+            addCriterion("exp >", value, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpGreaterThanOrEqualTo(Integer value) {
+            addCriterion("exp >=", value, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpLessThan(Integer value) {
+            addCriterion("exp <", value, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpLessThanOrEqualTo(Integer value) {
+            addCriterion("exp <=", value, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpIn(List<Integer> values) {
+            addCriterion("exp in", values, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpNotIn(List<Integer> values) {
+            addCriterion("exp not in", values, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpBetween(Integer value1, Integer value2) {
+            addCriterion("exp between", value1, value2, "exp");
+            return (Criteria) this;
+        }
+
+        public Criteria andExpNotBetween(Integer value1, Integer value2) {
+            addCriterion("exp not between", value1, value2, "exp");
+            return (Criteria) this;
+        }
+
         public Criteria andMpIsNull() {
             addCriterion("mp is null");
             return (Criteria) this;
@@ -601,76 +661,6 @@ public class TPlayerExample {
 
         public Criteria andUserIdNotBetween(Long value1, Long value2) {
             addCriterion("user_id not between", value1, value2, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagIsNull() {
-            addCriterion("bag is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagIsNotNull() {
-            addCriterion("bag is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagEqualTo(String value) {
-            addCriterion("bag =", value, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagNotEqualTo(String value) {
-            addCriterion("bag <>", value, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagGreaterThan(String value) {
-            addCriterion("bag >", value, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagGreaterThanOrEqualTo(String value) {
-            addCriterion("bag >=", value, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagLessThan(String value) {
-            addCriterion("bag <", value, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagLessThanOrEqualTo(String value) {
-            addCriterion("bag <=", value, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagLike(String value) {
-            addCriterion("bag like", value, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagNotLike(String value) {
-            addCriterion("bag not like", value, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagIn(List<String> values) {
-            addCriterion("bag in", values, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagNotIn(List<String> values) {
-            addCriterion("bag not in", values, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagBetween(String value1, String value2) {
-            addCriterion("bag between", value1, value2, "bag");
-            return (Criteria) this;
-        }
-
-        public Criteria andBagNotBetween(String value1, String value2) {
-            addCriterion("bag not between", value1, value2, "bag");
             return (Criteria) this;
         }
     }

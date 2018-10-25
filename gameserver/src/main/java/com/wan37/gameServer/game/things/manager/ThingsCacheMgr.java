@@ -3,7 +3,6 @@ package com.wan37.gameServer.game.things.manager;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.things.modle.Things;
-import com.wan37.gameServer.game.things.modle.ThingsExcel;
 import com.wan37.gameServer.game.things.modle.ThingsExcelUtil;
 import com.wan37.gameServer.manager.cache.GameCacheManager;
 import com.wan37.gameServer.util.FileUtil;
@@ -38,14 +37,14 @@ public class ThingsCacheMgr  implements GameCacheManager<Integer,Things> {
         ThingsExcelUtil thingsExcelUtil = new ThingsExcelUtil(path);
 
         try {
-            Map<Integer,ThingsExcel> thingsMap = thingsExcelUtil.getMap();
-            for (ThingsExcel thingsExcel : thingsMap.values()) {
+            Map<Integer,Things> thingsMap = thingsExcelUtil.getMap();
+            for (Things thingsExcel : thingsMap.values()) {
                 Things things= new Things();
                 BeanUtils.copyProperties(thingsExcel,things);
                 put(thingsExcel.getId(),things);
             }
-            log.debug("游戏配置配置表数据 {}",thingsMap);
-            log.info("游戏配置表加载完毕");
+            log.debug("物品配置配置表数据 {}",thingsMap);
+            log.info("物品配置表加载完毕");
 
         } catch (Exception e) {
             log.error("物品配置表加载失败");

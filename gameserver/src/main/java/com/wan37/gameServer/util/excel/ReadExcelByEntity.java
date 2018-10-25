@@ -83,7 +83,7 @@ public class ReadExcelByEntity<T> {
                 //设置强制访问
                 f.setAccessible(true);
                 EntityName annotation = f.getAnnotation(EntityName.class);
-                if(!annotation.id()){
+                if(annotation != null && !annotation.id()){
                     //对true的字段进行拦截
                     mapByAno.put(annotation.column(),f.getName());
                     typeList.add(f.getType());
@@ -109,7 +109,7 @@ public class ReadExcelByEntity<T> {
 	private void setEntityMap() throws Exception{
 		this.map = new HashMap<>();
 		T t;
-		List<String> InvokeList = setInvokeList();
+		List<String> invokeList = setInvokeList();
         sheet = wb.getSheetAt(0);  
         //总行数  
         int rowNum = sheet.getLastRowNum();  
@@ -120,13 +120,13 @@ public class ReadExcelByEntity<T> {
        
         for (int i = 1; i <= rowNum; i++) {   //从第二行开始，遍历每一行
             row = sheet.getRow(i);
-            t = exchangeEntity(InvokeList, colNum);  
+            t = exchangeEntity(invokeList, colNum);
             map.put(i-1, t);  //将封装好的实体放入map
         } 
 	}
 
 
-	private T exchangeEntity(List<String> InvokeList, int colNum){
+	private T exchangeEntity(List<String> invokeList, int colNum){
 		T t ;
 		try {
 			DecimalFormat df = new DecimalFormat("#");          // 对长数字段进行string的转化
@@ -136,7 +136,7 @@ public class ReadExcelByEntity<T> {
 			while (j < colNum) {  
 			    Object obj = getCellFormatValue(row.getCell(j));  //
 			    Class clazz = typeList.get(j);
-			    methodName=InvokeList.get(j);
+			    methodName = invokeList.get(j);
 			    Method method = t.getClass().getMethod(methodName, typeList.get(j));
 			    // logger.debug("cell的数据 {}" , obj);
 			    if(obj == null || obj.equals("")){

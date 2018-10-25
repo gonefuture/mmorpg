@@ -1,4 +1,4 @@
-package com.wan37.gameServer.controller;
+package com.wan37.gameServer.game.gameRole.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;

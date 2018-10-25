@@ -9,6 +9,8 @@ public class TPlayer implements Serializable {
 
     private Long hp;
 
+    private Integer exp;
+
     private Long mp;
 
     private String position;
@@ -18,8 +20,6 @@ public class TPlayer implements Serializable {
     private Integer scene;
 
     private Long userId;
-
-    private String bag;
 
     private static final long serialVersionUID = 1L;
 
@@ -45,6 +45,14 @@ public class TPlayer implements Serializable {
 
     public void setHp(Long hp) {
         this.hp = hp;
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
     }
 
     public Long getMp() {
@@ -87,14 +95,6 @@ public class TPlayer implements Serializable {
         this.userId = userId;
     }
 
-    public String getBag() {
-        return bag;
-    }
-
-    public void setBag(String bag) {
-        this.bag = bag == null ? null : bag.trim();
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -104,12 +104,12 @@ public class TPlayer implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", hp=").append(hp);
+        sb.append(", exp=").append(exp);
         sb.append(", mp=").append(mp);
         sb.append(", position=").append(position);
         sb.append(", state=").append(state);
         sb.append(", scene=").append(scene);
         sb.append(", userId=").append(userId);
-        sb.append(", bag=").append(bag);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

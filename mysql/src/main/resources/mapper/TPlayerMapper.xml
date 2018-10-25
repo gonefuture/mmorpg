@@ -5,12 +5,12 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="hp" property="hp" jdbcType="BIGINT" />
+    <result column="exp" property="exp" jdbcType="INTEGER" />
     <result column="mp" property="mp" jdbcType="BIGINT" />
     <result column="position" property="position" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="scene" property="scene" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
-    <result column="bag" property="bag" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, hp, mp, position, state, scene, user_id, bag
+    id, name, hp, exp, mp, position, state, scene, user_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TPlayerExample" >
     select
@@ -104,12 +104,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
-    insert into t_player (id, name, hp, mp, 
-      position, state, scene, 
-      user_id, bag)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{hp,jdbcType=BIGINT}, #{mp,jdbcType=BIGINT}, 
-      #{position,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{scene,jdbcType=INTEGER}, 
-      #{userId,jdbcType=BIGINT}, #{bag,jdbcType=VARCHAR})
+    insert into t_player (id, name, hp, exp, 
+      mp, position, state, 
+      scene, user_id)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{hp,jdbcType=BIGINT}, #{exp,jdbcType=INTEGER}, 
+      #{mp,jdbcType=BIGINT}, #{position,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{scene,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
     insert into t_player
@@ -122,6 +122,9 @@
       </if>
       <if test="hp != null" >
         hp,
+      </if>
+      <if test="exp != null" >
+        exp,
       </if>
       <if test="mp != null" >
         mp,
@@ -138,9 +141,6 @@
       <if test="userId != null" >
         user_id,
       </if>
-      <if test="bag != null" >
-        bag,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -151,6 +151,9 @@
       </if>
       <if test="hp != null" >
         #{hp,jdbcType=BIGINT},
+      </if>
+      <if test="exp != null" >
+        #{exp,jdbcType=INTEGER},
       </if>
       <if test="mp != null" >
         #{mp,jdbcType=BIGINT},
@@ -166,9 +169,6 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="bag != null" >
-        #{bag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -190,6 +190,9 @@
       <if test="record.hp != null" >
         hp = #{record.hp,jdbcType=BIGINT},
       </if>
+      <if test="record.exp != null" >
+        exp = #{record.exp,jdbcType=INTEGER},
+      </if>
       <if test="record.mp != null" >
         mp = #{record.mp,jdbcType=BIGINT},
       </if>
@@ -205,9 +208,6 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
-      <if test="record.bag != null" >
-        bag = #{record.bag,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -218,12 +218,12 @@
     set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       hp = #{record.hp,jdbcType=BIGINT},
+      exp = #{record.exp,jdbcType=INTEGER},
       mp = #{record.mp,jdbcType=BIGINT},
       position = #{record.position,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       scene = #{record.scene,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=BIGINT},
-      bag = #{record.bag,jdbcType=VARCHAR}
+      user_id = #{record.userId,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -236,6 +236,9 @@
       </if>
       <if test="hp != null" >
         hp = #{hp,jdbcType=BIGINT},
+      </if>
+      <if test="exp != null" >
+        exp = #{exp,jdbcType=INTEGER},
       </if>
       <if test="mp != null" >
         mp = #{mp,jdbcType=BIGINT},
@@ -252,9 +255,6 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=BIGINT},
       </if>
-      <if test="bag != null" >
-        bag = #{bag,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -262,12 +262,12 @@
     update t_player
     set name = #{name,jdbcType=VARCHAR},
       hp = #{hp,jdbcType=BIGINT},
+      exp = #{exp,jdbcType=INTEGER},
       mp = #{mp,jdbcType=BIGINT},
       position = #{position,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       scene = #{scene,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=BIGINT},
-      bag = #{bag,jdbcType=VARCHAR}
+      user_id = #{userId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
