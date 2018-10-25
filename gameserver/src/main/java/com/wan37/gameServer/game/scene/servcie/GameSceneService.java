@@ -1,4 +1,4 @@
-package com.wan37.gameServer.service;
+package com.wan37.gameServer.game.scene.servcie;
 
 
 import com.wan37.gameServer.entity.GameScene;

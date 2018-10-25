@@ -2,7 +2,7 @@ package com.wan37.gameServer.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.service.PlayerQuitService;
+import com.wan37.gameServer.game.gameRole.service.PlayerQuitService;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 

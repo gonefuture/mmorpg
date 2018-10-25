@@ -1,6 +1,6 @@
 package com.wan37.gameServer.game.things.modle;
 
-import com.wan37.gameServer.util.excel.ReadExcelByEntityUtil;
+import com.wan37.gameServer.util.excel.ReadExcelByEntity;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -8,7 +8,7 @@ import com.wan37.gameServer.util.excel.ReadExcelByEntityUtil;
  * @version 1.00
  * Description: Excel读取辅助类
  */
-public class ThingsExcelUtil extends ReadExcelByEntityUtil<ThingsExcel> {
+public class ThingsExcelUtil extends ReadExcelByEntity<ThingsExcel> {
     /**
      * 构造工具类
      *

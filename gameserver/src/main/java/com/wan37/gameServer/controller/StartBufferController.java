@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.gameRole.modle.Player;
+import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.service.BufferService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.mysql.pojo.entity.TBuffer;

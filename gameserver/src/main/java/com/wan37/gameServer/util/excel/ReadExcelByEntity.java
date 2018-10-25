@@ -24,9 +24,9 @@ import java.util.*;
  *
  * @param <T>
  */
-public class ReadExcelByEntityUtil<T> {
+public class ReadExcelByEntity<T> {
 
-	private Logger logger = LoggerFactory.getLogger(ReadExcelByEntityUtil.class);
+	private Logger logger = LoggerFactory.getLogger(ReadExcelByEntity.class);
 	
 	private Workbook wb;//每一个Excel文件都将被解析成一个WorkBook对象
 	
@@ -46,7 +46,7 @@ public class ReadExcelByEntityUtil<T> {
 	 * 构造工具类
 	 */
 	@SuppressWarnings("unchecked")
-	public ReadExcelByEntityUtil(String filepath) {
+	public ReadExcelByEntity(String filepath) {
 	        if(filepath == null){
 	        	logger.error("Excel文件名为空");
 	            return;  
@@ -93,8 +93,12 @@ public class ReadExcelByEntityUtil<T> {
 	}
 	
 	
-	public Map<Integer,T> getMap() throws Exception{
-		setEntityMap();
+	public Map<Integer,T> getMap() {
+		try {
+			setEntityMap();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		return map;
 	}
 	

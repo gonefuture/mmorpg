@@ -2,8 +2,9 @@ package com.wan37.gameServer.service;
 
 import com.wan37.gameServer.entity.GameScene;
 import com.wan37.gameServer.entity.Monster;
-import com.wan37.gameServer.game.gameRole.modle.Player;
+import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.cache.SkillsCacheMgr;
 import com.wan37.mysql.pojo.entity.TSkill;
 import lombok.extern.slf4j.Slf4j;

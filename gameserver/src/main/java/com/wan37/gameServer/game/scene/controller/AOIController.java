@@ -1,4 +1,4 @@
-package com.wan37.gameServer.controller;
+package com.wan37.gameServer.game.scene.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -6,9 +6,9 @@ import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.entity.Monster;
 import com.wan37.gameServer.entity.NPC;
-import com.wan37.gameServer.game.gameRole.modle.Player;
+import com.wan37.gameServer.game.gameRole.model.Player;
 
-import com.wan37.gameServer.service.AOIService;
+import com.wan37.gameServer.game.scene.servcie.AOIService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -47,17 +47,20 @@ public class AOIController implements IController {
         Map<Long,Monster> monsterMap = aoiService.getMonsters(sceneId);
         List<Player> playerList = aoiService.getPlayerInScene(sceneId );
 
-        HashMap<String,Object>  result = new HashMap<>();
+       StringBuilder  sb = new StringBuilder();
         if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {
-            result.put("我发现： ","这个地方空无一物");
+             sb.append("我发现 ,这个地方空无一物");
         } else {
-            result.put("场景内玩家:",playerList);
-            result.put("场景内NPC： ", npCMap);
-            result.put("场景内怪物",monsterMap);
+            sb.append("场景内玩家:");
+            playerList.forEach( (p -> {
+                sb.append(p).append("\n");
+            }));
+            sb. append("场景内NPC： ").append(npCMap).append("\n");
+            sb. append("场景内怪物: ").append(monsterMap).append("\n");
         }
         log.debug("当前场景的玩家对象有{}个，分别为{} ",playerList.size(),playerList);
         message.setFlag((byte)1);
-        message.setContent(JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect).getBytes());
+        message.setContent(sb.toString().getBytes());
         ctx.writeAndFlush(message);
     }
 

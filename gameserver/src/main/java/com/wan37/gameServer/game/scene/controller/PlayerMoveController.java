@@ -1,12 +1,11 @@
-package com.wan37.gameServer.controller;
+package com.wan37.gameServer.game.scene.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.entity.GameScene;
 import com.wan37.gameServer.manager.cache.SceneCacheMgr;
-import com.wan37.gameServer.service.PlayerMoveService;
-import com.wan37.mysql.pojo.entity.TScene;
+import com.wan37.gameServer.game.scene.servcie.PlayerMoveService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

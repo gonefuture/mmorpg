@@ -1,7 +1,7 @@
 package com.wan37.gameServer.game.gameRole.service;
 
 
-import com.wan37.gameServer.game.gameRole.modle.Player;
+import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.entity.User;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
@@ -62,7 +62,7 @@ public class PlayerLoginService {
             BeanUtils.copyProperties(tPlayer,player);
 
             // 玩家初始化
-            thingsService.loadThings(player);
+            playerDataService.initPlayer(player);
 
             // 以channel id 为键储存玩家数据
             playerCacheMgr.put( channelId,player);

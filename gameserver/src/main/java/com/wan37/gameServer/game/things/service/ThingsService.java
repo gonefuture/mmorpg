@@ -1,18 +1,15 @@
 package com.wan37.gameServer.game.things.service;
 
-import com.wan37.gameServer.game.gameRole.modle.Player;
+import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
 import com.wan37.gameServer.game.things.modle.Equipment;
 import com.wan37.gameServer.game.things.modle.Things;
 import com.wan37.mysql.pojo.entity.TThings;
 import com.wan37.mysql.pojo.entity.TThingsExample;
 
-import com.wan37.mysql.pojo.entity.TUser;
 import com.wan37.mysql.pojo.mapper.TThingsMapper;
-import com.wan37.mysql.pojo.mapper.TUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
