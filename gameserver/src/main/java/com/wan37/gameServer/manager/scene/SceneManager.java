@@ -2,9 +2,10 @@ package com.wan37.gameServer.manager.scene;
 
 import com.wan37.gameServer.entity.*;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
-import com.wan37.gameServer.manager.cache.SceneCacheMgr;
+import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 
 
 import com.wan37.mysql.pojo.entity.TGameObject;
@@ -41,8 +42,6 @@ public class SceneManager {
 
     @Resource
     private GameObjectCacheMgr gameObjectCacheMgr;
-
-
 
 
     @PostConstruct

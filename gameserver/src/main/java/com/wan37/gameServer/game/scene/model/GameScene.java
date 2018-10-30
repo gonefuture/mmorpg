@@ -1,7 +1,10 @@
-package com.wan37.gameServer.entity;
+package com.wan37.gameServer.game.scene.model;
 
 
+import com.wan37.gameServer.entity.Monster;
+import com.wan37.gameServer.entity.NPC;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.util.excel.EntityName;
 import com.wan37.mysql.pojo.entity.TScene;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +22,23 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Data
-public class GameScene  extends TScene {
+public class GameScene  {
+
+    @EntityName(column = "ID")
+    private Integer id;
+
+    @EntityName(column = "名字")
+    private String name;
+
+    @EntityName(column = "状态")
+    private String state;
+
+    @EntityName(column = "相邻场景")
+    private String neighbors;
+
+    @EntityName(column = "场景对象")
+    private String gameObjectIds;
+
 
     // 处于场景的玩家
     private Map<Long,Player> players = new ConcurrentHashMap<>();

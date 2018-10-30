@@ -1,7 +1,8 @@
-package com.wan37.gameServer.service;
+package com.wan37.gameServer.game.skills.service;
 
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.manager.cache.SkillsCacheMgr;
+import com.wan37.gameServer.game.skills.manager.SkillsCacheMgr;
+import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.mysql.pojo.entity.TSkill;
 import org.springframework.stereotype.Service;
 
@@ -22,20 +23,20 @@ public class SkillsService {
     /**
      *  检查游戏技能的冷却时间是否允许发动技能
      */
-    public boolean checkCD(Player player, TSkill tSkill) {
-       if (player != null && tSkill != null) {
-           TSkill playerSkill = player.getSkillMap().get(tSkill.getId());
+    public boolean checkCD(Player player, Skill skill) {
+       if (player != null && skill != null) {
+           Skill playerSkill = player.getSkillMap().get(skill.getId());
            // 如果没有使用这个技能，立刻使用并计算cd
            if (playerSkill == null) {
-               startSkill(player,tSkill);
+               startSkill(player,skill);
                return true;
            }
 
            long now = System.currentTimeMillis();
-           long targetTime = playerSkill.getActivetime() + tSkill.getCd()*1000;
+           long targetTime = playerSkill.getActivetime() + skill.getCd()*1000;
            // 技能冷却时间过去了
            if (targetTime <= now) {
-               startSkill(player,tSkill);
+               startSkill(player,skill);
                return true;
            } else {
                return false;
@@ -47,9 +48,9 @@ public class SkillsService {
     }
 
 
-    public void startSkill(Player player, TSkill tSkill) {
-        tSkill.setActivetime(System.currentTimeMillis());
-        player.getSkillMap().put(tSkill.getId(),tSkill);
+    public void startSkill(Player player, Skill skill) {
+        skill.setActivetime(System.currentTimeMillis());
+        player.getSkillMap().put(skill.getId(),skill);
     }
 
 

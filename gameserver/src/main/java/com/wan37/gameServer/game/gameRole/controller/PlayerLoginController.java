@@ -3,7 +3,7 @@ package com.wan37.gameServer.game.gameRole.controller;
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.entity.GameScene;
+import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;

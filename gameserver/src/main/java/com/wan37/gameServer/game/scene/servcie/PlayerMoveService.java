@@ -1,10 +1,10 @@
 package com.wan37.gameServer.game.scene.servcie;
 
-import com.wan37.gameServer.entity.GameScene;
+import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
-import com.wan37.gameServer.manager.cache.SceneCacheMgr;
+import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
