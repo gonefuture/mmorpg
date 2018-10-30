@@ -3,6 +3,7 @@ package com.wan37.gameServer.manager.controller;
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.controller.*;
+import com.wan37.gameServer.game.gameRole.controller.EquipmentController;
 import com.wan37.gameServer.game.gameRole.controller.PlayerLoginController;
 import com.wan37.gameServer.game.gameRole.controller.PlayerQuitController;
 import com.wan37.gameServer.game.scene.controller.AOIController;
@@ -61,6 +62,9 @@ public class ControllerManager {
     @Resource
     private StartBufferController startBufferController;
 
+    @Resource
+    private EquipmentController equipmentController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -73,6 +77,7 @@ public class ControllerManager {
         add(MsgId.PLAYER_EXIT.getMsgId(),playerQuitController);
         add(MsgId.USE_SKILLS.getMsgId(), useSkillsAttackMonsterController);
         add(MsgId.START_BUFFER.getMsgId(),startBufferController);
+        add(MsgId.EQUIP.getMsgId(),equipmentController);
     }
 
 

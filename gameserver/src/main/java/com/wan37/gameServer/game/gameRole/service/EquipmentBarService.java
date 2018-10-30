@@ -2,6 +2,10 @@ package com.wan37.gameServer.game.gameRole.service;
 
 import com.wan37.gameServer.game.gameRole.manager.BagsManager;
 import com.wan37.gameServer.game.gameRole.model.Bags;
+import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.things.modle.Things;
+import com.wan37.gameServer.game.things.service.ThingsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,10 +19,20 @@ import javax.annotation.Resource;
  */
 
 @Service
+@Slf4j
 public class EquipmentBarService {
 
     @Resource
     private BagsManager bagsManager;
 
+    @Resource
+    private ThingsService thingsService;
 
+
+    public boolean equip(Player player, Integer equipmentId) {
+        Things equipment = thingsService.getThings(equipmentId);
+        log.debug("equipment {} ",equipment);
+        player.getEquipmentBar().add(player,equipment);
+        return true;
+    }
 }

@@ -96,4 +96,9 @@ public class ThingsService {
     }
 
 
+
+    public Things getThings(Integer thingsId) {
+        return thingsCacheMgr.get(thingsId);
+    }
+
 }
