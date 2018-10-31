@@ -1,12 +1,11 @@
-package com.wan37.gameServer.service;
+package com.wan37.gameServer.game.SceneObject.service;
 
-import com.wan37.gameServer.entity.NPC;
-import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
+import com.wan37.gameServer.game.SceneObject.manager.GameObjectCacheMgr;
+import com.wan37.gameServer.game.SceneObject.model.SceneObject;
 import com.wan37.mysql.pojo.entity.TGameObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -20,13 +19,13 @@ public class GameObjectService {
     @Resource
     private GameObjectCacheMgr gameObjectCacheMgr;
 
-    public TGameObject getGameObject(long gameObjectId) {
+    public SceneObject getGameObject(long gameObjectId) {
         return gameObjectCacheMgr.get(gameObjectId);
     }
 
 
-    public void cacheGameObject(long gameObjectId, TGameObject tGameObject) {
-        gameObjectCacheMgr.put(gameObjectId, tGameObject);
+    public void cacheGameObject(long gameObjectId, SceneObject sceneObject) {
+        gameObjectCacheMgr.put(gameObjectId, sceneObject);
     }
 
 

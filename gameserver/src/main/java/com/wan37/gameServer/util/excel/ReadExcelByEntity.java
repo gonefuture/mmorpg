@@ -137,6 +137,7 @@ public class ReadExcelByEntity<T> {
 			    Object obj = getCellFormatValue(row.getCell(j));  //
 			    Class clazz = typeList.get(j);
 			    methodName = invokeList.get(j);
+			    logger.debug("===============  invokeList {} ,j {} " , invokeList,j);
 			    Method method = t.getClass().getMethod(methodName, typeList.get(j));
 			    // logger.debug("cell的数据 {}" , obj);
 			    if(obj == null || obj.equals("")){

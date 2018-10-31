@@ -4,7 +4,7 @@ import com.wan37.gameServer.entity.*;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
-import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
+import com.wan37.gameServer.game.SceneObject.manager.GameObjectCacheMgr;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 import io.netty.channel.ChannelHandlerContext;

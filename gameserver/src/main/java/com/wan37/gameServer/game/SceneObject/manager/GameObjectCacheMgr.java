@@ -1,7 +1,12 @@
-package com.wan37.gameServer.manager.cache;
+package com.wan37.gameServer.game.SceneObject.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.wan37.gameServer.game.SceneObject.model.SceneObject;
+import com.wan37.gameServer.game.SceneObject.model.SceneObjectExcelUtil;
+import com.wan37.gameServer.game.scene.model.SceneExcelUtil;
+import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.util.FileUtil;
 import com.wan37.mysql.pojo.entity.TGameObject;
 import com.wan37.mysql.pojo.mapper.TGameObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +26,9 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class GameObjectCacheMgr implements GameCacheManager<Long, TGameObject> {
+public class GameObjectCacheMgr implements GameCacheManager<Long, SceneObject> {
 
-    private static Cache<Long, TGameObject> gameObjectCache = CacheBuilder.newBuilder()
+    private static Cache<Long, SceneObject> gameObjectCache = CacheBuilder.newBuilder()
             // 设置并发级别，最多8个线程同时写
             .concurrencyLevel(10)
             // 设置缓存容器的初始容量为100
@@ -34,14 +39,15 @@ public class GameObjectCacheMgr implements GameCacheManager<Long, TGameObject> {
                     notification -> System.out.println(notification.getKey() + "was removed, cause is" + notification.getCause())
             ).build();
 
-    @Resource
-    private TGameObjectMapper tGameObjectMapper;
 
     @PostConstruct
     public void init() {
-        List<TGameObject> tGameObjectList  = tGameObjectMapper.selectByExample(null);
-        for (TGameObject tGameObject : tGameObjectList) {
-            gameObjectCache.put(tGameObject.getId(), tGameObject);
+        String path = FileUtil.getStringPath("gameData/sceneObject.xlsx");
+        SceneObjectExcelUtil sceneObjectExcelUtil = new SceneObjectExcelUtil(path);
+        Map<Integer,SceneObject> sceneObjectMap = sceneObjectExcelUtil.getMap();
+
+        for (SceneObject sceneObject : sceneObjectMap.values()) {
+            gameObjectCache.put(sceneObject.getId(), sceneObject);
         }
 
         log.info("游戏对象资源加载完毕");
@@ -49,18 +55,18 @@ public class GameObjectCacheMgr implements GameCacheManager<Long, TGameObject> {
 
 
     @Override
-    public TGameObject get(Long gameObjectId) {
+    public SceneObject get(Long gameObjectId) {
         return gameObjectCache.getIfPresent(gameObjectId);
     }
 
     @Override
-    public void put(Long gameObjectId, TGameObject value) {
+    public void put(Long gameObjectId, SceneObject value) {
         gameObjectCache.put(gameObjectId,value);
     }
 
 
 
-    public Map<Long,TGameObject> list() {
+    public Map<Long,SceneObject> list() {
         return gameObjectCache.asMap();
     }
 }

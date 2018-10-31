@@ -5,7 +5,7 @@ import com.wan37.common.entity.EorroMsg;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.entity.Monster;
-import com.wan37.gameServer.service.GameObjectService;
+import com.wan37.gameServer.game.SceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
