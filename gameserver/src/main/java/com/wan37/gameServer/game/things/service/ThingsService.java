@@ -50,10 +50,8 @@ public class ThingsService {
 
 
 
-    public List<Things> getThingsByPlayerId(long playerId) {
-        TThingsExample tThingsExample = new TThingsExample();
-        tThingsExample.or().andPlayerIdEqualTo(playerId);
-        List<TThings> tThingsList = tThingsMapper.selectByExample(tThingsExample);
+    public List<Things> getThingsByPlayerId(Player player) {
+        List<TThings> tThingsList = bagsManager.get(player.getId()).getThingsList();
         List<Things> thingsList = new ArrayList<>();
         tThingsList.forEach( tThings -> {
             Things things = thingsCacheMgr.get(tThings.getThingsId());
@@ -68,7 +66,7 @@ public class ThingsService {
 
 
     public void loadThings(Player player) {
-        List<Things> thingsList = getThingsByPlayerId(player.getId());
+        List<Things> thingsList = getThingsByPlayerId(player);
         thingsList.forEach((things) -> {
             loadThingsProperties(things);
             // 类型为装备且处于穿戴状态的，放入装备栏
@@ -76,9 +74,9 @@ public class ThingsService {
                 player.getEquipmentBar().add(player,things);
             } else {
                 // 其他物品放背包
-                bagsManager.
-                        get(player.getId()).
-                        getThingsList().add(things);
+//                bagsManager.
+//                        get(player.getId()).
+//                        getThingsList().add(things);
             }
         });
     }

@@ -6,10 +6,14 @@ import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
+import com.wan37.mysql.pojo.entity.TThings;
+import com.wan37.mysql.pojo.entity.TThingsExample;
+import com.wan37.mysql.pojo.mapper.TThingsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -33,6 +37,9 @@ public class PlayerDataService {
     @Resource
     private BagsManager bagsManager;
 
+    @Resource
+    private TThingsMapper tThingsMapper;
+
 
     public Player getPlayer(String channelId) {
         return playerCacheMgr.get(channelId);
@@ -48,6 +55,7 @@ public class PlayerDataService {
         // 加载背包
         Bags bags = new Bags();
         bags.setPlayerId(player.getId());
+        loadBags(player.getId(),bags);
         bagsManager.put(player.getId(), bags);
 
         // 加载物品装备
@@ -58,10 +66,14 @@ public class PlayerDataService {
 
     }
 
-
-
-
-
+    private void loadBags(long playerId, Bags bags) {
+        TThingsExample tThingsExample = new TThingsExample();
+        tThingsExample.or().andPlayerIdEqualTo(playerId);
+        List<TThings> tThingsList = tThingsMapper.selectByExample(tThingsExample);
+        tThingsList.forEach( tThings -> {
+            bags.getThingsList().add(tThings);
+        });
+    }
 
 
 }

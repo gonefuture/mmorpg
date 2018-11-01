@@ -4,8 +4,15 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.mysql.pojo.entity.TThings;
+import com.wan37.mysql.pojo.entity.TThingsExample;
+import com.wan37.mysql.pojo.mapper.TThingsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -22,6 +29,11 @@ public class BagsManager implements GameCacheManager<Long,Bags> {
             .removalListener(
                     notification -> log.debug(notification.getKey() + "背包被移除, 原因是" + notification.getCause())
             ).build();
+
+
+    @Resource
+    private TThingsMapper tThingsMapper;
+
 
 
     @Override
