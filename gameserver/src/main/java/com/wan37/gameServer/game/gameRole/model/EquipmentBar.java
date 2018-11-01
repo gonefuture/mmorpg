@@ -34,7 +34,7 @@ public class EquipmentBar  {
             thingRoleProperty -> {
                 log.debug("thingRoleProperty {}", thingRoleProperty);
                 Integer rolePropertyId =  thingRoleProperty.getKey();
-                // 角色的属性
+                // 该角色的属性
                 RoleProperty roleProperty = rolePropertiesMap.get(rolePropertyId);
 
                 if (roleProperty != null) {
@@ -46,6 +46,9 @@ public class EquipmentBar  {
                     Integer passValue  =  thingRoleProperty.getCurrentValue();
                     if (passValue == null)
                         passValue = 0;
+                    // 加上基础值
+                    currentValue += roleProperty.getValue();
+                    // 加上装备带来的属性值增加
                     currentValue += passValue;
                     // 记录属性变化
                     roleProperty.setCurrentValue(currentValue);

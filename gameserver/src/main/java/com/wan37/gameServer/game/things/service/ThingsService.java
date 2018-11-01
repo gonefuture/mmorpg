@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.RoleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.manager.BagsManager;
+import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.service.BufferService;
+import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
 import com.wan37.gameServer.game.things.modle.ThingProperty;
 import com.wan37.gameServer.game.things.modle.Things;
@@ -41,6 +44,11 @@ public class ThingsService {
     @Resource
     private BagsManager bagsManager;
 
+    @Resource
+    private BufferService bufferService;
+
+
+
 
     public List<Things> getThingsByPlayerId(long playerId) {
         TThingsExample tThingsExample = new TThingsExample();
@@ -75,7 +83,10 @@ public class ThingsService {
         });
     }
 
-
+    /**
+     *  加载物品的属性内容
+     * @param things 物品
+     */
     public void loadThingsProperties(Things things) {
         List<ThingProperty> thingProperties =  JSON.parseArray(things.getRoleProperties(),ThingProperty.class);
         log.debug("");
@@ -98,12 +109,25 @@ public class ThingsService {
     }
 
 
-
+    /**
+     *  获取物品
+     * @param thingsId 物品id
+     */
     public Things getThings(Integer thingsId) {
         Things things = thingsCacheMgr.get(thingsId);
         loadThingsProperties(things);
-        log.debug("after loadThingsProperties(things) ,thing {}",things);
         return things;
     }
+
+    public boolean useItem(Player player, int thingsId) {
+        Things things = getThings(thingsId);
+        Buffer buffer = bufferService.getTBuffer(things.getBuffer());
+        if (buffer != null) {
+            bufferService.startBuffer(player,buffer);
+        }
+        return true;
+
+    }
+
 
 }
