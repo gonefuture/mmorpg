@@ -137,6 +137,7 @@ public class ReadExcelByEntity<T> {
 			    Object obj = getCellFormatValue(row.getCell(j));  //
 			    Class clazz = typeList.get(j);
 			    methodName = invokeList.get(j);
+			    logger.debug("===============  invokeList {} ,j {} " , invokeList,j);
 			    Method method = t.getClass().getMethod(methodName, typeList.get(j));
 			    // logger.debug("cell的数据 {}" , obj);
 			    if(obj == null || obj.equals("")){
@@ -158,6 +159,11 @@ public class ReadExcelByEntity<T> {
                             }
                             break;
                         }
+                        case "java.lang.Long" : {
+                            String intNUm = df.format(obj);
+                        	cast = Long.valueOf(intNUm);
+                        	break;
+						}
                         case "java.lang.String": {
                             //在这里拦截“excel中读取为double,date,int,boolean”，实际的实体函数形参却是String类型的
                             if (obj.getClass().getName().equals("java.lang.Double")) {

@@ -1,10 +1,12 @@
 package com.wan37.gameServer.manager.scene;
 
 import com.wan37.gameServer.entity.*;
+import com.wan37.gameServer.game.SceneObject.model.SceneObject;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.manager.cache.GameObjectCacheMgr;
+import com.wan37.gameServer.game.scene.model.GameScene;
+import com.wan37.gameServer.game.SceneObject.manager.GameObjectCacheMgr;
 import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
-import com.wan37.gameServer.manager.cache.SceneCacheMgr;
+import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 
 
 import com.wan37.mysql.pojo.entity.TGameObject;
@@ -43,8 +45,6 @@ public class SceneManager {
     private GameObjectCacheMgr gameObjectCacheMgr;
 
 
-
-
     @PostConstruct
     private void tick() {
         executorService.scheduleAtFixedRate(
@@ -71,8 +71,8 @@ public class SceneManager {
         for (Monster monster : monsterMap.values()) {
             if (monster.getState() == -1 &&
                     monster.getDeadTime()+monster.getRefreshTime() <System.currentTimeMillis()) {
-                TGameObject tGameObject = gameObjectCacheMgr.get(monster.getId());
-                monster.setHp(tGameObject.getHp());
+                SceneObject sceneObject = gameObjectCacheMgr.get(monster.getId());
+                monster.setHp(sceneObject.getHp());
                 monster.setState(monster.getState());
             }
         }
@@ -85,8 +85,8 @@ public class SceneManager {
         for (NPC npc : npcMap.values()) {
             if (npc.getState() == -1 &&
                     npc.getDeadTime()+ npc.getRefreshTime() <System.currentTimeMillis()) {
-                TGameObject tGameObject = gameObjectCacheMgr.get(npc.getId());
-                npc.setHp(tGameObject.getHp());
+                SceneObject sceneObject = gameObjectCacheMgr.get(npc.getId());
+                npc.setHp(sceneObject.getHp());
                 npc.setState(npc.getState());
             }
         }

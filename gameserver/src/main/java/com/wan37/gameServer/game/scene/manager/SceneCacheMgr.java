@@ -1,14 +1,16 @@
-package com.wan37.gameServer.manager.cache;
+package com.wan37.gameServer.game.scene.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.entity.GameScene;
+import com.wan37.gameServer.game.SceneObject.model.SceneObject;
+import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.entity.Monster;
 import com.wan37.gameServer.entity.NPC;
-import com.wan37.gameServer.service.GameObjectService;
+import com.wan37.gameServer.game.scene.model.SceneExcelUtil;
+import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.game.SceneObject.service.GameObjectService;
+import com.wan37.gameServer.util.FileUtil;
 import com.wan37.mysql.pojo.entity.TGameObject;
-import com.wan37.mysql.pojo.entity.TScene;
-import com.wan37.mysql.pojo.mapper.TSceneMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +21,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -47,45 +48,42 @@ public class SceneCacheMgr implements GameCacheManager<Integer, GameScene> {
 
 
 
-
-
-    @Resource
-    private TSceneMapper tSceneMapper;
-
     @Resource
     private GameObjectService  gameObjectService;
 
 
     @PostConstruct
     private void init() {
-        List<TScene> tSceneList = tSceneMapper.selectByExample(null);
-        for (TScene tScene: tSceneList) {
-            GameScene gameScene = new GameScene();
-            BeanUtils.copyProperties(tScene,gameScene);
+        String path = FileUtil.getStringPath("gameData/gameScene.xlsx");
+        SceneExcelUtil sceneExcelUtil = new SceneExcelUtil(path);
 
-            String[] ids = tScene.getGameObjectIds().split(",");
+
+        Map<Integer,GameScene> gameSceneMap = sceneExcelUtil.getMap();
+        for (GameScene  gameScene: gameSceneMap.values()) {
+
+            String[] ids = gameScene.getGameObjectIds().split(",");
 
             Arrays.stream(ids).forEach(
                     (idString) ->{
                         if (Strings.isNotBlank(idString)) {
                             Long id = Long.valueOf(idString);
-                            TGameObject tGameObject = gameObjectService.getGameObject(id);
-                            if (tGameObject != null && tGameObject.getRoleType() == 1) {
+                            SceneObject gameObject = gameObjectService.getGameObject(id);
+                            if (gameObject != null && gameObject.getRoleType() == 1) {
                                 NPC npc = new NPC();
-                                BeanUtils.copyProperties(tGameObject,npc);
-                                gameScene.getNpcs().put(tGameObject.getId(), npc);
+                                BeanUtils.copyProperties(gameObject,npc);
+                                gameScene.getNpcs().put(gameObject.getId(), npc);
                             }
-                            if (tGameObject != null && tGameObject.getRoleType() == 2) {
+                            if (gameObject != null && gameObject.getRoleType() == 2) {
                                 Monster monster = new Monster();
-                                BeanUtils.copyProperties(tGameObject,monster);
-                                gameScene.getMonsters().put(tGameObject.getId(), monster);
+                                BeanUtils.copyProperties(gameObject,monster);
+                                gameScene.getMonsters().put(gameObject.getId(), monster);
                             }
                         }
                     });
 
-            sceneCache.put(tScene.getId(), gameScene);
+            sceneCache.put(gameScene.getId(), gameScene);
         }
-
+        log.debug("场景资源 {}" , gameSceneMap);
         log.info("场景资源加载进缓存完毕");
 
     }

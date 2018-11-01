@@ -38,6 +38,9 @@ public enum MsgId {
     // buffer开始
     START_BUFFER(3004),
 
+    // 装备武器装备
+    EQUIP(3005),
+
     // 与NPC，怪物对话
     DIALOG(4001),
 
