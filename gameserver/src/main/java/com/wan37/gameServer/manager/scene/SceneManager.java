@@ -2,14 +2,14 @@ package com.wan37.gameServer.manager.scene;
 
 import com.wan37.gameServer.entity.*;
 import com.wan37.gameServer.game.SceneObject.model.SceneObject;
+import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.SceneObject.manager.GameObjectCacheMgr;
-import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
+import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 
 
-import com.wan37.mysql.pojo.entity.TGameObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

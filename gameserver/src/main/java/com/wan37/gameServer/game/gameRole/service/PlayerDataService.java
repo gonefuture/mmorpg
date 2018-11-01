@@ -5,7 +5,7 @@ import com.wan37.gameServer.game.gameRole.manager.BagsManager;
 import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.service.ThingsService;
-import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
+import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

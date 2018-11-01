@@ -1,8 +1,8 @@
-package com.wan37.gameServer.service;
+package com.wan37.gameServer.game.gameRole.service;
 
-import com.wan37.gameServer.entity.Buffer;
+import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.manager.cache.BufferCacheMgr;
+import com.wan37.gameServer.game.gameRole.manager.BufferCacheMgr;
 import com.wan37.gameServer.manager.task.TaskManager;
 import com.wan37.mysql.pojo.entity.TBuffer;
 import org.springframework.beans.BeanUtils;
@@ -28,9 +28,8 @@ public class BufferService {
     private BufferCacheMgr bufferCacheMgr;
 
 
-    public boolean startBuffer(Player player, TBuffer tBuffer) {
-        Buffer buffer = new Buffer();
-        BeanUtils.copyProperties(tBuffer,buffer);
+    public boolean startBuffer(Player player, Buffer buffer) {
+
         if (player != null ) {
             // 记录开始时间
             buffer.setStartTime(System.currentTimeMillis());
@@ -52,7 +51,7 @@ public class BufferService {
 
 
 
-    public TBuffer getTBuffer(int tBufferId) {
+    public Buffer getTBuffer(int tBufferId) {
         return bufferCacheMgr.get(tBufferId);
     }
 

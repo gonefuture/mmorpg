@@ -1,12 +1,12 @@
 package com.wan37.gameServer.game.gameRole.service;
 
 
+import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.entity.User;
 import com.wan37.gameServer.game.things.service.ThingsService;
-import com.wan37.gameServer.manager.cache.PlayerCacheMgr;
+import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
-import com.wan37.gameServer.service.BufferService;
 import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.mysql.pojo.entity.TBuffer;
 import com.wan37.mysql.pojo.entity.TPlayer;
@@ -67,8 +67,8 @@ public class PlayerLoginService {
             // 以channel id 为键储存玩家数据
             playerCacheMgr.put( channelId,player);
 
-            TBuffer tBuffer = bufferService.getTBuffer(105);
-            bufferService.startBuffer(player,tBuffer);
+            Buffer buffer = bufferService.getTBuffer(105);
+            bufferService.startBuffer(player,buffer);
 
             return player;
         } else {
