@@ -14,9 +14,9 @@ public class ThingProperty {
 
 
 
-    private String rolePropertyId;
+    private Integer id;
 
-    private  Integer thingPropertyValue;
+    private  Integer value;
 
 
 

@@ -32,6 +32,7 @@ public class EquipmentBarService {
     public boolean equip(Player player, Integer equipmentId) {
         Things equipment = thingsService.getThings(equipmentId);
         log.debug("equipment {} ",equipment);
+
         player.getEquipmentBar().add(player,equipment);
         return true;
     }

@@ -76,14 +76,16 @@ public class ThingsService {
     }
 
 
-    private void loadThingsProperties(Things things) {
+    public void loadThingsProperties(Things things) {
         List<ThingProperty> thingProperties =  JSON.parseArray(things.getRoleProperties(),ThingProperty.class);
+        log.debug("");
         if (thingProperties != null) {
             thingProperties.forEach( thingProperty -> {
-                String rolePropertyId = thingProperty.getRolePropertyId();
+                Integer rolePropertyId = thingProperty.getId();
                     if (rolePropertyId != null) {
                         RoleProperty roleProperty = rolePropertyService.
-                                getRoleProperty(Integer.valueOf(rolePropertyId));
+                                getRoleProperty(rolePropertyId);
+                        roleProperty.setCurrentValue(thingProperty.getValue());
                         things.getThingRoleProperty()
                                 .add(roleProperty);
                     }
@@ -98,7 +100,10 @@ public class ThingsService {
 
 
     public Things getThings(Integer thingsId) {
-        return thingsCacheMgr.get(thingsId);
+        Things things = thingsCacheMgr.get(thingsId);
+        loadThingsProperties(things);
+        log.debug("after loadThingsProperties(things) ,thing {}",things);
+        return things;
     }
 
 }
