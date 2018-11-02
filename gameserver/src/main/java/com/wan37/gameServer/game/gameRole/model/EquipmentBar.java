@@ -3,6 +3,7 @@ package com.wan37.gameServer.game.gameRole.model;
 import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.things.modle.ThingProperty;
 import com.wan37.gameServer.game.things.modle.Things;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.*;
  * Description: 装备栏
  */
 @Slf4j
+@Data
 public class EquipmentBar  {
 
     private Map<String,Things> map = new HashMap<>();
@@ -25,24 +27,40 @@ public class EquipmentBar  {
             return ;
 
         Set<RoleProperty> rolePropertySet = things.getThingRoleProperty();
+        log.debug("rolePropertySet {}",rolePropertySet);
         if (rolePropertySet == null)
             return;
         rolePropertySet.forEach(
-                thingRoleProperty -> {
-                    log.debug("thingRoleProperty {}", thingRoleProperty);
-                    Integer rolePropertyId =  thingRoleProperty.getKey();
-                    // 角色的属性
-                    RoleProperty roleProperty = rolePropertiesMap.get(rolePropertyId);
+            thingRoleProperty -> {
+                log.debug("thingRoleProperty {}", thingRoleProperty);
+                Integer rolePropertyId =  thingRoleProperty.getKey();
+                // 该角色的属性
+                RoleProperty roleProperty = rolePropertiesMap.get(rolePropertyId);
 
+                if (roleProperty != null) {
                     Integer currentValue = roleProperty.
                             getCurrentValue();
-                    currentValue += thingRoleProperty.getCurrentValue();
+                    if (currentValue == null)
+                        currentValue = 0 ;
+
+                    Integer passValue  =  thingRoleProperty.getCurrentValue();
+                    if (passValue == null)
+                        passValue = 0;
+                    // 加上基础值
+                    currentValue += roleProperty.getValue();
+                    // 加上装备带来的属性值增加
+                    currentValue += passValue;
                     // 记录属性变化
                     roleProperty.setCurrentValue(currentValue);
+                } else {
+                    rolePropertiesMap.put(thingRoleProperty.getKey(),thingRoleProperty);
                 }
+            }
         );
+
         map.put(things.getPart(), things);
         log.debug(" map.put(things.getPart(), things); {}",  map);
+        log.debug(" rolePropertiesMap {}", rolePropertiesMap  );
     }
 
     public void remove(String part) {

@@ -41,6 +41,9 @@ public enum MsgId {
     // 装备武器装备
     EQUIP(3005),
 
+    // 使用道具物品
+    USE_ITEM(3006),
+
     // 与NPC，怪物对话
     DIALOG(4001),
 

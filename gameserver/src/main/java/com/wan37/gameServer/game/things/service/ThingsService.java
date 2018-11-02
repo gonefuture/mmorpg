@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.RoleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.manager.BagsManager;
+import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.service.BufferService;
+import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
 import com.wan37.gameServer.game.things.modle.ThingProperty;
 import com.wan37.gameServer.game.things.modle.Things;
@@ -41,11 +44,14 @@ public class ThingsService {
     @Resource
     private BagsManager bagsManager;
 
+    @Resource
+    private BufferService bufferService;
 
-    public List<Things> getThingsByPlayerId(long playerId) {
-        TThingsExample tThingsExample = new TThingsExample();
-        tThingsExample.or().andPlayerIdEqualTo(playerId);
-        List<TThings> tThingsList = tThingsMapper.selectByExample(tThingsExample);
+
+
+
+    public List<Things> getThingsByPlayerId(Player player) {
+        List<TThings> tThingsList = bagsManager.get(player.getId()).getThingsList();
         List<Things> thingsList = new ArrayList<>();
         tThingsList.forEach( tThings -> {
             Things things = thingsCacheMgr.get(tThings.getThingsId());
@@ -60,7 +66,7 @@ public class ThingsService {
 
 
     public void loadThings(Player player) {
-        List<Things> thingsList = getThingsByPlayerId(player.getId());
+        List<Things> thingsList = getThingsByPlayerId(player);
         thingsList.forEach((things) -> {
             loadThingsProperties(things);
             // 类型为装备且处于穿戴状态的，放入装备栏
@@ -68,22 +74,27 @@ public class ThingsService {
                 player.getEquipmentBar().add(player,things);
             } else {
                 // 其他物品放背包
-                bagsManager.
-                        get(player.getId()).
-                        getThingsList().add(things);
+//                bagsManager.
+//                        get(player.getId()).
+//                        getThingsList().add(things);
             }
         });
     }
 
-
-    private void loadThingsProperties(Things things) {
+    /**
+     *  加载物品的属性内容
+     * @param things 物品
+     */
+    public void loadThingsProperties(Things things) {
         List<ThingProperty> thingProperties =  JSON.parseArray(things.getRoleProperties(),ThingProperty.class);
+        log.debug("");
         if (thingProperties != null) {
             thingProperties.forEach( thingProperty -> {
-                String rolePropertyId = thingProperty.getRolePropertyId();
+                Integer rolePropertyId = thingProperty.getId();
                     if (rolePropertyId != null) {
                         RoleProperty roleProperty = rolePropertyService.
-                                getRoleProperty(Integer.valueOf(rolePropertyId));
+                                getRoleProperty(rolePropertyId);
+                        roleProperty.setCurrentValue(thingProperty.getValue());
                         things.getThingRoleProperty()
                                 .add(roleProperty);
                     }
@@ -96,9 +107,25 @@ public class ThingsService {
     }
 
 
-
+    /**
+     *  获取物品
+     * @param thingsId 物品id
+     */
     public Things getThings(Integer thingsId) {
-        return thingsCacheMgr.get(thingsId);
+        Things things = thingsCacheMgr.get(thingsId);
+        loadThingsProperties(things);
+        return things;
     }
+
+    public boolean useItem(Player player, int thingsId) {
+        Things things = getThings(thingsId);
+        Buffer buffer = bufferService.getTBuffer(things.getBuffer());
+        if (buffer != null) {
+            bufferService.startBuffer(player,buffer);
+        }
+        return true;
+
+    }
+
 
 }

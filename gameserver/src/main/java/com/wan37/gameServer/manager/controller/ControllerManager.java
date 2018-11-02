@@ -8,6 +8,7 @@ import com.wan37.gameServer.game.gameRole.controller.PlayerLoginController;
 import com.wan37.gameServer.game.gameRole.controller.PlayerQuitController;
 import com.wan37.gameServer.game.scene.controller.AOIController;
 import com.wan37.gameServer.game.scene.controller.PlayerMoveController;
+import com.wan37.gameServer.game.things.controller.UseItemController;
 import com.wan37.gameServer.game.user.controller.UserLoginController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -65,6 +66,9 @@ public class ControllerManager {
     @Resource
     private EquipmentController equipmentController;
 
+    @Resource
+    private UseItemController useItemController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -78,6 +82,7 @@ public class ControllerManager {
         add(MsgId.USE_SKILLS.getMsgId(), useSkillsAttackMonsterController);
         add(MsgId.START_BUFFER.getMsgId(),startBufferController);
         add(MsgId.EQUIP.getMsgId(),equipmentController);
+        add(MsgId.USE_ITEM.getMsgId(),useItemController);
     }
 
 

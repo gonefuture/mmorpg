@@ -5,6 +5,7 @@ import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
 import com.wan37.gameServer.util.excel.EntityName;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class Things implements IExcel<Integer> {
     private Integer state;
 
     // 物品属性
-    private Set<RoleProperty> thingRoleProperty;
+    private Set<RoleProperty> thingRoleProperty = new HashSet<>();
 
 
 

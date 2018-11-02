@@ -1,14 +1,12 @@
 package com.wan37.gameServer.game.gameRole.model;
 
 
-import com.wan37.gameServer.entity.Buffer;
 import com.wan37.gameServer.entity.SceneActor;
 import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
 
 
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.mysql.pojo.entity.TPlayer;
-import com.wan37.mysql.pojo.entity.TSkill;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

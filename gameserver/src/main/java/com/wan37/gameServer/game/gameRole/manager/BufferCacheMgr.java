@@ -1,7 +1,11 @@
-package com.wan37.gameServer.manager.cache;
+package com.wan37.gameServer.game.gameRole.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.wan37.gameServer.game.gameRole.model.Buffer;
+import com.wan37.gameServer.game.gameRole.model.BufferExcelUtil;
+import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.util.FileUtil;
 import com.wan37.mysql.pojo.entity.TBuffer;
 import com.wan37.mysql.pojo.entity.TSkill;
 import com.wan37.mysql.pojo.mapper.TBufferMapper;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -21,12 +26,10 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class BufferCacheMgr implements GameCacheManager<Integer, TBuffer>{
+public class BufferCacheMgr implements GameCacheManager<Integer, Buffer> {
 
-    @Resource
-    private TBufferMapper tBufferMapper;
 
-    private static Cache<Integer, TBuffer> bufferCache = CacheBuilder.newBuilder()
+    private static Cache<Integer, Buffer> bufferCache = CacheBuilder.newBuilder()
             .recordStats()
             .removalListener(
                     notification -> log.debug(notification.getKey() + "技能被移除, 原因是" + notification.getCause())
@@ -35,21 +38,25 @@ public class BufferCacheMgr implements GameCacheManager<Integer, TBuffer>{
 
     @PostConstruct
     private void init() {
-        List<TBuffer> tBufferList = tBufferMapper.selectByExample(null);
-        for (TBuffer tBuffer : tBufferList) {
-            put(tBuffer.getId(), tBuffer);
+
+        String path = FileUtil.getStringPath("gameData/buffer.xlsx");
+        BufferExcelUtil bufferExcelUtil = new BufferExcelUtil(path);
+        Map<Integer,Buffer>  bufferMap = bufferExcelUtil.getMap();
+        for (Buffer buffer : bufferMap.values()) {
+            put(buffer.getId(), buffer);
         }
+
         log.info("buffer数据加载完毕");
     }
 
 
     @Override
-    public TBuffer get(Integer bufferId) {
+    public Buffer get(Integer bufferId) {
         return bufferCache.getIfPresent(bufferId);
     }
 
     @Override
-    public void put(Integer bufferId, TBuffer value) {
+    public void put(Integer bufferId, Buffer value) {
         bufferCache.put(bufferId,value);
     }
 }
