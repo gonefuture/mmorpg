@@ -5,7 +5,9 @@ import com.wan37.mysql.pojo.entity.TThings;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -16,8 +18,9 @@ import java.util.List;
 @Data
 public class Bags {
 
+
     private Long playerId;
 
-    List<TThings> thingsList = new ArrayList<>();
+    Map<String,TThings> thingsList = new HashMap<>();
 
 }

@@ -10,13 +10,21 @@ public interface TThingsMapper {
 
     int deleteByExample(TThingsExample example);
 
+    int deleteByPrimaryKey(String itemId);
+
     int insert(TThings record);
 
     int insertSelective(TThings record);
 
     List<TThings> selectByExample(TThingsExample example);
 
+    TThings selectByPrimaryKey(String itemId);
+
     int updateByExampleSelective(@Param("record") TThings record, @Param("example") TThingsExample example);
 
     int updateByExample(@Param("record") TThings record, @Param("example") TThingsExample example);
+
+    int updateByPrimaryKeySelective(TThings record);
+
+    int updateByPrimaryKey(TThings record);
 }

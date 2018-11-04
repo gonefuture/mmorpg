@@ -3,6 +3,8 @@ package com.wan37.mysql.pojo.entity;
 import java.io.Serializable;
 
 public class TThings implements Serializable {
+    private String itemId;
+
     private Integer thingsId;
 
     private Long playerId;
@@ -12,6 +14,14 @@ public class TThings implements Serializable {
     private Integer state;
 
     private static final long serialVersionUID = 1L;
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId == null ? null : itemId.trim();
+    }
 
     public Integer getThingsId() {
         return thingsId;
@@ -51,6 +61,7 @@ public class TThings implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
+        sb.append(", itemId=").append(itemId);
         sb.append(", thingsId=").append(thingsId);
         sb.append(", playerId=").append(playerId);
         sb.append(", number=").append(number);

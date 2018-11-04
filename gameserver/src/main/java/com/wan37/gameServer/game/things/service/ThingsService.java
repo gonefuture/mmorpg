@@ -51,7 +51,7 @@ public class ThingsService {
 
 
     public List<Things> getThingsByPlayerId(Player player) {
-        List<TThings> tThingsList = bagsManager.get(player.getId()).getThingsList();
+        List<TThings> tThingsList = bagsManager.get(player.getId());
         List<Things> thingsList = new ArrayList<>();
         tThingsList.forEach( tThings -> {
             Things things = thingsCacheMgr.get(tThings.getThingsId());
