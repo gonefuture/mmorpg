@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.RoleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.manager.BagsManager;
+import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
@@ -115,14 +116,17 @@ public class ThingsService {
         return things;
     }
 
-    public boolean useItem(Player player, int thingsId) {
-        Things things = getThings(thingsId);
+    public boolean useItem(Player player, String itemId) {
+        Bags bags = bagsManager.get(player.getId());
+        TItem tItem = bags.getItemMap().get(itemId);
+        if (tItem == null)
+            return false;
+        Things things = thingsCacheMgr.get(tItem.getThingsId());
         Buffer buffer = bufferService.getTBuffer(things.getBuffer());
         if (buffer != null) {
             bufferService.startBuffer(player,buffer);
         }
         return true;
-
     }
 
 

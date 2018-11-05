@@ -59,7 +59,7 @@ public enum MsgId {
     DIALOG("dialog",4001),
 
     // 未知的命令
-    UNKNOWN("unknown", 0000)
+    UNKNOWN("unknown", 9999)
 
     ;
     // MsgId

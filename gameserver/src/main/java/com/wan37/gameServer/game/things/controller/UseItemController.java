@@ -28,7 +28,7 @@ public class UseItemController implements IController {
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
-        int thingsId = Integer.valueOf(command[1]);
+        String thingsId = command[1];
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
         boolean flag  = thingsService.useItem(player,thingsId);
         String result ;
@@ -37,8 +37,9 @@ public class UseItemController implements IController {
             result = "使用物品成功";
         } else {
             message.setFlag((byte) -1);
-            result = "使用物品失败";
+            result = "使用物品失败,角色为拥有这个物品或其他原因";
         }
+        message.setContent(result.getBytes());
         ctx.writeAndFlush(message);
     }
 }
