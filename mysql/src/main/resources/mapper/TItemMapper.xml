@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wan37.mysql.pojo.mapper.TThingsMapper" >
-  <resultMap id="BaseResultMap" type="com.wan37.mysql.pojo.entity.TThings" >
+<mapper namespace="com.wan37.mysql.pojo.mapper.TItemMapper" >
+  <resultMap id="BaseResultMap" type="com.wan37.mysql.pojo.entity.TItem" >
     <id column="item_id" property="itemId" jdbcType="VARCHAR" />
     <result column="things_id" property="thingsId" jdbcType="INTEGER" />
     <result column="player_id" property="playerId" jdbcType="BIGINT" />
@@ -69,13 +69,13 @@
   <sql id="Base_Column_List" >
     item_id, things_id, player_id, number, state
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TThingsExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TItemExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_things
+    from t_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,27 +86,27 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_things
+    from t_item
     where item_id = #{itemId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_things
+    delete from t_item
     where item_id = #{itemId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.wan37.mysql.pojo.entity.TThingsExample" >
-    delete from t_things
+  <delete id="deleteByExample" parameterType="com.wan37.mysql.pojo.entity.TItemExample" >
+    delete from t_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TThings" >
-    insert into t_things (item_id, things_id, player_id, 
+  <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TItem" >
+    insert into t_item (item_id, things_id, player_id, 
       number, state)
     values (#{itemId,jdbcType=VARCHAR}, #{thingsId,jdbcType=INTEGER}, #{playerId,jdbcType=BIGINT}, 
       #{number,jdbcType=INTEGER}, #{state,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TThings" >
-    insert into t_things
+  <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TItem" >
+    insert into t_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="itemId != null" >
         item_id,
@@ -142,14 +142,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.wan37.mysql.pojo.entity.TThingsExample" resultType="java.lang.Integer" >
-    select count(*) from t_things
+  <select id="countByExample" parameterType="com.wan37.mysql.pojo.entity.TItemExample" resultType="java.lang.Integer" >
+    select count(*) from t_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update t_things
+    update t_item
     <set >
       <if test="record.itemId != null" >
         item_id = #{record.itemId,jdbcType=VARCHAR},
@@ -172,7 +172,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update t_things
+    update t_item
     set item_id = #{record.itemId,jdbcType=VARCHAR},
       things_id = #{record.thingsId,jdbcType=INTEGER},
       player_id = #{record.playerId,jdbcType=BIGINT},
@@ -182,8 +182,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wan37.mysql.pojo.entity.TThings" >
-    update t_things
+  <update id="updateByPrimaryKeySelective" parameterType="com.wan37.mysql.pojo.entity.TItem" >
+    update t_item
     <set >
       <if test="thingsId != null" >
         things_id = #{thingsId,jdbcType=INTEGER},
@@ -200,8 +200,8 @@
     </set>
     where item_id = #{itemId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TThings" >
-    update t_things
+  <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TItem" >
+    update t_item
     set things_id = #{thingsId,jdbcType=INTEGER},
       player_id = #{playerId,jdbcType=BIGINT},
       number = #{number,jdbcType=INTEGER},

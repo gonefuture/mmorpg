@@ -1,7 +1,8 @@
 package com.wan37.gameServer.game.gameRole.model;
 
 import com.wan37.gameServer.game.things.modle.Things;
-import com.wan37.mysql.pojo.entity.TThings;
+import com.wan37.mysql.pojo.entity.TItem;
+
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -21,6 +22,6 @@ public class Bags {
 
     private Long playerId;
 
-    Map<String,TThings> thingsList = new HashMap<>();
+    Map<String,TItem> itemMap = new HashMap<>();
 
 }

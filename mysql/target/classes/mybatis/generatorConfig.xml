@@ -79,7 +79,7 @@
         <table tableName="t_skill"/>
         <table tableName="t_state"/>
         <table tableName="t_buffer"/>
-        <table tableName="t_things"/>
+        <table tableName="t_item"/>
 
     </context>
 </generatorConfiguration>

@@ -3,6 +3,7 @@ package com.wan37.gameServer.manager.controller;
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.controller.*;
+import com.wan37.gameServer.game.gameRole.controller.BagsController;
 import com.wan37.gameServer.game.gameRole.controller.EquipmentController;
 import com.wan37.gameServer.game.gameRole.controller.PlayerLoginController;
 import com.wan37.gameServer.game.gameRole.controller.PlayerQuitController;
@@ -69,6 +70,9 @@ public class ControllerManager {
     @Resource
     private UseItemController useItemController;
 
+    @Resource
+    private BagsController bagsController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -83,6 +87,7 @@ public class ControllerManager {
         add(MsgId.START_BUFFER.getMsgId(),startBufferController);
         add(MsgId.EQUIP.getMsgId(),equipmentController);
         add(MsgId.USE_ITEM.getMsgId(),useItemController);
+        add(MsgId.SHOW_BAGS.getMsgId(),bagsController);
     }
 
 

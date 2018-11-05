@@ -6,9 +6,10 @@ import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
-import com.wan37.mysql.pojo.entity.TThings;
-import com.wan37.mysql.pojo.entity.TThingsExample;
-import com.wan37.mysql.pojo.mapper.TThingsMapper;
+
+import com.wan37.mysql.pojo.entity.TItem;
+import com.wan37.mysql.pojo.entity.TItemExample;
+import com.wan37.mysql.pojo.mapper.TItemMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class PlayerDataService {
     private BagsManager bagsManager;
 
     @Resource
-    private TThingsMapper tThingsMapper;
+    private TItemMapper tItemMapper;
 
 
     public Player getPlayer(String channelId) {
@@ -67,11 +68,11 @@ public class PlayerDataService {
     }
 
     private void loadBags(long playerId, Bags bags) {
-        TThingsExample tThingsExample = new TThingsExample();
-        tThingsExample.or().andPlayerIdEqualTo(playerId);
-        List<TThings> tThingsList = tThingsMapper.selectByExample(tThingsExample);
-        tThingsList.forEach( tThings -> {
-            bags.getThingsList().add(tThings);
+        TItemExample tItemExample = new TItemExample();
+        tItemExample.or().andPlayerIdEqualTo(playerId);
+        List<TItem> tItemList = tItemMapper.selectByExample(tItemExample);
+        tItemList.forEach( tItem -> {
+            bags.getItemMap().put(tItem.getItemId(),tItem);
         });
     }
 

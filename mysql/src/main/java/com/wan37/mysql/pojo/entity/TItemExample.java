@@ -3,14 +3,14 @@ package com.wan37.mysql.pojo.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TThingsExample {
+public class TItemExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TThingsExample() {
+    public TItemExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

@@ -2,7 +2,7 @@ package com.wan37.mysql.pojo.entity;
 
 import java.io.Serializable;
 
-public class TThings implements Serializable {
+public class TItem implements Serializable {
     private String itemId;
 
     private Integer thingsId;

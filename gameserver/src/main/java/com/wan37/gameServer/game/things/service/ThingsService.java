@@ -11,16 +11,15 @@ import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
 import com.wan37.gameServer.game.things.modle.ThingProperty;
 import com.wan37.gameServer.game.things.modle.Things;
-import com.wan37.mysql.pojo.entity.TThings;
-import com.wan37.mysql.pojo.entity.TThingsExample;
+import com.wan37.mysql.pojo.entity.TItem;
 
-import com.wan37.mysql.pojo.mapper.TThingsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -32,8 +31,7 @@ import java.util.List;
 @Service
 public class ThingsService {
 
-    @Resource
-    private TThingsMapper tThingsMapper;
+
 
     @Resource
     private ThingsCacheMgr thingsCacheMgr;
@@ -51,9 +49,9 @@ public class ThingsService {
 
 
     public List<Things> getThingsByPlayerId(Player player) {
-        List<TThings> tThingsList = bagsManager.get(player.getId());
+        Map<String, TItem> itemMap = bagsManager.get(player.getId()).getItemMap();
         List<Things> thingsList = new ArrayList<>();
-        tThingsList.forEach( tThings -> {
+        itemMap.values().forEach( tThings -> {
             Things things = thingsCacheMgr.get(tThings.getThingsId());
             if (things != null){
                 // 获取是否已装备的状态
