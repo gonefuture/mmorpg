@@ -1,4 +1,4 @@
-package com.wan37.gameServer.controller;
+package com.wan37.gameServer.game.gameRole.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;

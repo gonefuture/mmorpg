@@ -1,4 +1,4 @@
-package com.wan37.gameServer.controller;
+package com.wan37.gameServer.game.skills.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.EorroMsg;

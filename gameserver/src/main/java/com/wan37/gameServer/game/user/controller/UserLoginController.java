@@ -39,7 +39,7 @@ public class UserLoginController implements IController {
         if (flag) {
             // 将用户id放入缓存，与channel上下文联系起来
             userCacheMgr.saveCtx(userId,ctx);
-            result = "登陆成功,请发送指令 1002 加载角色列表";
+            result = "登陆成功,请发送指令 list_roles 加载角色列表";
         } else {
            result = "登陆失败，请检查用户名或密码";
         }

@@ -2,6 +2,7 @@ package com.wan37.gameClient;
 
 
 import com.wan37.common.entity.Message;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameClient.coder.MessageDecoder;
 import com.wan37.gameClient.coder.MessageEncoder;
 
@@ -80,7 +81,8 @@ public class GameClient {
                     //log.debug("客户端发送的信息： "+content);
                     String[] array = content.split(" ");
                     Message message = new Message();
-                    message.setMsgId(Integer.valueOf(array[0]));
+                    MsgId msgId = MsgId.find(array[0],MsgId.UNKNOWN);
+                    message.setMsgId(msgId.getMsgId());
                     message.setType((byte)1);
                     message.setContent(content.getBytes());
                     channel.writeAndFlush(message);
