@@ -43,7 +43,9 @@ public class SceneObject implements IExcel<Long> {
     @EntityName(column = "刷新时间")
     private Long refreshTime;
 
-
+    @EntityName(column = "掉落")
+    private String drop;
+    
 
     @Override
     public Long getKey() {
