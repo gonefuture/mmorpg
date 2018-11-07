@@ -1,5 +1,6 @@
 package com.wan37.gameServer.entity;
 
+import com.wan37.gameServer.game.SceneObject.model.SceneObject;
 import com.wan37.mysql.pojo.entity.TGameObject;
 import lombok.Data;
 
@@ -12,7 +13,7 @@ import lombok.Data;
 
 
 @Data
-public class Monster  extends TGameObject implements SceneActor {
+public class Monster  extends SceneObject implements SceneActor {
 
     // 死亡时间
     private long deadTime;

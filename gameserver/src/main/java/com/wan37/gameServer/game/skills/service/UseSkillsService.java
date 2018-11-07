@@ -1,5 +1,6 @@
 package com.wan37.gameServer.game.skills.service;
 
+import com.wan37.gameServer.game.SceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.entity.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -36,6 +37,9 @@ public class UseSkillsService {
     @Resource
     private SkillsCacheMgr skillsCacheMgr;
 
+    @Resource
+    private MonsterDropsService monsterDropsService;
+
 
 
     public Monster attackMonsterBySkill(String channelId, int skillId, long gameObjectId) {
@@ -61,6 +65,10 @@ public class UseSkillsService {
                 monster.setState(-1);
                 monster.setHp((long)0);
                 monster.setDeadTime(System.currentTimeMillis());
+
+                // 结算掉落，这里暂时直接放到背包里
+                monsterDropsService.dropItem(player,monster);
+
             }
 
             gameScene.getMonsters().put(monster.getId(),monster);

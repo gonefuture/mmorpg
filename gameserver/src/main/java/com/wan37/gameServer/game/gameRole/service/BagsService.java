@@ -32,6 +32,11 @@ public class BagsService {
     @Resource
     private ThingsCacheMgr thingsCacheMgr;
 
+
+    /**
+     *
+     *  展示背包格子
+     */
     public List<BagsCell> show(Long playerId) {
         List<BagsCell> bagsCellList = new ArrayList<>();
         Bags bags = bagsManager.get(playerId);
@@ -45,5 +50,22 @@ public class BagsService {
             });
         }
         return bagsCellList;
+    }
+
+
+    /**
+     *  获取物品的物品信息
+     */
+    public Things getThings(Long playerId, String itemId) {
+        Bags bags = bagsManager.get(playerId);
+        TItem tItem = bags.getItemMap().get(itemId);
+        if (tItem == null)
+            return null;
+        return thingsCacheMgr.get(tItem.getThingsId());
+    }
+
+
+    public Bags getBagsByPlayerId(Long playerId) {
+        return bagsManager.get(playerId);
     }
 }
