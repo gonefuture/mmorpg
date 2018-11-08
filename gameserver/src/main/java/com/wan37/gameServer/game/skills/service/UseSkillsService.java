@@ -1,5 +1,6 @@
 package com.wan37.gameServer.game.skills.service;
 
+import com.wan37.common.entity.Message;
 import com.wan37.gameServer.game.SceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.entity.Monster;
@@ -8,6 +9,7 @@ import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.game.skills.manager.SkillsCacheMgr;
 import com.wan37.gameServer.game.skills.model.Skill;
+import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.mysql.pojo.entity.TSkill;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,9 @@ public class UseSkillsService {
     @Resource
     private MonsterDropsService monsterDropsService;
 
+    @Resource
+    private NotificationManager notificationManager;
+
 
 
     public Monster attackMonsterBySkill(String channelId, int skillId, long gameObjectId) {
@@ -68,6 +73,9 @@ public class UseSkillsService {
                 // 结算掉落，这里暂时直接放到背包里
                 monsterDropsService.dropItem(player,monster);
 
+                // 广播事件
+
+                notificationManager.<Monster>notifyScenePlayerWithMessage(gameScene,monster);
             }
 
             gameScene.getMonsters().put(monster.getId(),monster);
