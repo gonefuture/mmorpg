@@ -16,6 +16,7 @@ import com.wan37.gameServer.game.things.modle.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.util.ProbabilityTool.ProbabilityUtil;
 import com.wan37.mysql.pojo.entity.TItem;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,6 +28,7 @@ import java.util.List;
  */
 
 @Service
+@Slf4j
 public class MonsterDropsService {
 
     @Resource
@@ -43,6 +45,7 @@ public class MonsterDropsService {
         Bags bags = bagsService.getBagsByPlayerId(player.getId());
         List<Drop> dropList = calculateDrop(sceneObject);
         for (Drop drop : dropList) {
+            log.debug("drop {}", drop);
             int chance = drop.getChance();
             boolean flag = ProbabilityUtil.dropProbability(chance);
             if (flag) {
@@ -55,6 +58,7 @@ public class MonsterDropsService {
                 tItem.setPlayerId(player.getId());
                 tItem.setThingsId(things.getId());
                 bags.getItemMap().put(itemId, tItem);
+                log.debug("bags {}",bags);
             }
         }
     }

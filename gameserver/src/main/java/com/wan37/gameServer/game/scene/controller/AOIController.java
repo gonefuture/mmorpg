@@ -8,8 +8,10 @@ import com.wan37.gameServer.entity.Monster;
 import com.wan37.gameServer.entity.NPC;
 import com.wan37.gameServer.game.gameRole.model.Player;
 
+import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.AOIService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,9 @@ public class AOIController implements IController {
     @Resource
     private PlayerDataService playerDataService;
 
+    @Resource
+    private GameSceneService gameSceneService;
+
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
 
@@ -46,12 +51,14 @@ public class AOIController implements IController {
         Map<Long,NPC> npCMap = aoiService.getNPCs(sceneId );
         Map<Long,Monster> monsterMap = aoiService.getMonsters(sceneId);
         List<Player> playerList = aoiService.getPlayerInScene(sceneId );
+        GameScene gameScene = gameSceneService.findTScene(sceneId);
 
        StringBuilder  sb = new StringBuilder();
         if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {
              sb.append("我发现 ,这个地方空无一物");
         } else {
-            sb.append("场景内玩家:");
+            sb.append("当前位置是： ").append(gameScene).append("\n");
+            sb.append("场景内玩家: ");
             playerList.forEach( (p -> {
                 sb.append(JSON.toJSONString(p)).append("\n");
             }));

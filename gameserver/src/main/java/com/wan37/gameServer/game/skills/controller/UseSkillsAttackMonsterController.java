@@ -30,7 +30,7 @@ public class UseSkillsAttackMonsterController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        String[] parameter = new String(message.getContent()).split(" ");
+        String[] parameter = new String(message.getContent()).split("\\s+");
         int skillId = Integer.valueOf(parameter[1]);
         long gameObjectId =  Long.valueOf(parameter[2]);
 

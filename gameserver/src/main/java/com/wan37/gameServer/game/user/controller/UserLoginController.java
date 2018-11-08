@@ -30,7 +30,7 @@ public class UserLoginController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        String[] array = new String(message.getContent()).split(" ");
+        String[] array = new String(message.getContent()).split("\\s+");
         long userId =  Long.valueOf(array[1]);
         String password = array[2];
         boolean flag = userService.login(userId, password,

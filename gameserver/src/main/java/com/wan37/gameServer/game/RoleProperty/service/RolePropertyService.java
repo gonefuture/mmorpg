@@ -33,7 +33,7 @@ public class RolePropertyService {
      */
     public void loadRoleProperty(Player player) {
         Map<Integer,RoleProperty> rolePropertyMap = player.getRolePropertyMap();
-        for (int key=1; key <=8; key++ ) {
+        for (int key=1; key <=6; key++ ) {
             RoleProperty roleProperty = rolePropertyManager.get(key);
             rolePropertyMap.put(roleProperty.getKey(),roleProperty);
             log.debug("rolePropertyMap {}",rolePropertyMap);

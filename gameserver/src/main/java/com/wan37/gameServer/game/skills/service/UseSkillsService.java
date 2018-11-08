@@ -51,7 +51,6 @@ public class UseSkillsService {
         Monster monster = gameScene.getMonsters().get(gameObjectId);
 
         Skill skill =  skillsCacheMgr.get(skillId);
-
         if ( monster != null && skill != null &&
         canUseSkill(player,skill)
                 ) {

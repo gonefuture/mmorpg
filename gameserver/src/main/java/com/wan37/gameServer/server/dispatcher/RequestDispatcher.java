@@ -62,7 +62,7 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
 
-        log.info("收到的信息： "+msg.toString());
+        // log.info("收到的信息： {}", msg.toString());
         IController controller = controllerManager.get(msg.getMsgId());
         if (controller == null) {
             errorController.handle( ctx ,msg);

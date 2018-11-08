@@ -19,7 +19,6 @@ import java.util.Map;
 @Data
 public class Bags {
 
-
     private Long playerId;
 
     Map<String,TItem> itemMap = new HashMap<>();

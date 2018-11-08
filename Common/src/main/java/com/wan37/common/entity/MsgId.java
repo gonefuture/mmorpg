@@ -83,7 +83,7 @@ public enum MsgId {
     }
 
 
-    public static MsgId find(String command, MsgId defaultValue){
+    public static MsgId findByCommand(String command, MsgId defaultValue){
         MsgId value = commandMap.get(command);
         if(value == null){
             return defaultValue;

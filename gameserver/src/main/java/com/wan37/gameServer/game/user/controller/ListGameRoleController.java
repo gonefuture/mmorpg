@@ -32,7 +32,7 @@ public class ListGameRoleController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        String[] array = new String(message.getContent()).split(" ");
+        String[] array = new String(message.getContent()).split("\\s+");
         User user = userCacheMgr.get(ctx.channel().id().asLongText());
         List<TPlayer> tPlayerList = userService.findPlayers(user.getId());
         message.setContent(tPlayerList.toString().getBytes());

@@ -79,9 +79,9 @@ public class GameClient {
                         System.exit(1);
                     }
                     //log.debug("客户端发送的信息： "+content);
-                    String[] array = content.split(" ");
+                    String[] array = content.split("\\s+");
                     Message message = new Message();
-                    MsgId msgId = MsgId.find(array[0],MsgId.UNKNOWN);
+                    MsgId msgId = MsgId.findByCommand(array[0],MsgId.UNKNOWN);
                     message.setMsgId(msgId.getMsgId());
                     message.setType((byte)1);
                     message.setContent(content.getBytes());
