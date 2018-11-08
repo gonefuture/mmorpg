@@ -2,6 +2,7 @@ package com.wan37.gameServer.manager.controller;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
+import com.wan37.gameServer.game.combat.controller.CommonAttackController;
 import com.wan37.gameServer.game.gameRole.controller.*;
 import com.wan37.gameServer.game.scene.controller.AOIController;
 import com.wan37.gameServer.game.scene.controller.PlayerMoveController;
@@ -71,6 +72,9 @@ public class ControllerManager {
     @Resource
     private BagsController bagsController;
 
+    @Resource
+    private CommonAttackController commonAttackController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -86,6 +90,7 @@ public class ControllerManager {
         add(MsgId.EQUIP,equipmentController);
         add(MsgId.USE_ITEM,useItemController);
         add(MsgId.SHOW_BAGS,bagsController);
+        add(MsgId.COMMON_ATTACK,commonAttackController);
     }
 
 

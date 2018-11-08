@@ -1,10 +1,10 @@
 package com.wan37.gameServer.game.skills.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.wan37.common.entity.EorroMsg;
+import com.wan37.common.entity.Msg;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.entity.Monster;
+import com.wan37.gameServer.game.SceneObject.model.Monster;
 import com.wan37.gameServer.game.SceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import io.netty.channel.ChannelHandlerContext;
@@ -48,7 +48,7 @@ public class UseSkillsAttackMonsterController implements IController {
         } else {
             // 失败标记
             message.setFlag((byte)-1);
-            result = JSON.toJSONString(new EorroMsg(500,"角色不能使用技能，角色死亡或者mp不足"));
+            result = JSON.toJSONString(new Msg(500,"角色不能使用技能，角色死亡或者mp不足"));
         }
 
         message.setContent(result.getBytes());

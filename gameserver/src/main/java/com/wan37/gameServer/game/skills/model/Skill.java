@@ -5,7 +5,7 @@ package com.wan37.gameServer.game.skills.model;
  *  说明：
  */
 
-import com.wan37.gameServer.entity.IExcel;
+import com.wan37.gameServer.model.IExcel;
 import com.wan37.gameServer.util.excel.EntityName;
 import lombok.Data;
 

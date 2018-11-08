@@ -3,12 +3,11 @@ package com.wan37.gameServer.game.gameRole.service;
 
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.entity.User;
+import com.wan37.gameServer.model.User;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
 import com.wan37.gameServer.game.user.service.UserService;
-import com.wan37.mysql.pojo.entity.TBuffer;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import org.springframework.beans.BeanUtils;

@@ -1,12 +1,11 @@
-package com.wan37.gameServer.game.RoleProperty.service;
+package com.wan37.gameServer.game.roleProperty.service;
 
-import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
+import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 /**

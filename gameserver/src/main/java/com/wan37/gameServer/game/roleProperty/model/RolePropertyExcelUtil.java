@@ -1,4 +1,4 @@
-package com.wan37.gameServer.game.RoleProperty.model;
+package com.wan37.gameServer.game.roleProperty.model;
 
 import com.wan37.gameServer.util.excel.ReadExcelByEntity;
 

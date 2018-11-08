@@ -1,6 +1,6 @@
 package com.wan37.gameServer.game.gameRole.service;
 
-import com.wan37.gameServer.game.RoleProperty.service.RolePropertyService;
+import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.manager.BagsManager;
 import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Player;

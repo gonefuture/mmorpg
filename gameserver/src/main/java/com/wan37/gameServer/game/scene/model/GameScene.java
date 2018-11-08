@@ -1,11 +1,10 @@
 package com.wan37.gameServer.game.scene.model;
 
 
-import com.wan37.gameServer.entity.Monster;
-import com.wan37.gameServer.entity.NPC;
+import com.wan37.gameServer.game.SceneObject.model.Monster;
+import com.wan37.gameServer.game.SceneObject.model.NPC;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.util.excel.EntityName;
-import com.wan37.mysql.pojo.entity.TScene;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

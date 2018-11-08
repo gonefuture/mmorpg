@@ -5,7 +5,8 @@ package com.wan37.gameServer.game.SceneObject.model;
  *  说明：
  */
 
-import com.wan37.gameServer.entity.IExcel;
+import com.wan37.gameServer.model.Creature;
+import com.wan37.gameServer.model.IExcel;
 import com.wan37.gameServer.util.excel.EntityName;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import lombok.Data;
  */
 
 @Data
-public class SceneObject implements IExcel<Long> {
+public class SceneObject extends Creature implements IExcel<Long>  {
 
     @EntityName(column = "id")
     private Long id;

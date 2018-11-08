@@ -1,12 +1,11 @@
 package com.wan37.gameServer.game.things.modle;
 
-import com.wan37.gameServer.entity.IExcel;
-import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
+import com.wan37.gameServer.model.IExcel;
+import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.util.excel.EntityName;
 import lombok.Data;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**

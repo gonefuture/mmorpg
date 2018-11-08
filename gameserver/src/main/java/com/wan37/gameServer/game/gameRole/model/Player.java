@@ -1,8 +1,8 @@
 package com.wan37.gameServer.game.gameRole.model;
 
 
-import com.wan37.gameServer.entity.SceneActor;
-import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
+import com.wan37.gameServer.model.SceneActor;
+import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
 
 import com.wan37.gameServer.game.skills.model.Skill;
@@ -24,7 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @Slf4j
-public class Player extends TPlayer  implements SceneActor {
+public class Player extends TPlayer   {
 
 
     // 角色当前使用技能的集合

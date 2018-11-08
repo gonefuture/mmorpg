@@ -1,14 +1,13 @@
 package com.wan37.gameServer.game.things.service;
 
 import com.alibaba.fastjson.JSON;
-import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
-import com.wan37.gameServer.game.RoleProperty.service.RolePropertyService;
+import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
+import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.manager.BagsManager;
 import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
-import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
 import com.wan37.gameServer.game.things.modle.ThingProperty;
 import com.wan37.gameServer.game.things.modle.Things;

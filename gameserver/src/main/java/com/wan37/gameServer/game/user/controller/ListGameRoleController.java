@@ -2,7 +2,7 @@ package com.wan37.gameServer.game.user.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.entity.User;
+import com.wan37.gameServer.model.User;
 import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
 

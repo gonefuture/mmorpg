@@ -1,7 +1,7 @@
 package com.wan37.gameServer.util.excel;
 
 import com.google.common.cache.Cache;
-import com.wan37.gameServer.entity.IExcel;
+import com.wan37.gameServer.model.IExcel;
 import com.wan37.gameServer.game.things.modle.ThingsExcelUtil;
 import com.wan37.gameServer.util.FileUtil;
 import org.slf4j.Logger;

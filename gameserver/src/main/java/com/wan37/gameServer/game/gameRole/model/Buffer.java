@@ -1,8 +1,7 @@
 package com.wan37.gameServer.game.gameRole.model;
 
-import com.wan37.gameServer.entity.IExcel;
+import com.wan37.gameServer.model.IExcel;
 import com.wan37.gameServer.util.excel.EntityName;
-import com.wan37.mysql.pojo.entity.TBuffer;
 import lombok.Data;
 
 /**

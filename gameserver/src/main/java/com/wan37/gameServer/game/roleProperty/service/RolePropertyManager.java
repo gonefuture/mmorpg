@@ -1,10 +1,10 @@
-package com.wan37.gameServer.game.RoleProperty.service;
+package com.wan37.gameServer.game.roleProperty.service;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.RoleProperty.model.RoleProperty;
+import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
-import com.wan37.gameServer.game.RoleProperty.model.RolePropertyExcelUtil;
+import com.wan37.gameServer.game.roleProperty.model.RolePropertyExcelUtil;
 import com.wan37.gameServer.manager.cache.GameCacheManager;
 import com.wan37.gameServer.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;

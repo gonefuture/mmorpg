@@ -1,6 +1,6 @@
-package com.wan37.gameServer.game.RoleProperty.model;
+package com.wan37.gameServer.game.roleProperty.model;
 
-import com.wan37.gameServer.entity.IExcel;
+import com.wan37.gameServer.model.IExcel;
 import com.wan37.gameServer.util.excel.EntityName;
 import lombok.Data;
 

@@ -2,7 +2,7 @@ package com.wan37.gameServer.manager.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.entity.User;
+import com.wan37.gameServer.model.User;
 
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Component;

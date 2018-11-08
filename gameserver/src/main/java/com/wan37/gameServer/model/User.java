@@ -1,4 +1,4 @@
-package com.wan37.gameServer.entity;
+package com.wan37.gameServer.model;
 
 import com.wan37.mysql.pojo.entity.TUser;
 import lombok.Data;

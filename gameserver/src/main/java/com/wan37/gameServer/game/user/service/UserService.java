@@ -3,7 +3,7 @@ package com.wan37.gameServer.game.user.service;
 
 
 
-import com.wan37.gameServer.entity.User;
+import com.wan37.gameServer.model.User;
 import com.wan37.gameServer.manager.cache.PlayerListCacheMgr;
 import com.wan37.gameServer.manager.cache.UserCacheMgr;
 import com.wan37.mysql.pojo.entity.TPlayer;

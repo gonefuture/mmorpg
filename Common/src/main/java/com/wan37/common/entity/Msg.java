@@ -9,7 +9,7 @@ import lombok.Data;
  * Description: 错误信息实体类
  */
 @Data
-public class EorroMsg {
+public class Msg {
 
     // 错误码
     int code;
@@ -17,11 +17,11 @@ public class EorroMsg {
     // 错误信息
     String msg;
 
-    public EorroMsg() {
+    public Msg() {
 
     }
 
-    public EorroMsg(int code, String msg) {
+    public Msg(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }

@@ -55,6 +55,9 @@ public enum MsgId {
     // 使用道具物品
     USE_ITEM("use_item",3006),
 
+    // 角色使用普通攻击怪物
+    COMMON_ATTACK("common_attack",3007),
+
     // 与NPC，怪物对话
     DIALOG("dialog",4001),
 
