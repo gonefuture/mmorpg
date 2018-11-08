@@ -35,7 +35,13 @@ public class ListGameRoleController implements IController {
         String[] array = new String(message.getContent()).split("\\s+");
         User user = userCacheMgr.get(ctx.channel().id().asLongText());
         List<TPlayer> tPlayerList = userService.findPlayers(user.getId());
-        message.setContent(tPlayerList.toString().getBytes());
+        StringBuilder sb = new StringBuilder();
+
+        tPlayerList.forEach( tPlayer -> {
+            sb.append(tPlayer.toString());
+            sb.append("\n");
+        });
+        message.setContent(sb.toString().getBytes());
         ctx.writeAndFlush(message);
     }
 }

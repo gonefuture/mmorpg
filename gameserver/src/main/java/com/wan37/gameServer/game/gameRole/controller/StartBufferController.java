@@ -42,7 +42,7 @@ public class StartBufferController implements IController {
 
         String result = "";
         if (flag) {
-            result = JSON.toJSONString(bufferId);
+            result = "开始使用Buffer " + JSON.toJSONString(buffer);
         } else {
             ErrorMsg errorMsg = new ErrorMsg("404","buffer不能使用");
         }

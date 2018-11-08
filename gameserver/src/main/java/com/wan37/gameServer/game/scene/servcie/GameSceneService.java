@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -27,6 +30,17 @@ public class GameSceneService {
 
     public GameScene findTScene(int sceneId) {
         return sceneCacheMgr.get(sceneId);
+    }
+
+    public List<GameScene> findSceneByIds(String sceneIds) {
+        List<GameScene> gameSceneList = new ArrayList<>();
+        String[] stringIds = sceneIds.split(",");
+        Arrays.stream(stringIds).forEach((stringId) -> {
+            Integer id = Integer.valueOf(stringId);
+            GameScene gameScene = sceneCacheMgr.get(id);
+            gameSceneList.add(gameScene);
+        });
+        return gameSceneList;
     }
 
 

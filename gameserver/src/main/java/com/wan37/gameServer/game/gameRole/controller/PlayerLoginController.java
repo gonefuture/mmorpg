@@ -5,6 +5,7 @@ import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 import com.wan37.gameServer.game.gameRole.service.PlayerLoginService;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -39,13 +41,14 @@ public class PlayerLoginController implements IController {
     @Resource
     private PlayerCacheMgr playerCacheMgr;
 
-
+    @Resource
+    private GameSceneService gameSceneService;
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] array = new String(message.getContent()).split(" ");
         Long playerId = Long.valueOf(array[1]);
-        String result = null;
+        StringBuilder result = new StringBuilder();
         String channelId = ctx.channel().id().asLongText();
         if (userService.isUserOnline(channelId) && playerLoginService.hasPlayer(channelId, playerId) ){
             Player player = playerLoginService.login(playerId,channelId);
@@ -55,18 +58,24 @@ public class PlayerLoginController implements IController {
             GameScene gameScene = playerMoveService.currentScene(channelId);
             // 将角色加入场景
             playerMoveService.putPlayerInScene(gameScene,player);
-            log.debug("player"+player);
-            result = JSON.toJSON(player)
-                    + "\n 你所在位置为"
-                    +JSON.toJSON(gameScene);
+
+            result.append(player.getName()).append(",角色登陆成功")
+                    .append("\n 你所在位置为: ")
+                    .append(gameScene.getName())
+                    .append("相邻的场景是id： ");
+            List<GameScene> gameSceneList = gameSceneService.findSceneByIds(gameScene.getNeighbors());
+            gameSceneList.forEach(gameScene1 -> {
+                result.append(gameScene.getName()).append(", ");
+            });
+
             message.setFlag((byte) 1);
         } else {
-            result = "用户尚未登陆，不能加载角色";
+            result.append("用户尚未登陆，不能加载角色");
             message.setFlag((byte) -1);
         }
 
 
-        message.setContent(result.getBytes());
+        message.setContent(result.toString().getBytes());
         log.debug("角色登陆返回的信息: "+ result);
         ctx.writeAndFlush(message);
     }
