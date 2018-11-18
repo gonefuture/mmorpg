@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * @author gonefuture  gonefuture@qq.com
  * time 2018/11/8 14:29
  * @version 1.00
- * Description: mmorpg
+ * Description: 攻击服务
  */
 
 

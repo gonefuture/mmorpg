@@ -74,6 +74,8 @@ public class UseSkillsService {
                 // 广播事件
 
                 notificationManager.<Monster>notifyScenePlayerWithMessage(gameScene,monster);
+
+
             }
 
             gameScene.getMonsters().put(monster.getId(),monster);

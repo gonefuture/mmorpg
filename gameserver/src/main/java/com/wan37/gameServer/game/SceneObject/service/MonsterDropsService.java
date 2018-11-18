@@ -14,6 +14,7 @@ import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.BagsService;
 import com.wan37.gameServer.game.things.modle.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;
+import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.util.ProbabilityTool.ProbabilityUtil;
 import com.wan37.mysql.pojo.entity.TItem;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,10 @@ public class MonsterDropsService {
     private ThingsService thingsService;
 
 
+    @Resource
+    private NotificationManager notificationManager;
+
+
     /**
      * 物品掉落
      */
@@ -58,6 +63,10 @@ public class MonsterDropsService {
                 tItem.setPlayerId(player.getId());
                 tItem.setThingsId(things.getId());
                 bags.getItemMap().put(itemId, tItem);
+
+                // 广播玩家获得的掉落
+                notificationManager.<String>notifyPlayer(player,"玩家 "+player.getName()+" 获得了"
+                        +things.getName()+ " x"+tItem.getNumber());
                 log.debug("bags {}",bags);
             }
         }
