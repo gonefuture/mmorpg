@@ -25,13 +25,16 @@ public class GameSceneService {
     @Resource
     private SceneCacheMgr sceneCacheMgr;
 
-
-
-
-    public GameScene findTScene(int sceneId) {
+    /**
+     *  通过id查找场景
+     */
+    public GameScene findSceneById(int sceneId) {
         return sceneCacheMgr.get(sceneId);
     }
 
+    /**
+     *  通过字符串的id序列查找场景
+     */
     public List<GameScene> findSceneByIds(String sceneIds) {
         List<GameScene> gameSceneList = new ArrayList<>();
         String[] stringIds = sceneIds.split(",");

@@ -1,10 +1,9 @@
 package com.wan37.gameServer.game.scene.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.SceneObject.model.Monster;
-import com.wan37.gameServer.game.SceneObject.model.NPC;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.gameRole.model.Player;
 
 import com.wan37.gameServer.game.scene.model.GameScene;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +48,7 @@ public class AOIController implements IController {
         Map<Long,NPC> npCMap = aoiService.getNPCs(sceneId );
         Map<Long,Monster> monsterMap = aoiService.getMonsters(sceneId);
         List<Player> playerList = aoiService.getPlayerInScene(sceneId );
-        GameScene gameScene = gameSceneService.findTScene(sceneId);
+        GameScene gameScene = gameSceneService.findSceneById(sceneId);
 
        StringBuilder  sb = new StringBuilder();
         if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {

@@ -1,8 +1,8 @@
 package com.wan37.gameServer.game.skills.service;
 
-import com.wan37.gameServer.game.SceneObject.service.MonsterDropsService;
+import com.wan37.gameServer.game.sceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.scene.model.GameScene;
-import com.wan37.gameServer.game.SceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
@@ -50,7 +50,7 @@ public class UseSkillsService {
         if (player == null)
             return null;
         // 获取角色所在场景中的怪物
-        GameScene gameScene = gameSceneService.findTScene(player.getScene());
+        GameScene gameScene = gameSceneService.findSceneById(player.getScene());
         Monster monster = gameScene.getMonsters().get(gameObjectId);
 
         Skill skill =  skillsCacheMgr.get(skillId);

@@ -12,15 +12,22 @@ import lombok.Data;
 @Data
 public abstract  class Creature  extends SceneActor{
 
+    // 活物的id
+    public abstract Long getId();
+
+
+    // 活物的名字
+    public abstract String getName();
+
+
     // 活物的血量
     public abstract Long getHp();
     public abstract void setHp(Long hp);
 
 
-
     // 活物的状态，生存 or 死亡
     public abstract Integer getState();
-    public abstract void setState(Integer mp);
+    public abstract void setState(Integer state);
 
 
 
