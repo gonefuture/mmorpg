@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,6 +51,10 @@ public class GameScene  {
 
     private Map<Long,Monster> monsters = new ConcurrentHashMap<>();
 
+    public String display() {
+        return MessageFormat.format("id:{0}  name:{1}"
+                ,this.getId(),this.getName());
+    }
 
 
 }

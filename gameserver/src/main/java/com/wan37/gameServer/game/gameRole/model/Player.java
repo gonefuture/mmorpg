@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -43,5 +44,12 @@ public class Player extends TPlayer   {
     EquipmentBar equipmentBar = new EquipmentBar();
 
 
+
+
+
+    public String displayData() {
+        return MessageFormat.format("id:{0}  name:{1}  hp:{2}  mp:{3}"
+                ,this.getId(),this.getName(), this.getHp(), this.getMp());
+    }
 
 }

@@ -42,11 +42,11 @@ public class PlayerMoveController implements IController {
         if (playerMoveService.moveScene(ctx.channel().id().asLongText(),willMoveSceneId)) {
             // 获取当前角色所在的场景
 
-            result.put("你所在的地方是： ",gameScene.toString());
+            result.put("你到达的地方是： ", gameScene.display());
         } else {
-            result.put("这个地点不能到： ",gameScene.toString());
+            result.put("这个地点不能到： ",gameScene.display());
             GameScene currentScene = playerMoveService.currentScene(ctx.channel().id().asLongText());
-            result.put("\n 当前所处的地方是",currentScene);
+            result.put("\n 当前所处的地方是",currentScene.display());
         }
 
         message.setContent(JSON.toJSONString(result).getBytes());

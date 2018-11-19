@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -55,13 +56,24 @@ public class AOIController implements IController {
         if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {
              sb.append("我发现 ,这个地方空无一物");
         } else {
-            sb.append("当前位置是： ").append(gameScene).append("\n");
+            sb.append("当前位置是： ").append(gameScene.getName()).append("\n");
             sb.append("场景内玩家: ");
             playerList.forEach( (p -> {
-                sb.append(JSON.toJSONString(p)).append("\n");
+                sb.append(p.displayData()).append("\n");
             }));
-            sb. append("场景内NPC： ").append(JSON.toJSONString(npCMap)).append("\n");
-            sb. append("场景内怪物: ").append(JSON.toJSONString(monsterMap)).append("\n");
+            sb. append("场景内NPC： ").append("\n");
+            npCMap.values().forEach( npc -> {
+                sb.append(npc.displayData()
+                ).append("\n");
+            });
+
+            sb. append("场景内怪物: ").append("\n");;
+            monsterMap.values().forEach( monster -> {
+                sb.append(monster.displayData()
+                ).append("\n");
+            });
+
+
         }
         log.debug("当前场景的玩家对象有{}个，分别为{} ",playerList.size(),playerList);
         message.setFlag((byte)1);
