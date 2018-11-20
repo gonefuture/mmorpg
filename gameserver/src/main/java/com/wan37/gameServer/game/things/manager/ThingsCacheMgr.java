@@ -2,8 +2,8 @@ package com.wan37.gameServer.game.things.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.things.modle.Things;
-import com.wan37.gameServer.game.things.modle.ThingsExcelUtil;
+import com.wan37.gameServer.game.things.model.Things;
+import com.wan37.gameServer.game.things.model.ThingsExcelUtil;
 import com.wan37.gameServer.manager.cache.GameCacheManager;
 import com.wan37.gameServer.util.FileUtil;
 

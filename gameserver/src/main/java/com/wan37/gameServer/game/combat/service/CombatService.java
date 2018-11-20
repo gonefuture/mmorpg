@@ -43,12 +43,12 @@ public class CombatService {
             return new Msg(401,"目标已经死亡");
         } else {
             target.setHp(target.getHp() - attack);
-            notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
-                    MessageFormat.format("目标 {0},hp：{1}",target.getName(),target.getHp()));
             if (target.getHp() <0) {
                 target.setHp(0L);
                 target.setState(-1);
             }
+            notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
+                    MessageFormat.format("目标 {0},hp：{1}",target.getName(),target.getHp()));
             return new Msg(200,"攻击成功");
         }
     }
@@ -60,6 +60,11 @@ public class CombatService {
 
         GameScene gameScene = gameSceneService.findSceneById(player.getScene());
         Creature target = gameScene.getMonsters().get(gameObjectId);
+
+        if (target == null) {
+            return new Msg(404,"目标不存在");
+        }
+
         // 获取玩家的基础攻击这一属性
         int attack = player.getRolePropertyMap().get(4).getValue();
 

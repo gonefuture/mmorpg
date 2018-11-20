@@ -11,7 +11,7 @@ import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.BagsService;
-import com.wan37.gameServer.game.things.modle.Things;
+import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.util.ProbabilityTool.ProbabilityUtil;

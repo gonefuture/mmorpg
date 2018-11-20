@@ -65,7 +65,7 @@ public class PlayerLoginController implements IController {
                     .append("相邻的场景是： ");
             List<GameScene> gameSceneList = gameSceneService.findSceneByIds(gameScene.getNeighbors());
             gameSceneList.forEach(neighbor -> {
-                result.append(neighbor.getId()).append(" : ").append(neighbor.getName()).append(", ");
+                result.append(neighbor.getId()).append(": ").append(neighbor.getName()).append(", ");
             });
 
             message.setFlag((byte) 1);
