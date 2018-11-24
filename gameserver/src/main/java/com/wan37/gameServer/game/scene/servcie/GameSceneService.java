@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.scene.servcie;
 
 
+import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,11 @@ public class GameSceneService {
             gameSceneList.add(gameScene);
         });
         return gameSceneList;
+    }
+
+    public List<GameScene> findSceneByPlayer(Player player) {
+        GameScene gameScene = findSceneById(player.getScene());
+        return findSceneByIds(gameScene.getNeighbors());
     }
 
 

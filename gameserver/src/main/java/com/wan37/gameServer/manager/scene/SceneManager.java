@@ -75,7 +75,7 @@ public class SceneManager {
                     monster.getDeadTime()+monster.getRefreshTime() <System.currentTimeMillis()) {
                 SceneObject sceneObject = gameObjectCacheMgr.get(monster.getId());
                 monster.setHp(sceneObject.getHp());
-                monster.setState(monster.getState());
+                monster.setState(sceneObject.getState());
             }
         }
     }

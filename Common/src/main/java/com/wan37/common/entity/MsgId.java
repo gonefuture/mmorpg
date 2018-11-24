@@ -36,12 +36,16 @@ public enum MsgId {
     // 展示背包
     SHOW_BAGS("show_bags",2003),
 
+    // 显示当前位置和相邻场景
+    LOCATION("location",2004),
+
 
     // 角色移动， 参数 场景id ， 例： move 2
     MOVE("move",3001),
 
     // AOI, 显示场景内各种游戏对象
     AOI("aoi",3002),
+
 
     // 使用技能
     USE_SKILLS("use_skill",3003),
@@ -57,6 +61,7 @@ public enum MsgId {
 
     // 角色使用普通攻击怪物
     COMMON_ATTACK("common_attack",3007),
+
 
     // 与NPC，怪物对话
     DIALOG("dialog",4001),
