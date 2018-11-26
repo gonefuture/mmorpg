@@ -41,6 +41,9 @@ public class GameScene  {
     @EntityName(column = "场景对象")
     private String gameObjectIds;
 
+    @EntityName(column = "副本时间")
+    private Long instanceTime;
+
 
     // 处于场景的玩家
     private Map<Long,Player> players = new ConcurrentHashMap<>();

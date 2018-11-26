@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.gameRole.model;
 
 
+import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.model.SceneActor;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
@@ -38,10 +39,12 @@ public class Player extends TPlayer   {
     Map<Integer,RoleProperty> rolePropertyMap = new ConcurrentHashMap<>();
 
 
-
-
     // 装备
     EquipmentBar equipmentBar = new EquipmentBar();
+
+
+    // 玩家当前进行的副本。
+    GameInstance currentGameInstance;
 
 
 

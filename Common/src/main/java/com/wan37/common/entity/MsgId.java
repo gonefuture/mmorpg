@@ -62,6 +62,9 @@ public enum MsgId {
     // 角色使用普通攻击怪物
     COMMON_ATTACK("common_attack",3007),
 
+    // 进入副本
+    ENTER_INSTANCE("enter_instance",3008),
+
 
     // 与NPC，怪物对话
     DIALOG("dialog",4001),

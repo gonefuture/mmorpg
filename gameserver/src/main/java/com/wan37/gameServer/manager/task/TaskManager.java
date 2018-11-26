@@ -19,6 +19,9 @@ public class TaskManager {
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(20);
 
 
+    /**
+     *  设置定时任务
+     */
     public Future<EventData> schedule(long delay, Callable<EventData> callback) {
         return executorService.schedule(callback,delay, TimeUnit.MILLISECONDS);
     }
