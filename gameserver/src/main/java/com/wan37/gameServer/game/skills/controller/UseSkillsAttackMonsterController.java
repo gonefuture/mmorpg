@@ -4,7 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Msg;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.sceneObject.model.Monster;
+
+import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import io.netty.channel.ChannelHandlerContext;

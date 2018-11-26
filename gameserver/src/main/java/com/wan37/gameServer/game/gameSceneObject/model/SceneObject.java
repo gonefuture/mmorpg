@@ -46,7 +46,19 @@ public class SceneObject extends Creature implements IExcel<Long>  {
 
     @EntityName(column = "掉落")
     private String drop;
-    
+
+
+
+    // 死亡时间
+    private long deadTime;
+
+
+    public  Long getDeadTime() {
+        return deadTime;
+    }
+    public  void  setDeadTime(Long deadTime){
+        this.deadTime = deadTime;
+    }
 
     @Override
     public Long getKey() {

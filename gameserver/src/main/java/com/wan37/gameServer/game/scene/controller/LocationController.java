@@ -38,12 +38,13 @@ public class LocationController implements IController {
 
         List<GameScene> gameSceneList = gameSceneService.findSceneByIds(gameScene.getNeighbors());
 
-        String location = MessageFormat.format("当前场景是： {0}",gameScene.getName() );
+        String location = MessageFormat.format("当前场景是： {0} \n",gameScene.getName() );
         StringBuilder neighbors = new StringBuilder();
         neighbors.append(location);
+        neighbors.append("相邻的场景是： ");
         gameSceneList.forEach(
                 neighbor -> {
-                    neighbors.append(MessageFormat.format("id：{0} {1}",neighbor.getId(), neighbor.getName() ));
+                    neighbors.append(MessageFormat.format("{0}: {1} ",neighbor.getId(), neighbor.getName() ));
                 }
         );
 

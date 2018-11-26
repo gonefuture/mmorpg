@@ -2,10 +2,12 @@ package com.wan37.gameServer.game.scene.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.sceneObject.model.Monster;
-import com.wan37.gameServer.game.sceneObject.model.NPC;
+
+import com.wan37.gameServer.game.gameSceneObject.model.Monster;
+
 import com.wan37.gameServer.game.gameRole.model.Player;
 
+import com.wan37.gameServer.game.gameSceneObject.model.NPC;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.AOIService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
@@ -65,7 +67,7 @@ public class AOIController implements IController {
                 ).append("\n");
             });
 
-            sb. append("场景内怪物: ").append("\n");;
+            sb. append("场景内怪物: ").append("\n");
             monsterMap.values().forEach( monster -> {
                 sb.append(monster.displayData()
                 ).append("\n");

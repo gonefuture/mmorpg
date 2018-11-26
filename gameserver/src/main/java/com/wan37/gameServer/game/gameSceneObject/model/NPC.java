@@ -1,7 +1,9 @@
-package com.wan37.gameServer.game.sceneObject.model;
+package com.wan37.gameServer.game.gameSceneObject.model;
+
+
 
 import lombok.Data;
-
+import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import java.text.MessageFormat;
 
 /**
@@ -14,8 +16,7 @@ import java.text.MessageFormat;
 @Data
 public class NPC  extends SceneObject {
 
-    // 死亡时间
-    private long deadTime;
+
 
     public String displayData() {
         return MessageFormat.format("id:{0}  name:{1}  hp:{2}  mp:{3} state:{4}" +
