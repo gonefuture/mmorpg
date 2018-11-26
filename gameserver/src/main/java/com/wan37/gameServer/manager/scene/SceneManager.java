@@ -1,12 +1,12 @@
 package com.wan37.gameServer.manager.scene;
 
-import com.wan37.gameServer.game.SceneObject.model.Monster;
-import com.wan37.gameServer.game.SceneObject.model.NPC;
-import com.wan37.gameServer.game.SceneObject.model.SceneObject;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.NPC;
+import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.scene.model.GameScene;
-import com.wan37.gameServer.game.SceneObject.manager.GameObjectCacheMgr;
+import com.wan37.gameServer.game.sceneObject.manager.GameObjectCacheMgr;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @author gonefuture  gonefuture@qq.com
  * time 2018/10/11 18:06
  * @version 1.00
- * Description: 场景定时定时器
+ * Description: 场景心跳定时器
  */
 
 @Component
@@ -70,11 +70,12 @@ public class SceneManager {
 
         Map<Long,Monster> monsterMap = gameScene.getMonsters();
         for (Monster monster : monsterMap.values()) {
+            // 检测怪物是否死亡和到达刷新时间
             if (monster.getState() == -1 &&
                     monster.getDeadTime()+monster.getRefreshTime() <System.currentTimeMillis()) {
                 SceneObject sceneObject = gameObjectCacheMgr.get(monster.getId());
                 monster.setHp(sceneObject.getHp());
-                monster.setState(monster.getState());
+                monster.setState(sceneObject.getState());
             }
         }
     }
@@ -124,9 +125,25 @@ public class SceneManager {
      */
     private void bufferEffect(Player player, Buffer buffer) {
 
+        long baseHp = player.getRolePropertyMap().get(1).getValue();
+        long baseMp = player.getRolePropertyMap().get(1).getValue();
 
-        player.setHp(player.getHp() + buffer.getHp());
-        player.setMp(player.getMp() + buffer.getMp());
+        long changeHp = player.getHp()+ buffer.getHp();
+        long changeMp =player.getMp() + buffer.getMp();
+
+
+        if ( changeHp > baseHp) {
+            player.setHp(baseHp);
+        } else if (changeHp < 0) {
+            player.setHp((long)0);
+        }
+
+        if ( changeMp > baseMp) {
+            player.setMp(baseMp);
+        } else if (changeMp < 0) {
+            player.setMp((long)0);
+        }
+
         //log.debug("player {},hp {} ,Mp() {}",player,player.getHp(),player.getMp());
     }
 

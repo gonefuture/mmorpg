@@ -1,20 +1,15 @@
-package com.wan37.gameServer.game.SceneObject.manager;
+package com.wan37.gameServer.game.sceneObject.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.SceneObject.model.SceneObject;
-import com.wan37.gameServer.game.SceneObject.model.SceneObjectExcelUtil;
-import com.wan37.gameServer.game.scene.model.SceneExcelUtil;
+import com.wan37.gameServer.game.sceneObject.model.SceneObject;
+import com.wan37.gameServer.game.sceneObject.model.SceneObjectExcelUtil;
 import com.wan37.gameServer.manager.cache.GameCacheManager;
 import com.wan37.gameServer.util.FileUtil;
-import com.wan37.mysql.pojo.entity.TGameObject;
-import com.wan37.mysql.pojo.mapper.TGameObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 /**

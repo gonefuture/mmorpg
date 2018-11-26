@@ -1,6 +1,6 @@
 package com.wan37.gameServer.service;
 
-import com.wan37.gameServer.game.SceneObject.service.GameObjectService;
+import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
 import com.wan37.mysql.pojo.entity.TGameObject;
 import org.junit.Assert;
 import org.junit.Test;

@@ -5,6 +5,7 @@ import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.game.combat.controller.CommonAttackController;
 import com.wan37.gameServer.game.gameRole.controller.*;
 import com.wan37.gameServer.game.scene.controller.AOIController;
+import com.wan37.gameServer.game.scene.controller.LocationController;
 import com.wan37.gameServer.game.scene.controller.PlayerMoveController;
 import com.wan37.gameServer.game.skills.controller.UseSkillsAttackMonsterController;
 import com.wan37.gameServer.game.things.controller.UseItemController;
@@ -75,6 +76,9 @@ public class ControllerManager {
     @Resource
     private CommonAttackController commonAttackController;
 
+    @Resource
+    private LocationController locationController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -91,6 +95,7 @@ public class ControllerManager {
         add(MsgId.USE_ITEM,useItemController);
         add(MsgId.SHOW_BAGS,bagsController);
         add(MsgId.COMMON_ATTACK,commonAttackController);
+        add(MsgId.LOCATION,locationController);
     }
 
 

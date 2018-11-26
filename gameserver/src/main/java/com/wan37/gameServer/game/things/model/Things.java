@@ -1,4 +1,4 @@
-package com.wan37.gameServer.game.things.modle;
+package com.wan37.gameServer.game.things.model;
 
 import com.wan37.gameServer.model.IExcel;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
@@ -39,6 +39,9 @@ public class Things implements IExcel<Integer> {
 
     @EntityName(column = "部位")
     private String part;
+
+    @EntityName(column = "描述")
+    private String describe;
 
 
     // 物品状态，1为已装备，2为未装备

@@ -1,9 +1,8 @@
 package com.wan37.gameServer.game.gameRole.service;
 
 import com.wan37.gameServer.game.gameRole.manager.BagsManager;
-import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.things.modle.Things;
+import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

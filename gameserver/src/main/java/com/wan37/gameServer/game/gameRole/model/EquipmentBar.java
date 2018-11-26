@@ -1,7 +1,7 @@
 package com.wan37.gameServer.game.gameRole.model;
 
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
-import com.wan37.gameServer.game.things.modle.Things;
+import com.wan37.gameServer.game.things.model.Things;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

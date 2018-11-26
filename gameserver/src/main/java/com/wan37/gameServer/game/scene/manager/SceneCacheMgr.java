@@ -2,13 +2,13 @@ package com.wan37.gameServer.game.scene.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.SceneObject.model.SceneObject;
+import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import com.wan37.gameServer.game.scene.model.GameScene;
-import com.wan37.gameServer.game.SceneObject.model.Monster;
-import com.wan37.gameServer.game.SceneObject.model.NPC;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.scene.model.SceneExcelUtil;
 import com.wan37.gameServer.manager.cache.GameCacheManager;
-import com.wan37.gameServer.game.SceneObject.service.GameObjectService;
+import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
 import com.wan37.gameServer.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;

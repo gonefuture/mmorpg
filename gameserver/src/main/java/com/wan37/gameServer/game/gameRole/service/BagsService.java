@@ -9,7 +9,7 @@ import com.wan37.gameServer.game.gameRole.manager.BagsManager;
 import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.BagsCell;
 import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
-import com.wan37.gameServer.game.things.modle.Things;
+import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.mysql.pojo.entity.TItem;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

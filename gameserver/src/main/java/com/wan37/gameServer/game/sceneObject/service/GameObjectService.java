@@ -1,7 +1,7 @@
-package com.wan37.gameServer.game.SceneObject.service;
+package com.wan37.gameServer.game.sceneObject.service;
 
-import com.wan37.gameServer.game.SceneObject.manager.GameObjectCacheMgr;
-import com.wan37.gameServer.game.SceneObject.model.SceneObject;
+import com.wan37.gameServer.game.sceneObject.manager.GameObjectCacheMgr;
+import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import com.wan37.mysql.pojo.entity.TGameObject;
 import org.springframework.stereotype.Service;
 

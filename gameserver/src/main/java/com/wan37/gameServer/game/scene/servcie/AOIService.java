@@ -1,11 +1,11 @@
 package com.wan37.gameServer.game.scene.servcie;
 
-import com.wan37.gameServer.game.SceneObject.model.Monster;
-import com.wan37.gameServer.game.SceneObject.model.NPC;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
-import com.wan37.gameServer.game.SceneObject.manager.GameObjectCacheMgr;
+import com.wan37.gameServer.game.sceneObject.manager.GameObjectCacheMgr;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 import io.netty.channel.ChannelHandlerContext;
@@ -44,7 +44,7 @@ public class AOIService {
 
     // 获取场景内的NPC
     public Map<Long,NPC> getNPCs(int sceneId) {
-        GameScene gameScene = gameSceneService.findTScene(sceneId);
+        GameScene gameScene = gameSceneService.findSceneById(sceneId);
         if (gameScene != null) {
             return gameScene.getNpcs();
         } else {
@@ -54,7 +54,7 @@ public class AOIService {
 
     //  获取场景内怪物
     public Map<Long,Monster> getMonsters(int sceneId) {
-        GameScene gameScene = gameSceneService.findTScene(sceneId);
+        GameScene gameScene = gameSceneService.findSceneById(sceneId);
         if (gameScene != null) {
             return gameScene.getMonsters();
         } else {

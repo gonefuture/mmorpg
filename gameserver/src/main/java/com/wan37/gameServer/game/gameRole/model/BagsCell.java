@@ -5,7 +5,7 @@ package com.wan37.gameServer.game.gameRole.model;
  *  说明：
  */
 
-import com.wan37.gameServer.game.things.modle.Things;
+import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.mysql.pojo.entity.TItem;
 import lombok.Data;
 

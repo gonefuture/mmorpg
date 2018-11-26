@@ -1,4 +1,4 @@
-package com.wan37.gameServer.game.things.modle;
+package com.wan37.gameServer.game.things.model;
 
 import com.wan37.gameServer.util.excel.ReadExcelByEntity;
 

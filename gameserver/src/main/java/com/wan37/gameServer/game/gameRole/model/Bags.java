@@ -1,13 +1,10 @@
 package com.wan37.gameServer.game.gameRole.model;
 
-import com.wan37.gameServer.game.things.modle.Things;
 import com.wan37.mysql.pojo.entity.TItem;
 
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -1,10 +1,9 @@
 package com.wan37.gameServer.game.scene.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.SceneObject.model.Monster;
-import com.wan37.gameServer.game.SceneObject.model.NPC;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.gameRole.model.Player;
 
 import com.wan37.gameServer.game.scene.model.GameScene;
@@ -49,19 +48,30 @@ public class AOIController implements IController {
         Map<Long,NPC> npCMap = aoiService.getNPCs(sceneId );
         Map<Long,Monster> monsterMap = aoiService.getMonsters(sceneId);
         List<Player> playerList = aoiService.getPlayerInScene(sceneId );
-        GameScene gameScene = gameSceneService.findTScene(sceneId);
+        GameScene gameScene = gameSceneService.findSceneById(sceneId);
 
        StringBuilder  sb = new StringBuilder();
         if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {
              sb.append("我发现 ,这个地方空无一物");
         } else {
-            sb.append("当前位置是： ").append(gameScene).append("\n");
+            sb.append("当前位置是： ").append(gameScene.getName()).append("\n");
             sb.append("场景内玩家: ");
             playerList.forEach( (p -> {
-                sb.append(JSON.toJSONString(p)).append("\n");
+                sb.append(p.displayData()).append("\n");
             }));
-            sb. append("场景内NPC： ").append(JSON.toJSONString(npCMap)).append("\n");
-            sb. append("场景内怪物: ").append(JSON.toJSONString(monsterMap)).append("\n");
+            sb. append("场景内NPC： ").append("\n");
+            npCMap.values().forEach( npc -> {
+                sb.append(npc.displayData()
+                ).append("\n");
+            });
+
+            sb. append("场景内怪物: ").append("\n");;
+            monsterMap.values().forEach( monster -> {
+                sb.append(monster.displayData()
+                ).append("\n");
+            });
+
+
         }
         log.debug("当前场景的玩家对象有{}个，分别为{} ",playerList.size(),playerList);
         message.setFlag((byte)1);

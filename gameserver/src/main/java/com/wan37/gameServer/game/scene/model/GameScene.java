@@ -1,14 +1,15 @@
 package com.wan37.gameServer.game.scene.model;
 
 
-import com.wan37.gameServer.game.SceneObject.model.Monster;
-import com.wan37.gameServer.game.SceneObject.model.NPC;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.util.excel.EntityName;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 
+import java.text.MessageFormat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,6 +51,10 @@ public class GameScene  {
 
     private Map<Long,Monster> monsters = new ConcurrentHashMap<>();
 
+    public String display() {
+        return MessageFormat.format("id:{0}  name:{1}"
+                ,this.getId(),this.getName());
+    }
 
 
 }

@@ -3,6 +3,7 @@ package com.wan37.gameServer.manager.notification;
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
+import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,15 @@ public class NotificationManager {
         message.setFlag((byte) 1);
         message.setContent(JSON.toJSONString(e).getBytes());
         notifyScenePlayer(gameScene,message);
+    }
+
+
+    public <E> void notifyPlayer(Player player,E e) {
+        Message message = new Message();
+        message.setFlag((byte) 1);
+        message.setContent(JSON.toJSONString(e).getBytes());
+        ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(player.getId());
+        ctx.writeAndFlush(message);
     }
 
 
