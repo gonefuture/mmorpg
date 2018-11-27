@@ -7,7 +7,7 @@ import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
-import com.wan37.gameServer.game.scene.model.GameScene;
+
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;

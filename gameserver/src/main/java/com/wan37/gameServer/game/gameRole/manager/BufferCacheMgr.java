@@ -6,15 +6,12 @@ import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.BufferExcelUtil;
 import com.wan37.gameServer.manager.cache.GameCacheManager;
 import com.wan37.gameServer.util.FileUtil;
-import com.wan37.mysql.pojo.entity.TBuffer;
-import com.wan37.mysql.pojo.entity.TSkill;
-import com.wan37.mysql.pojo.mapper.TBufferMapper;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import java.util.List;
+
 import java.util.Map;
 
 /**

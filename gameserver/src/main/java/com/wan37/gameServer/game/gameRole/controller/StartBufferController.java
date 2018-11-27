@@ -8,7 +8,6 @@ import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
-import com.wan37.mysql.pojo.entity.TBuffer;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 

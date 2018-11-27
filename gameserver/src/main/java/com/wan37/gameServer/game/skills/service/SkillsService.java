@@ -3,7 +3,6 @@ package com.wan37.gameServer.game.skills.service;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.skills.manager.SkillsCacheMgr;
 import com.wan37.gameServer.game.skills.model.Skill;
-import com.wan37.mysql.pojo.entity.TSkill;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

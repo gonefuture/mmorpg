@@ -24,10 +24,10 @@ public class InstanceService {
 
 
 
-    public boolean enterInstance(Player player) {
+    public GameInstance enterInstance(Player player, Integer instanceId) {
 
-        GameInstance gameInstance = instanceManager.createInstance(player, player.getScene());
-        return gameInstance == null;
+        GameInstance gameInstance = instanceManager.createInstance(player, instanceId);
+        return gameInstance ;
     }
 
 

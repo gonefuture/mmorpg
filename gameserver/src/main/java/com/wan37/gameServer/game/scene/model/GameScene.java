@@ -62,4 +62,18 @@ public class GameScene  {
     }
 
 
+    @Override
+    public String toString() {
+        return "GameScene{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", state='" + state + '\'' +
+                ", neighbors='" + neighbors + '\'' +
+                ", gameObjectIds='" + gameObjectIds + '\'' +
+                ", instanceTime=" + instanceTime +
+                ", players=" + players +
+                ", npcs=" + npcs +
+                ", monsters=" + monsters +
+                '}';
+    }
 }

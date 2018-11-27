@@ -100,7 +100,7 @@ public class ControllerManager {
         add(MsgId.SHOW_BAGS,bagsController);
         add(MsgId.COMMON_ATTACK,commonAttackController);
         add(MsgId.LOCATION,locationController);
-        add(MsgId.ENTER_INSTANCE, equipmentController);
+        add(MsgId.ENTER_INSTANCE, enterInstanceController);
     }
 
 
