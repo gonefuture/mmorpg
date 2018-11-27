@@ -61,7 +61,7 @@ public class PlayerLoginController implements IController {
 
             result.append(player.getName()).append(",角色登陆成功")
                     .append("\n 你所在位置为: ")
-                    .append(gameScene.getName())
+                    .append(gameScene.getName()).append("\n")
                     .append("相邻的场景是： ");
             List<GameScene> gameSceneList = gameSceneService.findSceneByIds(gameScene.getNeighbors());
             gameSceneList.forEach(neighbor -> {

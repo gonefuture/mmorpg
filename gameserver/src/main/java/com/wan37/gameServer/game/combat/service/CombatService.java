@@ -57,12 +57,12 @@ public class CombatService {
         int attack = player.getRolePropertyMap().get(4).getValue();
 
         notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
-                MessageFormat.format("玩家{0}  向{1} 普通攻击,攻击力为 {2}",player.getName(),target.getName(), attack));
+                MessageFormat.format("玩家{0}  向 {1} 发动普通攻击,攻击力为 {2}",player.getName(),target.getName(), attack));
         log.debug("玩家的普通攻击力 {}",attack);
         if (target.getState() ==  -1) {
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
                     MessageFormat.format("目标 {0} 死亡",target));
-            return new Msg(401,"目标已经死亡");
+            return new Msg(401,"不能攻击，目标已经死亡");
         } else {
             target.setHp(target.getHp() - attack);
             // 重要，设置死亡时间
@@ -76,7 +76,7 @@ public class CombatService {
             }
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
                     MessageFormat.format("目标 {0},hp：{1}",target.getName(),target.getHp()));
-            return new Msg(200,"攻击成功");
+            return new Msg(200,player.getName()+"使用攻击成功");
         }
     }
 
