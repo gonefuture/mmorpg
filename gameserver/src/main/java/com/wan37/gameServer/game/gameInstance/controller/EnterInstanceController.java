@@ -39,7 +39,7 @@ public class EnterInstanceController implements IController {
         GameInstance gameInstance = instanceService.enterInstance(player,instanceId);
         if (gameInstance != null) {
             message.setFlag((byte) 1);
-            message.setContent(("进入副本"+gameInstance + "成功").getBytes());
+            message.setContent(("进入副本 "+gameInstance.getName() ).getBytes());
         } else {
             message.setContent(MessageFormat.format("进入id为{}的副本成功", instanceId).getBytes());
         }

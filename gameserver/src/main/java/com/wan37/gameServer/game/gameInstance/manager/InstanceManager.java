@@ -1,4 +1,4 @@
-package com.wan37.gameServer.game.gameInstance;
+package com.wan37.gameServer.game.gameInstance.manager;
 
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -78,10 +78,12 @@ public class InstanceManager {
         GameInstance gameInstance = new GameInstance();
         BeanUtils.copyProperties(gameScene,gameInstance);
 
+        // 加载怪物
+        gameObjectService.initSceneObject(gameInstance);
 
         gameInstance.getPlayers().put(player.getId(), player);
 
-        log.debug("  GameInstance init {}", gameInstance);
+        log.debug(" gameInstance.getMonsters() {}", gameInstance.getMonsters());
         return gameInstance;
     }
 

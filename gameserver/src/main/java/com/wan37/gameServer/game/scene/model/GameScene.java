@@ -38,8 +38,12 @@ public class GameScene  {
     @EntityName(column = "相邻场景")
     private String neighbors;
 
+    @EntityName(column = "地图类型")
+    private Integer type;
+
     @EntityName(column = "场景对象")
     private String gameObjectIds;
+
 
     @EntityName(column = "副本时间")
     private Long instanceTime;
@@ -62,18 +66,5 @@ public class GameScene  {
     }
 
 
-    @Override
-    public String toString() {
-        return "GameScene{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", state='" + state + '\'' +
-                ", neighbors='" + neighbors + '\'' +
-                ", gameObjectIds='" + gameObjectIds + '\'' +
-                ", instanceTime=" + instanceTime +
-                ", players=" + players +
-                ", npcs=" + npcs +
-                ", monsters=" + monsters +
-                '}';
-    }
+
 }

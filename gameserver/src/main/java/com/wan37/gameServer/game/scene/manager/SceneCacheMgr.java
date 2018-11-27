@@ -63,23 +63,8 @@ public class SceneCacheMgr implements GameCacheManager<Integer, GameScene> {
 
             String[] ids = gameScene.getGameObjectIds().split(",");
 
-            Arrays.stream(ids).forEach(
-                    (idString) ->{
-                        if (Strings.isNotBlank(idString)) {
-                            Long id = Long.valueOf(idString);
-                            SceneObject gameObject = gameObjectService.getGameObject(id);
-                            if (gameObject != null && gameObject.getRoleType() == 1) {
-                                NPC npc = new NPC();
-                                BeanUtils.copyProperties(gameObject,npc);
-                                gameScene.getNpcs().put(gameObject.getId(), npc);
-                            }
-                            if (gameObject != null && gameObject.getRoleType() == 2) {
-                                Monster monster = new Monster();
-                                BeanUtils.copyProperties(gameObject,monster);
-                                gameScene.getMonsters().put(gameObject.getId(), monster);
-                            }
-                        }
-                    });
+            // 初始化怪物和NPC
+            gameScene = gameObjectService.initSceneObject(gameScene);
 
             sceneCache.put(gameScene.getId(), gameScene);
         }

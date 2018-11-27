@@ -1,12 +1,14 @@
 package com.wan37.gameServer.game.scene.servcie;
 
 
+import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameSceneObject.manager.GameObjectCacheMgr;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.gameSceneObject.model.NPC;
+import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
@@ -36,7 +38,7 @@ public class AOIService {
     private GameSceneService gameSceneService;
 
     @Resource
-    private GameObjectCacheMgr gameObjectCacheMgr;
+    private GameObjectService gameObjectService;
 
     @Resource
     private PlayerCacheMgr playerCacheMgr;
@@ -56,12 +58,14 @@ public class AOIService {
     }
 
     //  获取场景内怪物
-    public Map<Long,Monster> getMonsters(int sceneId) {
+    public Map<Long,Monster> getMonsters(Player player, int sceneId) {
         GameScene gameScene = gameSceneService.findSceneById(sceneId);
-        if (gameScene != null) {
-            return gameScene.getMonsters();
+        // 如果玩家正处于副本中
+        if (gameScene.getType() == 3 && player.getCurrentGameInstance() != null) {
+
+            return player.getCurrentGameInstance().getMonsters();
         } else {
-            return null;
+            return gameScene.getMonsters();
         }
     }
 

@@ -48,7 +48,7 @@ public class AOIController implements IController {
         int sceneId = player.getScene();
         // 分别获取场景内的玩家和游戏对象
         Map<Long,NPC> npCMap = aoiService.getNPCs(sceneId );
-        Map<Long,Monster> monsterMap = aoiService.getMonsters(sceneId);
+        Map<Long,Monster> monsterMap = aoiService.getMonsters(player,sceneId);
         List<Player> playerList = aoiService.getPlayerInScene(sceneId );
         GameScene gameScene = gameSceneService.findSceneById(sceneId);
 

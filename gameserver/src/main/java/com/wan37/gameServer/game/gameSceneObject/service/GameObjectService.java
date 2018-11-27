@@ -43,7 +43,7 @@ public class GameObjectService {
     /**
      *      获得场景配置的场景对象
      */
-    public GameScene getSceneObject(GameScene gameScene) {
+    public GameScene initSceneObject(GameScene gameScene) {
         String  gameObjectIds = gameScene.getGameObjectIds();
         Arrays.stream(gameObjectIds.split(","))
                 .map(Long::valueOf)
@@ -54,7 +54,7 @@ public class GameObjectService {
                         BeanUtils.copyProperties(sceneObject,npc);
                         gameScene.getNpcs().put(sceneObject.getId(), npc);
                     }
-                    if (sceneObject.getRoleType() == 2) {
+                    if (sceneObject.getRoleType() == 2 || sceneObject.getRoleType() == 3) {
                         Monster monster = new Monster();
                         BeanUtils.copyProperties(sceneObject,monster);
                         gameScene.getMonsters().put(sceneObject.getId(), monster);

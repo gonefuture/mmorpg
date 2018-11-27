@@ -1,6 +1,6 @@
 package com.wan37.gameServer.game.gameInstance.service;
 
-import com.wan37.gameServer.game.gameInstance.InstanceManager;
+import com.wan37.gameServer.game.gameInstance.manager.InstanceManager;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import lombok.extern.slf4j.Slf4j;

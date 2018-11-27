@@ -14,9 +14,5 @@ import lombok.Data;
 public class GameInstance  extends GameScene {
 
 
-    @Override
-    public String toString() {
 
-        return "GameInstance{} " + super.toString();
-    }
 }
