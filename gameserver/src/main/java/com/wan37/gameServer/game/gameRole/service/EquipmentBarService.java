@@ -1,6 +1,5 @@
 package com.wan37.gameServer.game.gameRole.service;
 
-import com.wan37.gameServer.game.gameRole.manager.BagsManager;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;
@@ -21,8 +20,7 @@ import javax.annotation.Resource;
 @Slf4j
 public class EquipmentBarService {
 
-    @Resource
-    private BagsManager bagsManager;
+
 
     @Resource
     private ThingsService thingsService;

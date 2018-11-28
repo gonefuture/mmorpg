@@ -2,6 +2,7 @@ package com.wan37.gameServer.manager.controller;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
+import com.wan37.gameServer.game.bag.controller.ShowBagsController;
 import com.wan37.gameServer.game.combat.controller.CommonAttackController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;
 import com.wan37.gameServer.game.gameRole.controller.*;
@@ -72,7 +73,7 @@ public class ControllerManager {
     private UseItemController useItemController;
 
     @Resource
-    private BagsController bagsController;
+    private ShowBagsController showBagsController;
 
     @Resource
     private CommonAttackController commonAttackController;
@@ -97,7 +98,7 @@ public class ControllerManager {
         add(MsgId.START_BUFFER,startBufferController);
         add(MsgId.EQUIP,equipmentController);
         add(MsgId.USE_ITEM,useItemController);
-        add(MsgId.SHOW_BAGS,bagsController);
+        add(MsgId.SHOW_BAGS, showBagsController);
         add(MsgId.COMMON_ATTACK,commonAttackController);
         add(MsgId.LOCATION,locationController);
         add(MsgId.ENTER_INSTANCE, enterInstanceController);

@@ -28,9 +28,9 @@ public class UseItemController implements IController {
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
-        String thingsId = command[1];
+        Integer locationIndex = Integer.valueOf(command[1]);
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
-        boolean flag  = thingsService.useItem(player,thingsId);
+        boolean flag  = thingsService.useItem(player,locationIndex);
         String result ;
         if (flag) {
             message.setFlag((byte) 1);

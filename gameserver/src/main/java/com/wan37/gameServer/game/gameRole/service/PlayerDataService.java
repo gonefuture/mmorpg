@@ -1,20 +1,17 @@
 package com.wan37.gameServer.game.gameRole.service;
 
+import com.wan37.gameServer.game.bag.model.Bag;
+import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
-import com.wan37.gameServer.game.gameRole.manager.BagsManager;
-import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 
-import com.wan37.mysql.pojo.entity.TItem;
-import com.wan37.mysql.pojo.entity.TItemExample;
-import com.wan37.mysql.pojo.mapper.TItemMapper;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -36,10 +33,9 @@ public class PlayerDataService {
     private RolePropertyService rolePropertyService;
 
     @Resource
-    private BagsManager bagsManager;
+    private BagsService bagsService;
 
-    @Resource
-    private TItemMapper tItemMapper;
+
 
 
     public Player getPlayer(String channelId) {
@@ -53,11 +49,9 @@ public class PlayerDataService {
      */
     public void initPlayer(Player player) {
 
+
         // 加载背包
-        Bags bags = new Bags();
-        bags.setPlayerId(player.getId());
-        loadBags(player.getId(),bags);
-        bagsManager.put(player.getId(), bags);
+        bagsService.loadBag(player);
 
         // 加载物品装备
         thingsService.loadThings(player);
@@ -67,14 +61,6 @@ public class PlayerDataService {
 
     }
 
-    private void loadBags(long playerId, Bags bags) {
-        TItemExample tItemExample = new TItemExample();
-        tItemExample.or().andPlayerIdEqualTo(playerId);
-        List<TItem> tItemList = tItemMapper.selectByExample(tItemExample);
-        tItemList.forEach( tItem -> {
-            bags.getItemMap().put(tItem.getItemId(),tItem);
-        });
-    }
 
 
 }

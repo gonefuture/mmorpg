@@ -1,8 +1,8 @@
 package com.wan37.gameServer.game.gameRole.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
 import com.wan37.common.entity.Message;
+import com.wan37.common.entity.Msg;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -43,7 +43,7 @@ public class StartBufferController implements IController {
         if (flag) {
             result = "开始使用Buffer " + JSON.toJSONString(buffer);
         } else {
-            ErrorMsg errorMsg = new ErrorMsg("404","buffer不能使用");
+            Msg errorMsg = new Msg(404,"buffer不能使用");
         }
         message.setContent(result.getBytes());
         ctx.writeAndFlush(message);

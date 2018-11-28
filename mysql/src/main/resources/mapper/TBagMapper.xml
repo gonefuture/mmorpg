@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wan37.mysql.pojo.mapper.TBagMapper" >
+  <resultMap id="BaseResultMap" type="com.wan37.mysql.pojo.entity.TBag" >
+    <result column="player_Id" property="playerId" jdbcType="BIGINT" />
+    <result column="bag_size" property="bagSize" jdbcType="INTEGER" />
+    <result column="bag_name" property="bagName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wan37.mysql.pojo.entity.TBag" extends="BaseResultMap" >
+    <result column="goods" property="goods" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    player_Id, bag_size, bag_name, type
+  </sql>
+  <sql id="Blob_Column_List" >
+    goods
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TBagExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_bag
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TBagExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_bag
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.wan37.mysql.pojo.entity.TBagExample" >
+    delete from t_bag
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TBag" >
+    insert into t_bag (player_Id, bag_size, bag_name, 
+      type, goods)
+    values (#{playerId,jdbcType=BIGINT}, #{bagSize,jdbcType=INTEGER}, #{bagName,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{goods,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TBag" >
+    insert into t_bag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="playerId != null" >
+        player_Id,
+      </if>
+      <if test="bagSize != null" >
+        bag_size,
+      </if>
+      <if test="bagName != null" >
+        bag_name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="goods != null" >
+        goods,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="playerId != null" >
+        #{playerId,jdbcType=BIGINT},
+      </if>
+      <if test="bagSize != null" >
+        #{bagSize,jdbcType=INTEGER},
+      </if>
+      <if test="bagName != null" >
+        #{bagName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="goods != null" >
+        #{goods,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wan37.mysql.pojo.entity.TBagExample" resultType="java.lang.Integer" >
+    select count(*) from t_bag
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_bag
+    <set >
+      <if test="record.playerId != null" >
+        player_Id = #{record.playerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.bagSize != null" >
+        bag_size = #{record.bagSize,jdbcType=INTEGER},
+      </if>
+      <if test="record.bagName != null" >
+        bag_name = #{record.bagName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.goods != null" >
+        goods = #{record.goods,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_bag
+    set player_Id = #{record.playerId,jdbcType=BIGINT},
+      bag_size = #{record.bagSize,jdbcType=INTEGER},
+      bag_name = #{record.bagName,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      goods = #{record.goods,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_bag
+    set player_Id = #{record.playerId,jdbcType=BIGINT},
+      bag_size = #{record.bagSize,jdbcType=INTEGER},
+      bag_name = #{record.bagName,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

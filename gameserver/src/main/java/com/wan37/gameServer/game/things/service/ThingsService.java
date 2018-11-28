@@ -1,17 +1,16 @@
 package com.wan37.gameServer.game.things.service;
 
 import com.alibaba.fastjson.JSON;
+import com.wan37.gameServer.game.bag.model.Bag;
+import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
-import com.wan37.gameServer.game.gameRole.manager.BagsManager;
-import com.wan37.gameServer.game.gameRole.model.Bags;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
 import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
 import com.wan37.gameServer.game.things.model.ThingProperty;
 import com.wan37.gameServer.game.things.model.Things;
-import com.wan37.mysql.pojo.entity.TItem;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,8 +38,6 @@ public class ThingsService {
     @Resource
     private RolePropertyService rolePropertyService;
 
-    @Resource
-    private BagsManager bagsManager;
 
     @Resource
     private BufferService bufferService;
@@ -48,35 +45,9 @@ public class ThingsService {
 
 
 
-    public List<Things> getThingsByPlayerId(Player player) {
-        Map<String, TItem> itemMap = bagsManager.get(player.getId()).getItemMap();
-        List<Things> thingsList = new ArrayList<>();
-        itemMap.values().forEach( tThings -> {
-            Things things = thingsCacheMgr.get(tThings.getThingsId());
-            if (things != null){
-                // 获取是否已装备的状态
-                things.setState(tThings.getState());
-                thingsList.add(things);
-            }
-        });
-        return thingsList;
-    }
-
 
     public void loadThings(Player player) {
-        List<Things> thingsList = getThingsByPlayerId(player);
-        thingsList.forEach((things) -> {
-            loadThingsProperties(things);
-            // 类型为装备且处于穿戴状态的，放入装备栏
-            if (things.getKind() == 1 && things.getState() == 1) {
-                player.getEquipmentBar().add(player,things);
-            } else {
-                // 其他物品放背包
-//                bagsManager.
-//                        get(player.getId()).
-//                        getThingsList().add(things);
-            }
-        });
+
     }
 
     /**
@@ -85,7 +56,6 @@ public class ThingsService {
      */
     public void loadThingsProperties(Things things) {
         List<ThingProperty> thingProperties =  JSON.parseArray(things.getRoleProperties(),ThingProperty.class);
-        log.debug("");
         if (thingProperties != null) {
             thingProperties.forEach( thingProperty -> {
                 Integer rolePropertyId = thingProperty.getId();
@@ -115,12 +85,12 @@ public class ThingsService {
         return things;
     }
 
-    public boolean useItem(Player player, String itemId) {
-        Bags bags = bagsManager.get(player.getId());
-        TItem tItem = bags.getItemMap().get(itemId);
-        if (tItem == null)
+    public boolean useItem(Player player,  Integer locationIndex) {
+        Bag bag = player.getBag();
+        Item item = bag.getItemMap().get(locationIndex);
+        if (item == null)
             return false;
-        Things things = thingsCacheMgr.get(tItem.getThingsId());
+        Things things = thingsCacheMgr.get(item.getThings().getId());
         Buffer buffer = bufferService.getTBuffer(things.getBuffer());
         if (buffer != null) {
             bufferService.startBuffer(player,buffer);
