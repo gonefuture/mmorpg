@@ -1,5 +1,6 @@
-package com.wan37.gameServer.game.gameRole.model;
+package com.wan37.gameServer.game.bag.model;
 
+import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.things.model.Things;
 import lombok.Data;
@@ -17,8 +18,15 @@ import java.util.*;
 @Data
 public class EquipmentBar  {
 
+    private long playerId;
+
+
     private Map<String,Things> map = new HashMap<>();
 
+
+    /**
+     *  穿上装备到装备栏
+     */
     public void add(Player player, Things things) {
         Map<Integer,RoleProperty> rolePropertiesMap = player.getRolePropertyMap();
         log.debug("rolePropertiesMap {}",rolePropertiesMap);

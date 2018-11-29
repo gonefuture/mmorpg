@@ -2,6 +2,7 @@ package com.wan37.gameServer.manager.controller;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
+import com.wan37.gameServer.game.bag.controller.EquipmentController;
 import com.wan37.gameServer.game.bag.controller.ShowBagsController;
 import com.wan37.gameServer.game.combat.controller.CommonAttackController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;

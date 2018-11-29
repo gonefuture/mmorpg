@@ -2,8 +2,8 @@ package com.wan37.gameServer.game.gameRole.model;
 
 
 import com.wan37.gameServer.game.bag.model.Bag;
+import com.wan37.gameServer.game.bag.model.EquipmentBar;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
-import com.wan37.gameServer.model.SceneActor;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
 
@@ -46,7 +46,7 @@ public class Player extends TPlayer   {
 
     // 背包栏
 
-    Bag bag = new Bag(this.getId(),16) ;
+    Bag bag = new Bag(this.getId(),"16格背包",16,1) ;
 
 
     // 玩家当前进行的副本。

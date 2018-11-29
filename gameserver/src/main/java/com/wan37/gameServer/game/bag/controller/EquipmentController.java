@@ -1,4 +1,4 @@
-package com.wan37.gameServer.game.gameRole.controller;
+package com.wan37.gameServer.game.bag.controller;
 /*
  *  @author : 钱伟健 gonefuture@qq.com
  *  @version : 2018/10/29 9:11.
@@ -8,7 +8,7 @@ package com.wan37.gameServer.game.gameRole.controller;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.EquipmentBarService;
+import com.wan37.gameServer.game.bag.service.EquipmentBarService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;

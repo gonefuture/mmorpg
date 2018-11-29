@@ -83,7 +83,6 @@ public class BagsService {
                 Map<Integer,Item> itemMap =  JSON.parseObject(tBag.getGoods(),
                         new TypeReference<Map<Integer,Item>>(){});
 
-                log.debug("itemMap.get(1).getLocationIndex() {}",itemMap.get(1).getLocationIndex());
 
                 if (null == itemMap)
                     bag.setItemMap(new LinkedHashMap<>());

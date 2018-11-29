@@ -12,6 +12,9 @@
     <result column="scene" property="scene" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
   </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wan37.mysql.pojo.entity.TPlayer" extends="BaseResultMap" >
+    <result column="Equipments" property="equipments" jdbcType="LONGVARCHAR" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -73,6 +76,25 @@
   <sql id="Base_Column_List" >
     id, name, hp, exp, mp, position, state, scene, user_id
   </sql>
+  <sql id="Blob_Column_List" >
+    Equipments
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TPlayerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_player
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TPlayerExample" >
     select
     <if test="distinct" >
@@ -87,9 +109,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_player
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -106,10 +130,12 @@
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
     insert into t_player (id, name, hp, exp, 
       mp, position, state, 
-      scene, user_id)
+      scene, user_id, Equipments
+      )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{hp,jdbcType=BIGINT}, #{exp,jdbcType=INTEGER}, 
       #{mp,jdbcType=BIGINT}, #{position,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{scene,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT})
+      #{scene,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{equipments,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
     insert into t_player
@@ -141,6 +167,9 @@
       <if test="userId != null" >
         user_id,
       </if>
+      <if test="equipments != null" >
+        Equipments,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -169,6 +198,9 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="equipments != null" >
+        #{equipments,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -208,7 +240,26 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
+      <if test="record.equipments != null" >
+        Equipments = #{record.equipments,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_player
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      hp = #{record.hp,jdbcType=BIGINT},
+      exp = #{record.exp,jdbcType=INTEGER},
+      mp = #{record.mp,jdbcType=BIGINT},
+      position = #{record.position,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      scene = #{record.scene,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      Equipments = #{record.equipments,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -255,7 +306,23 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=BIGINT},
       </if>
+      <if test="equipments != null" >
+        Equipments = #{equipments,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
+    update t_player
+    set name = #{name,jdbcType=VARCHAR},
+      hp = #{hp,jdbcType=BIGINT},
+      exp = #{exp,jdbcType=INTEGER},
+      mp = #{mp,jdbcType=BIGINT},
+      position = #{position,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      scene = #{scene,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=BIGINT},
+      Equipments = #{equipments,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >

@@ -73,10 +73,12 @@
           </table> -->
         <!-- 指定数据库表，要生成哪些表，就写哪些表，要和数据库中对应，不能写错！ -->
         <table tableName="t_user"/>
-        <table tableName="t_player"/>
+        <table tableName="t_player">
+            <columnOverride column="Equipment_bar"  jdbcType="VARCHAR" />
+        </table>
         <!--<table tableName="t_item"/>-->
         <table tableName="t_bag">
-            <columnOverride column="goods" jdbcType="VARCHAR"/>
+            <columnOverride column="goods"  jdbcType="VARCHAR" />
         </table>
 
 

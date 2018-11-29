@@ -35,8 +35,14 @@ public class Bag  {
     Map<Integer,Item> itemMap = new LinkedHashMap<>();
 
 
+    public Bag(Long playerId, String bagName, Integer bagSize, Integer type) {
+        this.playerId = playerId;
+        this.bagName = bagName;
+        this.bagSize = bagSize;
+        this.type = type;
+    }
 
-    public Bag(Long playerId,Integer bagSize) {
+    public Bag(Long playerId, Integer bagSize) {
         this.playerId = playerId;
         this.bagSize = bagSize;
     }
