@@ -1,6 +1,5 @@
 package com.wan37.gameServer.game.gameRole.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.scene.model.GameScene;
@@ -63,7 +62,7 @@ public class PlayerLoginController implements IController {
                     .append("\n 你所在位置为: ")
                     .append(gameScene.getName()).append("\n")
                     .append("相邻的场景是： ");
-            List<GameScene> gameSceneList = gameSceneService.findSceneByIds(gameScene.getNeighbors());
+            List<GameScene> gameSceneList = gameSceneService.findNeighborsSceneByIds(gameScene.getNeighbors());
             gameSceneList.forEach(neighbor -> {
                 result.append(neighbor.getId()).append(": ").append(neighbor.getName()).append(", ");
             });

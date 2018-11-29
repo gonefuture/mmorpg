@@ -36,7 +36,7 @@ public class LocationController implements IController {
 
         GameScene gameScene = gameSceneService.findSceneById(player.getScene());
 
-        List<GameScene> gameSceneList = gameSceneService.findSceneByIds(gameScene.getNeighbors());
+        List<GameScene> gameSceneList = gameSceneService.findNeighborsSceneByIds(gameScene.getNeighbors());
 
         String location = MessageFormat.format("当前场景是： {0} \n",gameScene.getName() );
         StringBuilder neighbors = new StringBuilder();

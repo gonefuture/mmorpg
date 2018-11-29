@@ -62,7 +62,7 @@ public class CombatService {
         log.debug("玩家的普通攻击力 {}",attack);
         if (target.getState() ==  -1) {
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
-                    MessageFormat.format("目标 {0} 死亡",target));
+                    MessageFormat.format("目标 {0} 已经死亡 \n",target.getName()));
             return new Msg(401,"不能攻击，目标已经死亡");
         } else {
             target.setHp(target.getHp() - attack);
@@ -76,7 +76,7 @@ public class CombatService {
                 monsterDropsService.dropItem(player,target);
             }
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
-                    MessageFormat.format("目标 {0},hp：{1}",target.getName(),target.getHp()));
+                    MessageFormat.format("目标 {0},hp: {1} \n",target.getName(),target.getHp()));
             return new Msg(200,player.getName()+"使用攻击成功");
         }
     }

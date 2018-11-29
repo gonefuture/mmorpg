@@ -2,8 +2,10 @@ package com.wan37.gameServer.game.scene.servcie;
 
 
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,10 @@ public class GameSceneService {
     @Resource
     private SceneCacheMgr sceneCacheMgr;
 
+
+    @Resource
+    private PlayerDataService playerDataService;
+
     /**
      *  通过id查找场景
      */
@@ -36,7 +42,7 @@ public class GameSceneService {
     /**
      *  通过字符串的id序列查找场景
      */
-    public List<GameScene> findSceneByIds(String sceneIds) {
+    public List<GameScene> findNeighborsSceneByIds(String sceneIds) {
         List<GameScene> gameSceneList = new ArrayList<>();
         String[] stringIds = sceneIds.split(",");
         Arrays.stream(stringIds).forEach((stringId) -> {
@@ -47,11 +53,18 @@ public class GameSceneService {
         return gameSceneList;
     }
 
-    public List<GameScene> findSceneByPlayer(Player player) {
+
+    public List<GameScene> findNeighborsSceneByPlayer(Player player) {
         GameScene gameScene = findSceneById(player.getScene());
-        return findSceneByIds(gameScene.getNeighbors());
+        return findNeighborsSceneByIds(gameScene.getNeighbors());
     }
 
+
+    public GameScene findSceneByCtx(ChannelHandlerContext ctx) {
+
+        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        return sceneCacheMgr.get(player.getScene());
+    }
 
 
 

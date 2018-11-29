@@ -49,8 +49,8 @@ public class Bag  {
             return false;
         // 遍历背包所有格子，如果是空格，将物品放入格子
         for (int locationIndex=1; locationIndex <= bagSize; locationIndex++) {
-            if (null != itemMap.putIfAbsent(locationIndex,item)) {
-                log.debug("{此时的背包物品列表 {}}",itemMap);
+            if (null == itemMap.putIfAbsent(locationIndex,item)) {
+                log.debug("此时的背包物品列表 {}",itemMap);
                 return true;
             }
         }

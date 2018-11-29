@@ -8,6 +8,7 @@ import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 
 
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,10 @@ public class PlayerDataService {
     @Resource
     private BagsService bagsService;
 
+
+    public Player getPlayerByCtx(ChannelHandlerContext ctx) {
+        return playerCacheMgr.get(ctx.channel().id().asLongText());
+    }
 
 
 

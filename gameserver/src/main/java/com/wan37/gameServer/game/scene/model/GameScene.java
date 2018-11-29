@@ -49,7 +49,7 @@ public class GameScene  {
     private Long instanceTime;
 
 
-    // 处于场景的玩家
+    // 处于场景的玩家,key为player_id
     private Map<Long,Player> players = new ConcurrentHashMap<>();
 
 
