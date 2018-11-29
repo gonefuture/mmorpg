@@ -75,7 +75,9 @@
         <table tableName="t_user"/>
         <table tableName="t_player"/>
         <!--<table tableName="t_item"/>-->
-        <table tableName="t_bag"/>
+        <table tableName="t_bag">
+            <columnOverride column="goods" jdbcType="VARCHAR"/>
+        </table>
 
 
     </context>

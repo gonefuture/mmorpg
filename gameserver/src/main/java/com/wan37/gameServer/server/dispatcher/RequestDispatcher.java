@@ -79,13 +79,14 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+
+        ctx.writeAndFlush("服务器内部发生错误");
+        log.error("服务器内部发生错误");
+
         // 将角色信息保存到数据库
         playerQuitService.savePlayer(ctx);
 
         playerQuitService.logout(ctx);
-
-        ctx.writeAndFlush("服务器内部发生错误");
-        log.error("服务器内部发生错误");
 
 
 

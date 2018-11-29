@@ -6,9 +6,7 @@
     <id column="type" property="type" jdbcType="INTEGER" />
     <result column="bag_size" property="bagSize" jdbcType="INTEGER" />
     <result column="bag_name" property="bagName" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.wan37.mysql.pojo.entity.TBag" extends="BaseResultMap" >
-    <result column="goods" property="goods" jdbcType="LONGVARCHAR" />
+    <result column="goods" property="goods" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,27 +67,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    player_Id, type, bag_size, bag_name
+    player_Id, type, bag_size, bag_name, goods
   </sql>
-  <sql id="Blob_Column_List" >
-    goods
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TBagExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_bag
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TBagExample" >
     select
     <if test="distinct" >
@@ -104,11 +83,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TBagKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TBagKey" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from t_bag
     where player_Id = #{playerId,jdbcType=BIGINT}
       and type = #{type,jdbcType=INTEGER}
@@ -128,7 +105,7 @@
     insert into t_bag (player_Id, type, bag_size, 
       bag_name, goods)
     values (#{playerId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{bagSize,jdbcType=INTEGER}, 
-      #{bagName,jdbcType=VARCHAR}, #{goods,jdbcType=LONGVARCHAR})
+      #{bagName,jdbcType=VARCHAR}, #{goods,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TBag" >
     insert into t_bag
@@ -163,7 +140,7 @@
         #{bagName,jdbcType=VARCHAR},
       </if>
       <if test="goods != null" >
-        #{goods,jdbcType=LONGVARCHAR},
+        #{goods,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -189,20 +166,9 @@
         bag_name = #{record.bagName,jdbcType=VARCHAR},
       </if>
       <if test="record.goods != null" >
-        goods = #{record.goods,jdbcType=LONGVARCHAR},
+        goods = #{record.goods,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update t_bag
-    set player_Id = #{record.playerId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER},
-      bag_size = #{record.bagSize,jdbcType=INTEGER},
-      bag_name = #{record.bagName,jdbcType=VARCHAR},
-      goods = #{record.goods,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -212,7 +178,8 @@
     set player_Id = #{record.playerId,jdbcType=BIGINT},
       type = #{record.type,jdbcType=INTEGER},
       bag_size = #{record.bagSize,jdbcType=INTEGER},
-      bag_name = #{record.bagName,jdbcType=VARCHAR}
+      bag_name = #{record.bagName,jdbcType=VARCHAR},
+      goods = #{record.goods,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,24 +194,17 @@
         bag_name = #{bagName,jdbcType=VARCHAR},
       </if>
       <if test="goods != null" >
-        goods = #{goods,jdbcType=LONGVARCHAR},
+        goods = #{goods,jdbcType=VARCHAR},
       </if>
     </set>
-    where player_Id = #{playerId,jdbcType=BIGINT}
-      and type = #{type,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TBag" >
-    update t_bag
-    set bag_size = #{bagSize,jdbcType=INTEGER},
-      bag_name = #{bagName,jdbcType=VARCHAR},
-      goods = #{goods,jdbcType=LONGVARCHAR}
     where player_Id = #{playerId,jdbcType=BIGINT}
       and type = #{type,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TBag" >
     update t_bag
     set bag_size = #{bagSize,jdbcType=INTEGER},
-      bag_name = #{bagName,jdbcType=VARCHAR}
+      bag_name = #{bagName,jdbcType=VARCHAR},
+      goods = #{goods,jdbcType=VARCHAR}
     where player_Id = #{playerId,jdbcType=BIGINT}
       and type = #{type,jdbcType=INTEGER}
   </update>

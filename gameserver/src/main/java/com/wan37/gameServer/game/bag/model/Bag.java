@@ -49,12 +49,14 @@ public class Bag  {
             return false;
         // 遍历背包所有格子，如果是空格，将物品放入格子
         for (int locationIndex=1; locationIndex <= bagSize; locationIndex++) {
+            item.setLocationIndex(locationIndex);
             if (null == itemMap.putIfAbsent(locationIndex,item)) {
                 log.debug("此时的背包物品列表 {}",itemMap);
                 return true;
             }
         }
-        // 如果背包没有空位，物品放入失败
+        // 如果背包没有空位，物品放入失败,恢复物品的无栏位状态
+        item.setLocationIndex(0);
         return false;
     }
 

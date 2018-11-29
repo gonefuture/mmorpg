@@ -17,21 +17,15 @@ public interface TBagMapper {
 
     int insertSelective(TBag record);
 
-    List<TBag> selectByExampleWithBLOBs(TBagExample example);
-
     List<TBag> selectByExample(TBagExample example);
 
     TBag selectByPrimaryKey(TBagKey key);
 
     int updateByExampleSelective(@Param("record") TBag record, @Param("example") TBagExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") TBag record, @Param("example") TBagExample example);
-
     int updateByExample(@Param("record") TBag record, @Param("example") TBagExample example);
 
     int updateByPrimaryKeySelective(TBag record);
-
-    int updateByPrimaryKeyWithBLOBs(TBag record);
 
     int updateByPrimaryKey(TBag record);
 }

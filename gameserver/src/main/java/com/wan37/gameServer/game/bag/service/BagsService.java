@@ -7,6 +7,7 @@ package com.wan37.gameServer.game.bag.service;
 
 import com.alibaba.fastjson.JSON;
 
+import com.alibaba.fastjson.TypeReference;
 import com.wan37.gameServer.game.bag.model.Bag;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -76,8 +77,14 @@ public class BagsService {
 
             // 普通背包的加载
             if (tBag.getType() == 1) {
+                log.debug("tBag  {}", tBag );
+
                 Bag bag = new Bag(tBag.getPlayerId(),tBag.getBagSize());
-                Map<Integer,Item> itemMap =  JSON.<Map<Integer, Item>>parseObject(tBag.getGoods(), Map.class);
+                Map<Integer,Item> itemMap =  JSON.parseObject(tBag.getGoods(),
+                        new TypeReference<Map<Integer,Item>>(){});
+
+                log.debug("itemMap.get(1).getLocationIndex() {}",itemMap.get(1).getLocationIndex());
+
                 if (null == itemMap)
                     bag.setItemMap(new LinkedHashMap<>());
                 else
