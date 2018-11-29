@@ -50,13 +50,13 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
 
         ctx.writeAndFlush("正在断开连接");
 
-        playerQuitService.logoutScene(ctx);
+        //playerQuitService.logoutScene(ctx);
 
         // 将角色信息保存到数据库
         playerQuitService.savePlayer(ctx);
 
         // 清除缓存
-        playerQuitService.cleanPlayerCache(ctx);
+        //playerQuitService.cleanPlayerCache(ctx);
         log.info("客户端: " + ctx.channel().id() + " 已经离线");
 
     }

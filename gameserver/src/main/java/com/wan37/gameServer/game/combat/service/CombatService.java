@@ -76,8 +76,8 @@ public class CombatService {
                 monsterDropsService.dropItem(player,target);
             }
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
-                    MessageFormat.format("目标 {0},hp: {1} \n",target.getName(),target.getHp()));
-            return new Msg(200,player.getName()+"使用攻击成功");
+                    MessageFormat.format("目标 {0},hp: {1}       ",target.getName(),target.getHp()));
+            return new Msg(200,"\n"+player.getName()+"使用攻击成功");
         }
     }
 

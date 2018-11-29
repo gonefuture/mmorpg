@@ -35,7 +35,7 @@ public class RolePropertyService {
         for (int key=1; key <=6; key++ ) {
             RoleProperty roleProperty = rolePropertyManager.get(key);
             rolePropertyMap.put(roleProperty.getKey(),roleProperty);
-            log.debug("rolePropertyMap {}",rolePropertyMap);
+            //log.debug("rolePropertyMap {}",rolePropertyMap);
         }
 
     }

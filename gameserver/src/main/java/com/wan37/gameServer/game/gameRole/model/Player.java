@@ -46,7 +46,7 @@ public class Player extends TPlayer   {
 
     // 背包栏
 
-    Bag bag ;
+    Bag bag = new Bag(this.getId(),16) ;
 
 
     // 玩家当前进行的副本。

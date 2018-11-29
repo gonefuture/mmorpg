@@ -104,8 +104,15 @@ public class BagsService {
         tBag.setPlayerId(player.getId());
         tBag.setType(bag.getType());
         tBag.setBagName(bag.getBagName());
+        tBag.setBagSize(bag.getBagSize());
         tBag.setGoods(JSON.toJSONString(bag.getItemMap()));
-        tBagMapper.insert(tBag);
+
+        if (tBagMapper.updateByPrimaryKeySelective(tBag) == 1) {
+            log.debug("更新背包成功 {}",tBag);
+        } else {
+            tBagMapper.insertSelective(tBag);
+            log.debug("保存背包成功 {}",tBag);
+        }
     }
 
 

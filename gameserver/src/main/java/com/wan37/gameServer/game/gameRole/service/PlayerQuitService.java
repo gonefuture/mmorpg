@@ -54,7 +54,7 @@ public class PlayerQuitService  {
         logoutScene(ctx);
 
         // 主动退出游戏的清除其缓存
-        cleanPlayerCache(ctx);
+        //cleanPlayerCache(ctx);
         ctx.close();
     }
 
@@ -67,7 +67,7 @@ public class PlayerQuitService  {
         Player player =playerDataService.getPlayerByCtx(ctx);
         GameScene gameScene = gameSceneService.findSceneByCtx(ctx);
         notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
-                MessageFormat.format("玩家 {} 正在退出", player.getName()));
+                MessageFormat.format("玩家 {0} 正在退出", player.getName()));
         // 重点，从场景中移除
         gameScene.getPlayers().remove(player.getId());
     }
@@ -108,7 +108,7 @@ public class PlayerQuitService  {
         }
 
         // 保存角色背包
-        bagsService.show(player);
+        bagsService.saveBag(player);
     }
 
 

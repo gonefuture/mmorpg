@@ -60,7 +60,7 @@ public enum MsgId {
     USE_ITEM("use_item",3006),
 
     // 角色使用普通攻击怪物
-    COMMON_ATTACK("common_attack",3007),
+    COMMON_ATTACK("attack",3007),
 
     // 进入副本
     ENTER_INSTANCE("enter_instance",3008),
