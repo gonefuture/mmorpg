@@ -35,7 +35,7 @@ public class Things implements IExcel<Integer> {
     private Integer kind;
 
     @EntityName(column = "属性")
-    private String roleProperties;
+    private String roleProperties = "";
 
     @EntityName(column = "部位")
     private String part;

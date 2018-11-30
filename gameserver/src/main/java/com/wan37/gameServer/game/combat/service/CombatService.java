@@ -77,7 +77,7 @@ public class CombatService {
             }
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
                     MessageFormat.format("目标 {0},hp: {1}       ",target.getName(),target.getHp()));
-            return new Msg(200,"\n"+player.getName()+"使用攻击成功");
+            return new Msg(200,"\n"+player.getName()+"使用普通攻击成功");
         }
     }
 

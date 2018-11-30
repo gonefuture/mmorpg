@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * <pre> </pre>
@@ -122,6 +123,16 @@ public class BagsService {
     }
 
 
+    /**
+     *  移除背包的物品
+     * @param player 玩家
+     * @param index 物品在背包的位置索引
+     * @return 如果移除返回一个Item
+     */
+        public Optional<Item> removeItem(Player player, Integer index) {
+            Item item = player.getBag().getItemMap().remove(index);
+            return Optional.ofNullable(item);
+        }
 
 
 

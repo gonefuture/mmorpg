@@ -21,13 +21,14 @@ public class EquipmentBar  {
     private long playerId;
 
 
-    private Map<String,Things> map = new HashMap<>();
+    private Map<String,Item> EquipmentMap = new HashMap<>();
 
 
     /**
      *  穿上装备到装备栏
      */
-    public void add(Player player, Things things) {
+    public void add(Player player,Item item) {
+        Things things = item.getThings();
         Map<Integer,RoleProperty> rolePropertiesMap = player.getRolePropertyMap();
         log.debug("rolePropertiesMap {}",rolePropertiesMap);
         if (rolePropertiesMap == null)
@@ -65,17 +66,17 @@ public class EquipmentBar  {
             }
         );
 
-        map.put(things.getPart(), things);
-        log.debug(" map.put(things.getPart(), things); {}",  map);
+        EquipmentMap.put(things.getPart(), item);
+        log.debug(" EquipmentMap.put(things.getPart(), things); {}", EquipmentMap);
         log.debug(" rolePropertiesMap {}", rolePropertiesMap  );
     }
 
     public void remove(String part) {
-        map.remove(part);
+        EquipmentMap.remove(part);
     }
 
-    public Collection<Things> list() {
-        return map.values();
+    public Collection<Item> list() {
+        return EquipmentMap.values();
     }
 
 

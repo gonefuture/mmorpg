@@ -39,6 +39,12 @@ public enum MsgId {
     // 显示当前位置和相邻场景
     LOCATION("location",2004),
 
+    // 展示装备栏
+    SHOW_EQUIPMENTBAR("show_equip",2005),
+
+    // 展示装备栏
+    SHOW_Player("show_player",2006),
+
 
     // 角色移动， 参数 场景id ， 例： move 2
     MOVE("move",3001),

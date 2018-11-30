@@ -45,6 +45,9 @@ public class InstanceService {
 
         GameInstance gameInstance = init(player,instanceId);
 
+        if (null == gameInstance || null == gameInstance.getInstanceTime())
+            return null;
+
         // 设置玩家的当前副本
         player.setCurrentGameInstance(gameInstance);
         player.setScene(gameInstance.getId());

@@ -4,6 +4,7 @@ import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.game.bag.controller.EquipmentController;
 import com.wan37.gameServer.game.bag.controller.ShowBagsController;
+import com.wan37.gameServer.game.bag.controller.ShowEquipmentController;
 import com.wan37.gameServer.game.combat.controller.CommonAttackController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;
 import com.wan37.gameServer.game.gameRole.controller.*;
@@ -85,6 +86,12 @@ public class ControllerManager {
     @Resource
     private EnterInstanceController enterInstanceController;
 
+    @Resource
+    private ShowEquipmentController showEquipmentController;
+
+    @Resource
+    private ShowPlayerController showPlayerController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -103,6 +110,8 @@ public class ControllerManager {
         add(MsgId.COMMON_ATTACK,commonAttackController);
         add(MsgId.LOCATION,locationController);
         add(MsgId.ENTER_INSTANCE, enterInstanceController);
+        add(MsgId.SHOW_EQUIPMENTBAR,showEquipmentController);
+        add(MsgId.SHOW_Player,showPlayerController);
     }
 
 

@@ -26,6 +26,8 @@ public class NotificationManager {
     private PlayerCacheMgr playerCacheMgr;
 
 
+
+
     public void notifyScenePlayer(GameScene gameScene,Message message) {
         gameScene.getPlayers().keySet().forEach( playerId-> {
             ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
@@ -49,6 +51,12 @@ public class NotificationManager {
         message.setContent(JSON.toJSONString(e).getBytes());
         ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(player.getId());
         ctx.writeAndFlush(message);
+    }
+
+
+    public <E> void notifyByCtx(ChannelHandlerContext ctx,E e) {
+        Player player = playerCacheMgr.get(ctx.channel().id().asLongText());
+        notifyPlayer(player,e);
     }
 
 

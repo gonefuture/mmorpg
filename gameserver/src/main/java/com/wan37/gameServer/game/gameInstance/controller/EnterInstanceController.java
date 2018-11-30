@@ -41,7 +41,7 @@ public class EnterInstanceController implements IController {
             message.setFlag((byte) 1);
             message.setContent(("进入副本 "+gameInstance.getName() ).getBytes());
         } else {
-            message.setContent(MessageFormat.format("进入id为{}的副本成功", instanceId).getBytes());
+            message.setContent(MessageFormat.format("进入id为{}的失败", instanceId).getBytes());
         }
         ctx.writeAndFlush(message);
     }

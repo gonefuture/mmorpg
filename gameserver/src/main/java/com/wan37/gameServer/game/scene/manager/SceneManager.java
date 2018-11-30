@@ -1,4 +1,4 @@
-package com.wan37.gameServer.manager.scene;
+package com.wan37.gameServer.game.scene.manager;
 
 
 import com.wan37.gameServer.game.gameSceneObject.manager.GameObjectCacheMgr;

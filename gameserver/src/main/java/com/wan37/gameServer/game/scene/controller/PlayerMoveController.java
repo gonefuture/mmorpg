@@ -34,7 +34,7 @@ public class PlayerMoveController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        String[] array = new String(message.getContent()).split(" ");
+        String[] array = new String(message.getContent()).split("\\s+");
         int willMoveSceneId =  Integer.valueOf(array[1]);
 
         GameScene gameScene = sceneCacheMgr.get(willMoveSceneId);

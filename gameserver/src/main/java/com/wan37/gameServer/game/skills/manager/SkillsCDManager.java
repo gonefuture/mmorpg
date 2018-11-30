@@ -1,4 +1,4 @@
-package com.wan37.gameServer.manager.skills;
+package com.wan37.gameServer.game.skills.manager;
 
 import org.springframework.stereotype.Component;
 

@@ -5,6 +5,7 @@ import com.wan37.common.entity.Message;
 import com.wan37.gameServer.controller.ErrorController;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import com.wan37.gameServer.game.gameRole.service.PlayerQuitService;
+import com.wan37.gameServer.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -35,6 +36,9 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
 
     @Resource
     private PlayerQuitService playerQuitService;
+
+    @Resource
+    private NotificationManager notificationManager;
 
 
     //  当客户端连上服务器的时候触发此函数
@@ -80,7 +84,7 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 
-        ctx.writeAndFlush("服务器内部发生错误");
+        notificationManager.notifyByCtx(ctx,"出现了点小意外"+cause.getMessage());
         log.error("服务器内部发生错误");
 
         // 将角色信息保存到数据库
