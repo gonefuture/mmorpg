@@ -11,9 +11,7 @@
     <result column="state" property="state" jdbcType="INTEGER" />
     <result column="scene" property="scene" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.wan37.mysql.pojo.entity.TPlayer" extends="BaseResultMap" >
-    <result column="Equipments" property="equipments" jdbcType="LONGVARCHAR" />
+    <result column="equipments" property="equipments" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,27 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, hp, exp, mp, position, state, scene, user_id
+    id, name, hp, exp, mp, position, state, scene, user_id, equipments
   </sql>
-  <sql id="Blob_Column_List" >
-    Equipments
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TPlayerExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_player
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TPlayerExample" >
     select
     <if test="distinct" >
@@ -109,11 +88,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from t_player
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -130,11 +107,11 @@
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
     insert into t_player (id, name, hp, exp, 
       mp, position, state, 
-      scene, user_id, Equipments
+      scene, user_id, equipments
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{hp,jdbcType=BIGINT}, #{exp,jdbcType=INTEGER}, 
       #{mp,jdbcType=BIGINT}, #{position,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{scene,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{equipments,jdbcType=LONGVARCHAR}
+      #{scene,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{equipments,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
@@ -168,7 +145,7 @@
         user_id,
       </if>
       <if test="equipments != null" >
-        Equipments,
+        equipments,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -200,7 +177,7 @@
         #{userId,jdbcType=BIGINT},
       </if>
       <if test="equipments != null" >
-        #{equipments,jdbcType=LONGVARCHAR},
+        #{equipments,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -241,25 +218,9 @@
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.equipments != null" >
-        Equipments = #{record.equipments,jdbcType=LONGVARCHAR},
+        equipments = #{record.equipments,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update t_player
-    set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      hp = #{record.hp,jdbcType=BIGINT},
-      exp = #{record.exp,jdbcType=INTEGER},
-      mp = #{record.mp,jdbcType=BIGINT},
-      position = #{record.position,jdbcType=VARCHAR},
-      state = #{record.state,jdbcType=INTEGER},
-      scene = #{record.scene,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=BIGINT},
-      Equipments = #{record.equipments,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -274,7 +235,8 @@
       position = #{record.position,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       scene = #{record.scene,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=BIGINT}
+      user_id = #{record.userId,jdbcType=BIGINT},
+      equipments = #{record.equipments,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -307,22 +269,9 @@
         user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="equipments != null" >
-        Equipments = #{equipments,jdbcType=LONGVARCHAR},
+        equipments = #{equipments,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
-    update t_player
-    set name = #{name,jdbcType=VARCHAR},
-      hp = #{hp,jdbcType=BIGINT},
-      exp = #{exp,jdbcType=INTEGER},
-      mp = #{mp,jdbcType=BIGINT},
-      position = #{position,jdbcType=VARCHAR},
-      state = #{state,jdbcType=INTEGER},
-      scene = #{scene,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=BIGINT},
-      Equipments = #{equipments,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
@@ -334,7 +283,8 @@
       position = #{position,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       scene = #{scene,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=BIGINT}
+      user_id = #{userId,jdbcType=BIGINT},
+      equipments = #{equipments,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -46,9 +46,7 @@ public class ThingsService {
 
 
 
-    public void loadThings(Player player) {
 
-    }
 
     /**
      *  加载物品的属性内容

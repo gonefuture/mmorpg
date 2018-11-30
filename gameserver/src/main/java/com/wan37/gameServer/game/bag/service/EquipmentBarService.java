@@ -38,6 +38,7 @@ public class EquipmentBarService {
 
 
 
+
     /**
      *  穿上装备
      * @param player 玩家
@@ -65,10 +66,6 @@ public class EquipmentBarService {
         bagsService.removeItem(player,index);
         return true;
     }
-
-
-
-
 
 
 

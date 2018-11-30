@@ -32,7 +32,7 @@ public class ShowEquipmentController implements IController {
     public void handle(ChannelHandlerContext ctx, Message message) {
         EquipmentBar equipmentBar = playerDataService.getPlayerByCtx(ctx).getEquipmentBar();
         StringBuilder sb = new StringBuilder();
-        log.debug("展示武器栏 {0}",equipmentBar );
+        log.debug("展示武器栏 {}",equipmentBar );
         equipmentBar.getEquipmentMap().values().stream().
                 map(Item::getThings).
                 forEach(
@@ -52,6 +52,9 @@ public class ShowEquipmentController implements IController {
                         }
                 );
 
+
+        if (equipmentBar.getEquipmentMap().isEmpty())
+            sb.append("你没有穿戴装备，快去商城或背包里挑一件吧");
         message.setFlag((byte)1);
         message.setContent(sb.toString().getBytes());
         ctx.writeAndFlush(message);

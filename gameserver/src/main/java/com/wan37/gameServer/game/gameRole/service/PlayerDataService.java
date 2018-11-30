@@ -2,6 +2,7 @@ package com.wan37.gameServer.game.gameRole.service;
 
 import com.wan37.gameServer.game.bag.model.Bag;
 import com.wan37.gameServer.game.bag.service.BagsService;
+import com.wan37.gameServer.game.bag.service.EquipmentBarService;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.service.ThingsService;
@@ -36,6 +37,9 @@ public class PlayerDataService {
     @Resource
     private BagsService bagsService;
 
+    @Resource
+    private EquipmentBarService equipmentBarService;
+
 
     public Player getPlayerByCtx(ChannelHandlerContext ctx) {
         return playerCacheMgr.get(ctx.channel().id().asLongText());
@@ -58,8 +62,9 @@ public class PlayerDataService {
         // 加载背包
         bagsService.loadBag(player);
 
-        // 加载物品装备
-        thingsService.loadThings(player);
+        // 加载武器栏
+        equipmentBarService.load(player);
+
 
         // 加载属性
         rolePropertyService.loadRoleProperty(player);

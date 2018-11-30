@@ -663,6 +663,76 @@ public class TPlayerExample {
             addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
+
+        public Criteria andEquipmentsIsNull() {
+            addCriterion("equipments is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsIsNotNull() {
+            addCriterion("equipments is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsEqualTo(String value) {
+            addCriterion("equipments =", value, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsNotEqualTo(String value) {
+            addCriterion("equipments <>", value, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsGreaterThan(String value) {
+            addCriterion("equipments >", value, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsGreaterThanOrEqualTo(String value) {
+            addCriterion("equipments >=", value, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsLessThan(String value) {
+            addCriterion("equipments <", value, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsLessThanOrEqualTo(String value) {
+            addCriterion("equipments <=", value, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsLike(String value) {
+            addCriterion("equipments like", value, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsNotLike(String value) {
+            addCriterion("equipments not like", value, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsIn(List<String> values) {
+            addCriterion("equipments in", values, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsNotIn(List<String> values) {
+            addCriterion("equipments not in", values, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsBetween(String value1, String value2) {
+            addCriterion("equipments between", value1, value2, "equipments");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentsNotBetween(String value1, String value2) {
+            addCriterion("equipments not between", value1, value2, "equipments");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

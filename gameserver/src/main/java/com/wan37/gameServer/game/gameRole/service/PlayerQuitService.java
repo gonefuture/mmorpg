@@ -1,5 +1,6 @@
 package com.wan37.gameServer.game.gameRole.service;
 
+import com.alibaba.fastjson.JSON;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
@@ -104,6 +105,9 @@ public class PlayerQuitService  {
             // 持久化角色信息
             TPlayer tPlayer = new TPlayer();
             BeanUtils.copyProperties(player,tPlayer);
+            // 保存背包
+            tPlayer.setEquipments(JSON.toJSONString(player.getEquipmentBar()));
+
             tPlayerMapper.updateByPrimaryKey(tPlayer);
         }
 
