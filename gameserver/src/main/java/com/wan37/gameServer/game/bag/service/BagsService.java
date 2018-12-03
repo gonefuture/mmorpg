@@ -79,8 +79,6 @@ public class BagsService {
 
             // 普通背包的加载
             if (tBag.getType() == 1) {
-                log.debug("tBag  {}", tBag );
-
                 Bag bag = new Bag(tBag.getPlayerId(),tBag.getBagSize());
                 if (!Strings.isNullOrEmpty(tBag.getGoods())) {
                     Map<Integer,Item> itemMap =  JSON.parseObject(tBag.getGoods(),
@@ -89,7 +87,6 @@ public class BagsService {
                 } else {
                     bag.setItemMap(new LinkedHashMap<>());
                 }
-
 
                 bag.setType(tBag.getType());
                 bag.setBagName(tBag.getBagName());
@@ -134,6 +131,28 @@ public class BagsService {
             return Optional.ofNullable(item);
         }
 
+    /**
+     *  从背包中寻找空位置放进去
+     * @param player 玩家
+     * @param item 物品条目
+     * @return 物品是否放入背包成功
+     */
+    public boolean addItem(Player player,Item item) {
+            Bag bag = player.getBag();
+
+            if (item == null)
+                return false;
+            // 遍历背包所有格子，如果是空格，将物品放入格子
+            for (int locationIndex=1; locationIndex <= bag.getBagSize(); locationIndex++) {
+                item.setLocationIndex(locationIndex);
+                if (null == bag.getItemMap().putIfAbsent(locationIndex,item)) {
+                    return true;
+                }
+            }
+            // 如果背包没有空位，物品放入失败,恢复物品的无栏位状态
+            item.setLocationIndex(0);
+            return false;
+        }
 
 
 }

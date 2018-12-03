@@ -67,7 +67,7 @@ public class MonsterDropsService {
                 // 默认的位置索引为零
                 item.setLocationIndex(0);
                 item.setThings(things);
-                if (bag.put(item)) {
+                if (bagsService.addItem(player,item)) {
                     // 广播玩家获得的掉落
                     notificationManager.<String>notifyPlayer(player,"玩家 "+player.getName()+" 获得了"
                             +things.getName()+ " x"+item.getCount());

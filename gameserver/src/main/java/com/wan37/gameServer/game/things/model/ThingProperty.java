@@ -13,7 +13,6 @@ import lombok.Data;
 public class ThingProperty {
 
 
-
     private Integer id;
 
     private  Integer value;

@@ -30,9 +30,13 @@ public class RolePropertyService {
     private RolePropertyManager rolePropertyManager;
 
 
-
-
-    public void loadThingPropertyToPlayer(Player player, Things things) {
+    /**
+     *  加载物品的增益到玩家属性中
+     * @param player 玩家
+     * @param things 物品
+     * @return 是否加载属性成功
+     */
+    public boolean loadThingPropertyToPlayer(Player player, Things things) {
         Set<RoleProperty> thingPropertySet = things.getThingRoleProperty();
         Map<Integer,RoleProperty> playerPropertyMap = player.getRolePropertyMap();
 
@@ -44,8 +48,31 @@ public class RolePropertyService {
 
                 }
         );
+        return true;
+    }
 
 
+    /**
+     *  移除玩家角色上的物品增益
+     * @param player 玩家
+     * @param things 物品
+     */
+    public boolean removeThingPropertyForPlayer(Player player, Things things) {
+        Set<RoleProperty> thingPropertySet = things.getThingRoleProperty();
+        Map<Integer,RoleProperty> playerPropertyMap = player.getRolePropertyMap();
+
+        thingPropertySet.forEach(
+                thingProperty -> {
+                    // 改变属性
+                    RoleProperty playerProperty = playerPropertyMap.get(thingProperty.getKey());
+                    playerProperty.setValue(playerProperty.getValue() - thingProperty.getThingPropertyValue());
+                    // 防止出现负数的属性
+                    if (playerProperty.getValue() <0) {
+                        playerProperty.setValue(0);
+                    }
+                }
+        );
+        return true;
     }
 
 

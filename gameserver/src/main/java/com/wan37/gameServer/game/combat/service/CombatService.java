@@ -30,9 +30,6 @@ public class CombatService {
 
 
     @Resource
-    private GameObjectService gameObjectService;
-
-    @Resource
     private GameSceneService gameSceneService;
 
     @Resource
@@ -53,24 +50,17 @@ public class CombatService {
         Monster target = gameScene.getMonsters().get(gameObjectId);
 
         if (target == null) {
-            return new Msg(404,"目标不存在");
+            return new Msg(404,"攻击的目标不存在");
         }
-
-
-        // 获取玩家的基础攻击这一属性,代号是 4 ,
-        RoleProperty attackProperty = player.getRolePropertyMap().get(4);
-
-        int attack = Optional.ofNullable(attackProperty.getThingPropertyValue()).orElse(attackProperty.getValue());
-
-        log.debug("attackProperty {}   attack  {} ",attackProperty ,attack);
-
+        // 攻击力
+        int attack = player.getAttack();
         notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
-                MessageFormat.format("玩家{0}  向 {1} 发动普通攻击,攻击力为 {2}",player.getName(),target.getName(), attack));
+                MessageFormat.format("玩家{0}  向 {1} 发动普通攻击,攻击力为 {2} \n",player.getName(),target.getName(), attack));
         log.debug("玩家的普通攻击力 {}",attack);
         if (target.getState() ==  -1) {
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
                     MessageFormat.format("目标 {0} 已经死亡 \n",target.getName()));
-            return new Msg(401,"不能攻击，目标已经死亡");
+            return new Msg(401,"不能攻击，目标已经死亡 \n");
         } else {
             target.setHp(target.getHp() - attack);
             // 重要，设置死亡时间
@@ -83,8 +73,9 @@ public class CombatService {
                 monsterDropsService.dropItem(player,target);
             }
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
-                    MessageFormat.format("目标 {0},hp: {1}       ",target.getName(),target.getHp()));
-            return new Msg(200,"\n"+player.getName()+"使用普通攻击成功");
+                    MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
+                            ,target.getName(),player.getName(),attack, target.getHp()));
+            return new Msg(200,"\n"+player.getName()+"使用普通攻击成功 \n");
         }
     }
 

@@ -42,8 +42,8 @@ public enum MsgId {
     // 展示装备栏
     SHOW_EQUIPMENTBAR("show_equip",2005),
 
-    // 展示装备栏
-    SHOW_Player("show_player",2006),
+    // 展示玩家属性
+    SHOW_PLAYER("show_player",2006),
 
 
     // 角色移动， 参数 场景id ， 例： move 2
@@ -70,6 +70,12 @@ public enum MsgId {
 
     // 进入副本
     ENTER_INSTANCE("enter_instance",3008),
+
+    // 退出副本
+    EXIT_INSTANCE("exit_instance",3009),
+
+    // 卸下武器，放回背包
+    REMOVE_EQUIP("remove_equip",3010),
 
 
     // 与NPC，怪物对话

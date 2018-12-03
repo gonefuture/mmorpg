@@ -56,8 +56,7 @@ public class ThingsService {
             thingProperties.forEach( thingProperty -> {
                 Integer rolePropertyId = thingProperty.getId();
                     if (rolePropertyId != null) {
-                        RoleProperty roleProperty = rolePropertyService.
-                                getRoleProperty(rolePropertyId);
+                        RoleProperty roleProperty = rolePropertyService.getRoleProperty(rolePropertyId);
                         roleProperty.setThingPropertyValue(thingProperty.getValue());
                         things.getThingRoleProperty()
                                 .add(roleProperty);
@@ -66,7 +65,7 @@ public class ThingsService {
             );
 
         }
-        log.debug("things.getRoleProperties() {}", things.getRoleProperties());
+        log.debug("加载物品的属性内容 things.getRoleProperties() {}", things.getRoleProperties());
         log.debug("thingProperties {}", thingProperties);
     }
 
@@ -77,7 +76,7 @@ public class ThingsService {
      */
     public Things getThings(Integer thingsId) {
         Things things = thingsCacheMgr.get(thingsId);
-        loadThingsProperties(things);
+        //loadThingsProperties(things);
         return things;
     }
 

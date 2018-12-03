@@ -42,11 +42,8 @@ public class PlayerLoginService {
     @Resource
     private UserService userService;
 
-    @Resource
-    private BufferService bufferService;
 
-    @Resource
-    private ThingsService thingsService;
+
 
     /**
      *  角色登陆
@@ -64,10 +61,7 @@ public class PlayerLoginService {
             playerDataService.initPlayer(player);
 
             // 以channel id 为键储存玩家数据
-            playerCacheMgr.put( channelId,player);
-
-            Buffer buffer = bufferService.getTBuffer(105);
-            bufferService.startBuffer(player,buffer);
+            playerCacheMgr.put(channelId,player);
 
             return player;
         } else {

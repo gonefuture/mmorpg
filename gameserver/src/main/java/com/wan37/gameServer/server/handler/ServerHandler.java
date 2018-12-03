@@ -29,7 +29,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-        //gameCacheManager.put("hero", RoleLoginService.createRole());
+        //gameCacheManager.putIfFree("hero", RoleLoginService.createRole());
         log.info("客户端: " + ctx.channel().id() + " 加入连接",CharsetUtil.UTF_8);
         //ctx.writeAndFlush(Unpooled.copiedBuffer("服务端响应客户端的连接",CharsetUtil.UTF_8));
 

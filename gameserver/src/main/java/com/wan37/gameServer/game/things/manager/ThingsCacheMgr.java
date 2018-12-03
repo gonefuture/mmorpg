@@ -1,17 +1,21 @@
 package com.wan37.gameServer.game.things.manager;
 
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.model.ThingsExcelUtil;
+import com.wan37.gameServer.game.things.service.ThingsService;
 import com.wan37.gameServer.manager.cache.GameCacheManager;
 import com.wan37.gameServer.util.FileUtil;
+
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -23,6 +27,9 @@ import java.util.Map;
 @Slf4j
 @Component
 public class ThingsCacheMgr  implements GameCacheManager<Integer,Things> {
+
+    @Resource
+    private ThingsService thingsService;
 
     private static Cache<Integer, Things> thingsCache = CacheBuilder.newBuilder()
             .recordStats()
@@ -41,6 +48,9 @@ public class ThingsCacheMgr  implements GameCacheManager<Integer,Things> {
             for (Things thingsExcel : thingsMap.values()) {
                 Things things= new Things();
                 BeanUtils.copyProperties(thingsExcel,things);
+
+
+
                 put(thingsExcel.getId(),things);
             }
             log.debug("物品配置配置表数据 {}",thingsMap);
@@ -56,7 +66,14 @@ public class ThingsCacheMgr  implements GameCacheManager<Integer,Things> {
 
     @Override
     public Things get(Integer id) {
-        return thingsCache.getIfPresent(id);
+        Things thing = thingsCache.getIfPresent(id);
+        // 如果属性集合为空，加载物品属性
+        if (thing != null
+                && !Strings.isNullOrEmpty(thing.getRoleProperties())
+                && thing.getThingRoleProperty().isEmpty()) {
+            thingsService.loadThingsProperties(thing);
+        }
+        return  thing;
     }
 
     @Override

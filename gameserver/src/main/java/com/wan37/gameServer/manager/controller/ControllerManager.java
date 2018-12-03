@@ -3,6 +3,7 @@ package com.wan37.gameServer.manager.controller;
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.game.bag.controller.EquipmentController;
+import com.wan37.gameServer.game.bag.controller.RemoveEquipController;
 import com.wan37.gameServer.game.bag.controller.ShowBagsController;
 import com.wan37.gameServer.game.bag.controller.ShowEquipmentController;
 import com.wan37.gameServer.game.combat.controller.CommonAttackController;
@@ -92,6 +93,9 @@ public class ControllerManager {
     @Resource
     private ShowPlayerController showPlayerController;
 
+    @Resource
+    private RemoveEquipController removeEquipController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -111,7 +115,8 @@ public class ControllerManager {
         add(MsgId.LOCATION,locationController);
         add(MsgId.ENTER_INSTANCE, enterInstanceController);
         add(MsgId.SHOW_EQUIPMENTBAR,showEquipmentController);
-        add(MsgId.SHOW_Player,showPlayerController);
+        add(MsgId.SHOW_PLAYER,showPlayerController);
+        add(MsgId.REMOVE_EQUIP,removeEquipController);
     }
 
 
