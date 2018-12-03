@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,7 +59,7 @@ public class ShowBagsController implements IController {
             rolePropertyList.forEach(
                     roleProperty -> {
                         sb.append(MessageFormat.format("{0}:{1} "
-                                ,roleProperty.getName(),roleProperty.getCurrentValue()));
+                                ,roleProperty.getName(),roleProperty.getThingPropertyValue()));
                     }
             );
             sb.append("\n");

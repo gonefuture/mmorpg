@@ -30,7 +30,7 @@ public class RoleProperty implements IExcel<Integer> {
     private String describe;
 
 
-    private Integer currentValue;
+    private Integer thingPropertyValue;
 
 
 

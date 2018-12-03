@@ -2,12 +2,13 @@ package com.wan37.gameServer.game.gameRole.model;
 
 
 import com.wan37.gameServer.game.bag.model.Bag;
-import com.wan37.gameServer.game.bag.model.EquipmentBar;
+import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
 
 import com.wan37.gameServer.game.skills.model.Skill;
+import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Slf4j
 public class Player extends TPlayer   {
 
+    // 玩家战力
+    int attack;
+
 
     // 角色当前使用技能的集合
     Map<Integer, Skill> skillMap = new ConcurrentHashMap<>();
@@ -41,7 +45,7 @@ public class Player extends TPlayer   {
 
 
     // 装备
-    EquipmentBar equipmentBar = new EquipmentBar();
+    Map<String,Item> equipmentBar = new ConcurrentHashMap<>();
 
 
     // 背包栏
@@ -51,8 +55,6 @@ public class Player extends TPlayer   {
 
     // 玩家当前进行的副本。
     GameInstance currentGameInstance;
-
-
 
 
 

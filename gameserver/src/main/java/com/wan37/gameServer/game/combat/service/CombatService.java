@@ -5,6 +5,7 @@ import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.gameSceneObject.service.MonsterDropsService;
+import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -54,8 +56,13 @@ public class CombatService {
             return new Msg(404,"目标不存在");
         }
 
-        // 获取玩家的基础攻击这一属性
-        int attack = player.getRolePropertyMap().get(4).getValue();
+
+        // 获取玩家的基础攻击这一属性,代号是 4 ,
+        RoleProperty attackProperty = player.getRolePropertyMap().get(4);
+
+        int attack = Optional.ofNullable(attackProperty.getThingPropertyValue()).orElse(attackProperty.getValue());
+
+        log.debug("attackProperty {}   attack  {} ",attackProperty ,attack);
 
         notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
                 MessageFormat.format("玩家{0}  向 {1} 发动普通攻击,攻击力为 {2}",player.getName(),target.getName(), attack));

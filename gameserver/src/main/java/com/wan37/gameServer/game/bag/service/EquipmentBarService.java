@@ -2,10 +2,11 @@ package com.wan37.gameServer.game.bag.service;
 
 import com.alibaba.fastjson.JSON;
 
+import com.alibaba.fastjson.TypeReference;
 import com.google.common.base.Strings;
-import com.wan37.gameServer.game.bag.model.EquipmentBar;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;
 
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 
 /**
@@ -37,6 +39,10 @@ public class EquipmentBarService {
     private BagsService bagsService;
 
 
+    @Resource
+    private RolePropertyService rolePropertyService;
+
+
 
 
     /**
@@ -59,8 +65,10 @@ public class EquipmentBarService {
         Things equipment = thingsService.getThings(things.getId());
         log.debug("穿上装备 equipment {} ",equipment);
 
-        // 穿上装备，改变玩家属性
-        player.getEquipmentBar().add(player,item);
+        // 改变玩家属性
+        rolePropertyService.loadThingPropertyToPlayer(player,things);
+        // 穿上装备
+        player.getEquipmentBar().put(things.getPart(),item);
 
         // 从背包移除物品
         bagsService.removeItem(player,index);
@@ -76,11 +84,11 @@ public class EquipmentBarService {
     public void load(Player player) {
         String equipmentBarString = player.getEquipments();
         if (!Strings.isNullOrEmpty(equipmentBarString)) {
-            EquipmentBar equipmentBar = JSON.parseObject(equipmentBarString,
-                    EquipmentBar.class);
+            Map<String,Item> equipmentBar = JSON.parseObject(equipmentBarString,
+                    new TypeReference<Map<String,Item>>(){});
             log.debug("  equipmentBar{}",equipmentBar);
-            equipmentBar.getEquipmentMap().values()
-                    .forEach( item ->player.getEquipmentBar().add(player,item));
+            equipmentBar.values()
+                    .forEach( item ->player.getEquipmentBar().put(item.getThings().getPart(),item));
         }
 
     }

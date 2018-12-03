@@ -2,10 +2,7 @@ package com.wan37.gameServer.game.bag.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.bag.model.EquipmentBar;
 import com.wan37.gameServer.game.bag.model.Item;
-import com.wan37.gameServer.game.bag.service.EquipmentBarService;
-import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -30,10 +28,10 @@ public class ShowEquipmentController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        EquipmentBar equipmentBar = playerDataService.getPlayerByCtx(ctx).getEquipmentBar();
+        Map<String,Item> equipmentBar = playerDataService.getPlayerByCtx(ctx).getEquipmentBar();
         StringBuilder sb = new StringBuilder();
         log.debug("展示武器栏 {}",equipmentBar );
-        equipmentBar.getEquipmentMap().values().stream().
+        equipmentBar.values().stream().
                 map(Item::getThings).
                 forEach(
                         things -> {
@@ -44,7 +42,7 @@ public class ShowEquipmentController implements IController {
                             things.getThingRoleProperty().forEach(
                                     roleProperty -> {
                                         sb.append(MessageFormat.format(" {0}：{1} ",
-                                                roleProperty.getName(),roleProperty.getCurrentValue()));
+                                                roleProperty.getName(),roleProperty.getThingPropertyValue()));
                                     }
                             );
 
@@ -53,7 +51,7 @@ public class ShowEquipmentController implements IController {
                 );
 
 
-        if (equipmentBar.getEquipmentMap().isEmpty())
+        if (equipmentBar.isEmpty())
             sb.append("你没有穿戴装备，快去商城或背包里挑一件吧");
         message.setFlag((byte)1);
         message.setContent(sb.toString().getBytes());

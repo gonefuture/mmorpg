@@ -8,6 +8,7 @@ package com.wan37.gameServer.game.bag.service;
 import com.alibaba.fastjson.JSON;
 
 import com.alibaba.fastjson.TypeReference;
+import com.google.common.base.Strings;
 import com.wan37.gameServer.game.bag.model.Bag;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -81,16 +82,15 @@ public class BagsService {
                 log.debug("tBag  {}", tBag );
 
                 Bag bag = new Bag(tBag.getPlayerId(),tBag.getBagSize());
-                Map<Integer,Item> itemMap =  JSON.parseObject(tBag.getGoods(),
-                        new TypeReference<Map<Integer,Item>>(){});
-
-
-                if (null == itemMap)
-                    bag.setItemMap(new LinkedHashMap<>());
-                else
+                if (!Strings.isNullOrEmpty(tBag.getGoods())) {
+                    Map<Integer,Item> itemMap =  JSON.parseObject(tBag.getGoods(),
+                            new TypeReference<Map<Integer,Item>>(){});
                     bag.setItemMap(itemMap);
+                } else {
+                    bag.setItemMap(new LinkedHashMap<>());
+                }
 
-                log.debug("itemMap {} ", itemMap );
+
                 bag.setType(tBag.getType());
                 bag.setBagName(tBag.getBagName());
                 player.setBag(bag);
