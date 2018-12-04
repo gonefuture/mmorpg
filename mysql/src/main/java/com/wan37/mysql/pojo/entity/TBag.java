@@ -7,7 +7,7 @@ public class TBag extends TBagKey implements Serializable {
 
     private String bagName;
 
-    private String goods;
+    private String items;
 
     private static final long serialVersionUID = 1L;
 
@@ -27,12 +27,12 @@ public class TBag extends TBagKey implements Serializable {
         this.bagName = bagName == null ? null : bagName.trim();
     }
 
-    public String getGoods() {
-        return goods;
+    public String getItems() {
+        return items;
     }
 
-    public void setGoods(String goods) {
-        this.goods = goods == null ? null : goods.trim();
+    public void setItems(String items) {
+        this.items = items == null ? null : items.trim();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class TBag extends TBagKey implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", bagSize=").append(bagSize);
         sb.append(", bagName=").append(bagName);
-        sb.append(", goods=").append(goods);
+        sb.append(", items=").append(items);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

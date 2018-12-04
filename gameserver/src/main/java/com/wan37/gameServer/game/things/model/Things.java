@@ -40,6 +40,9 @@ public class Things implements IExcel<Integer> {
     @EntityName(column = "部位")
     private String part;
 
+    @EntityName(column = "价格")
+    private Integer price ;
+
     @EntityName(column = "描述")
     private String describe;
 

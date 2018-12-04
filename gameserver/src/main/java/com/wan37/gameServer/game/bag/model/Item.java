@@ -22,4 +22,14 @@ public class Item {
     private Things things;
 
 
+    public Item() {
+
+    }
+
+    public Item(Long id, Integer count, Integer locationIndex, Things things) {
+        this.id = id;
+        this.count = count;
+        this.locationIndex = locationIndex;
+        this.things = things;
+    }
 }

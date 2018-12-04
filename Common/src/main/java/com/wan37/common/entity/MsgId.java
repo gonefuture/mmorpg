@@ -78,8 +78,20 @@ public enum MsgId {
     REMOVE_EQUIP("remove_equip",3010),
 
 
-    // 与NPC，怪物对话
-    DIALOG("dialog",4001),
+
+    // 私聊
+    WHISPER("whisper",4001),
+
+    // 公共聊天
+    PUBLIC_CHAT("public_chat",4002),
+
+    // 购买货物
+    BUY_GOODS("buy",4003),
+
+    // 展示商店货物
+    SHOW_GOODS("show_shop",4004),
+
+
 
     // 未知的命令
     UNKNOWN("unknown", 9999)

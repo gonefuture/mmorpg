@@ -12,6 +12,8 @@ import com.wan37.gameServer.game.gameRole.controller.*;
 import com.wan37.gameServer.game.scene.controller.AOIController;
 import com.wan37.gameServer.game.scene.controller.LocationController;
 import com.wan37.gameServer.game.scene.controller.PlayerMoveController;
+import com.wan37.gameServer.game.shop.controller.BuyGoodsController;
+import com.wan37.gameServer.game.shop.controller.ShowGoodsController;
 import com.wan37.gameServer.game.skills.controller.UseSkillsAttackMonsterController;
 import com.wan37.gameServer.game.things.controller.UseItemController;
 import com.wan37.gameServer.game.user.controller.ListGameRoleController;
@@ -96,6 +98,12 @@ public class ControllerManager {
     @Resource
     private RemoveEquipController removeEquipController;
 
+    @Resource
+    private BuyGoodsController buyGoodsController;
+
+    @Resource
+    private ShowGoodsController showGoodsController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -117,6 +125,8 @@ public class ControllerManager {
         add(MsgId.SHOW_EQUIPMENTBAR,showEquipmentController);
         add(MsgId.SHOW_PLAYER,showPlayerController);
         add(MsgId.REMOVE_EQUIP,removeEquipController);
+        add(MsgId.BUY_GOODS,buyGoodsController);
+        add(MsgId.SHOW_GOODS, showGoodsController);
     }
 
 

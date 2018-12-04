@@ -44,7 +44,7 @@ public class EquipmentController  implements IController {
 
         if (flag) {
             message.setFlag((byte) 1);
-            message.setContent(MessageFormat.format("装备 {0} 成功",things).getBytes());
+            message.setContent(MessageFormat.format("装备 {0} 在 {1} 成功",things.getName() ,things.getPart()).getBytes());
         } else {
             message.setFlag((byte) -1);
             message.setContent("装备失败".getBytes());

@@ -63,13 +63,13 @@ public class PlayerDataService {
 
         Map<Integer, RoleProperty> rolePropertyMap = player.getRolePropertyMap();
         // 基础攻击力
-        int basicAtack = Optional.ofNullable(rolePropertyMap.get(4).getValue()).orElse(30);
+        int basicAttack = Optional.ofNullable(rolePropertyMap.get(4).getValue()).orElse(30);
 
         // 力量
         int power  = Optional.ofNullable(rolePropertyMap.get(5).getValue()).orElse(100);
 
 
-        player.setAttack(basicAtack + power);
+        player.setAttack(basicAttack + power);
     }
 
 
@@ -79,10 +79,16 @@ public class PlayerDataService {
 
 
     /**
-     *  初始化角色
+     *  初始化角色, 注意，加载循序不能错。
      * @param player 角色
      */
     public void initPlayer(Player player) {
+
+        // 加载属性
+        rolePropertyService.loadRoleProperty(player);
+
+        // 计算初始战力
+        computeAttack(player);
 
 
         // 加载背包
@@ -90,12 +96,6 @@ public class PlayerDataService {
 
         // 加载武器栏
         equipmentBarService.load(player);
-
-        // 加载属性
-        rolePropertyService.loadRoleProperty(player);
-
-        // 计算初始战力
-        computeAttack(player);
 
 
         // 施放一个回蓝的buffer

@@ -80,8 +80,8 @@ public class BagsService {
             // 普通背包的加载
             if (tBag.getType() == 1) {
                 Bag bag = new Bag(tBag.getPlayerId(),tBag.getBagSize());
-                if (!Strings.isNullOrEmpty(tBag.getGoods())) {
-                    Map<Integer,Item> itemMap =  JSON.parseObject(tBag.getGoods(),
+                if (!Strings.isNullOrEmpty(tBag.getItems())) {
+                    Map<Integer,Item> itemMap =  JSON.parseObject(tBag.getItems(),
                             new TypeReference<Map<Integer,Item>>(){});
                     bag.setItemMap(itemMap);
                 } else {
@@ -109,7 +109,7 @@ public class BagsService {
         tBag.setType(bag.getType());
         tBag.setBagName(bag.getBagName());
         tBag.setBagSize(bag.getBagSize());
-        tBag.setGoods(JSON.toJSONString(bag.getItemMap()));
+        tBag.setItems(JSON.toJSONString(bag.getItemMap()));
 
         if (tBagMapper.updateByPrimaryKeySelective(tBag) == 1) {
             log.debug("更新背包成功 {}",tBag);

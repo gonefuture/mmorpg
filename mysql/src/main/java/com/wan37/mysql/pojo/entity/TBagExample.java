@@ -354,73 +354,73 @@ public class TBagExample {
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIsNull() {
-            addCriterion("goods is null");
+        public Criteria andItemsIsNull() {
+            addCriterion("items is null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIsNotNull() {
-            addCriterion("goods is not null");
+        public Criteria andItemsIsNotNull() {
+            addCriterion("items is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsEqualTo(String value) {
-            addCriterion("goods =", value, "goods");
+        public Criteria andItemsEqualTo(String value) {
+            addCriterion("items =", value, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsNotEqualTo(String value) {
-            addCriterion("goods <>", value, "goods");
+        public Criteria andItemsNotEqualTo(String value) {
+            addCriterion("items <>", value, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsGreaterThan(String value) {
-            addCriterion("goods >", value, "goods");
+        public Criteria andItemsGreaterThan(String value) {
+            addCriterion("items >", value, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsGreaterThanOrEqualTo(String value) {
-            addCriterion("goods >=", value, "goods");
+        public Criteria andItemsGreaterThanOrEqualTo(String value) {
+            addCriterion("items >=", value, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsLessThan(String value) {
-            addCriterion("goods <", value, "goods");
+        public Criteria andItemsLessThan(String value) {
+            addCriterion("items <", value, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsLessThanOrEqualTo(String value) {
-            addCriterion("goods <=", value, "goods");
+        public Criteria andItemsLessThanOrEqualTo(String value) {
+            addCriterion("items <=", value, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsLike(String value) {
-            addCriterion("goods like", value, "goods");
+        public Criteria andItemsLike(String value) {
+            addCriterion("items like", value, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsNotLike(String value) {
-            addCriterion("goods not like", value, "goods");
+        public Criteria andItemsNotLike(String value) {
+            addCriterion("items not like", value, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsIn(List<String> values) {
-            addCriterion("goods in", values, "goods");
+        public Criteria andItemsIn(List<String> values) {
+            addCriterion("items in", values, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsNotIn(List<String> values) {
-            addCriterion("goods not in", values, "goods");
+        public Criteria andItemsNotIn(List<String> values) {
+            addCriterion("items not in", values, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsBetween(String value1, String value2) {
-            addCriterion("goods between", value1, value2, "goods");
+        public Criteria andItemsBetween(String value1, String value2) {
+            addCriterion("items between", value1, value2, "items");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsNotBetween(String value1, String value2) {
-            addCriterion("goods not between", value1, value2, "goods");
+        public Criteria andItemsNotBetween(String value1, String value2) {
+            addCriterion("items not between", value1, value2, "items");
             return (Criteria) this;
         }
     }

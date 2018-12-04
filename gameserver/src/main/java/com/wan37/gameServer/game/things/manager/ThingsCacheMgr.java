@@ -49,8 +49,6 @@ public class ThingsCacheMgr  implements GameCacheManager<Integer,Things> {
                 Things things= new Things();
                 BeanUtils.copyProperties(thingsExcel,things);
 
-
-
                 put(thingsExcel.getId(),things);
             }
             log.debug("物品配置配置表数据 {}",thingsMap);

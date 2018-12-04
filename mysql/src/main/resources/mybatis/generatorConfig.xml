@@ -78,7 +78,7 @@
         </table>
         <!--<table tableName="t_item"/>-->
         <table tableName="t_bag">
-            <columnOverride column="goods"  jdbcType="VARCHAR" />
+            <columnOverride column="items"  jdbcType="VARCHAR" />
         </table>
 
 

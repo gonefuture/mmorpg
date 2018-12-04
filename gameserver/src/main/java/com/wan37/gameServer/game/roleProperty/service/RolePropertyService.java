@@ -46,10 +46,11 @@ public class RolePropertyService {
 
         thingPropertySet.forEach(
                 thingProperty -> {
+                    log.debug("加载物品的增益到玩家属性中 thingProperty {}",thingProperty);
                     // 改变属性
                     RoleProperty playerProperty = playerPropertyMap.get(thingProperty.getKey());
+                    log.debug("加载物品的增益到玩家属性中 playerProperty {}",playerProperty);
                     playerProperty.setValue(playerProperty.getValue() + thingProperty.getThingPropertyValue());
-
                 }
         );
 
@@ -97,7 +98,8 @@ public class RolePropertyService {
      */
     public void loadRoleProperty(Player player) {
         Map<Integer,RoleProperty> rolePropertyMap = player.getRolePropertyMap();
-        for (int key=1; key <=6; key++ ) {
+
+        for (int key=1; key <=10; key++ ) {
             RoleProperty roleProperty = rolePropertyManager.get(key);
             // 每个玩家角色的属性都独立
             RoleProperty playerRoleProperty  = new RoleProperty();
