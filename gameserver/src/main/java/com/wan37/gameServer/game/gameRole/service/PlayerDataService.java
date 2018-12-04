@@ -1,12 +1,13 @@
 package com.wan37.gameServer.game.gameRole.service;
 
-import com.wan37.gameServer.game.bag.model.Bag;
+
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.bag.service.EquipmentBarService;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
+import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.things.service.ThingsService;
+
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 
 
@@ -15,6 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -53,6 +57,27 @@ public class PlayerDataService {
     }
 
 
+
+
+    public void computeAttack(Player player) {
+
+        Map<Integer, RoleProperty> rolePropertyMap = player.getRolePropertyMap();
+        // 基础攻击力
+        int basicAtack = Optional.ofNullable(rolePropertyMap.get(4).getValue()).orElse(30);
+
+        // 力量
+        int power  = Optional.ofNullable(rolePropertyMap.get(5).getValue()).orElse(100);
+
+
+        player.setAttack(basicAtack + power);
+    }
+
+
+
+
+
+
+
     /**
      *  初始化角色
      * @param player 角色
@@ -70,9 +95,7 @@ public class PlayerDataService {
         rolePropertyService.loadRoleProperty(player);
 
         // 计算初始战力
-        int Basic attack
-
-        player.setAttack();
+        computeAttack(player);
 
 
         // 施放一个回蓝的buffer

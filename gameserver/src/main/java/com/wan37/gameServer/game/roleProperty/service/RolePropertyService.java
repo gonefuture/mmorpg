@@ -1,5 +1,6 @@
 package com.wan37.gameServer.game.roleProperty.service;
 
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.things.model.Things;
@@ -29,6 +30,9 @@ public class RolePropertyService {
     @Resource
     private RolePropertyManager rolePropertyManager;
 
+    @Resource
+    private PlayerDataService playerDataService;
+
 
     /**
      *  加载物品的增益到玩家属性中
@@ -48,6 +52,9 @@ public class RolePropertyService {
 
                 }
         );
+
+        // 计算战力
+        playerDataService.computeAttack(player);
         return true;
     }
 
@@ -72,6 +79,10 @@ public class RolePropertyService {
                     }
                 }
         );
+
+        // 计算战力
+        playerDataService.computeAttack(player);
+
         return true;
     }
 

@@ -7,6 +7,7 @@ import com.google.common.base.Strings;
 import com.wan37.common.entity.Msg;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;
@@ -39,9 +40,10 @@ public class EquipmentBarService {
     @Resource
     private BagsService bagsService;
 
-
     @Resource
     private RolePropertyService rolePropertyService;
+
+
 
 
 
@@ -73,8 +75,10 @@ public class EquipmentBarService {
         }
 
         Things equipment = thingsService.getThings(things.getId());
+
         // 改变玩家属性
         rolePropertyService.loadThingPropertyToPlayer(player,things);
+
         // 穿上装备
         player.getEquipmentBar().put(things.getPart(),item);
 
@@ -88,6 +92,7 @@ public class EquipmentBarService {
 
         return true;
     }
+
 
 
 
@@ -111,11 +116,6 @@ public class EquipmentBarService {
             return new Msg(401,"背包已满");
         }
 
-
-
-
-
-
     }
 
 
@@ -129,8 +129,11 @@ public class EquipmentBarService {
             Map<String,Item> equipmentBar = JSON.parseObject(equipmentBarString,
                     new TypeReference<Map<String,Item>>(){});
             log.debug("  equipmentBar{}",equipmentBar);
+
             equipmentBar.values()
-                    .forEach( item ->equipmentBarService.item.getThings().getPart(),item));
+                    .forEach( item ->
+                            // 改变玩家属性
+                            rolePropertyService.loadThingPropertyToPlayer(player,item.getThings()));
         }
 
     }
