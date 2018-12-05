@@ -60,7 +60,7 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
         playerQuitService.savePlayer(ctx);
 
         // 清除缓存
-        //playerQuitService.cleanPlayerCache(ctx);
+        playerQuitService.cleanPlayerCache(ctx);
         log.info("客户端: " + ctx.channel().id() + " 已经离线");
 
     }
@@ -92,8 +92,8 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
 
         playerQuitService.logout(ctx);
 
-
-
+        // 清除缓存
+        playerQuitService.cleanPlayerCache(ctx);
         throw new RuntimeException(cause.getCause());
     }
 }

@@ -10,6 +10,7 @@ import com.wan37.gameServer.manager.cache.UserCacheMgr;
 import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +49,10 @@ public class PlayerLoginService {
     /**
      *  角色登陆
      */
-    public Player login(Long playerId, String channelId) {
+    public Player login(Long playerId, ChannelHandlerContext ctx) {
+        String channelId = ctx.channel().id().asLongText();
         Player playerCache  = playerCacheMgr.get(channelId);
+
 
         // 如果角色缓存为空 或者 不是相同的角色，那就从数据库查询
         if (playerCache == null || !playerCache.getId().equals(playerId)) {
@@ -62,9 +65,17 @@ public class PlayerLoginService {
 
             // 以channel id 为键储存玩家数据
             playerCacheMgr.put(channelId,player);
+            // 保存playerId跟ChannelHandlerContext之间的关系
+            playerCacheMgr.savePlayerCtx(playerId,ctx);
 
             return player;
         } else {
+            // 以 当前的channelId缓存player
+            playerCacheMgr.put(channelId,playerCache);
+
+            // 保存playerId跟ChannelHandlerContext之间的关系
+            playerCacheMgr.savePlayerCtx(playerId,ctx);
+
             return playerCache;
         }
     }

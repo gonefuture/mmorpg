@@ -4,7 +4,6 @@ package com.wan37.gameServer.server;
 import com.wan37.gameServer.server.dispatcher.RequestDispatcher;
 import com.wan37.gameServer.server.handler.MessageDecoder;
 import com.wan37.gameServer.server.handler.MessageEncoder;
-import com.wan37.gameServer.server.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
