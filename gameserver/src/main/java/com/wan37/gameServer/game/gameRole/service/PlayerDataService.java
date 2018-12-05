@@ -50,6 +50,11 @@ public class PlayerDataService {
         return playerCacheMgr.get(ctx.channel().id().asLongText());
     }
 
+    public Player getPlayerById(long playerId) {
+        ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
+        return getPlayerByCtx(ctx);
+    }
+
 
 
     public Player getPlayer(String channelId) {

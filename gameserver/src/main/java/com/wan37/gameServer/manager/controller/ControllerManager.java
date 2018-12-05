@@ -6,6 +6,8 @@ import com.wan37.gameServer.game.bag.controller.EquipmentController;
 import com.wan37.gameServer.game.bag.controller.RemoveEquipController;
 import com.wan37.gameServer.game.bag.controller.ShowBagsController;
 import com.wan37.gameServer.game.bag.controller.ShowEquipmentController;
+import com.wan37.gameServer.game.chat.controller.PublicChatController;
+import com.wan37.gameServer.game.chat.controller.WhisperController;
 import com.wan37.gameServer.game.combat.controller.CommonAttackController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;
 import com.wan37.gameServer.game.gameRole.controller.*;
@@ -104,6 +106,12 @@ public class ControllerManager {
     @Resource
     private ShowGoodsController showGoodsController;
 
+    @Resource
+    private WhisperController whisperController;
+
+    @Resource
+    private PublicChatController publicChatController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -127,6 +135,8 @@ public class ControllerManager {
         add(MsgId.REMOVE_EQUIP,removeEquipController);
         add(MsgId.BUY_GOODS,buyGoodsController);
         add(MsgId.SHOW_GOODS, showGoodsController);
+        add(MsgId.WHISPER,whisperController);;
+        add(MsgId.PUBLIC_CHAT,publicChatController);
     }
 
 

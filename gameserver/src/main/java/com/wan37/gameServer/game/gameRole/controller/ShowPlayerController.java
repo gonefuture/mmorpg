@@ -31,8 +31,8 @@ public class ShowPlayerController implements IController {
         Player player = playerDataService.getPlayerByCtx(ctx);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(MessageFormat.format("玩家 {0}，hp:{1}, mp:{2} 经验：{3} 战力： {4} \n",
-                player.getName(),player.getHp(),player.getMp(),player.getExp(), player.getAttack()));
+        sb.append(MessageFormat.format("玩家 {0}，hp:{1}, mp:{2} 经验：{3} 战力： {4}  货币： {5}\n",
+                player.getName(),player.getHp(),player.getMp(),player.getExp(), player.getAttack(),player.getMoney()));
         sb.append("玩家的属性是：\n");
         player.getRolePropertyMap().values().forEach(
                 roleProperty -> {

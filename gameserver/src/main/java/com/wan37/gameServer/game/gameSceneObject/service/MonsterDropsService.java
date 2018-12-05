@@ -47,6 +47,10 @@ public class MonsterDropsService {
      * 物品掉落
      */
     public void dropItem(Player player, SceneObject sceneObject) {
+
+        // 掉落金钱，此处默认按怪物血量掉钱
+        player.setMoney(player.getMoney()+ sceneObject.getHp().intValue());
+
         Bag bag = player.getBag();
         List<Drop> dropList = calculateDrop(sceneObject);
         for (Drop drop : dropList) {
@@ -88,6 +92,9 @@ public class MonsterDropsService {
         String dropString = sceneObject.getDrop();
         return JSON.parseArray(dropString, Drop.class);
     }
+
+
+
 
 
 }

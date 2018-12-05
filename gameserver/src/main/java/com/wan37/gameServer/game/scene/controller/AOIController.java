@@ -58,7 +58,7 @@ public class AOIController implements IController {
              sb.append("我发现 ,这个地方空无一物");
         } else {
             sb.append(MessageFormat.format("当前的位置是：{0}  {1}",gameScene.getId(),gameScene.getName())).append("\n");
-            sb.append("场景内玩家: ");
+            sb.append("场景内玩家: \n");
             playerList.forEach( (p -> {
                 sb.append(p.displayData()).append("\n");
             }));

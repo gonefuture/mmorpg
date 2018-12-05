@@ -91,6 +91,16 @@ public enum MsgId {
     // 展示商店货物
     SHOW_GOODS("show_shop",4004),
 
+    // 发送邮件
+    SEND_MAIL("send_mail",4005),
+
+    // 接收邮件
+    GET_MAIL("get_mail",4006),
+
+
+
+    // 接受邮件
+
 
 
     // 未知的命令

@@ -62,6 +62,7 @@ public class ShowBagsController implements IController {
                                 ,roleProperty.getName(),roleProperty.getThingPropertyValue()));
                     }
             );
+            sb.append(MessageFormat.format(" 价格：{0}",entry.getValue().getThings().getPrice()));
             sb.append("\n");
         }
 

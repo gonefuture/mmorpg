@@ -81,4 +81,9 @@ public class PlayerCacheMgr implements GameCacheManager<String, Player> {
         playerCtxCache.invalidate(playerId);
     }
 
+
+    public Cache<String, Player> getAllPlayerCache() {
+        return gamePlayerCache;
+    }
+
 }
