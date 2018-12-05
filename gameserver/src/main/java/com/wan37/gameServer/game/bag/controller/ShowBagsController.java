@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -62,7 +63,8 @@ public class ShowBagsController implements IController {
                                 ,roleProperty.getName(),roleProperty.getThingPropertyValue()));
                     }
             );
-            sb.append(MessageFormat.format(" 价格：{0}",entry.getValue().getThings().getPrice()));
+            sb.append(MessageFormat.format(" 价格：{0}",
+                    Optional.ofNullable(entry.getValue().getThings().getPrice()).orElse(0)));
             sb.append("\n");
         }
 

@@ -43,7 +43,7 @@ public class ChatService {
     public Msg whisper(Player player, long target , String words) {
         String message = MessageFormat.format("{0}悄悄对你说： {1}",
                 player.getName(),words);
-        Player targetPlayer = playerDataService.getPlayerById(target);
+        Player targetPlayer = playerDataService.getOnlinePlayerById(target);
         if (null == targetPlayer )
             return new Msg(404,"没有发现玩家,或许其已下线");
 

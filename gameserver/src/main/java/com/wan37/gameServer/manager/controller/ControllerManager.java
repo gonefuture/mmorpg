@@ -11,6 +11,9 @@ import com.wan37.gameServer.game.chat.controller.WhisperController;
 import com.wan37.gameServer.game.combat.controller.CommonAttackController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;
 import com.wan37.gameServer.game.gameRole.controller.*;
+import com.wan37.gameServer.game.mail.controller.GetMailController;
+import com.wan37.gameServer.game.mail.controller.MailListController;
+import com.wan37.gameServer.game.mail.controller.SendMailController;
 import com.wan37.gameServer.game.scene.controller.AOIController;
 import com.wan37.gameServer.game.scene.controller.LocationController;
 import com.wan37.gameServer.game.scene.controller.PlayerMoveController;
@@ -112,6 +115,15 @@ public class ControllerManager {
     @Resource
     private PublicChatController publicChatController;
 
+    @Resource
+    private SendMailController sendMailController;
+
+    @Resource
+    private MailListController mailListController;
+
+    @Resource
+    private GetMailController getMailController;
+
 
     // 加载MsgId与控制器之间的关系
     @PostConstruct
@@ -135,8 +147,11 @@ public class ControllerManager {
         add(MsgId.REMOVE_EQUIP,removeEquipController);
         add(MsgId.BUY_GOODS,buyGoodsController);
         add(MsgId.SHOW_GOODS, showGoodsController);
-        add(MsgId.WHISPER,whisperController);;
+        add(MsgId.WHISPER,whisperController);
         add(MsgId.PUBLIC_CHAT,publicChatController);
+        add(MsgId.SEND_MAIL,sendMailController);
+        add(MsgId.MAIL_LIST,mailListController);
+        add(MsgId.GET_MAIL,getMailController);
     }
 
 

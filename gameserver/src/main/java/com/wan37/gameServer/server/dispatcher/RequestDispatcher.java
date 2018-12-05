@@ -90,7 +90,9 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
         // 将角色信息保存到数据库
         playerQuitService.savePlayer(ctx);
 
-        playerQuitService.logout(ctx);
+        // 从场景退出
+        playerQuitService.logoutScene(ctx);
+
 
         // 清除缓存
         playerQuitService.cleanPlayerCache(ctx);

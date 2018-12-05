@@ -109,10 +109,9 @@ public class PlayerQuitService  {
             tPlayer.setEquipments(JSON.toJSONString(player.getEquipmentBar()));
 
             tPlayerMapper.updateByPrimaryKey(tPlayer);
+            // 保存角色背包
+            bagsService.saveBag(player);
         }
-
-        // 保存角色背包
-        bagsService.saveBag(player);
     }
 
 

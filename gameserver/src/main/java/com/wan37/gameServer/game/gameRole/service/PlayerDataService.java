@@ -11,6 +11,8 @@ import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 
 
+import com.wan37.mysql.pojo.entity.TPlayer;
+import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,9 @@ public class PlayerDataService {
     private PlayerCacheMgr playerCacheMgr;
 
     @Resource
+    private TPlayerMapper tPlayerMapper;
+
+    @Resource
     private BufferService bufferService;
 
     @Resource
@@ -50,10 +55,33 @@ public class PlayerDataService {
         return playerCacheMgr.get(ctx.channel().id().asLongText());
     }
 
-    public Player getPlayerById(long playerId) {
+    /**
+     *  通过玩家id查找在线玩家
+     * @param playerId  玩家id
+     * @return 如果玩家在线则返回玩家，如果不在线则返回空
+     */
+    public Player getOnlinePlayerById(long playerId) {
         ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
-        return getPlayerByCtx(ctx);
+        if(null != ctx) {
+            return getPlayerByCtx(ctx);
+        } else {
+               return null;
+        }
     }
+
+
+    /**
+     *   通过数据库查找玩家
+     * @param playerId 玩家id
+     * @return 数据库的玩家实体
+     */
+    public TPlayer findTPlayer(long playerId) {
+        return tPlayerMapper.selectByPrimaryKey(playerId);
+    }
+
+
+
+
 
 
 
@@ -76,7 +104,6 @@ public class PlayerDataService {
 
         player.setAttack(basicAttack + power);
     }
-
 
 
 
@@ -107,8 +134,9 @@ public class PlayerDataService {
         Buffer buffer = bufferService.getTBuffer(105);
         bufferService.startBuffer(player,buffer);
 
-
     }
+
+
 
 
 

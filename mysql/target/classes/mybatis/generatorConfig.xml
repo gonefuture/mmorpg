@@ -80,6 +80,7 @@
         <table tableName="t_bag">
             <columnOverride column="items"  jdbcType="VARCHAR" />
         </table>
+        <table tableName="t_mail"/>
 
 
     </context>

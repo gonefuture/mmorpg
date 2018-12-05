@@ -94,8 +94,11 @@ public enum MsgId {
     // 发送邮件
     SEND_MAIL("send_mail",4005),
 
+    // 邮件列表
+    MAIL_LIST("mail_list",4006),
+
     // 接收邮件
-    GET_MAIL("get_mail",4006),
+    GET_MAIL("get_mail",4007),
 
 
 
