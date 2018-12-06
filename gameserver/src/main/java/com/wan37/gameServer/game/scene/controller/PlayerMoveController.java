@@ -24,7 +24,8 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class PlayerMoveController implements IController {
+public class
+PlayerMoveController implements IController {
 
     @Resource
     private PlayerMoveService playerMoveService;

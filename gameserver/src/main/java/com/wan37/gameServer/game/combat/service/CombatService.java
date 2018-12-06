@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.combat.service;
 
 import com.wan37.common.entity.Msg;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
@@ -8,6 +9,10 @@ import com.wan37.gameServer.game.gameSceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
+import com.wan37.gameServer.game.scene.servcie.PlayerMoveService;
+import com.wan37.gameServer.game.skills.model.Skill;
+import com.wan37.gameServer.game.skills.service.SkillsService;
+import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,10 +38,22 @@ public class CombatService {
     private GameSceneService gameSceneService;
 
     @Resource
+    private PlayerDataService playerDataService;
+
+    @Resource
     private NotificationManager notificationManager;
 
     @Resource
     private MonsterDropsService monsterDropsService;
+
+
+    @Resource
+    private UseSkillsService useSkillsService;
+
+    @Resource
+    private SkillsService skillsService;
+
+
 
 
 
@@ -79,6 +96,70 @@ public class CombatService {
         }
     }
 
+
+
+    public Msg commonAttackByPVP(Player player, Long targetId) {
+        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+        Player targetPlayer = playerDataService.getOnlinePlayerById(targetId);
+        // 获取发起攻击者的战力
+        int attack = player.getAttack();
+        notificationManager.notifyScenePlayerWithMessage(gameScene,
+                MessageFormat.format("玩家 {0} 向 {1} 发起攻击，攻击力是{2} \n",
+                        player.getName(),targetPlayer.getName(),attack));
+
+        // 结算攻击
+        targetPlayer.setHp(targetPlayer.getHp() - attack);
+
+        // 通知攻击结果
+        notificationManager.playerBeAttacked(player,targetPlayer, attack);
+
+        if (targetPlayer.getHp() < 0){
+            targetPlayer.setHp((long)0);
+            targetPlayer.setState(-1);
+            // 处理玩家死亡
+            playerAfterDead(targetPlayer,player);
+        }
+        return new Msg(200,"\n普通攻击成功\n");
+    }
+
+
+    public void  playerAfterDead(Player player, Player  murderer) {
+        // 广播并通知死亡的玩家
+        notificationManager.playerDead(murderer,player);
+
+        gameSceneService.carryToScene(player,12);
+        notificationManager.notifyPlayer(player,"你已经在墓地了 \n");
+
+    }
+
+
+    /**
+     *  在PVP中使用技能攻击
+     * @param player 玩家
+     * @param skillId 技能id
+     * @param targetId 目标玩家id
+     * @return 结果
+     */
+    public Msg skillPVP(Player player, Integer skillId, Long targetId) {
+        Skill skill = skillsService.getSkill(skillId);
+        Player targetPlayer = playerDataService.getOnlinePlayerById(targetId);
+        useSkillsService.canUseSkill(player,skill);
+
+        targetPlayer.setHp(targetPlayer.getHp() - skill.getHpLose());
+
+
+
+        if (targetPlayer.getHp() < 0){
+            targetPlayer.setHp((long)0);
+            targetPlayer.setState(-1);
+            // 处理玩家死亡
+            playerAfterDead(targetPlayer,player);
+        }
+
+
+        return null;
+
+    }
 
 
 }

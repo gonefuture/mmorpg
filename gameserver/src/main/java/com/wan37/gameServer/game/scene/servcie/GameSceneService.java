@@ -40,6 +40,15 @@ public class GameSceneService {
     }
 
     /**
+     *      通过
+     * @param player   玩家
+     * @return 空或者场景
+     */
+    public GameScene findSceneByPlayer(Player player) {
+        return sceneCacheMgr.get(player.getScene());
+    }
+
+    /**
      *  通过字符串的id序列查找场景
      */
     public List<GameScene> findNeighborsSceneByIds(String sceneIds) {
@@ -53,20 +62,42 @@ public class GameSceneService {
         return gameSceneList;
     }
 
-
+    /**
+     *  通过玩家寻找相邻场景
+     * @param player 玩家
+     * @return 相邻的场景
+     */
     public List<GameScene> findNeighborsSceneByPlayer(Player player) {
         GameScene gameScene = findSceneById(player.getScene());
         return findNeighborsSceneByIds(gameScene.getNeighbors());
     }
 
-
+    /**
+     *      通过上下文查找场景
+     * @param ctx 通道上下文
+     * @return 该通道当前的场景
+     */
     public GameScene findSceneByCtx(ChannelHandlerContext ctx) {
 
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
         return sceneCacheMgr.get(player.getScene());
     }
 
+    /**
+     *  传送进某个场景
+     * @param player 玩家
+     * @param sceneId 目的场景的id
+     */
+    public void carryToScene(Player player, int sceneId) {
 
+        GameScene gameScene = findSceneByPlayer(player);
+        // 从当前场景移除
+        gameScene.getPlayers().remove(player.getId());
+        player.setScene(sceneId);
 
+        GameScene targetScene = findSceneById(sceneId);
+        // 放入目的场景
+        gameScene.getPlayers().put(player.getId(), player);
 
+    }
 }

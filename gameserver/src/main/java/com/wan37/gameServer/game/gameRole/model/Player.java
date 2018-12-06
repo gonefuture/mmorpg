@@ -9,6 +9,7 @@ import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.game.things.model.Things;
+import com.wan37.gameServer.model.Creature;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @Slf4j
-public class Player extends TPlayer   {
+public class Player  extends TPlayer   implements Creature  {
 
     // 玩家战力
     int attack;
@@ -36,6 +37,8 @@ public class Player extends TPlayer   {
 
     // 角色当前使用技能的集合
     Map<Integer, Skill> skillMap = new ConcurrentHashMap<>();
+
+
 
     // 角色当前的buffer,因为可能拥有多个重复的技能，所以这里使用List保存
     List<Buffer> bufferList = new CopyOnWriteArrayList<>();

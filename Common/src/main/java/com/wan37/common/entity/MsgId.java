@@ -77,6 +77,11 @@ public enum MsgId {
     // 卸下武器，放回背包
     REMOVE_EQUIP("remove_equip",3010),
 
+    // 普通攻击玩家
+    PVP("pvp",3011),
+
+    // 技能攻击玩家
+    SKILL_PVP("skill_pvp",30012),
 
 
     // 私聊
@@ -102,7 +107,7 @@ public enum MsgId {
 
 
 
-    // 接受邮件
+
 
 
 

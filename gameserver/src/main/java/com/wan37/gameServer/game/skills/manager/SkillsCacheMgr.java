@@ -36,7 +36,7 @@ public class SkillsCacheMgr implements GameCacheManager<Integer, Skill> {
      *     初始化技能
       */
     @PostConstruct
-    public void init() {
+    private void init() {
         String path = FileUtil.getStringPath("gameData/skill.xlsx");
         SkillExcelUtil skillExcelUtil = new SkillExcelUtil(path);
 

@@ -1,6 +1,11 @@
 package com.wan37.gameServer.model;
 
+import com.wan37.gameServer.game.gameRole.model.Buffer;
+import com.wan37.gameServer.game.skills.model.Skill;
 import lombok.Data;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -9,25 +14,35 @@ import lombok.Data;
  * Description: 场景内的活物
  */
 
-@Data
-public abstract  class Creature  extends SceneActor{
+
+public interface Creature  {
 
     // 活物的id
-    public abstract Long getId();
+    Long getId();
 
 
     // 活物的名字
-    public abstract String getName();
+    String getName();
 
 
     // 活物的血量
-    public abstract Long getHp();
-    public abstract void setHp(Long hp);
+    Long getHp();
+    void setHp(Long hp);
 
 
     // 活物的状态，生存 or 死亡
-    public abstract Integer getState();
-    public abstract void setState(Integer state);
+    Integer getState();
+    void setState(Integer state);
+
+
+    // 活物当前使用的技能
+    Map<Integer, Skill> getSkillMap();
+    void setSkillMap(Map<Integer, Skill> skillMap);
+
+    // 活物的当前buffer
+    List<Buffer> getBufferList();
+    void setBufferList(List<Buffer> bufferList);
+
 
 
 

@@ -2,6 +2,7 @@ package com.wan37.gameServer.game.gameSceneObject.model;
 
 
 
+import com.wan37.gameServer.model.Creature;
 import lombok.Data;
 import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import java.text.MessageFormat;
@@ -14,7 +15,7 @@ import java.text.MessageFormat;
  */
 
 @Data
-public class NPC  extends SceneObject {
+public class NPC  extends SceneObject  implements Creature {
 
 
 

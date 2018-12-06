@@ -32,8 +32,6 @@ public class Buffer implements IExcel<Integer> {
     @EntityName(column = "mp效果")
     private Integer mp;
 
-    @EntityName(column = "状态")
-    private Integer state;
 
     @EntityName(column = "持续时间")
     private Long duration;

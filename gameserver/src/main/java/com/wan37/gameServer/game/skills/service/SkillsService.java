@@ -3,6 +3,7 @@ package com.wan37.gameServer.game.skills.service;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.skills.manager.SkillsCacheMgr;
 import com.wan37.gameServer.game.skills.model.Skill;
+import com.wan37.gameServer.model.Creature;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,6 +52,23 @@ public class SkillsService {
         skill.setActivetime(System.currentTimeMillis());
         player.getSkillMap().put(skill.getId(),skill);
     }
+
+    /**
+     *  通过技能id获取技能
+     * @param skillId 技能id
+     * @return 技能
+     */
+    public Skill getSkill(Integer skillId) {
+        return skillsCacheMgr.get(skillId);
+    }
+
+
+    public boolean useSkill(Creature creature, ) {
+
+    }
+
+
+
 
 
 }

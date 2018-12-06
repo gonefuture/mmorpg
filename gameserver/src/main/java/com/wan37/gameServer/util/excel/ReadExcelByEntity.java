@@ -253,6 +253,7 @@ public class ReadExcelByEntity<T> {
 			 if(row.getCell(i)== null||"".equals(row.getCell(i).toString())){
 				 list.add(null);
              }else {
+			 	//logger.debug("工具类中 getCellFormatValue(row.getCell(i) {}",getCellFormatValue(row.getCell(i)));
 				 list.add((String) getCellFormatValue(row.getCell(i)));
 			 }
 		}

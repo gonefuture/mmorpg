@@ -42,6 +42,9 @@ public class Skill implements IExcel<Integer> {
     @EntityName(column = "激活时间")
     private Long activetime;
 
+    @EntityName(column = "buffer")
+    private Integer buffer;
+
 
     @Override
     public Integer getKey() {
