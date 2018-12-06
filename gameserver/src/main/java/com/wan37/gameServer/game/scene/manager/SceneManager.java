@@ -10,7 +10,6 @@ import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
-import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +62,8 @@ public class SceneManager {
             // 刷新怪物和NPC
             refreshMonsters(gameScene);
             refreshNPCs(gameScene);
-            refreshBuffer(gameScene);
+            //
+            // refreshBuffer(gameScene);
         }
     }
 
@@ -96,7 +96,10 @@ public class SceneManager {
         }
     }
 
-
+    /**
+     *  场景刷新buffer
+     * @param gameScene 场景
+     */
     private void refreshBuffer(GameScene gameScene) {
         Map<Long,Player> playerMap = gameScene.getPlayers();
         for ( Player player : playerMap.values()) {
@@ -121,6 +124,8 @@ public class SceneManager {
             }
         }
     }
+
+
 
     /**
      *  buffer对于玩家的作用效果

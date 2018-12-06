@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -37,7 +38,8 @@ public class ShowPlayerController implements IController {
         player.getRolePropertyMap().values().forEach(
                 roleProperty -> {
                     sb.append(MessageFormat.format("属性: {0} : {1} , 描述：{2} \n",
-                            roleProperty.getName(),roleProperty.getValue(),roleProperty.getDescribe()));
+                            roleProperty.getName(),roleProperty.getValue(),
+                            Optional.ofNullable(roleProperty.getDescribe()).orElse("无")));
                 }
         );
         message.setFlag((byte) 1);

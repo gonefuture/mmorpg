@@ -1,12 +1,16 @@
 package com.wan37.gameServer.game.skills.service;
 
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.model.Buffer;
+import com.wan37.gameServer.game.gameRole.service.BufferService;
 import com.wan37.gameServer.game.skills.manager.SkillsCacheMgr;
 import com.wan37.gameServer.game.skills.model.Skill;
+import com.wan37.gameServer.manager.notification.NotificationManager;
+import com.wan37.gameServer.manager.task.TaskManager;
 import com.wan37.gameServer.model.Creature;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -20,37 +24,44 @@ public class SkillsService {
     @Resource
     private SkillsCacheMgr skillsCacheMgr;
 
+
+    @Resource
+    private BufferService bufferService;
+
+
+    @Resource
+    private TaskManager taskManager;
+
+    @Resource
+    private NotificationManager notificationManager;
+
+
     /**
      *  检查游戏技能的冷却时间是否允许发动技能
      */
-    public boolean checkCD(Player player, Skill skill) {
-       if (player != null && skill != null) {
-           Skill playerSkill = player.getSkillMap().get(skill.getId());
-           // 如果没有使用这个技能，立刻使用并计算cd
-           if (playerSkill == null) {
-               startSkill(player,skill);
-               return true;
-           }
-
-           long now = System.currentTimeMillis();
-           long targetTime = playerSkill.getActivetime() + skill.getCd()*1000;
-           // 技能冷却时间过去了
-           if (targetTime <= now) {
-               startSkill(player,skill);
-               return true;
-           } else {
-               return false;
-           }
-       } else {
-           return  false;
-       }
-
+    public boolean checkCD(Creature creature, Skill skill) {
+        Skill playerSkill = creature.getSkillMap().get(skill.getId());
+        // 如果没有使用这个技能，表示可以使用
+        return playerSkill == null;
     }
 
 
-    public void startSkill(Player player, Skill skill) {
+    /**
+     *  开始技能
+     * @param creature 活物
+     * @param skill 技能
+     */
+    public void startSkill(Creature creature, Skill skill) {
         skill.setActivetime(System.currentTimeMillis());
-        player.getSkillMap().put(skill.getId(),skill);
+        creature.getSkillMap().put(skill.getId(),skill);
+        // 技能cd结束后，移出活物cd状态
+        skill.setActivetime(System.currentTimeMillis());
+        taskManager.schedule(skill.getCd(), () -> {
+            creature.getSkillMap().remove(skill);
+            return null;
+        });
+
+
     }
 
     /**
@@ -63,7 +74,36 @@ public class SkillsService {
     }
 
 
-    public boolean useSkill(Creature creature, ) {
+    /**
+     *   活物使用技能
+     * @param initiator 技能发起者
+     * @param target 技能目标
+     * @param skill 技能
+     * @return 是否成功
+     */
+    public boolean useSkill(Creature initiator, Creature target ,Skill skill) {
+
+        if (checkCD(initiator,skill)) {
+
+            // 开启技能
+            startSkill(initiator,skill);
+            // 消耗mp和损伤目标hp
+            initiator.setMp(initiator.getMp() - skill.getMpConsumption());
+            target.setHp(target.getHp() - skill.getHpLose());
+
+            // 如果技能类型是2，则对目标释放buffer
+            if (skill.getSkillsType() == 2) {
+                Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
+                // 如果buffer存在则启动buffer
+                Optional.ofNullable(buffer).map(
+                        (b) -> bufferService.startBuffer(target,b)
+                );
+            }
+            return true;
+        } else {
+            return  false;
+        }
+
 
     }
 

@@ -40,7 +40,7 @@ public enum MsgId {
     LOCATION("location",2004),
 
     // 展示装备栏
-    SHOW_EQUIPMENTBAR("show_equip",2005),
+    SHOW_EQUIPMENT_BAR("show_equip",2005),
 
     // 展示玩家属性
     SHOW_PLAYER("show_player",2006),

@@ -4,12 +4,9 @@ import com.wan37.common.entity.Msg;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.gameSceneObject.service.MonsterDropsService;
-import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
-import com.wan37.gameServer.game.scene.servcie.PlayerMoveService;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.game.skills.service.SkillsService;
 import com.wan37.gameServer.game.skills.service.UseSkillsService;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
-import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -61,7 +57,7 @@ public class CombatService {
     /**
      *  普通攻击服务
      */
-    public Msg playerCommonAttack(Player player,Long gameObjectId) {
+    public Msg playerCommonAttack(Player player, Long gameObjectId) {
 
         GameScene gameScene = gameSceneService.findSceneById(player.getScene());
         Monster target = gameScene.getMonsters().get(gameObjectId);
@@ -123,7 +119,7 @@ public class CombatService {
     }
 
 
-    public void  playerAfterDead(Player player, Player  murderer) {
+    public void  playerAfterDead(Player player, Player murderer) {
         // 广播并通知死亡的玩家
         notificationManager.playerDead(murderer,player);
 
@@ -141,13 +137,27 @@ public class CombatService {
      * @return 结果
      */
     public Msg skillPVP(Player player, Integer skillId, Long targetId) {
+        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+
         Skill skill = skillsService.getSkill(skillId);
+        if ( null == skill)
+            return  new Msg(404,"您不能使用该技能");
+
         Player targetPlayer = playerDataService.getOnlinePlayerById(targetId);
-        useSkillsService.canUseSkill(player,skill);
+        if (null == targetPlayer)
+            return new Msg(404,"目标不存在此场景，可能已离开或下线");
 
-        targetPlayer.setHp(targetPlayer.getHp() - skill.getHpLose());
+        notificationManager.notifyScenePlayerWithMessage(gameScene,
+                MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
+                        player.getName(),targetPlayer.getName(),skill.getName()));
 
 
+        if (!skillsService.useSkill(player,targetPlayer,skill)) {
+            return new Msg(404,"技能调用失败，可能是mp不足");
+        }
+
+        // 通知攻击结果
+        notificationManager.playerBeAttacked(player,targetPlayer, skill.getHpLose());
 
         if (targetPlayer.getHp() < 0){
             targetPlayer.setHp((long)0);
@@ -156,8 +166,7 @@ public class CombatService {
             playerAfterDead(targetPlayer,player);
         }
 
-
-        return null;
+        return new Msg(404,"技能调用使用成功");
 
     }
 

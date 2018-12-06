@@ -80,7 +80,7 @@ public class ThingsService {
         return things;
     }
 
-    public boolean useItem(Player player,  Integer locationIndex) {
+    public boolean useItem(Player player, Integer locationIndex) {
         Bag bag = player.getBag();
         Item item = bag.getItemMap().get(locationIndex);
         if (item == null)

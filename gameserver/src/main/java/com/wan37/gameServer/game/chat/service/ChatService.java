@@ -56,7 +56,7 @@ public class ChatService {
      *  公共聊天
      * @param words 消息
      */
-    public void publicChat( Player player ,String words) {
+    public void publicChat(Player player , String words) {
         Cache<String,Player> playerCache = playerCacheMgr.getAllPlayerCache();
         String message = MessageFormat.format("[全服]: {0} : {1}",
                 player.getName(),words);

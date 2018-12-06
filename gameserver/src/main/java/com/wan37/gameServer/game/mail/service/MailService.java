@@ -94,7 +94,7 @@ public class MailService {
      * @param targetMail 收取邮件的唯一id
      * @return 结果
      */
-    public Msg getMail(Player player,Integer targetMail) {
+    public Msg getMail(Player player, Integer targetMail) {
         TMail tMail = tMailMapper.selectByPrimaryKey(targetMail);
         if (tMail.getReceiver().equals(player.getId())){
             String itemString = tMail.getAttachment();

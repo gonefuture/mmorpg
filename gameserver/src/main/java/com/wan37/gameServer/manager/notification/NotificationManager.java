@@ -57,7 +57,7 @@ public class NotificationManager {
     }
 
 
-    public <E> void notifyPlayer(Player player,E e) {
+    public <E> void notifyPlayer(Player player, E e) {
         Message message = new Message();
         message.setFlag((byte) 1);
         if (e instanceof String) {
@@ -77,7 +77,7 @@ public class NotificationManager {
 
 
 
-    public void playerBeAttacked(Player form ,Player to, int damage) {
+    public void playerBeAttacked(Player form , Player to, long damage) {
         GameScene gameScene = gameSceneService.findSceneByPlayer(form);
         notifyScenePlayerWithMessage(gameScene,
                 MessageFormat.format("玩家 {0} 受到 {1} 的 {2}点伤害 \n",

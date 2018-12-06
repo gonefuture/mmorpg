@@ -21,24 +21,27 @@ public class TaskManager {
 
     /**
      *  设置定时任务
+     * @param delay 延迟执行时间
+     * @param callback 任务
+     * @return 一个带结果的future
      */
     public Future<EventData> schedule(long delay, Callable<EventData> callback) {
         return executorService.schedule(callback,delay, TimeUnit.MILLISECONDS);
     }
 
-    public ScheduledFuture<?> scheduleAtFixedRate(long initDely , long delay , Runnable runnable) {
-        return executorService.scheduleAtFixedRate(runnable,initDely,delay, TimeUnit.MILLISECONDS);
+
+    /**
+     *  周期执行任务
+     * @param initDelay 延时开始第一次任务的时间
+     * @param delay     执行间隔
+     * @param runnable 任务
+     * @return    一个不带结果的future
+     */
+    public ScheduledFuture<?> scheduleAtFixedRate(long initDelay , long delay , Runnable runnable) {
+        return executorService.scheduleAtFixedRate(runnable,initDelay,delay, TimeUnit.MILLISECONDS);
     }
 
 
-
-
-    public void unregister(long tick_id) {
-
-    }
-    public void update_timer() {
-
-    }
 
 
 }

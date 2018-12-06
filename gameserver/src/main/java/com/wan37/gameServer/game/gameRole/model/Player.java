@@ -29,7 +29,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @Slf4j
-public class Player  extends TPlayer   implements Creature  {
+public class Player extends TPlayer   implements Creature  {
 
     // 玩家战力
     int attack;

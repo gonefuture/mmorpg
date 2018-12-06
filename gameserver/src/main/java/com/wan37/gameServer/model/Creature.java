@@ -2,7 +2,7 @@ package com.wan37.gameServer.model;
 
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.skills.model.Skill;
-import lombok.Data;
+
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +28,10 @@ public interface Creature  {
     // 活物的血量
     Long getHp();
     void setHp(Long hp);
+
+    // 活物的mp
+    Long getMp();
+    void setMp(Long hp);
 
 
     // 活物的状态，生存 or 死亡

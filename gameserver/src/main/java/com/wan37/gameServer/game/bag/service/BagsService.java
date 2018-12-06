@@ -137,7 +137,7 @@ public class BagsService {
      * @param item 物品条目
      * @return 物品是否放入背包成功
      */
-    public boolean addItem(Player player,Item item) {
+    public boolean addItem(Player player, Item item) {
             Bag bag = player.getBag();
 
             if (item == null)

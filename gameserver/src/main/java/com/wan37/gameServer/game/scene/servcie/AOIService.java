@@ -1,8 +1,6 @@
 package com.wan37.gameServer.game.scene.servcie;
 
 
-import com.wan37.gameServer.game.gameInstance.model.GameInstance;
-import com.wan37.gameServer.game.gameSceneObject.manager.GameObjectCacheMgr;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 
 import com.wan37.gameServer.game.gameRole.model.Player;
