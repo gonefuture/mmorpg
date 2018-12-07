@@ -54,6 +54,7 @@ public class AOIController implements IController {
         GameScene gameScene = gameSceneService.findSceneById(sceneId);
 
        StringBuilder  sb = new StringBuilder();
+       sb.append("玩家 ").append(player.getName()).append("  ");
         if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {
              sb.append("我发现 ,这个地方空无一物");
         } else {

@@ -47,9 +47,9 @@ public class BufferService {
         // 记录开始时间
         buffer.setStartTime(System.currentTimeMillis());
         creature.getBufferList().add(buffer);
+        buffer.setStartTime(System.currentTimeMillis());
 
         if (buffer.getDuration() != -1) {
-
 
             Future cycleTask = taskManager.scheduleAtFixedRate(0,buffer.getIntervalTime(),
                     () -> {

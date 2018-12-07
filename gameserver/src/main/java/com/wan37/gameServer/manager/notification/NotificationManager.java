@@ -81,7 +81,7 @@ public class NotificationManager {
         GameScene gameScene = gameSceneService.findSceneByPlayer(form);
         notifyScenePlayerWithMessage(gameScene,
                 MessageFormat.format("\n玩家 {0} 受到 {1} 的攻击，  hp减少{2},当前hp为 {3}\n",
-                        to.getName(),form.getName(),damage, to.getName()));
+                        to.getName(),form.getName(),damage, to.getHp()));
     }
 
     public void playerDead(Creature murderer, Player player) {
