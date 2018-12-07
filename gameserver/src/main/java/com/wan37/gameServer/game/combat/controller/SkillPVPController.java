@@ -31,6 +31,7 @@ public class SkillPVPController implements IController {
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
+
         Integer skillId = Integer.valueOf(command[1]);
         Long targetId = Long.valueOf(command[2]);
 

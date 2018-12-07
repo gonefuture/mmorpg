@@ -91,13 +91,17 @@ public class GameSceneService {
     public void carryToScene(Player player, int sceneId) {
 
         GameScene gameScene = findSceneByPlayer(player);
+
+        log.debug("gameScene  {}",gameScene.getPlayers() );
         // 从当前场景移除
         gameScene.getPlayers().remove(player.getId());
+
+        log.debug("after gameScene  {}", gameScene.getPlayers() );
         player.setScene(sceneId);
 
         GameScene targetScene = findSceneById(sceneId);
         // 放入目的场景
-        gameScene.getPlayers().put(player.getId(), player);
+        targetScene.getPlayers().put(player.getId(), player);
 
     }
 }

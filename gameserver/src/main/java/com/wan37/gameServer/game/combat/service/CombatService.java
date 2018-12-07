@@ -11,6 +11,7 @@ import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.game.skills.service.SkillsService;
 import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
+import com.wan37.gameServer.model.Creature;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -109,22 +110,25 @@ public class CombatService {
         // 通知攻击结果
         notificationManager.playerBeAttacked(player,targetPlayer, attack);
 
-        if (targetPlayer.getHp() < 0){
-            targetPlayer.setHp((long)0);
-            targetPlayer.setState(-1);
-            // 处理玩家死亡
-            playerAfterDead(targetPlayer,player);
-        }
+        // 检测玩家是否死亡
+        isPlayerDead(targetPlayer,player);
         return new Msg(200,"\n普通攻击成功\n");
     }
 
 
-    public void  playerAfterDead(Player player, Player murderer) {
-        // 广播并通知死亡的玩家
-        notificationManager.playerDead(murderer,player);
+    public void  isPlayerDead(Player casualty, Player murderer) {
 
-        gameSceneService.carryToScene(player,12);
-        notificationManager.notifyPlayer(player,"你已经在墓地了 \n");
+        if (casualty.getHp() < 0){
+            casualty.setHp((long)0);
+            casualty.setState(-1);
+
+            // 广播并通知死亡的玩家
+            notificationManager.playerDead(murderer,casualty);
+
+            gameSceneService.carryToScene(casualty,12);
+            notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了 \n");
+
+        }
 
     }
 
@@ -159,16 +163,15 @@ public class CombatService {
         // 通知攻击结果
         notificationManager.playerBeAttacked(player,targetPlayer, skill.getHpLose());
 
-        if (targetPlayer.getHp() < 0){
-            targetPlayer.setHp((long)0);
-            targetPlayer.setState(-1);
-            // 处理玩家死亡
-            playerAfterDead(targetPlayer,player);
-        }
+        // 检测玩家是否死亡
+        isPlayerDead(targetPlayer,player);
+
 
         return new Msg(404,"技能调用使用成功");
 
     }
+
+
 
 
 }

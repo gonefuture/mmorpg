@@ -57,7 +57,7 @@ public class SkillsService {
         // 技能cd结束后，移出活物cd状态
         skill.setActivetime(System.currentTimeMillis());
         taskManager.schedule(skill.getCd(), () -> {
-            creature.getSkillMap().remove(skill);
+            creature.getSkillMap().remove(skill.getKey());
             return null;
         });
 

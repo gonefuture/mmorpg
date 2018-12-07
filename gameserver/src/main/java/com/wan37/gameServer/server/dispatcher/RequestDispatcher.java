@@ -82,7 +82,7 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
      *  玩家意外退出时保存是数据
      */
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)  {
 
         notificationManager.notifyByCtx(ctx,"出现了点小意外"+cause.getMessage());
         log.error("服务器内部发生错误");
@@ -91,11 +91,14 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
         playerQuitService.savePlayer(ctx);
 
         // 从场景退出
-        playerQuitService.logoutScene(ctx);
+        //playerQuitService.logoutScene(ctx);
 
 
         // 清除缓存
-        playerQuitService.cleanPlayerCache(ctx);
-        throw new RuntimeException(cause.getCause());
+        //playerQuitService.cleanPlayerCache(ctx);
+        // 打印错误
+        log.debug("发生错误 {}", cause.getCause());
+        log.debug("发生错误 {}", cause.getStackTrace());
+        //throw new RuntimeException(cause.getCause());
     }
 }

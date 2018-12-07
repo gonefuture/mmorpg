@@ -38,6 +38,7 @@ public class CommonAttackController implements IController {
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
+
         Long gameObjectId = Long.valueOf(command[1]);
 
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
