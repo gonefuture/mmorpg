@@ -45,7 +45,7 @@ public class PlayerLoginController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        String[] array = new String(message.getContent()).split(" ");
+        String[] array = new String(message.getContent()).split("\\s+");
         Long playerId = Long.valueOf(array[1]);
         StringBuilder result = new StringBuilder();
         String channelId = ctx.channel().id().asLongText();

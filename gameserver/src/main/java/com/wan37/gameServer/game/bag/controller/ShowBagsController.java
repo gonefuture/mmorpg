@@ -53,8 +53,9 @@ public class ShowBagsController implements IController {
         if (0 == itemMap.size() )
             sb.append("背包空荡荡的");
         for (Map.Entry<Integer,Item> entry : itemMap.entrySet()) {
-            sb.append(MessageFormat.format("格子：{0}  {1}  数量：{2} 描述：{3}  属性：",
-                    entry.getKey(), entry.getValue().getThings().getName(), entry.getValue().getCount() ,entry.getValue().getThings().getDescribe()));
+            sb.append(MessageFormat.format("格子：{0}  {1} {2} 数量：{3} 描述：{4}  属性：",
+                    entry.getKey(), entry.getValue().getThings().getName(), entry.getValue().getThings().getPart(),
+                    entry.getValue().getCount() ,entry.getValue().getThings().getDescribe()));
             // 遍历物品属性
             Set<RoleProperty> rolePropertyList = entry.getValue().getThings().getThingRoleProperty();
             rolePropertyList.forEach(

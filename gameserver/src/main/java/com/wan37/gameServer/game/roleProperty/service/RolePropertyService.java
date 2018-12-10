@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -107,6 +108,14 @@ public class RolePropertyService {
             rolePropertyMap.put(roleProperty.getKey(),playerRoleProperty);
             //log.debug("rolePropertyMap {}",rolePropertyMap);
         }
+
+        // 加载hp
+        Optional.ofNullable(rolePropertyMap.get(1))
+                .ifPresent( roleProperty -> player.setHp((long)roleProperty.getValue()));
+
+        // 加载mp
+        Optional.ofNullable(rolePropertyMap.get(2))
+                .ifPresent( roleProperty -> player.setMp((long)roleProperty.getValue()));
 
     }
 
