@@ -74,7 +74,7 @@ public class BufferService {
                             // 如果是玩家，进行通知
                             if (creature instanceof Player) {
                                 notificationManager.notifyPlayer((Player) creature,MessageFormat.format(
-                                        "你身上的buffer {0}  对你造成影响, hp{1} ,mp{2} \n",
+                                        "你身上的buffer {0}  对你造成影响, hp:{1} ,mp:{2} \n",
                                         buffer.getName(),buffer.getHp(),buffer.getMp()
                                 ));
                                 // 检测玩家是否死亡

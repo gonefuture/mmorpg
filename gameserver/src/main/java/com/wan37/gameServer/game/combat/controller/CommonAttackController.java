@@ -42,7 +42,7 @@ public class CommonAttackController implements IController {
         Long gameObjectId = Long.valueOf(command[1]);
 
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
-        Msg msg = combatService.playerCommonAttack(player,gameObjectId);
+        Msg msg = combatService.commonAttack(player,gameObjectId);
 
         message.setFlag((byte) 1);
         message.setContent(msg.getMsg().getBytes());

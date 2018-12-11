@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.combat.service;
 
 import com.wan37.common.entity.Msg;
+import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -53,6 +54,9 @@ public class CombatService {
     @Resource
     private TaskManager taskManager;
 
+    @Resource
+    private InstanceService instanceService;
+
 
 
 
@@ -63,10 +67,18 @@ public class CombatService {
     /**
      *  普通攻击服务
      */
-    public Msg playerCommonAttack(Player player, Long gameObjectId) {
+    public Msg commonAttack(Player player, Long gameObjectId) {
 
         GameScene gameScene = gameSceneService.findSceneById(player.getScene());
-        Monster target = gameScene.getMonsters().get(gameObjectId);
+        Monster target;
+        // 地图类型为2，则从玩家所在的副本里取出怪物
+        if (gameScene.getType() == 2) {
+            gameScene = player.getCurrentGameInstance();
+            target = gameScene.getMonsters().get(gameObjectId);
+        } else {
+            target = gameScene.getMonsters().get(gameObjectId);
+        }
+
 
         if (target == null) {
             return new Msg(404,"攻击的目标不存在");
