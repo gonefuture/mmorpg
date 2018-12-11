@@ -1,7 +1,6 @@
 package com.wan37.gameServer.game.combat.controller;
 
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.Msg;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -10,6 +9,10 @@ import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
+
+import java.util.stream.Collectors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -33,12 +36,22 @@ public class SkillPVPController implements IController {
         String[] command = new String(message.getContent()).split("\\s+");
 
         Integer skillId = Integer.valueOf(command[1]);
+
         Long targetId = Long.valueOf(command[2]);
 
-        Player player = playerDataService.getPlayerByCtx(ctx);
-        Msg msg = combatService.skillPVP(player,skillId,targetId);
+        String[] targetListString = Arrays.copyOfRange(command,2,command.length);
+        StringBuffer sb = new StringBuffer();
 
-        message.setContent((msg.getMsg()+"\n").getBytes());
+        Player player = playerDataService.getPlayerByCtx(ctx);
+
+
+        List<Long>  targetIdList =  Arrays.stream(targetListString).map(Long::valueOf).collect(Collectors.toList());
+
+        combatService.useSkillPVP(player,skillId,targetIdList).forEach(
+                msg -> sb.append(msg.getMsg()).append("\n")
+        );
+
+        message.setContent(sb.toString().getBytes());
         ctx.writeAndFlush(message);
     }
 }

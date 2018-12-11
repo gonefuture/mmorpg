@@ -53,13 +53,24 @@ public class AOIController implements IController {
         List<Player> playerList = aoiService.getPlayerInScene(sceneId );
         GameScene gameScene = gameSceneService.findSceneById(sceneId);
 
+        List<GameScene> gameSceneList = gameSceneService.findNeighborsSceneByIds(gameScene.getNeighbors());
+
        StringBuilder  sb = new StringBuilder();
-       sb.append("玩家 ").append(player.getName()).append("  ");
+       sb.append("玩家 ").append(player.getName()).append("     ");
         if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {
              sb.append("我发现 ,这个地方空无一物");
         } else {
-            sb.append(MessageFormat.format("当前的位置是：{0}  {1}",gameScene.getId(),gameScene.getName())).append("\n");
-            sb.append("场景内玩家: \n");
+            sb.append(MessageFormat.format("    当前的位置是：{0}  {1}",gameScene.getId(),gameScene.getName())).append("\n");
+
+            sb.append("   相邻的场景是：");
+            gameSceneList.forEach(
+                    neighbor -> {
+                        sb.append(MessageFormat.format("  {0}: {1} ",neighbor.getId(), neighbor.getName() ));
+                    }
+            );
+
+
+            sb.append("\n 场景内玩家: \n");
             playerList.forEach( (p -> {
                 sb.append(p.displayData()).append("\n");
             }));

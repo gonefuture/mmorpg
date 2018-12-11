@@ -21,7 +21,7 @@ public class TaskManager {
 
     /**
      *  设置定时任务
-     * @param delay 延迟执行时间
+     * @param delay 延迟执行时间，单位毫秒
      * @param callback 任务
      * @return 一个带结果的future
      */

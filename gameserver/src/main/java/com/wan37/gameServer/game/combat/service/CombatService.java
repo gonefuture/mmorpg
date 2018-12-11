@@ -11,12 +11,15 @@ import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.game.skills.service.SkillsService;
 import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
+import com.wan37.gameServer.manager.task.TaskManager;
 import com.wan37.gameServer.model.Creature;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -45,10 +48,12 @@ public class CombatService {
 
 
     @Resource
-    private UseSkillsService useSkillsService;
+    private SkillsService skillsService;
 
     @Resource
-    private SkillsService skillsService;
+    private TaskManager taskManager;
+
+
 
 
 
@@ -126,28 +131,68 @@ public class CombatService {
             notificationManager.playerDead(murderer,casualty);
 
             gameSceneService.carryToScene(casualty,12);
-            notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了 \n");
+            notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了,十秒后复活 \n");
 
+            taskManager.schedule(
+                    10, () -> {
+                        casualty.setState(1);
+                        playerDataService.initPlayer(casualty);
+                        notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经复活 \n");
+                        return null;
+                    }
+            );
         }
 
+    }
+
+
+
+
+    public List<Msg> useSkillPVP(Player player, Integer skillId, List<Long> targetIdList) {
+        List<Msg> result = new ArrayList<>();
+
+        Skill skill = skillsService.getSkill(skillId);
+        if ( null == skill) {
+             result.add(new Msg(404,"您不能使用该技能"));
+             return result;
+        }
+
+        if (targetIdList.size()> 1 && skill.getSkillsType() !=3) {
+            result.add(new Msg(404,"该技能不能对多个目标使用"));
+            return result;
+        }
+
+        targetIdList.forEach(
+                targetId -> {
+                    Msg msg = skillPVP(player,skill,targetId);
+                    result.add(msg);
+                }
+        );
+        return result;
     }
 
 
     /**
      *  在PVP中使用技能攻击
      * @param player 玩家
-     * @param skillId 技能id
+     * @param skill 技能
      * @param targetId 目标玩家id
      * @return 结果
      */
-    public Msg skillPVP(Player player, Integer skillId, Long targetId) {
+    public Msg skillPVP(Player player, Skill skill, Long targetId) {
+
+
+        // 检查技能冷却，
+        if (!skillsService.checkCD(player,skill) ){
+            log.debug("player.getSkillMap() {}",player.getSkillMap());
+            log.debug("skill {}",skill);
+            return new Msg(404,"你还不能使用该技能，还在冷却中");
+        }
+
+
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
 
-        Skill skill = skillsService.getSkill(skillId);
-        if ( null == skill)
-            return  new Msg(404,"您不能使用该技能");
-
-        Player targetPlayer = playerDataService.getOnlinePlayerById(targetId);
+        Player targetPlayer = gameScene.getPlayers().get(targetId);
         if (null == targetPlayer)
             return new Msg(404,"目标不存在此场景，可能已离开或下线");
 
@@ -156,8 +201,9 @@ public class CombatService {
                         player.getName(),targetPlayer.getName(),skill.getName()));
 
 
+
         if (!skillsService.useSkill(player,targetPlayer,skill)) {
-            return new Msg(404,"技能调用失败，可能是mp不足");
+            return new Msg(404,"使用技能失败，可能是mp不足");
         }
 
         // 通知攻击结果

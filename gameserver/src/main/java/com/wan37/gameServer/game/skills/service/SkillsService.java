@@ -10,6 +10,7 @@ import com.wan37.gameServer.model.Creature;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -35,12 +36,14 @@ public class SkillsService {
     @Resource
     private NotificationManager notificationManager;
 
-
     /**
-     *  检查游戏技能的冷却时间是否允许发动技能
+     *
+     * @param creature  活物
+     * @param skillId  技能id
+     * @return true 可是使用。 false不可以使用
      */
-    public boolean checkCD(Creature creature, Skill skill) {
-        Skill playerSkill = creature.getSkillMap().get(skill.getId());
+    public boolean checkCD(Creature creature, Integer skillId) {
+        Skill playerSkill = creature.getSkillMap().get(skillId);
         // 如果没有使用这个技能，表示可以使用
         return playerSkill == null;
     }
@@ -52,16 +55,19 @@ public class SkillsService {
      * @param skill 技能
      */
     public void startSkill(Creature creature, Skill skill) {
-        skill.setActivetime(System.currentTimeMillis());
-        creature.getSkillMap().put(skill.getId(),skill);
+        Skill playerSkill = new Skill();
+        playerSkill.setName(skill.getName());
+        playerSkill.setCd(skill.getCd());
+        playerSkill.setMpConsumption(skill.getMpConsumption());
+        playerSkill.setLevel(skill.getLevel());
+        playerSkill.setActiveTime(System.currentTimeMillis());
+        creature.getSkillMap().put(skill.getId(),playerSkill);
         // 技能cd结束后，移出活物cd状态
-        skill.setActivetime(System.currentTimeMillis());
+        playerSkill.setActiveTime(System.currentTimeMillis());
         taskManager.schedule(skill.getCd(), () -> {
             creature.getSkillMap().remove(skill.getKey());
             return null;
         });
-
-
     }
 
     /**
@@ -83,29 +89,56 @@ public class SkillsService {
      */
     public boolean useSkill(Creature initiator, Creature target ,Skill skill) {
 
-        if (checkCD(initiator,skill)) {
+        // 开启技能
+        startSkill(initiator,skill);
+        // 消耗mp和损伤目标hp
+        initiator.setMp(initiator.getMp() - skill.getMpConsumption());
+        target.setHp(target.getHp() - skill.getHpLose());
 
+        // 如果技能类型是2，则对敌方单体目标释放buffer
+        if (skill.getSkillsType() == 2) {
+            Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
+            // 如果buffer存在则启动buffer
+            Optional.ofNullable(buffer).map(
+                    (b) -> bufferService.startBuffer(target,b)
+            );
+        }
+        return true;
+    }
+
+    /**
+     *  释放群体技能
+     * @param initiator 施放者
+     * @param targetList 目标群体
+     * @param skill 技能
+     * @return  是否使用成功
+     */
+    public boolean groupSkill(Creature initiator, List<Creature> targetList , Skill skill) {
+
+        if (checkCD(initiator,skill.getId())) {
             // 开启技能
             startSkill(initiator,skill);
             // 消耗mp和损伤目标hp
             initiator.setMp(initiator.getMp() - skill.getMpConsumption());
-            target.setHp(target.getHp() - skill.getHpLose());
-
-            // 如果技能类型是2，则对目标释放buffer
-            if (skill.getSkillsType() == 2) {
-                Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
-                // 如果buffer存在则启动buffer
-                Optional.ofNullable(buffer).map(
-                        (b) -> bufferService.startBuffer(target,b)
-                );
-            }
+            targetList.forEach(
+                    target ->  {
+                        target.setHp(target.getHp() - skill.getHpLose());
+                        if(skill.getBuffer() != 0) {
+                            Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
+                            // 如果buffer存在则启动buffer
+                            Optional.ofNullable(buffer).map(
+                                    (b) -> bufferService.startBuffer(target,b)
+                            );
+                        }
+                    }
+            );
             return true;
         } else {
-            return  false;
+            return false;
         }
-
-
     }
+
+
 
 
 

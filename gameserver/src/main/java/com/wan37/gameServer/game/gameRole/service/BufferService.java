@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.Future;
 
 /**
@@ -44,35 +45,59 @@ public class BufferService {
 
 
     public boolean startBuffer(Creature creature, Buffer buffer) {
+        Buffer playerBuffer = new Buffer();
+        playerBuffer.setName(buffer.getName());
+        playerBuffer.setDuration(buffer.getDuration());
+        playerBuffer.setHp(buffer.getHp());
+        playerBuffer.setMp(buffer.getMp());
+        playerBuffer.setIntervalTime(buffer.getIntervalTime());
+
         // 记录开始时间
-        buffer.setStartTime(System.currentTimeMillis());
-        creature.getBufferList().add(buffer);
-        buffer.setStartTime(System.currentTimeMillis());
+        playerBuffer.setStartTime(System.currentTimeMillis());
+        creature.getBufferList().add(playerBuffer);
 
+        // 如果是buffer有不良效果
+        if (buffer.getEffect() != 0) {
+            creature.setState(buffer.getEffect());
+        }
+
+
+        // 如果buffer有持续时间
         if (buffer.getDuration() != -1) {
+            // 如果间隔时间不为-1，即buffer间隔触发
+            if (buffer.getIntervalTime() != -1) {
+                Future cycleTask = taskManager.scheduleAtFixedRate(0,buffer.getIntervalTime(),
+                        () -> {
+                            creature.setHp(creature.getHp() + buffer.getHp());
+                            creature.setMp(creature.getMp() + buffer.getMp());
 
-            Future cycleTask = taskManager.scheduleAtFixedRate(0,buffer.getIntervalTime(),
-                    () -> {
-                        creature.setHp(creature.getHp() + buffer.getHp());
-                        creature.setMp(creature.getMp() + buffer.getMp());
-                        // 如果是玩家，进行通知
-                        if (creature instanceof Player) {
-                            notificationManager.notifyPlayer((Player) creature,MessageFormat.format(
-                                    "你身上的buffer {0}  对你造成影响, hp{1} ,mp{2} \n",
-                                    buffer.getName(),buffer.getHp(),buffer.getMp()
-                            ));
-                            // 检测玩家是否死亡
-                            combatService.isPlayerDead((Player) creature,null);
+                            // 如果是玩家，进行通知
+                            if (creature instanceof Player) {
+                                notificationManager.notifyPlayer((Player) creature,MessageFormat.format(
+                                        "你身上的buffer {0}  对你造成影响, hp{1} ,mp{2} \n",
+                                        buffer.getName(),buffer.getHp(),buffer.getMp()
+                                ));
+                                // 检测玩家是否死亡
+                                combatService.isPlayerDead((Player) creature,null);
+                            }
+
                         }
+                );
+                taskManager.schedule(buffer.getDuration(),() -> {
+                    cycleTask.cancel(true);
+                    return null;
+                });
+            }
 
-                    }
-                    );
-
+            // buffer cd 处理
             taskManager.schedule(buffer.getDuration(),
                     () -> {
                         // 过期移除buffer
                         creature.getBufferList().remove(buffer);
-                        cycleTask.cancel(true);
+
+                        // 恢复正常状态
+                        creature.setState(1);
+
 
                         // 如果是玩家，进行通知
                         if (creature instanceof Player) {
@@ -85,6 +110,8 @@ public class BufferService {
                         log.debug(" buffer过期清除定时器 {}", new Date());
                         return null;
                     });
+        } else {
+            // 永久buffer
         }
 
         return true;

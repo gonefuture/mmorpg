@@ -97,8 +97,8 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
         // 清除缓存
         //playerQuitService.cleanPlayerCache(ctx);
         // 打印错误
-        log.debug("发生错误 {}", cause.getCause());
-        log.debug("发生错误 {}", cause.getStackTrace());
+        log.error("发生错误 {}", cause.getCause());
+        log.error("发生错误 {}", (Object) cause.getStackTrace());
         //throw new RuntimeException(cause.getCause());
     }
 }

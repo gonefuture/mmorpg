@@ -36,14 +36,10 @@ public class Skill implements IExcel<Integer> {
     @EntityName(column = "等级")
     private Integer level;
 
-    @EntityName(column = "状态")
-    private Integer state;
-
-    @EntityName(column = "激活时间")
-    private Long activetime;
-
     @EntityName(column = "buffer")
     private Integer buffer;
+
+    private Long activeTime;
 
 
     @Override

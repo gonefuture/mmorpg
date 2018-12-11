@@ -119,6 +119,18 @@ public class RolePropertyService {
 
     }
 
+
+
+
+
+
+
+
+    /**
+     *  获取属性
+     * @param id 属性id
+     * @return 可能为空
+     */
     public RoleProperty getRoleProperty(Integer id) {
         return rolePropertyManager.get(id);
     }
