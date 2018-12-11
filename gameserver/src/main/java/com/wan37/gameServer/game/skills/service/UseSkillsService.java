@@ -98,7 +98,7 @@ public class UseSkillsService {
         if (player.getState() != -1
                 && player.getMp()>skill.getMpConsumption()
                 // 检查技能是否处于冷却状态
-                && skillsService.checkCD(player,skill)
+                && skillsService.checkCD(player,skill.getId())
                 ) {
             return true;
         } else {

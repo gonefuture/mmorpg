@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.combat.controller;
 
 import com.wan37.common.entity.Message;
+import com.wan37.common.entity.Msg;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -40,18 +41,15 @@ public class SkillPVPController implements IController {
         Long targetId = Long.valueOf(command[2]);
 
         String[] targetListString = Arrays.copyOfRange(command,2,command.length);
-        StringBuffer sb = new StringBuffer();
+
 
         Player player = playerDataService.getPlayerByCtx(ctx);
 
 
         List<Long>  targetIdList =  Arrays.stream(targetListString).map(Long::valueOf).collect(Collectors.toList());
 
-        combatService.useSkillPVP(player,skillId,targetIdList).forEach(
-                msg -> sb.append(msg.getMsg()).append("\n")
-        );
-
-        message.setContent(sb.toString().getBytes());
+        Msg msg = combatService.useSkillPVP(player,skillId,targetIdList);
+        message.setContent(msg.getMsg().getBytes());
         ctx.writeAndFlush(message);
     }
 }

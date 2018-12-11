@@ -89,8 +89,6 @@ public class SkillsService {
      */
     public boolean useSkill(Creature initiator, Creature target ,Skill skill) {
 
-        // 开启技能
-        startSkill(initiator,skill);
         // 消耗mp和损伤目标hp
         initiator.setMp(initiator.getMp() - skill.getMpConsumption());
         target.setHp(target.getHp() - skill.getHpLose());
@@ -103,6 +101,8 @@ public class SkillsService {
                     (b) -> bufferService.startBuffer(target,b)
             );
         }
+        // 开启技能冷却
+        startSkill(initiator,skill);
         return true;
     }
 
@@ -115,27 +115,23 @@ public class SkillsService {
      */
     public boolean groupSkill(Creature initiator, List<Creature> targetList , Skill skill) {
 
-        if (checkCD(initiator,skill.getId())) {
-            // 开启技能
-            startSkill(initiator,skill);
-            // 消耗mp和损伤目标hp
-            initiator.setMp(initiator.getMp() - skill.getMpConsumption());
-            targetList.forEach(
-                    target ->  {
-                        target.setHp(target.getHp() - skill.getHpLose());
-                        if(skill.getBuffer() != 0) {
-                            Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
-                            // 如果buffer存在则启动buffer
-                            Optional.ofNullable(buffer).map(
-                                    (b) -> bufferService.startBuffer(target,b)
-                            );
-                        }
+        // 消耗mp和损伤目标hp
+        initiator.setMp(initiator.getMp() - skill.getMpConsumption());
+        targetList.forEach(
+                target ->  {
+                    target.setHp(target.getHp() - skill.getHpLose());
+                    if(skill.getBuffer() != 0) {
+                        Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
+                        // 如果buffer存在则启动buffer
+                        Optional.ofNullable(buffer).map(
+                                (b) -> bufferService.startBuffer(target,b)
+                        );
                     }
-            );
-            return true;
-        } else {
-            return false;
-        }
+                }
+        );
+        // 开启技能冷却
+        startSkill(initiator,skill);
+        return true;
     }
 
 

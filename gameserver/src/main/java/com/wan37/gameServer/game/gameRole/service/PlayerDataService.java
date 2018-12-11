@@ -129,10 +129,6 @@ public class PlayerDataService {
         equipmentBarService.load(player);
 
 
-        // 施放一个回蓝的buffer
-        Buffer buffer = bufferService.getTBuffer(105);
-        bufferService.startBuffer(player,buffer);
-
     }
 
 
