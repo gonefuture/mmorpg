@@ -76,7 +76,6 @@
         <table tableName="t_player">
             <columnOverride column="equipments"  jdbcType="VARCHAR" />
         </table>
-        <!--<table tableName="t_item"/>-->
         <table tableName="t_bag">
             <columnOverride column="items"  jdbcType="VARCHAR" />
         </table>

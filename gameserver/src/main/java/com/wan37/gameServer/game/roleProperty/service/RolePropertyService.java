@@ -49,9 +49,17 @@ public class RolePropertyService {
                 thingProperty -> {
                     log.debug("加载物品的增益到玩家属性中 thingProperty {}",thingProperty);
                     // 改变属性
-                    RoleProperty playerProperty = playerPropertyMap.get(thingProperty.getKey());
+
+                    Optional<RoleProperty> playerProperty = Optional.ofNullable(thingProperty.getKey())
+                            .map(playerPropertyMap::get);
+
                     log.debug("加载物品的增益到玩家属性中 playerProperty {}",playerProperty);
-                    playerProperty.setValue(playerProperty.getValue() + thingProperty.getThingPropertyValue());
+                    playerProperty.ifPresent(
+                            p -> {
+                                p.setValue(p.getValue() + thingProperty.getThingPropertyValue());
+                            }
+                    );
+
                 }
         );
 
@@ -69,7 +77,6 @@ public class RolePropertyService {
     public boolean removeThingPropertyForPlayer(Player player, Things things) {
         Set<RoleProperty> thingPropertySet = things.getThingRoleProperty();
         Map<Integer,RoleProperty> playerPropertyMap = player.getRolePropertyMap();
-
         thingPropertySet.forEach(
                 thingProperty -> {
                     // 改变属性

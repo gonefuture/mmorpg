@@ -102,6 +102,9 @@ public class GameSceneService {
         GameScene targetScene = findSceneById(sceneId);
         // 放入目的场景
         targetScene.getPlayers().put(player.getId(), player);
-
     }
+
+
+
+
 }

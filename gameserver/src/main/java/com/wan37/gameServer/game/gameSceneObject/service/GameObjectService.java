@@ -54,7 +54,7 @@ public class GameObjectService {
                         BeanUtils.copyProperties(sceneObject,npc);
                         gameScene.getNpcs().put(sceneObject.getId(), npc);
                     }
-                    if (sceneObject.getRoleType() == 2 || sceneObject.getRoleType() == 3) {
+                    if (sceneObject.getRoleType() == 2 ) {
                         Monster monster = new Monster();
                         BeanUtils.copyProperties(sceneObject,monster);
                         gameScene.getMonsters().put(sceneObject.getId(), monster);

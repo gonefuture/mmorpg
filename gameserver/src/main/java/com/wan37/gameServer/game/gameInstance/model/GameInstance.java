@@ -27,4 +27,9 @@ public class GameInstance  extends GameScene {
 
     // Boss 列表
     private List<Monster> bossList = new CopyOnWriteArrayList<>();
+
+
+
+    // 当前守关Boss
+    private Monster guardBoss;
 }

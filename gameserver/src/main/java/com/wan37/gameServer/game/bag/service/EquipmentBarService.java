@@ -127,7 +127,10 @@ public class EquipmentBarService {
         if (!Strings.isNullOrEmpty(equipmentBarString)) {
             Map<String,Item> equipmentBar = JSON.parseObject(equipmentBarString,
                     new TypeReference<Map<String,Item>>(){});
+            log.debug("  equipmentBarString {}",equipmentBarString);
             log.debug("  equipmentBar{}",equipmentBar);
+            // 很重要，将从数据库还原的装备加载到角色
+            player.setEquipmentBar(equipmentBar);
 
             equipmentBar.values()
                     .forEach( item ->

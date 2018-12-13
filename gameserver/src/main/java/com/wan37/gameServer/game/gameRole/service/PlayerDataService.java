@@ -89,8 +89,10 @@ public class PlayerDataService {
     }
 
 
-
-
+    /**
+     *  计算攻击力
+     * @param player 玩家
+     */
     public void computeAttack(Player player) {
 
         Map<Integer, RoleProperty> rolePropertyMap = player.getRolePropertyMap();
@@ -127,6 +129,9 @@ public class PlayerDataService {
 
         // 加载武器栏
         equipmentBarService.load(player);
+
+
+        log.debug("player {}", player);
 
 
     }

@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.combat.service;
 
 import com.wan37.common.entity.Msg;
+import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
@@ -61,9 +62,6 @@ public class CombatService {
 
 
 
-
-
-
     /**
      *  普通攻击服务
      */
@@ -102,8 +100,24 @@ public class CombatService {
                 target.setState(-1);
                 // 结算掉落，这里暂时直接放到背包里
                 monsterDropsService.dropItem(player,target);
+
+                // 如果是副本怪物,获取下一个Boss
+                if (gameScene.getType() == 2) {
+                    GameInstance gameInstance = (GameInstance) gameScene;
+                    // 如果还有boos,下一个boss出场
+                    if (gameInstance.getBossList().size()>0) {
+                        Monster nextBoss = instanceService.nextBoss(gameObjectId,(GameInstance) gameScene);
+                        // boss出场台词
+                        notificationManager.notifyScenePlayerWithMessage(gameScene,nextBoss.getTalk());
+                    } else {
+                        // 所有Boss死亡，挑战成功
+                        notificationManager.notifyScenePlayerWithMessage(gameScene,MessageFormat.format(
+                                "恭喜你挑战副本{0}成功 ",gameInstance.getName()));
+                        instanceService.enterInstance(player,gameInstance.getId());
+                    }
+                }
             }
-            notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
+            notificationManager.notifyScenePlayerWithMessage(gameScene,
                     MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
                             ,target.getName(),player.getName(),attack, target.getHp()));
             return new Msg(200,"\n"+player.getName()+"使用普通攻击成功 \n");
@@ -133,7 +147,12 @@ public class CombatService {
     }
 
 
-    public void  isPlayerDead(Player casualty, Player murderer) {
+    /**
+     *     检测玩家是否死亡
+     * @param casualty 伤害承受者
+     * @param murderer 攻击发起者
+     */
+    public void  isPlayerDead(Player casualty, Creature murderer) {
 
         if (casualty.getHp() < 0){
             casualty.setHp((long)0);

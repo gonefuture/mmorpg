@@ -6,6 +6,7 @@ import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.gameSceneObject.model.NPC;
 import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
+import com.wan37.gameServer.game.gameSceneObject.service.MonsterAIService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -40,6 +43,10 @@ public class InstanceService {
     @Resource
     private GameObjectService gameObjectService;
 
+
+    @Resource
+    private MonsterAIService monsterAIService;
+
     /**
      *  进入副本，将副本与玩家绑定起来
      */
@@ -54,9 +61,15 @@ public class InstanceService {
         player.setCurrentGameInstance(gameInstance);
         player.setScene(gameInstance.getId());
 
+        // 如果有守关Boss则进行攻击
+        Optional.ofNullable(gameInstance.getGuardBoss()).
+                ifPresent(guard -> monsterAIService.startBossAttackAi(guard,gameInstance));
+
+
+
         // 副本关闭通知
         taskManager.schedule(gameInstance.getInstanceTime()-10000,() -> {
-            notificationManager.notifyPlayer(player,"副本将于十秒后关闭，请准备传送。");
+            notificationManager.notifyPlayer(player,"副本将于十秒后关闭，请准备好传送。");
             return null;
         });
 
@@ -71,18 +84,28 @@ public class InstanceService {
 
 
     /**
-     *  副本Boss出场
+     *  下一个副本Boss出场
      * @param gameInstance 副本实例
      */
-    public void nextBoss(Long preBossId,GameInstance gameInstance) {
+    public Monster nextBoss(Long preBossId,GameInstance gameInstance) {
         gameInstance.getMonsters().remove(preBossId);
+        List<Monster> monsterList =  gameInstance.getBossList();
 
+        Monster nextBoss = null;
+        if (monsterList.size()>0) {
+            nextBoss = monsterList.remove(0);
+            // 将Bos放入怪物集合中
+            gameInstance.getMonsters().put(nextBoss.getKey(),nextBoss);
+            // 设置当前守关Boos
+            gameInstance.setGuardBoss(nextBoss);
+        }
+        return nextBoss;
     }
-
 
 
     /**
      *  退出副本
+     * @param player 玩家
      */
     public void exitInstance(Player player) {
         if (player.getCurrentGameInstance() != null) {
@@ -93,16 +116,19 @@ public class InstanceService {
 
             // 设置当前副本实例为空
             player.setCurrentGameInstance(null);
-            notificationManager.notifyPlayer(player,"副本已关闭，你已被传送");
+            notificationManager.notifyPlayer(player,"挑战失败，副本已关闭，你已被传送");
         } else {
             notificationManager.notifyPlayer(player,"你不在副本中");
         }
-
     }
+
 
 
     /**
      *  初始化的副本实例
+     * @param player 玩家
+     * @param instanceId 副本id
+     * @return 一个初始化好的副本实例
      */
     private GameInstance init(Player player, Integer instanceId) {
         GameScene gameScene = gameSceneService.findSceneById(instanceId);
@@ -130,8 +156,8 @@ public class InstanceService {
                         }
                 );
 
-        Monster fisrtBoss =  gameInstance.getBossList().get(0);
-        gameInstance.getMonsters().put(fisrtBoss.getKey(),fisrtBoss);
+        Monster firstBoss =  gameInstance.getBossList().remove(0);
+        gameInstance.getMonsters().put(firstBoss.getKey(),firstBoss);
 
 
 

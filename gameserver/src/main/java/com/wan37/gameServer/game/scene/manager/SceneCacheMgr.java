@@ -43,7 +43,7 @@ public class SceneCacheMgr implements GameCacheManager<Integer, GameScene> {
             .maximumSize(5000)
             .recordStats()
             .removalListener(
-                    notification -> System.out.println(notification.getKey() + "was removed, cause is" + notification.getCause())
+                    notification -> System.out.println(notification.getKey() + "场景被移除, 原因是" + notification.getCause())
             ).build();
 
 
@@ -60,8 +60,6 @@ public class SceneCacheMgr implements GameCacheManager<Integer, GameScene> {
 
         Map<Integer,GameScene> gameSceneMap = sceneExcelUtil.getMap();
         for (GameScene  gameScene: gameSceneMap.values()) {
-
-            String[] ids = gameScene.getGameObjectIds().split(",");
 
             // 初始化怪物和NPC
             gameScene = gameObjectService.initSceneObject(gameScene);

@@ -30,14 +30,17 @@ public class SceneObject implements IExcel<Long>  {
     @EntityName(column = "名字")
     private String name;
 
-    @EntityName(column = "hp")
+    @EntityName(column = "生命值")
     private Long hp;
 
-    @EntityName(column = "mp")
+    @EntityName(column = "魔法值")
     private Long mp;
 
+    @EntityName(column = "攻击力")
+    private Integer attack;
+
     @EntityName(column = "交谈文本")
-    private String talk;
+    private String talk = "";
 
     @EntityName(column = "技能")
     private String skills;

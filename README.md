@@ -8,6 +8,23 @@ A game server for mmorpg game based on Netty, SpringBoot, MyBatis。
 ## 安装运行
 
 
+
+## 游戏配置
+
+-gameData
+    ├── buffer.xlsx
+    ├── gameScene.xlsx
+    ├── roleProperty.xlsx
+    ├── sceneObject.xlsx
+    ├── shop.xlsx
+    ├── skill.xlsx
+    └── things.xlsx
+    
+ 分别是角色状态、游戏场景、角色属性、场景对象（怪物和NPC）,游戏商店，角色技能，游戏物品（武器和普通物品）的配置表
+
+
+
+
 ## 客户端指令
 
 客户端通过MsgId和参数来发送服务指令，MsgId(整型)部分如下

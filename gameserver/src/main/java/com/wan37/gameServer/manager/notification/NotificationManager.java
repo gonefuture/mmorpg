@@ -35,7 +35,7 @@ public class NotificationManager {
 
 
 
-    public void notifyScenePlayer(GameScene gameScene,Message message) {
+    private void notifyScenePlayer(GameScene gameScene,Message message) {
         gameScene.getPlayers().keySet().forEach( playerId-> {
             ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
             ctx.writeAndFlush(message);
