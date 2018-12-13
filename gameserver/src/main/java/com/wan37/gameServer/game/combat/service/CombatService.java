@@ -6,21 +6,20 @@ import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameSceneObject.service.MonsterAIService;
 import com.wan37.gameServer.game.gameSceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.game.skills.service.SkillsService;
-import com.wan37.gameServer.game.skills.service.UseSkillsService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
-import com.wan37.gameServer.manager.task.TaskManager;
+import com.wan37.gameServer.manager.task.TimedTaskManager;
 import com.wan37.gameServer.model.Creature;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,11 +52,13 @@ public class CombatService {
     private SkillsService skillsService;
 
     @Resource
-    private TaskManager taskManager;
+    private TimedTaskManager timedTaskManager;
 
     @Resource
     private InstanceService instanceService;
 
+    @Resource
+    private MonsterAIService monsterAIService;
 
 
 
@@ -73,10 +74,11 @@ public class CombatService {
         if (gameScene.getType() == 2) {
             gameScene = player.getCurrentGameInstance();
             target = gameScene.getMonsters().get(gameObjectId);
+            // 触发副本boss AI
+            monsterAIService.startBossAttackAi(target,gameScene);
         } else {
             target = gameScene.getMonsters().get(gameObjectId);
         }
-
 
         if (target == null) {
             return new Msg(404,"攻击的目标不存在");
@@ -85,17 +87,25 @@ public class CombatService {
         int attack = player.getAttack();
         notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
                 MessageFormat.format("玩家{0}  向 {1} 发动普通攻击,攻击力为 {2} \n",player.getName(),target.getName(), attack));
-        log.debug("玩家的普通攻击力 {}",attack);
+
+
+
         if (target.getState() ==  -1) {
             notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
                     MessageFormat.format("目标 {0} 已经死亡 \n",target.getName()));
             return new Msg(401,"不能攻击，目标已经死亡 \n");
         } else {
             target.setHp(target.getHp() - attack);
-            // 重要，设置死亡时间
-            target.setDeadTime(System.currentTimeMillis());
+
+            notificationManager.notifyScenePlayerWithMessage(gameScene,
+                    MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
+                            ,target.getName(),player.getName(),attack, target.getHp()));
+
 
             if (target.getHp() <= 0) {
+                // 重要，设置死亡时间
+                target.setDeadTime(System.currentTimeMillis());
+
                 target.setHp(0L);
                 target.setState(-1);
                 // 结算掉落，这里暂时直接放到背包里
@@ -106,21 +116,18 @@ public class CombatService {
                     GameInstance gameInstance = (GameInstance) gameScene;
                     // 如果还有boos,下一个boss出场
                     if (gameInstance.getBossList().size()>0) {
-                        Monster nextBoss = instanceService.nextBoss(gameObjectId,(GameInstance) gameScene);
-                        // boss出场台词
-                        notificationManager.notifyScenePlayerWithMessage(gameScene,nextBoss.getTalk());
+                       instanceService.nextBoss(gameObjectId,(GameInstance) gameScene);
+
                     } else {
                         // 所有Boss死亡，挑战成功
                         notificationManager.notifyScenePlayerWithMessage(gameScene,MessageFormat.format(
                                 "恭喜你挑战副本{0}成功 ",gameInstance.getName()));
-                        instanceService.enterInstance(player,gameInstance.getId());
+                        instanceService.exitInstance(player);
                     }
                 }
             }
-            notificationManager.notifyScenePlayerWithMessage(gameScene,
-                    MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
-                            ,target.getName(),player.getName(),attack, target.getHp()));
-            return new Msg(200,"\n"+player.getName()+"使用普通攻击成功 \n");
+
+            return new Msg(200,"\n"+player.getName()+" 使用普通攻击成功 \n");
         }
     }
 
@@ -152,7 +159,7 @@ public class CombatService {
      * @param casualty 伤害承受者
      * @param murderer 攻击发起者
      */
-    public void  isPlayerDead(Player casualty, Creature murderer) {
+    public synchronized boolean isPlayerDead(Player casualty, Creature murderer) {
 
         if (casualty.getHp() < 0){
             casualty.setHp((long)0);
@@ -164,7 +171,7 @@ public class CombatService {
             gameSceneService.carryToScene(casualty,12);
             notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了,十秒后复活 \n");
 
-            taskManager.schedule(
+            timedTaskManager.schedule(
                     10, () -> {
                         casualty.setState(1);
                         playerDataService.initPlayer(casualty);
@@ -172,6 +179,9 @@ public class CombatService {
                         return null;
                     }
             );
+            return true;
+        } else {
+            return false;
         }
 
     }

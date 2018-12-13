@@ -34,13 +34,13 @@ public enum MsgId {
     PLAYER_EXIT("exit",2002),
 
     // 展示背包
-    SHOW_BAGS("show_bags",2003),
+    SHOW_BAGS("bags",2003),
 
     // 显示当前位置和相邻场景
     LOCATION("location",2004),
 
     // 展示装备栏
-    SHOW_EQUIPMENT_BAR("show_equip",2005),
+    SHOW_EQUIPMENT_BAR("equip_bar",2005),
 
     // 展示玩家属性
     SHOW_PLAYER("show_player",2006),
@@ -94,7 +94,7 @@ public enum MsgId {
     BUY_GOODS("buy",4003),
 
     // 展示商店货物
-    SHOW_GOODS("show_shop",4004),
+    SHOW_GOODS("shop",4004),
 
     // 发送邮件
     SEND_MAIL("send_mail",4005),

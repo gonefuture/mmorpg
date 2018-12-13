@@ -1,22 +1,23 @@
 package com.wan37.gameServer.game.gameSceneObject.service;
 
 import com.wan37.gameServer.game.combat.service.CombatService;
-import com.wan37.gameServer.game.gameInstance.model.GameInstance;
+import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.game.skills.service.SkillsService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
-import com.wan37.gameServer.manager.task.TaskManager;
-import com.wan37.gameServer.model.Creature;
+import com.wan37.gameServer.manager.task.TimedTaskManager;
+import com.wan37.gameServer.manager.task.WorkThreadPool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.stream.IntStream;
+
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -40,7 +41,10 @@ public class MonsterAIService {
     private SkillsService skillsService;
 
     @Resource
-    private TaskManager taskManager;
+    private TimedTaskManager timedTaskManager;
+
+    @Resource
+    private InstanceService instanceService;
 
 
     /**
@@ -51,7 +55,7 @@ public class MonsterAIService {
     public void monsterAttack(Monster monster, Player target) {
         Integer attack = monster.getAttack();
         target.setHp(target.getHp() - attack);
-        notificationManager.notifyPlayer(target, MessageFormat.format("{0}在攻击你， 对你造成了{1}点伤害，你当前的hp为 {3} ",
+        notificationManager.notifyPlayer(target, MessageFormat.format("{0}在攻击你， 对你造成了{1}点伤害，你当前的hp为 {2} \n",
                 monster.getName(), monster.getAttack(),target.getHp()));
         combatService.isPlayerDead(target,monster);
     }
@@ -65,14 +69,14 @@ public class MonsterAIService {
     public void monsterUseSkill(Monster monster, Player target) {
 
         Arrays.stream(monster.getSkills().split(","))
-                .map(Integer::valueOf)
+                .map(Integer::valueOf).parallel() // 随机返回一个技能id
                 .findAny().ifPresent(
                 skillId -> { // 如果技能存在，则释放技能
                     Skill skill = skillsService.getSkill(skillId);
 
                     if (skillsService.useSkill(monster,target,skill)) {
                         notificationManager.notifyPlayer(target,
-                                MessageFormat.format("{0} 对你使用技能 {1}， 对你造成了{1}点伤害，你当前的hp为 {3} ",
+                                MessageFormat.format("{0} 对你使用技能 {1}， 对你造成了{1}点伤害，你当前的hp为 {2}\n",
                                         monster.getName(), monster.getAttack(),target.getHp()));
                     }
                 }
@@ -88,17 +92,33 @@ public class MonsterAIService {
         // 攻击进入入副本的所有玩家
         gameScene.getPlayers().values().forEach(
                 player -> {
-                    // 固定普通攻击频率，每两秒攻击一次。可改进成在策划表配置或根据武器配置
-                    taskManager.scheduleAtFixedRate(2, 2, () -> {
-                        monsterAttack(monster, player);
-                        combatService.isPlayerDead(player, monster);
+                    ScheduledFuture<?> attackTask = timedTaskManager.scheduleAtFixedRate(2000,8000, () -> {
+                        // 如果玩家没死或者怪物没死，则继续攻击
+                        if (!combatService.isPlayerDead(player, monster)
+                                && player.getCurrentGameInstance() != null
+                                && monster.getHp() > 0) {
+                            // 固定普通攻击频率，每两秒攻击一次。可改进成在策划表配置或根据武器配置
+                            monsterAttack(monster, player);
+
+                            // 如果怪物没有技能在冷却中，使用技能
+                            if (monster.getSkillMap().size() < 1) {
+                                monsterUseSkill(monster, player);
+                            }
+                        }
+
+                        if (combatService.isPlayerDead(player, monster)) {
+                            instanceService.exitInstance(player);
+                            notificationManager.notifyScenePlayerWithMessage(gameScene,MessageFormat.format(
+                                    "挑战副本{0}失败 ",gameScene.getName()));
+                        }
                     });
 
-
-                    // 如果怪物没有技能在冷却中，使用技能
-                    if (monster.getSkillMap().size() < 1) {
-                        monsterUseSkill(monster, player);
-                    }
+                    // 根据副本存在时间销毁攻击定时定时器
+                    timedTaskManager.schedule(gameScene.getInstanceTime(), () -> {
+                        log.debug("{}的定时攻击器销毁",monster.getName());
+                        attackTask.cancel(true);
+                        return null;
+                    });
                 }
         );
     }

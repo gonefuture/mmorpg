@@ -14,7 +14,7 @@ import java.util.concurrent.*;
 
 @Slf4j
 @Component
-public class TaskManager {
+public class TimedTaskManager {
 
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(20);
 

@@ -5,7 +5,7 @@ import com.wan37.gameServer.game.gameRole.service.BufferService;
 import com.wan37.gameServer.game.skills.manager.SkillsCacheMgr;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.manager.notification.NotificationManager;
-import com.wan37.gameServer.manager.task.TaskManager;
+import com.wan37.gameServer.manager.task.TimedTaskManager;
 import com.wan37.gameServer.model.Creature;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class SkillsService {
 
 
     @Resource
-    private TaskManager taskManager;
+    private TimedTaskManager timedTaskManager;
 
     @Resource
     private NotificationManager notificationManager;
@@ -64,7 +64,7 @@ public class SkillsService {
         creature.getSkillMap().put(skill.getId(),playerSkill);
         // 技能cd结束后，移出活物cd状态
         playerSkill.setActiveTime(System.currentTimeMillis());
-        taskManager.schedule(skill.getCd(), () -> {
+        timedTaskManager.schedule(skill.getCd(), () -> {
             creature.getSkillMap().remove(skill.getKey());
             return null;
         });

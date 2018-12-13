@@ -5,7 +5,7 @@ import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.manager.BufferCacheMgr;
 import com.wan37.gameServer.manager.notification.NotificationManager;
-import com.wan37.gameServer.manager.task.TaskManager;
+import com.wan37.gameServer.manager.task.TimedTaskManager;
 
 
 import com.wan37.gameServer.model.Creature;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.Optional;
 import java.util.concurrent.Future;
 
 /**
@@ -31,7 +30,7 @@ public class BufferService {
 
 
     @Resource
-    private TaskManager taskManager;
+    private TimedTaskManager timedTaskManager;
 
     @Resource
     private BufferCacheMgr bufferCacheMgr;
@@ -66,7 +65,7 @@ public class BufferService {
         if (buffer.getDuration() != -1) {
             // 如果间隔时间不为-1，即buffer间隔触发
             if (buffer.getIntervalTime() != -1) {
-                Future cycleTask = taskManager.scheduleAtFixedRate(0,buffer.getIntervalTime(),
+                Future cycleTask = timedTaskManager.scheduleAtFixedRate(0,buffer.getIntervalTime(),
                         () -> {
                             creature.setHp(creature.getHp() + buffer.getHp());
                             creature.setMp(creature.getMp() + buffer.getMp());
@@ -83,14 +82,14 @@ public class BufferService {
 
                         }
                 );
-                taskManager.schedule(buffer.getDuration(),() -> {
+                timedTaskManager.schedule(buffer.getDuration(),() -> {
                     cycleTask.cancel(true);
                     return null;
                 });
             }
 
             // buffer cd 处理
-            taskManager.schedule(buffer.getDuration(),
+            timedTaskManager.schedule(buffer.getDuration(),
                     () -> {
                         // 过期移除buffer
                         creature.getBufferList().remove(buffer);

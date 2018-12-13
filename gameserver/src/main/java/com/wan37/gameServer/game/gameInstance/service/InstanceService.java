@@ -10,12 +10,13 @@ import com.wan37.gameServer.game.gameSceneObject.service.MonsterAIService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
-import com.wan37.gameServer.manager.task.TaskManager;
+import com.wan37.gameServer.manager.task.TimedTaskManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class InstanceService {
     private GameSceneService gameSceneService;
 
     @Resource
-    private TaskManager taskManager;
+    private TimedTaskManager timedTaskManager;
 
     @Resource
     private NotificationManager notificationManager;
@@ -61,23 +62,32 @@ public class InstanceService {
         player.setCurrentGameInstance(gameInstance);
         player.setScene(gameInstance.getId());
 
+        // 加载第一个boss
+        //nextBoss((long)0,gameInstance);
+
+        log.debug("gameInstance {}",gameInstance);
         // 如果有守关Boss则进行攻击
         Optional.ofNullable(gameInstance.getGuardBoss()).
                 ifPresent(guard -> monsterAIService.startBossAttackAi(guard,gameInstance));
 
 
 
-        // 副本关闭通知
-        taskManager.schedule(gameInstance.getInstanceTime()-10000,() -> {
-            notificationManager.notifyPlayer(player,"副本将于十秒后关闭，请准备好传送。");
-            return null;
-        });
 
-        // 定时销毁副本，传送玩家出副本。
-        taskManager.schedule(gameInstance.getInstanceTime(), () -> {
-            exitInstance(player);
-            return null;
-        });
+        // 如果玩家快超时了还在副本，关闭副本
+        if (player.getCurrentGameInstance() != null) {
+            // 副本关闭通知
+            timedTaskManager.schedule(gameInstance.getInstanceTime()-10000,() -> {
+                notificationManager.notifyPlayer(player,"副本将于十秒后关闭，请准备好传送。");
+                return null;
+            });
+
+            // 定时销毁副本，传送玩家出副本。
+            timedTaskManager.schedule(gameInstance.getInstanceTime(), () -> {
+                exitInstance(player);
+                return null;
+            });
+
+        }
 
         return gameInstance;
     }
@@ -88,16 +98,23 @@ public class InstanceService {
      * @param gameInstance 副本实例
      */
     public Monster nextBoss(Long preBossId,GameInstance gameInstance) {
-        gameInstance.getMonsters().remove(preBossId);
+        if (preBossId != null)
+            gameInstance.getMonsters().remove(preBossId);
+
         List<Monster> monsterList =  gameInstance.getBossList();
 
         Monster nextBoss = null;
         if (monsterList.size()>0) {
             nextBoss = monsterList.remove(0);
+            log.debug("下一个boss {} ,当前boss列表 {}",nextBoss,monsterList);
             // 将Bos放入怪物集合中
             gameInstance.getMonsters().put(nextBoss.getKey(),nextBoss);
             // 设置当前守关Boos
             gameInstance.setGuardBoss(nextBoss);
+
+            // boss出场台词
+            notificationManager.notifyScenePlayerWithMessage(gameInstance, MessageFormat.format("\n {0} 说： {1} \n \n",
+                    nextBoss.getName(), nextBoss.getTalk()));
         }
         return nextBoss;
     }
@@ -113,10 +130,9 @@ public class InstanceService {
             player.setScene(player.getCurrentGameInstance()
                     .getPlayerFrom().get(player.getId()));
 
-
             // 设置当前副本实例为空
             player.setCurrentGameInstance(null);
-            notificationManager.notifyPlayer(player,"挑战失败，副本已关闭，你已被传送");
+            notificationManager.notifyPlayer(player,"你已经退出副本");
         } else {
             notificationManager.notifyPlayer(player,"你不在副本中");
         }
@@ -156,10 +172,10 @@ public class InstanceService {
                         }
                 );
 
-        Monster firstBoss =  gameInstance.getBossList().remove(0);
-        gameInstance.getMonsters().put(firstBoss.getKey(),firstBoss);
+        // 加载第一个boss
+        Monster firstBoss =  nextBoss(null,gameInstance);
 
-
+        gameInstance.setGuardBoss(firstBoss);
 
         gameInstance.getPlayers().put(player.getId(), player);
         // 记录玩家原先的位置
