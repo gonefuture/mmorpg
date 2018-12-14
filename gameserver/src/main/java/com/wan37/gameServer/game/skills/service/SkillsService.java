@@ -43,7 +43,7 @@ public class SkillsService {
      * @return true 可是使用。 false不可以使用
      */
     public boolean checkCD(Creature creature, Integer skillId) {
-        Skill playerSkill = creature.getSkillMap().get(skillId);
+        Skill playerSkill = creature.getHasUseSkillMap().get(skillId);
         // 如果没有使用这个技能，表示可以使用
         return playerSkill == null;
     }
@@ -61,11 +61,11 @@ public class SkillsService {
         playerSkill.setMpConsumption(skill.getMpConsumption());
         playerSkill.setLevel(skill.getLevel());
         playerSkill.setActiveTime(System.currentTimeMillis());
-        creature.getSkillMap().put(skill.getId(),playerSkill);
+        creature.getHasUseSkillMap().put(skill.getId(),playerSkill);
         // 技能cd结束后，移出活物cd状态
         playerSkill.setActiveTime(System.currentTimeMillis());
-        timedTaskManager.schedule(skill.getCd(), () -> {
-            creature.getSkillMap().remove(skill.getKey());
+        timedTaskManager.scheduleWithData(skill.getCd(), () -> {
+            creature.getHasUseSkillMap().remove(skill.getKey());
             return null;
         });
     }

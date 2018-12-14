@@ -4,10 +4,12 @@ import com.wan37.gameServer.game.gameSceneObject.model.Monster;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import lombok.Data;
 
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -20,6 +22,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameInstance  extends GameScene {
 
 
+
+
+
+
     // 保存玩家进入副本前的场景id
 
     private Map<Long,Integer> playerFrom = new ConcurrentHashMap<>();
@@ -29,7 +35,15 @@ public class GameInstance  extends GameScene {
     private List<Monster> bossList = new CopyOnWriteArrayList<>();
 
 
-
     // 当前守关Boss
     private Monster guardBoss;
+
+
+    // 是否已经挑战副本失败
+    private volatile Boolean fail = false;
+
+
+
+
+
 }

@@ -82,14 +82,14 @@ public class BufferService {
 
                         }
                 );
-                timedTaskManager.schedule(buffer.getDuration(),() -> {
+                timedTaskManager.scheduleWithData(buffer.getDuration(),() -> {
                     cycleTask.cancel(true);
                     return null;
                 });
             }
 
             // buffer cd 处理
-            timedTaskManager.schedule(buffer.getDuration(),
+            timedTaskManager.scheduleWithData(buffer.getDuration(),
                     () -> {
                         // 过期移除buffer
                         creature.getBufferList().remove(buffer);

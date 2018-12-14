@@ -1,5 +1,6 @@
 package com.wan37.gameServer.manager.task;
 
+import com.wan37.gameServer.event.EventData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import java.util.concurrent.*;
 @Component
 public class TimedTaskManager {
 
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(20);
+    private static ScheduledExecutorService executorService = Executors.newScheduledThreadPool(20);
 
 
     /**
@@ -25,23 +26,46 @@ public class TimedTaskManager {
      * @param callback 任务
      * @return 一个带结果的future
      */
-    public Future<EventData> schedule(long delay, Callable<EventData> callback) {
+    public static Future<EventData> scheduleWithData(long delay, Callable<EventData> callback) {
         return executorService.schedule(callback,delay, TimeUnit.MILLISECONDS);
     }
 
 
+
+
     /**
-     *  周期执行任务
+     *  设置定时任务
+     * @param delay 延迟执行时间，单位毫秒
+     * @param runnable 任务
+     * @return 一个不带结果的future
+     */
+    public static Future schedule(long delay, Runnable runnable) {
+        return executorService.schedule(runnable,delay, TimeUnit.MILLISECONDS);
+    }
+
+
+    /**
+     *  按固定的周期执行任务
      * @param initDelay 延时开始第一次任务的时间
      * @param delay     执行间隔
      * @param runnable 任务
      * @return    一个不带结果的future
      */
-    public ScheduledFuture<?> scheduleAtFixedRate(long initDelay , long delay , Runnable runnable) {
+    public static ScheduledFuture<?> scheduleAtFixedRate(long initDelay , long delay , Runnable runnable) {
         return executorService.scheduleAtFixedRate(runnable,initDelay,delay, TimeUnit.MILLISECONDS);
     }
 
 
+    /**
+     *  按照固定的延迟执行任务（即执行完上一个再执行下一个）
+     * @param initDelay 延时开始第一次任务的时间
+     * @param delay     执行间隔
+     * @param runnable 任务
+     *
+     */
+    public static ScheduledFuture<?> scheduleWithFixedDelay(long initDelay , long delay , Runnable runnable) {
+        return executorService.scheduleWithFixedDelay(runnable,initDelay,delay, TimeUnit.MILLISECONDS);
+    }
 
 
 }

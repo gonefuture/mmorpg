@@ -40,7 +40,7 @@ public class Player extends TPlayer   implements Creature  {
     private Long mp;
 
     // 角色当前使用技能的集合
-    private Map<Integer, Skill> skillMap = new ConcurrentHashMap<>();
+    private Map<Integer, Skill> hasUseSkillMap = new ConcurrentHashMap<>();
 
 
 

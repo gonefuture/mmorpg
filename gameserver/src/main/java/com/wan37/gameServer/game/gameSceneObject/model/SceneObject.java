@@ -62,11 +62,17 @@ public class SceneObject implements IExcel<Long>  {
     private long deadTime;
 
 
-    // 角色当前使用技能的集合
-    Map<Integer, Skill> skillMap = new ConcurrentHashMap<>();
+    // 当前使用技能的集合
+    Map<Integer, Skill> hasUseSkillMap = new ConcurrentHashMap<>();
 
     // 角色当前的buffer,因为可能拥有多个重复的技能，所以这里使用List保存
     List<Buffer> bufferList = new CopyOnWriteArrayList<>();
+
+
+    // 当前攻击对象
+    private Creature target;
+
+
 
 
     public  Long getDeadTime() {

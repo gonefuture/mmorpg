@@ -40,8 +40,8 @@ public interface Creature  {
 
 
     // 活物当前使用的技能
-    Map<Integer, Skill> getSkillMap();
-    void setSkillMap(Map<Integer, Skill> skillMap);
+    Map<Integer, Skill> getHasUseSkillMap();
+    void setHasUseSkillMap(Map<Integer, Skill> skillMap);
 
     // 活物的当前buffer
     List<Buffer> getBufferList();

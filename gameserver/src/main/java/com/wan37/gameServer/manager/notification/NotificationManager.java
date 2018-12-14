@@ -23,7 +23,7 @@ import java.text.MessageFormat;
 
 @Slf4j
 @Service
-public class NotificationManager {
+public  class NotificationManager {
 
     @Resource
     private PlayerCacheMgr playerCacheMgr;
@@ -33,17 +33,12 @@ public class NotificationManager {
     private GameSceneService gameSceneService;
 
 
-
-
-    private void notifyScenePlayer(GameScene gameScene,Message message) {
-        gameScene.getPlayers().keySet().forEach( playerId-> {
-            ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
-            ctx.writeAndFlush(message);
-        });
-
-    }
-
-
+    /**
+     *  通知场景里的玩家
+     * @param gameScene 场景
+     * @param e 信息
+     * @param <E> 信息的类型
+     */
     public <E> void notifyScenePlayerWithMessage(GameScene gameScene, E e) {
         Message message = new Message();
         if (e instanceof String) {
@@ -53,10 +48,18 @@ public class NotificationManager {
         }
         message.setFlag((byte) 1);
 
-        notifyScenePlayer(gameScene,message);
+        gameScene.getPlayers().keySet().forEach( playerId-> {
+            ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
+            ctx.writeAndFlush(message);
+        });
     }
 
-
+    /**
+     *  通知单个玩家
+     * @param player 玩家
+     * @param e 信息
+     * @param <E> 信息的类型
+     */
     public <E> void notifyPlayer(Player player, E e) {
         Message message = new Message();
         message.setFlag((byte) 1);
@@ -69,14 +72,24 @@ public class NotificationManager {
         ctx.writeAndFlush(message);
     }
 
-
+    /**
+     *  通过通道上下文来通知玩家
+     * @param cxt 玩家
+     * @param e 信息
+     * @param <E> 信息的类型
+     */
     public <E> void notifyByCtx(ChannelHandlerContext ctx,E e) {
         Player player = playerCacheMgr.get(ctx.channel().id().asLongText());
         notifyPlayer(player,e);
     }
 
 
-
+    /**
+     *  通知到家收到了另一个玩家的攻击
+     * @param form 攻击发起者
+     * @param to    攻击承受者
+     * @param damage    伤害
+     */
     public void playerBeAttacked(Player form , Player to, long damage) {
         GameScene gameScene = gameSceneService.findSceneByPlayer(form);
         notifyScenePlayerWithMessage(gameScene,
@@ -84,6 +97,12 @@ public class NotificationManager {
                         to.getName(),form.getName(),damage, to.getHp()));
     }
 
+
+    /**
+     *   玩家死亡通知
+     * @param murderer 杀死玩家的生物
+     * @param player 玩家
+     */
     public void playerDead(Creature murderer, Player player) {
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
         notifyScenePlayerWithMessage(gameScene,

@@ -35,10 +35,10 @@ public class ShowPlayerController implements IController {
         sb.append(MessageFormat.format("玩家 {0}，hp:{1}, mp:{2} 经验：{3} 战力： {4}  货币： {5}\n",
                 player.getName(),player.getHp(),player.getMp(),player.getExp(), player.getAttack(),player.getMoney()));
         sb.append("玩家正在冷却的技能:\n");
-       if (player.getSkillMap().isEmpty()) {
+       if (player.getHasUseSkillMap().isEmpty()) {
            sb.append("无");
        } else {
-           player.getSkillMap().values().forEach(
+           player.getHasUseSkillMap().values().forEach(
                    skill -> {
                        sb.append(MessageFormat.format("技能： {0} 等级：{1} 耗蓝:{2} cd:{3}  冷却完成时间还剩:{4}秒 \n",
                                skill.getName(),skill.getLevel(), skill.getMpConsumption(), skill.getCd(),

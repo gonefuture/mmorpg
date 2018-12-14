@@ -1,7 +1,6 @@
 package com.wan37.gameServer.game.combat.service;
 
 import com.wan37.common.entity.Msg;
-import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.gameSceneObject.model.Monster;
@@ -74,8 +73,6 @@ public class CombatService {
         if (gameScene.getType() == 2) {
             gameScene = player.getCurrentGameInstance();
             target = gameScene.getMonsters().get(gameObjectId);
-            // 触发副本boss AI
-            monsterAIService.startBossAttackAi(target,gameScene);
         } else {
             target = gameScene.getMonsters().get(gameObjectId);
         }
@@ -110,21 +107,6 @@ public class CombatService {
                 target.setState(-1);
                 // 结算掉落，这里暂时直接放到背包里
                 monsterDropsService.dropItem(player,target);
-
-                // 如果是副本怪物,获取下一个Boss
-                if (gameScene.getType() == 2) {
-                    GameInstance gameInstance = (GameInstance) gameScene;
-                    // 如果还有boos,下一个boss出场
-                    if (gameInstance.getBossList().size()>0) {
-                       instanceService.nextBoss(gameObjectId,(GameInstance) gameScene);
-
-                    } else {
-                        // 所有Boss死亡，挑战成功
-                        notificationManager.notifyScenePlayerWithMessage(gameScene,MessageFormat.format(
-                                "恭喜你挑战副本{0}成功 ",gameInstance.getName()));
-                        instanceService.exitInstance(player);
-                    }
-                }
             }
 
             return new Msg(200,"\n"+player.getName()+" 使用普通攻击成功 \n");
@@ -171,7 +153,7 @@ public class CombatService {
             gameSceneService.carryToScene(casualty,12);
             notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了,十秒后复活 \n");
 
-            timedTaskManager.schedule(
+            TimedTaskManager.scheduleWithData(
                     10, () -> {
                         casualty.setState(1);
                         playerDataService.initPlayer(casualty);
@@ -199,7 +181,7 @@ public class CombatService {
 
         // 检查技能冷却，
         if (!skillsService.checkCD(player,skillId) ){
-            log.debug("player.getSkillMap() {}",player.getSkillMap());
+            log.debug("player.getHasUseSkillMap() {}",player.getHasUseSkillMap());
             log.debug("skill {}",skillId);
             return new Msg(404,"你还不能使用该技能，还在冷却中");
         }

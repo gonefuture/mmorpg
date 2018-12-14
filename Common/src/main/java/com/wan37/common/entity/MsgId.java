@@ -69,7 +69,7 @@ public enum MsgId {
     COMMON_ATTACK("attack",3007),
 
     // 进入副本
-    ENTER_INSTANCE("enter_instance",3008),
+    ENTER_INSTANCE("instance",3008),
 
     // 退出副本
     EXIT_INSTANCE("exit_instance",3009),

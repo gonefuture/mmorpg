@@ -16,7 +16,9 @@ import java.text.MessageFormat;
 @Data
 public class Monster  extends SceneObject implements Creature {
 
-
+    // 攻击速率，默认10000毫秒
+    private Integer attackSpeed = 10000;
+    private long attackTime = System.currentTimeMillis();
 
 
 
