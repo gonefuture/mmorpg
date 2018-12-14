@@ -1,10 +1,10 @@
 package com.wan37.gameServer.server.dispatcher;
 
-import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.Message;
+import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.controller.ErrorController;
-import com.wan37.gameServer.manager.controller.ControllerManager;
 import com.wan37.gameServer.game.gameRole.service.PlayerQuitService;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,10 +15,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/9/18 17:02
+ * time 2018/12/14 18:21
  * @version 1.00
  * Description: mmorpg
  */
@@ -26,7 +25,7 @@ import javax.annotation.Resource;
 @Slf4j
 @ChannelHandler.Sharable
 @Component
-public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
+public class WebSocketRequestDispatcher extends SimpleChannelInboundHandler<String> {
 
     @Resource
     private ControllerManager controllerManager;
@@ -44,7 +43,7 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     //  当客户端连上服务器的时候触发此函数
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("客户端: " + ctx.channel().id() + " 加入连接",CharsetUtil.UTF_8);
+        log.info("客户端: " + ctx.channel().id() + " 加入连接", CharsetUtil.UTF_8);
 
     }
 
@@ -67,16 +66,22 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
 
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
 
         log.info("收到的信息： {}", msg.toString());
-        IController controller = controllerManager.get(msg.getMsgId());
+
+        String[] cmd = msg.split("\\s+");
+
+        IController controller = controllerManager.get(Integer.valueOf(cmd[0]));
+        Message message = new Message();
+        message.setContent(msg.getBytes());
+
         if (controller == null) {
-            errorController.handle( ctx ,msg);
+            errorController.handle( ctx ,message);
         } else {
-            controller.handle(ctx,msg);
+            controller.handle(ctx,message);
         }
-     }
+    }
 
     /**
      *  玩家意外退出时保存是数据

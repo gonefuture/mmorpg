@@ -1,6 +1,7 @@
 package com.wan37.gameServer.server;
 
 
+import com.wan37.gameServer.server.channelInitializer.WebSocketChannelInitializer;
 import com.wan37.gameServer.server.dispatcher.RequestDispatcher;
 import com.wan37.gameServer.server.handler.MessageDecoder;
 import com.wan37.gameServer.server.handler.MessageEncoder;
@@ -27,10 +28,12 @@ import javax.annotation.Resource;
 @ChannelHandler.Sharable
 public class GameServer {
 
-
-
     @Resource
     private RequestDispatcher requestDispatcher;
+
+    @Resource
+    WebSocketChannelInitializer webSocketChannelInitializer;
+
 
     //绑定端口
     private void bind(int port) throws Exception {
@@ -45,21 +48,7 @@ public class GameServer {
                 //.option(ChannelOption.SO_BACKLOG, 1024) // 最大客户端连接数为1024
                 //是否启用心跳保活机制
                 //.childOption(ChannelOption.SO_KEEPALIVE, true)
-        .childHandler(new ChannelInitializer<SocketChannel>() {
-
-            @Override
-            protected void initChannel(SocketChannel ch) throws Exception {
-                // 这里添加业务处理handler
-                ch.pipeline()//.addLast( serverHandler)
-                // 编码器
-                .addLast(new MessageEncoder())
-                //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
-                .addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
-                // 消息业务分派器
-                .addLast(requestDispatcher)
-                ;
-            }
-        });
+        .childHandler(webSocketChannelInitializer);
 
         try {
             ChannelFuture future = bootstrap.bind(port).sync();
