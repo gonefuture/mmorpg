@@ -4,7 +4,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.game.skills.model.SkillExcelUtil;
-import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.manager.cache.ICacheManager;
 import com.wan37.gameServer.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class SkillsCacheMgr implements GameCacheManager<Integer, Skill> {
+public class SkillsCacheMgr implements ICacheManager<Integer, Skill> {
 
 
 

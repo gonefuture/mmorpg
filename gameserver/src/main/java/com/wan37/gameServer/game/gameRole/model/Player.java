@@ -64,6 +64,10 @@ public class Player extends TPlayer   implements Creature  {
     private GameInstance currentGameInstance;
 
 
+    // 玩家当前的队伍id
+    private String teamId = "";
+
+
 
     public String displayData() {
         return MessageFormat.format("id:{0}  name:{1}  hp:{2}  mp:{3}"

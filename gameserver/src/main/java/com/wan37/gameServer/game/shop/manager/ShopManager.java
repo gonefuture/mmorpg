@@ -1,17 +1,14 @@
 package com.wan37.gameServer.game.shop.manager;
 
-import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.shop.model.Shop;
 import com.wan37.gameServer.game.shop.model.ShopExcelUtil;
 import com.wan37.gameServer.game.things.model.Things;
-import com.wan37.gameServer.game.things.model.ThingsExcelUtil;
 import com.wan37.gameServer.game.things.service.ThingsService;
-import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.manager.cache.ICacheManager;
 import com.wan37.gameServer.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -28,7 +25,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class ShopManager  implements GameCacheManager<Integer,Shop> {
+public class ShopManager  implements ICacheManager<Integer,Shop> {
 
     @Resource
     private ThingsService thingsService;

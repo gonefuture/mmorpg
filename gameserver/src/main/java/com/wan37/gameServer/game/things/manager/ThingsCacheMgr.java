@@ -6,7 +6,7 @@ import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.model.ThingsExcelUtil;
 import com.wan37.gameServer.game.things.service.ThingsService;
-import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.manager.cache.ICacheManager;
 import com.wan37.gameServer.util.FileUtil;
 
 
@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class ThingsCacheMgr  implements GameCacheManager<Integer,Things> {
+public class ThingsCacheMgr  implements ICacheManager<Integer,Things> {
 
     @Resource
     private ThingsService thingsService;

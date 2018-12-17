@@ -2,20 +2,15 @@ package com.wan37.gameServer.game.scene.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.gameSceneObject.model.Monster;
-import com.wan37.gameServer.game.gameSceneObject.model.NPC;
 import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
-import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import com.wan37.gameServer.game.scene.model.GameScene;
 
 import com.wan37.gameServer.game.scene.model.SceneExcelUtil;
-import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.manager.cache.ICacheManager;
 import com.wan37.gameServer.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -31,17 +26,11 @@ import java.util.*;
 
 @Slf4j
 @Component
-public class SceneCacheMgr implements GameCacheManager<Integer, GameScene> {
+public class SceneCacheMgr implements ICacheManager<Integer, GameScene> {
 
 
     // 缓存不过期
     private static Cache<Integer, GameScene> sceneCache = CacheBuilder.newBuilder()
-            // 设置并发级别，最多8个线程同时写
-            .concurrencyLevel(10)
-            // 设置缓存容器的初始容量为100
-            .initialCapacity(100)
-            .maximumSize(5000)
-            .recordStats()
             .removalListener(
                     notification -> System.out.println(notification.getKey() + "场景被移除, 原因是" + notification.getCause())
             ).build();

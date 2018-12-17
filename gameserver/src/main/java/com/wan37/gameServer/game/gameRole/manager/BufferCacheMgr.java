@@ -4,7 +4,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.BufferExcelUtil;
-import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.manager.cache.ICacheManager;
 import com.wan37.gameServer.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class BufferCacheMgr implements GameCacheManager<Integer, Buffer> {
+public class BufferCacheMgr implements ICacheManager<Integer, Buffer> {
 
 
     private static Cache<Integer, Buffer> bufferCache = CacheBuilder.newBuilder()

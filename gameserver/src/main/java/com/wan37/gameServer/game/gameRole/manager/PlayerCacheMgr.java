@@ -5,7 +5,7 @@ import com.google.common.cache.CacheBuilder;
 
 
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.manager.cache.ICacheManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class PlayerCacheMgr implements GameCacheManager<String, Player> {
+public class PlayerCacheMgr implements ICacheManager<String, Player> {
 
     private static Cache<String, Player> gamePlayerCache = CacheBuilder.newBuilder()
             // 设置并发级别，最多8个线程同时写

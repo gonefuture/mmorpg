@@ -8,7 +8,7 @@ import java.util.List;
  * @version 1.00
  * Description: 缓存管理器接口
  */
-public interface GameCacheManager<K,V> {
+public interface ICacheManager<K,V> {
 
     /*
      * 获取缓存数据

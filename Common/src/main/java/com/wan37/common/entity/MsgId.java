@@ -105,6 +105,15 @@ public enum MsgId {
     // 接收邮件
     GET_MAIL("get_mail",4007),
 
+    // 邀请组队
+    INVITE_TEAM("invite",4008),
+
+    // 加入队伍
+    JOIN_TEAM("join",4009),
+
+    // 离开队伍
+    LEAVE_TEAM("leave",4010),
+
 
 
 

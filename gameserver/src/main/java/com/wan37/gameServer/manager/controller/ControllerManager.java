@@ -45,7 +45,7 @@ import java.util.Map;
 public class ControllerManager {
 
     // MsgId标志和服务之间的映射
-    private Map<MsgId,IController>  controllerMapping = new HashMap<>();
+    public final static Map<MsgId,IController>  controllerMapping = new HashMap<>();
 
 
     ControllerManager(){
@@ -167,7 +167,7 @@ public class ControllerManager {
 
 
 
-    private void add(MsgId msgId, IController controller) {
+    public static void add(MsgId msgId, IController controller) {
         controllerMapping.put(msgId, controller);
     }
 

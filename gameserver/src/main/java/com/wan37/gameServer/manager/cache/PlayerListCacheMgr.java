@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
-public class PlayerListCacheMgr implements  GameCacheManager<Long,List<TPlayer>> {
+public class PlayerListCacheMgr implements ICacheManager<Long,List<TPlayer>> {
 
     private static Cache<Long, List<TPlayer>> playerListCache = CacheBuilder.newBuilder()
             // 设置写缓存后，三小时过期

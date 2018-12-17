@@ -74,8 +74,8 @@ public class MonsterAIService {
 
                     if (skillsService.useSkill(monster,target,skill)) {
                         notificationManager.notifyPlayer(target,
-                                MessageFormat.format("{0} 对你使用技能 {1}， 对你造成了{1}点伤害，你当前的hp为 {2}\n",
-                                        monster.getName(), monster.getAttack(),target.getHp()));
+                                MessageFormat.format("{0} 对你使用技能 {1}， 对你造成了{2}点伤害，你当前的hp为 {3}\n",
+                                        monster.getName(), skill.getName(),skill.getHpLose(),target.getHp()));
                     }
                 }
         );

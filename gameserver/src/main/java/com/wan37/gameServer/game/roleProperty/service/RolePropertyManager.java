@@ -6,7 +6,7 @@ import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
 import com.wan37.gameServer.game.roleProperty.model.RolePropertyExcelUtil;
 
-import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.manager.cache.ICacheManager;
 import com.wan37.gameServer.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class RolePropertyManager  implements GameCacheManager<Integer,RoleProperty> {
+public class RolePropertyManager  implements ICacheManager<Integer,RoleProperty> {
 
 
     private static Cache<Integer,RoleProperty> rolePropertyCache = CacheBuilder.newBuilder()

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * Description: 用户数据缓存
  */
 @Component
-public class UserCacheMgr implements GameCacheManager<String, User>{
+public class UserCacheMgr implements ICacheManager<String, User> {
 
     private static Cache<String, User> channelUserCache = CacheBuilder.newBuilder()
             // 设置并发级别，最多8个线程同时写

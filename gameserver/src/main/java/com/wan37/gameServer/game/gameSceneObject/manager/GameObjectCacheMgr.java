@@ -5,7 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.gameSceneObject.model.SceneObjectExcelUtil;
 import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 
-import com.wan37.gameServer.manager.cache.GameCacheManager;
+import com.wan37.gameServer.manager.cache.ICacheManager;
 import com.wan37.gameServer.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class GameObjectCacheMgr implements GameCacheManager<Long, SceneObject> {
+public class GameObjectCacheMgr implements ICacheManager<Long, SceneObject> {
 
     private static Cache<Long, SceneObject> gameObjectCache = CacheBuilder.newBuilder()
             // 设置并发级别，最多8个线程同时写
