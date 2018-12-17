@@ -1,6 +1,7 @@
 package com.wan37.gameServer.server;
 
 
+import com.wan37.gameServer.server.channelInitializer.SocketChannelInitializer;
 import com.wan37.gameServer.server.channelInitializer.WebSocketChannelInitializer;
 import com.wan37.gameServer.server.dispatcher.RequestDispatcher;
 import com.wan37.gameServer.server.handler.MessageDecoder;
@@ -29,10 +30,10 @@ import javax.annotation.Resource;
 public class GameServer {
 
     @Resource
-    private RequestDispatcher requestDispatcher;
+    private SocketChannelInitializer socketChannelInitializer;
 
     @Resource
-    WebSocketChannelInitializer webSocketChannelInitializer;
+    private WebSocketChannelInitializer webSocketChannelInitializer;
 
 
     //绑定端口
@@ -48,7 +49,7 @@ public class GameServer {
                 //.option(ChannelOption.SO_BACKLOG, 1024) // 最大客户端连接数为1024
                 //是否启用心跳保活机制
                 //.childOption(ChannelOption.SO_KEEPALIVE, true)
-        .childHandler(webSocketChannelInitializer);
+        .childHandler(socketChannelInitializer);
 
         try {
             ChannelFuture future = bootstrap.bind(port).sync();

@@ -37,6 +37,9 @@ import java.io.InputStreamReader;
 @Component
 public class GameClient {
 
+    public static Channel channel = null;
+
+
     private String ip = "127.0.0.1";
 
     private int port = 8000;
@@ -64,6 +67,7 @@ public class GameClient {
                         // 处理器
                         .addLast(new GameClientHandler())
                 ;
+                channel = ch;
             }
         });
         try {

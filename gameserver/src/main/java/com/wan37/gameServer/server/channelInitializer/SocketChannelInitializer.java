@@ -29,12 +29,11 @@ public class SocketChannelInitializer extends ChannelInitializer<SocketChannel> 
 
         ChannelPipeline pipeline = ch.pipeline();
 
-         pipeline.addLast(
-                 new MessageEncoder())
+         pipeline.addLast("encode",new MessageEncoder())
                 //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
-                .addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
+                .addLast("encoder",new MessageDecoder(Integer.MAX_VALUE , 1, 4))
                 // 消息业务分派器
-                .addLast(requestDispatcher)
+                .addLast("dispatcher",requestDispatcher)
         ;
 
     }

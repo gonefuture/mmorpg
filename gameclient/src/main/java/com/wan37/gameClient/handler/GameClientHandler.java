@@ -6,6 +6,7 @@ package com.wan37.gameClient.handler;
  */
 
 import com.wan37.common.entity.Message;
+import com.wan37.gameClient.view.MainView;
 import io.netty.buffer.ByteBuf;
 
 
@@ -33,6 +34,8 @@ public class GameClientHandler extends SimpleChannelInboundHandler<Message> {
     public void channelActive(ChannelHandlerContext ctx) {
         // 当被通知Channel是活跃的时候,发送一条信息
         //ctx.writeAndFlush(Unpooled.copiedBuffer(Unpooled.copiedBuffer("客户端: " + ctx.channel().id() + "连接",CharsetUtil.UTF_8)));
+
+
     }
 
 
@@ -50,5 +53,10 @@ public class GameClientHandler extends SimpleChannelInboundHandler<Message> {
         // 记录信息已经被接受
         //log.info("客户端:"+ ctx.channel().id() + "接受到信息: \n"+ new String((message.getContent())));
         System.out.println(new String((message.getContent())));
+
+
+        MainView.output.append(new String((message.getContent())) + "\n");
+        // 使用JTextArea的setCaretPosition();手动设置光标的位置为最后一行。人气颇高。使用方法也很简单
+        MainView.output.setCaretPosition(MainView.output.getDocument().getLength());
     }
 }
