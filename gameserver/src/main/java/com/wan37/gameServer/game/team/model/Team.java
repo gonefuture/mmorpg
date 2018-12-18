@@ -17,6 +17,9 @@ public class Team {
 
     private String id;
 
+    // 队长id
+    private Long captainId;
+
     private Map<Long, Player> teamPlayer;
 
     // 小队默认是五人一队

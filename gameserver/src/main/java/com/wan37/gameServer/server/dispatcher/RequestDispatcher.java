@@ -1,5 +1,6 @@
 package com.wan37.gameServer.server.dispatcher;
 
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.controller.ErrorController;
@@ -27,6 +28,7 @@ import javax.annotation.Resource;
 @ChannelHandler.Sharable
 @Component
 public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
+
 
     @Resource
     private ControllerManager controllerManager;
@@ -69,7 +71,7 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
 
-        log.info("收到的信息： {}", msg.toString());
+        //log.info("收到的信息： {}", msg.toString());
         IController controller = controllerManager.get(msg.getMsgId());
         if (controller == null) {
             errorController.handle( ctx ,msg);

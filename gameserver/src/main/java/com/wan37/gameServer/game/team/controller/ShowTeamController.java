@@ -12,24 +12,25 @@ import javax.annotation.Resource;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/12/17 12:12
+ * time 2018/12/18 9:46
  * @version 1.00
- * Description: mmorpg
+ * Description: 查看队伍
  */
+
 @Controller
-public class JoinTeamController implements IController {
+public class ShowTeamController  implements IController {
 
     {
-        ControllerManager.add(MsgId.JOIN_TEAM,this);
+        ControllerManager.add(MsgId.SHOW_TEAM,this);
     }
-
-
 
     @Resource
     private TeamService teamService;
 
+
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        teamService.joinTeam(ctx);
+        teamService.showTeam(ctx);
+
     }
 }

@@ -12,17 +12,17 @@ import javax.annotation.Resource;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/12/17 12:12
+ * time 2018/12/18 11:30
  * @version 1.00
- * Description: mmorpg
+ * Description: 开始团队副本
  */
+
 @Controller
-public class JoinTeamController implements IController {
+public class TeamInstanceController implements IController {
 
     {
-        ControllerManager.add(MsgId.JOIN_TEAM,this);
+        ControllerManager.add(MsgId.TEAM_INSTANCE,this);
     }
-
 
 
     @Resource
@@ -30,6 +30,9 @@ public class JoinTeamController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        teamService.joinTeam(ctx);
+        String[] args = new String(message.getContent()).split("\\s+");
+        Integer instanceId = Integer.valueOf(args[1]);
+
+        teamService.teamInstance(ctx,instanceId);
     }
 }

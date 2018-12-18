@@ -66,6 +66,8 @@ public class PlayerLoginService {
             // 保存playerId跟ChannelHandlerContext之间的关系
             playerCacheMgr.savePlayerCtx(playerId,ctx);
 
+            player.setCtx(ctx);
+
             return player;
         } else {
             // 以 当前的channelId缓存player

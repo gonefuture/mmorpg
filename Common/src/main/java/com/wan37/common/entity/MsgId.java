@@ -114,10 +114,27 @@ public enum MsgId {
     // 离开队伍
     LEAVE_TEAM("leave",4010),
 
+    // 查看队伍
+    SHOW_TEAM("team",4011),
+
+    // 团队副本
+    TEAM_INSTANCE("team_instance",4012),
 
 
+    // 发起交易
+    INITIATE_TRADE("initiate_trade",4013),
 
+    // 开始交易
+    BEGIN_TRADE("begin_trade",4014),
 
+    // 交易货物
+    TRADE_GOODS("trade_goods",4015),
+
+    // 交易金币
+    TRADE_MONEY("trade_money",4016),
+
+    // 确定交易
+    CONFIRM_TRADE("confirm_trade",4017),
 
 
     // 未知的命令

@@ -138,21 +138,23 @@ public class BagsService {
      * @return 物品是否放入背包成功
      */
     public boolean addItem(Player player, Item item) {
-            Bag bag = player.getBag();
+        Bag bag = player.getBag();
 
-            if (item == null)
-                return false;
-            // 遍历背包所有格子，如果是空格，将物品放入格子
-            for (int locationIndex=1; locationIndex <= bag.getBagSize(); locationIndex++) {
-                item.setLocationIndex(locationIndex);
-                if (null == bag.getItemMap().putIfAbsent(locationIndex,item)) {
-                    return true;
-                }
-            }
-            // 如果背包没有空位，物品放入失败,恢复物品的无栏位状态
-            item.setLocationIndex(0);
+        if (item == null)
             return false;
+        // 遍历背包所有格子，如果是空格，将物品放入格子
+        for (int locationIndex=1; locationIndex <= bag.getBagSize(); locationIndex++) {
+            item.setLocationIndex(locationIndex);
+            if (null == bag.getItemMap().putIfAbsent(locationIndex,item)) {
+                return true;
+            }
         }
+        // 如果背包没有空位，物品放入失败,恢复物品的无栏位状态
+        item.setLocationIndex(0);
+        return false;
+    }
+
+
 
 
 }

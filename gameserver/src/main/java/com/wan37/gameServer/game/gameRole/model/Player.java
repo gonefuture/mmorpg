@@ -11,6 +11,7 @@ import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.model.Creature;
 import com.wan37.mysql.pojo.entity.TPlayer;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +31,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Data
 @Slf4j
 public class Player extends TPlayer   implements Creature  {
+
+
+    // 当前通道上下文
+    private ChannelHandlerContext ctx;
 
     // 玩家战力
     private int attack;

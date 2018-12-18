@@ -50,7 +50,8 @@ public class InviteTeamController implements IController {
         Player inviter =  playerDataService.getPlayerByCtx(ctx);
         if (teamService.inviteTeam(inviter,invitee)) {
             notificationManager.notifyByCtx(ctx,MessageFormat.format("已向玩家 {0} 发起组队请求",invitee.getName()));
-            notificationManager.notifyPlayer(invitee,MessageFormat.format("玩家 {0} 向你发起发起组队请求,同意或者拒绝",inviter.getName()));
+            notificationManager.notifyPlayer(invitee,MessageFormat.format(
+                    "玩家 {0} 向你发起发起组队请求,如果同意请输入 join",inviter.getName()));
         } else {
             notificationManager.notifyByCtx(ctx,MessageFormat.format("邀请玩家 {0}组队失败，可能是因为对方已经在一个队伍里" ,invitee.getName()));
         }
