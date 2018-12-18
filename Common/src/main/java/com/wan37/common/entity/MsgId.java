@@ -36,6 +36,9 @@ public enum MsgId {
     // 展示背包
     SHOW_BAGS("bags",2003),
 
+    // 整理背包
+    PACK_BAG("pack_bag",12003),
+
     // 显示当前位置和相邻场景
     LOCATION("location",2004),
 
