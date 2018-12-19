@@ -10,7 +10,7 @@ import java.util.Map;
  * @author gonefuture  gonefuture@qq.com
  * time 2018/9/20 15:28
  * @version 1.00
- * Description: 通用服务id，服务端根据这个字节分发请求
+ * Description: 通用服务id，服务端根据这个服务id分发请求
  * 1. 1000 - 1999 之间的服务与玩家，角色登陆相关
  * 2. 2000 - 2999 之间的服务与获取游戏内信息有关
  * 1. 1000 - 1999 之间的服务与角色场景相关
@@ -125,7 +125,7 @@ public enum MsgId {
 
 
     // 发起交易
-    INITIATE_TRADE("initiate_trade",4013),
+    INITIATE_TRADE("trade",4013),
 
     // 开始交易
     BEGIN_TRADE("begin_trade",4014),
@@ -138,6 +138,21 @@ public enum MsgId {
 
     // 确定交易
     CONFIRM_TRADE("confirm_trade",4017),
+
+    // 创建公会
+    GUILD_CREATE("guild_create",4018),
+
+    // 查看公会
+    GUILD_SHOW("guild_show",4019),
+
+    // 公会捐献
+    GUILD_DONATE("guild_donate",4019),
+
+    // 加入公会
+    GUILD_JOIN("guild_join",4020),
+
+    // 授权公会成员
+    GUILD_GRANT("guild_grant",4021),
 
 
     // 未知的命令
@@ -157,6 +172,9 @@ public enum MsgId {
         this.msgId = msgId;
     }
 
+    /*
+     *  程序启动时将字符串的命令与枚举对象通过map关联起来
+     */
     static {
         for (MsgId e : EnumSet.allOf(MsgId.class)) {
             commandMap.put(e.command,e);
@@ -164,7 +182,12 @@ public enum MsgId {
         }
     }
 
-
+    /**
+     *  通过字符串命令查找命令枚举，如果找不到，返回一个默认的枚举对象
+     * @param command 字符串命令
+     * @param defaultValue 默认命令枚举
+     * @return 一个相关服务的枚举
+     */
     public static MsgId findByCommand(String command, MsgId defaultValue){
         MsgId value = commandMap.get(command);
         if(value == null){
@@ -173,6 +196,12 @@ public enum MsgId {
         return value;
     }
 
+    /**
+     *  通过整型的服务id查找命令枚举，如果找不到，返回一个默认的枚举对象
+     * @param msgId  服务id
+     * @param defaultValue  默认命令枚举
+     * @return 一个相关服务的枚举
+     */
     public static MsgId find(int msgId,  MsgId defaultValue){
         MsgId value = idMap.get(msgId);
         if(value == null){

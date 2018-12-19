@@ -154,8 +154,11 @@ public class BagsService {
             for (int locationIndex=1; locationIndex <= bag.getBagSize(); locationIndex++) {
                 Item i = itemMap.get(locationIndex);
                 // 如果是用一种物品且堆叠未满
-                if (i.getThings().getId().equals(item.getThings().getId())) {
+                if (i != null && i.getThings().getId().equals(item.getThings().getId())) {
                     i.setCount(i.getCount() + item.getCount());
+                    notificationManager.notifyPlayer(player,
+                            MessageFormat.format("你获得了物品{0} x {1}  \n",
+                                    item.getThings().getName(),item.getCount()));
                     return true;
                 }
             }
@@ -166,6 +169,9 @@ public class BagsService {
         for (int locationIndex=1; locationIndex <= bag.getBagSize(); locationIndex++) {
             item.setLocationIndex(locationIndex);
             if (null == bag.getItemMap().putIfAbsent(locationIndex,item)) {
+                notificationManager.notifyPlayer(player,
+                        MessageFormat.format("你获得了物品{0} x {1}  \n",
+                                item.getThings().getName(),item.getCount()));
                 return true;
             }
         }
@@ -181,14 +187,16 @@ public class BagsService {
     public void packBag(ChannelHandlerContext ctx) {
         Player player = playerDataService.getPlayerByCtx(ctx);
         Bag bag = player.getBag();
+        Map<Integer,Item> olderItemMap  = bag.getItemMap();
         Map<Integer,Item> newItemMap = new LinkedHashMap<>();
         // 将玩家的背包物品Map为新的空Map
         player.getBag().setItemMap(newItemMap);
 
         // 将物品按循序放回背包
-        bag.getItemMap().values().forEach(
+        olderItemMap.values().forEach(
                 item -> addItem(player,item)
         );
+        olderItemMap = null;
 
         notificationManager.notifyPlayer(player,"整理背包完毕");
 

@@ -1,4 +1,13 @@
-package com.wan37.gameServer.game.trade;
+package com.wan37.gameServer.game.trade.manager;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.wan37.gameServer.game.skills.model.Skill;
+import com.wan37.gameServer.game.trade.model.TradeBoard;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -9,9 +18,27 @@ package com.wan37.gameServer.game.trade;
 public class TradeManager {
 
 
+    // 交易栏缓存
+    private static Cache<Long, TradeBoard> tradeBoardCache = CacheBuilder.newBuilder()
+            // 设置360秒后交易栏被移除
+            .expireAfterWrite(360, TimeUnit.SECONDS)
+            .removalListener(
+                    notification -> System.out.println(notification.getKey() + "交易栏被移除, 原因是" + notification.getCause())
+            ).build();
+
+
+    public static TradeBoard getTradeBoard(Long playerId) {
+        return tradeBoardCache.getIfPresent(playerId);
+    }
+
+
+    public static void putTradeBoard(Long playerId, TradeBoard tradeBoard) {
+        tradeBoardCache.put(playerId,tradeBoard);
+    }
 
 
 
 
-    
+
+
 }

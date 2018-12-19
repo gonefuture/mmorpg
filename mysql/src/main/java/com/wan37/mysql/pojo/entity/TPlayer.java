@@ -109,7 +109,7 @@ public class TPlayer implements Serializable {
         sb.append(", scene=").append(scene);
         sb.append(", userId=").append(userId);
         sb.append(", equipments=").append(equipments);
-        sb.append(", money=").append(money);
+        sb.append(", moneyMap=").append(money);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

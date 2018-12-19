@@ -6,6 +6,7 @@ import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.trade.service.TradeService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,8 @@ import javax.annotation.Resource;
  * @version 1.00
  * Description: 交易金币
  */
+
+@Controller
 public class TradeMoneyController implements IController {
 
     {
@@ -29,7 +32,7 @@ public class TradeMoneyController implements IController {
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] args =  new String(message.getContent()).split("\\s+");
-        Long moneyNumber = Long.valueOf(args[1]);
+        Integer moneyNumber = Integer.valueOf(args[1]);
 
         tradeService.tradeMoney(ctx,moneyNumber);
     }

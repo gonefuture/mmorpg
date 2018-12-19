@@ -31,7 +31,7 @@ public class TradeGoodsController implements IController {
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] args =  new String(message.getContent()).split("\\s+");
-        Long itemId = Long.valueOf(args[1]);
+        Integer itemId = Integer.valueOf(args[1]);
 
         tradeService.tradeGoods(ctx,itemId);
     }

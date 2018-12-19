@@ -10,7 +10,7 @@ public interface EventData<T> {
 
     T getData();
 
-    void setData();
+    void setData(T t);
 
 
 }

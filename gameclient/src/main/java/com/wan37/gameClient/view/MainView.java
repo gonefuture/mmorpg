@@ -24,10 +24,10 @@ public class MainView extends JFrame {
     public MainView() {
         this.setLayout(null);
 
-        output.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
+        output.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 16));
         output.setLineWrap(true);
 
-        input.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 22));
+        input.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
         input.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -63,21 +63,21 @@ public class MainView extends JFrame {
         });
 
         //设置矩形大小.参数依次为(矩形左上角横坐标x,矩形左上角纵坐标y，矩形长度，矩形宽度)
-        jsp1.setBounds(0, 0, 1000, 380);
+        jsp1.setBounds(0, 0, 1368, 680);
         //默认的设置是超过文本框才会显示滚动条，以下设置让滚动条一直显示
         jsp1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         //在文本框上添加滚动条
         JScrollPane jsp2 = new JScrollPane(input);
         //设置矩形大小.参数依次为(矩形左上角横坐标x,矩形左上角纵坐标y，矩形长度，矩形宽度)
-        jsp2.setBounds(0, 400, 1000, 200);
+        jsp2.setBounds(0, 690, 1368, 110);
         //默认的设置是超过文本框才会显示滚动条，以下设置让滚动条一直显示
         jsp2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         //把滚动条添加到容器里面
         this.add(jsp1);
         this.add(jsp2);
-        this.setSize(1024, 600);
+        this.setSize(1440, 800);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
