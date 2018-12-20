@@ -41,21 +41,25 @@ public class GuildController  {
 
 
     private void guildCreate(ChannelHandlerContext ctx, Message message) {
+        guildService.guildCreate(ctx);
 
     }
 
     private void guildShow(ChannelHandlerContext ctx, Message message) {
-
+        guildService.guildShow(ctx);
     }
 
 
-    private void guildJoin(ChannelHandlerContext channelHandlerContext, Message message) {
+    private void guildJoin(ChannelHandlerContext ctx, Message message) {
+        guildService.guildJoin(ctx);
     }
 
-    private void guildDonate(ChannelHandlerContext channelHandlerContext, Message message) {
+    private void guildDonate(ChannelHandlerContext ctx, Message message) {
+        guildService.guildDonate(ctx);
     }
 
-    private void guildGrant(ChannelHandlerContext channelHandlerContext, Message message) {
+    private void guildGrant(ChannelHandlerContext ctx, Message message) {
+        guildService.guildGrant(ctx);
     }
 
 

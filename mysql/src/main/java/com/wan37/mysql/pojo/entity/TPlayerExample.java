@@ -615,62 +615,182 @@ public class TPlayerExample {
         }
 
         public Criteria andMoneyIsNull() {
-            addCriterion("moneyMap is null");
+            addCriterion("money is null");
             return (Criteria) this;
         }
 
         public Criteria andMoneyIsNotNull() {
-            addCriterion("moneyMap is not null");
+            addCriterion("money is not null");
             return (Criteria) this;
         }
 
         public Criteria andMoneyEqualTo(Integer value) {
-            addCriterion("moneyMap =", value, "moneyMap");
+            addCriterion("money =", value, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyNotEqualTo(Integer value) {
-            addCriterion("moneyMap <>", value, "moneyMap");
+            addCriterion("money <>", value, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyGreaterThan(Integer value) {
-            addCriterion("moneyMap >", value, "moneyMap");
+            addCriterion("money >", value, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyGreaterThanOrEqualTo(Integer value) {
-            addCriterion("moneyMap >=", value, "moneyMap");
+            addCriterion("money >=", value, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyLessThan(Integer value) {
-            addCriterion("moneyMap <", value, "moneyMap");
+            addCriterion("money <", value, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyLessThanOrEqualTo(Integer value) {
-            addCriterion("moneyMap <=", value, "moneyMap");
+            addCriterion("money <=", value, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyIn(List<Integer> values) {
-            addCriterion("moneyMap in", values, "moneyMap");
+            addCriterion("money in", values, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyNotIn(List<Integer> values) {
-            addCriterion("moneyMap not in", values, "moneyMap");
+            addCriterion("money not in", values, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyBetween(Integer value1, Integer value2) {
-            addCriterion("moneyMap between", value1, value2, "moneyMap");
+            addCriterion("money between", value1, value2, "money");
             return (Criteria) this;
         }
 
         public Criteria andMoneyNotBetween(Integer value1, Integer value2) {
-            addCriterion("moneyMap not between", value1, value2, "moneyMap");
+            addCriterion("money not between", value1, value2, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildIsNull() {
+            addCriterion("guild is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildIsNotNull() {
+            addCriterion("guild is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildEqualTo(Integer value) {
+            addCriterion("guild =", value, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildNotEqualTo(Integer value) {
+            addCriterion("guild <>", value, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildGreaterThan(Integer value) {
+            addCriterion("guild >", value, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildGreaterThanOrEqualTo(Integer value) {
+            addCriterion("guild >=", value, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildLessThan(Integer value) {
+            addCriterion("guild <", value, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildLessThanOrEqualTo(Integer value) {
+            addCriterion("guild <=", value, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildIn(List<Integer> values) {
+            addCriterion("guild in", values, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildNotIn(List<Integer> values) {
+            addCriterion("guild not in", values, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildBetween(Integer value1, Integer value2) {
+            addCriterion("guild between", value1, value2, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andGuildNotBetween(Integer value1, Integer value2) {
+            addCriterion("guild not between", value1, value2, "guild");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassIsNull() {
+            addCriterion("role_class is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassIsNotNull() {
+            addCriterion("role_class is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassEqualTo(Integer value) {
+            addCriterion("role_class =", value, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassNotEqualTo(Integer value) {
+            addCriterion("role_class <>", value, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassGreaterThan(Integer value) {
+            addCriterion("role_class >", value, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassGreaterThanOrEqualTo(Integer value) {
+            addCriterion("role_class >=", value, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassLessThan(Integer value) {
+            addCriterion("role_class <", value, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassLessThanOrEqualTo(Integer value) {
+            addCriterion("role_class <=", value, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassIn(List<Integer> values) {
+            addCriterion("role_class in", values, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassNotIn(List<Integer> values) {
+            addCriterion("role_class not in", values, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassBetween(Integer value1, Integer value2) {
+            addCriterion("role_class between", value1, value2, "roleClass");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleClassNotBetween(Integer value1, Integer value2) {
+            addCriterion("role_class not between", value1, value2, "roleClass");
             return (Criteria) this;
         }
     }

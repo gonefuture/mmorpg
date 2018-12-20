@@ -21,6 +21,10 @@ public class TPlayer implements Serializable {
 
     private Integer money;
 
+    private Integer guild;
+
+    private Integer roleClass;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -95,6 +99,22 @@ public class TPlayer implements Serializable {
         this.money = money;
     }
 
+    public Integer getGuild() {
+        return guild;
+    }
+
+    public void setGuild(Integer guild) {
+        this.guild = guild;
+    }
+
+    public Integer getRoleClass() {
+        return roleClass;
+    }
+
+    public void setRoleClass(Integer roleClass) {
+        this.roleClass = roleClass;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -109,7 +129,9 @@ public class TPlayer implements Serializable {
         sb.append(", scene=").append(scene);
         sb.append(", userId=").append(userId);
         sb.append(", equipments=").append(equipments);
-        sb.append(", moneyMap=").append(money);
+        sb.append(", money=").append(money);
+        sb.append(", guild=").append(guild);
+        sb.append(", roleClass=").append(roleClass);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
