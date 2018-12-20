@@ -12,15 +12,15 @@ import java.util.Date;
  * Description: 玩家的入会申请
  */
 @Data
-public class PalyerJoinRequest {
+public class PlayerJoinRequest {
 
-    public PalyerJoinRequest(boolean isAgree, Date date, Player player) {
+    public PlayerJoinRequest(boolean isAgree, Date date, Player player) {
         this.isAgree = isAgree;
         this.date = date;
         this.player = player;
     }
 
-    public PalyerJoinRequest() {
+    public PlayerJoinRequest() {
     }
 
     private boolean isAgree;

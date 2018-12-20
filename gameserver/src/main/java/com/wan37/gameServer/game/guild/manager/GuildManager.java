@@ -8,6 +8,7 @@ import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.guild.model.Guild;
+import com.wan37.gameServer.game.guild.model.PlayerJoinRequest;
 import com.wan37.mysql.pojo.entity.TGuild;
 import com.wan37.mysql.pojo.entity.TGuildExample;
 import com.wan37.mysql.pojo.mapper.TGuildMapper;
@@ -41,7 +42,7 @@ public class GuildManager {
 
 
     static {
-        // 从数据库加载公会数据
+        // 从数据库加载公会数据到缓存
         List<TGuild> tGuildList = tGuildMapper.selectByExample(null);
         tGuildList.forEach(
                 tGuild -> {
@@ -53,6 +54,7 @@ public class GuildManager {
                     guild.setWarehouse(tGuild.getWarehouse());
                     loadMember(guild);
                     loadWarehouse(guild);
+                    loadJoinRequestList(guild);
 
                     guildCache.put(guild.getId(),guild);
                     log.info("公会数据加载完毕");
@@ -97,15 +99,27 @@ public class GuildManager {
         }
     }
 
+    /**
+     *  加载玩家入会申请
+     * @param guild 公会
+     */
+    private static void loadJoinRequestList(Guild guild) {
+        if (Strings.isNullOrEmpty(guild.getJoinRequest())) {
+            List<PlayerJoinRequest>  playerJoinRequestList =  JSON.parseObject(guild.getWarehouse(),
+                    new TypeReference<List<PlayerJoinRequest>>() {});
+            log.debug("playerJoinRequestList {}",playerJoinRequestList);
+            guild.setPlayerJoinRequestList(playerJoinRequestList);
+        }
+    }
+
 
     /**
      *  持久化公会
      * @param guild 公会
      */
-    public void saveGuild(Guild guild) {
+    public static void saveGuild(Guild guild) {
         guild.setMember(JSON.toJSONString(guild.getMemberMap()));
         guild.setWarehouse(JSON.toJSONString(guild.getWarehouseMap()));
-
         tGuildMapper.insert(guild);
     }
 

@@ -154,6 +154,9 @@ public enum MsgId {
     // 授权公会成员
     GUILD_GRANT("guild_grant",4021),
 
+    // 获取公会物品
+    GUILD_TAKE("guild_take",4022),
+
 
     // 未知的命令
     UNKNOWN("unknown", 9999)

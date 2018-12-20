@@ -39,10 +39,13 @@ public class Player extends TPlayer   implements Creature  {
     // 玩家战力
     private int attack;
 
-
+    // 受职业配置表和装备影响
     private Long hp;
-
     private Long mp;
+
+
+    // 等级，根据经验计算得出
+    private Integer level;
 
     // 角色当前使用技能的集合
     private Map<Integer, Skill> hasUseSkillMap = new ConcurrentHashMap<>();

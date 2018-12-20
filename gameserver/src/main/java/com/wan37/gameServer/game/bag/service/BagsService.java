@@ -175,8 +175,7 @@ public class BagsService {
                 return true;
             }
         }
-        // 如果背包没有空位，物品放入失败,恢复物品的无栏位状态
-        item.setLocationIndex(0);
+
         return false;
     }
 

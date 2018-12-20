@@ -87,6 +87,7 @@
         <table tableName="t_guild">
             <columnOverride column="member"  jdbcType="VARCHAR" />
             <columnOverride column="warehouse"  jdbcType="VARCHAR" />
+            <columnOverride column="join_request"  jdbcType="VARCHAR" />
         </table>
 
 
