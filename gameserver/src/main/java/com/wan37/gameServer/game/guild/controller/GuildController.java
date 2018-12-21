@@ -32,6 +32,7 @@ public class GuildController  {
         ControllerManager.add(MsgId.GUILD_DONATE,this::guildDonate);
         ControllerManager.add(MsgId.GUILD_TAKE,this::guildTake);
         ControllerManager.add(MsgId.GUILD_PERMIT,this::guildPermit);
+        ControllerManager.add(MsgId.GUILD_QUIT,this::guildQuit);
 
     }
 
@@ -83,11 +84,23 @@ public class GuildController  {
         guildService.guildGrant(ctx,playerId,guildClass);
     }
 
-    private synchronized void guildTake(ChannelHandlerContext ctx, Message message) {
+    /**
+     *  从公会仓库取出物品
+     * @param ctx 上下文
+     * @param message 信息
+     */
+    private void guildTake(ChannelHandlerContext ctx, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
         Integer wareHouseIndex = Integer.valueOf(args[1]);
         guildService.guildTake(ctx,wareHouseIndex);
     }
+
+
+
+    private void guildQuit(ChannelHandlerContext ctx, Message message) {
+        guildService.guildQuit(ctx);
+    }
+
 
 
 }

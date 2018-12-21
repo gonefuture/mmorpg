@@ -66,7 +66,7 @@ public  class NotificationManager {
     public <E> void notifyPlayer(Player player, E e) {
         Message message = new Message();
         message.setFlag((byte) 1);
-        message.setContent(e.toString().getBytes());
+        message.setContent((e.toString()+"\n").getBytes());
         ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(player.getId());
         ctx.writeAndFlush(message);
     }

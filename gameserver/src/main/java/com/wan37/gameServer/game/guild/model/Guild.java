@@ -39,7 +39,7 @@ public class Guild  extends TGuild{
 
 
     // 请求加入公会的列表
-    private Map<Long,PlayerJoinRequest> playerJoinRequestMap;
+    private Map<Long,PlayerJoinRequest> playerJoinRequestMap =  new ConcurrentSkipListMap<>();
 
     /**
      *   获取公会仓库物品

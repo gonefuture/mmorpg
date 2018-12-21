@@ -37,8 +37,6 @@ public class PlayerDataService {
     @Resource
     private TPlayerMapper tPlayerMapper;
 
-    @Resource
-    private BufferService bufferService;
 
     @Resource
     private RolePropertyService rolePropertyService;

@@ -1,6 +1,5 @@
 package com.wan37.gameServer.game.guild.service;
 
-import com.wan37.common.entity.Message;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -48,31 +47,37 @@ public class GuildService {
     public void guildShow(ChannelHandlerContext ctx) {
          Player player = playerDataService.getPlayerByCtx(ctx);
         Guild guild = GuildManager.getGuild(player.getGuildId());
+        StringBuilder sb = new StringBuilder();
+
         if (null == guild) {
             notificationManager.notifyPlayer(player,"您尚未加入公会");
             return;
         }
-        notificationManager.notifyPlayer(player, MessageFormat.format(
+        sb.append(MessageFormat.format(
                 "公会： {0} {1}  等级：{2} \n ",guild.getId(),guild.getName(),guild.getLevel()
         ));
 
-        notificationManager.notifyPlayer(player,MessageFormat.format("公会成员({0}个)：\n",guild.getMemberMap().size()));
+        sb.append(MessageFormat.format("公会成员({0}个)：\n",guild.getMemberMap().size()));
 
         guild.getMemberMap().forEach(
-                (id,p) -> notificationManager.notifyPlayer(player,
-                        MessageFormat.format("{0} {1}   职业：{3} 等级：{2} \n",
-                p.getId(),p.getName(),p.getRoleClass(),p.getLevel()))
+                (id,p) -> sb.append(MessageFormat.format("{0} {1}   职业：{3} 等级：{2} 公会职位：{3}\n",
+                p.getId(),p.getName(),p.getRoleClass(),p.getLevel(),p.getGuildClass()))
         );
 
-        notificationManager.notifyPlayer(player, MessageFormat.format("公会仓库(容量{0})：\n",guild.getWarehouseSize()));
+        sb.append(MessageFormat.format("公会仓库(容量{0})：\n",guild.getWarehouseSize()));
         if (guild.getWarehouseMap().size() == 0) {
-            notificationManager.notifyPlayer(player,"公会仓库为空");
+            sb.append("公会仓库为空\n");
         }
         guild.getWarehouseMap().forEach(
-                (index,i) -> notificationManager.notifyPlayer(player,
-                        MessageFormat.format("{0} {1}   部位：{2} 价格：{3}",
+                (index,i) -> sb.append(MessageFormat.format("{0} {1}   部位：{2} 价格：{3} \n",
                                 index,i.getThings().getName(),i.getThings().getPart(),i.getThings().getPrice()))
         );
+        sb.append("入会申请: ");
+        guild.getPlayerJoinRequestMap().forEach(
+                (id,request) ->  sb.append(MessageFormat.format("玩家 {0} {1} {2} {3}\n",
+                                id,request.getPlayer().getName(),request.getDate(),request.isAgree()))
+        );
+        notificationManager.notifyPlayer(player,sb);
 
     }
 
@@ -90,10 +95,11 @@ public class GuildService {
         Guild guild = new Guild(player.getId().intValue(),guildName,1,30);
         guild.getMemberMap().put(player.getId(),player);
         // 设置创建公会者的职位,3为会长的职务
+        player.setGuildId(guild.getId());
         player.setGuildClass(3);
         notificationManager.notifyPlayer(player,"公会创建成功");
         GuildManager.putGuild(guild.getId(),guild);
-        guildManager.saveGuild(guild);
+        guildManager.insertGuild(guild);
     }
 
     public void guildJoin(ChannelHandlerContext ctx,Integer guildId) {
@@ -110,6 +116,7 @@ public class GuildService {
         PlayerJoinRequest playerJoinRequest = new PlayerJoinRequest(false,new Date(),player);
         guild.getPlayerJoinRequestMap().put(player.getId(),playerJoinRequest);
         notificationManager.notifyPlayer(player,"发送入会申请成功");
+        guildManager.updateGuild(guild);
     }
 
 
@@ -120,7 +127,7 @@ public class GuildService {
      */
     public void guildPermit(ChannelHandlerContext ctx, Long playerId) {
         Player player = playerDataService.getPlayerByCtx(ctx);
-        if (player.getGuildId() != null  && player.getGuildId() != 0) {
+        if (player.getGuildId() == 0) {
             notificationManager.notifyPlayer(player,"您并没有公会，不能操作");
             return;
         }
@@ -135,11 +142,14 @@ public class GuildService {
             return;
         }
         Player joiner = playerJoinRequest.getPlayer();
+        // 变更设置
         guild.getMemberMap().put(joiner.getId(),joiner);
         joiner.setGuildClass(0);
         joiner.setGuildId(guild.getId());
+        playerJoinRequest.setAgree(true);
         notificationManager.notifyPlayer(player,MessageFormat.format("已允许玩家{0}加入公会",joiner.getName()));
-        guildManager.saveGuild(guild);
+        notificationManager.notifyPlayer(joiner,MessageFormat.format("你已加入{0}公会",guild.getName()));
+        guildManager.updateGuild(guild);
     }
 
 
@@ -150,7 +160,7 @@ public class GuildService {
      */
     public void guildDonate(ChannelHandlerContext ctx,Integer bagIndex) {
         Player player = playerDataService.getPlayerByCtx(ctx);
-        if (player.getGuildId() != null  && player.getGuildId() != 0) {
+        if (player.getGuildId() == 0 ) {
             notificationManager.notifyPlayer(player,"您并没有公会，所以不能捐献");
             return;
         }
@@ -166,7 +176,7 @@ public class GuildService {
             // 展示公会仓库的变化
             guildShow(ctx);
             // 持久化仓库
-            guildManager.saveGuild(guild);
+            guildManager.updateGuild(guild);
         } else  {
             notificationManager.notifyPlayer(player,"捐献失败，可能是公会仓库已满");
         }
@@ -182,7 +192,7 @@ public class GuildService {
 
     public void guildTake(ChannelHandlerContext ctx, Integer wareHouseIndex) {
         Player player = playerDataService.getPlayerByCtx(ctx);
-        if (player.getGuildId() != null  && player.getGuildId() != 0) {
+        if (player.getGuildId() == 0) {
             notificationManager.notifyPlayer(player,"您并没有公会，不能从仓库拿东西");
             return;
         }
@@ -194,14 +204,22 @@ public class GuildService {
         }
         if (bagsService.addItem(player,item)) {
             guild.getWarehouseMap().remove(wareHouseIndex);
+            guildManager.updateGuild(guild);
         } else {
             notificationManager.notifyPlayer(player,"获取公会物品失败，可能原因是你的背包满了");
         }
-
-
-
-
-
     }
 
+    public void guildQuit(ChannelHandlerContext ctx) {
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        Guild guild = GuildManager.getGuild(player.getGuildId());
+        if (null != guild) {
+            player.setGuildId(0);
+            player.setGuildClass(0);
+            guild.getMemberMap().remove(player.getId());
+            guildManager.updateGuild(guild);
+        }
+        notificationManager.notifyPlayer(player,"已退出公会");
+
+    }
 }

@@ -160,6 +160,10 @@ public enum MsgId {
     // 允许入会
     GUILD_PERMIT("guild_permit", 4023),
 
+
+    // 退出
+    GUILD_QUIT("guild_quit", 4024),
+
    // 未知的命令
     UNKNOWN("unknown", 9999)
 
