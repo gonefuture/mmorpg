@@ -99,8 +99,6 @@ public class ControllerManager {
     @Resource
     private ShowEquipmentController showEquipmentController;
 
-    @Resource
-    private ShowPlayerController showPlayerController;
 
     @Resource
     private RemoveEquipController removeEquipController;
@@ -151,7 +149,6 @@ public class ControllerManager {
         add(MsgId.LOCATION,locationController);
         add(MsgId.ENTER_INSTANCE, enterInstanceController);
         add(MsgId.SHOW_EQUIPMENT_BAR,showEquipmentController);
-        add(MsgId.SHOW_PLAYER,showPlayerController);
         add(MsgId.REMOVE_EQUIP,removeEquipController);
         add(MsgId.BUY_GOODS,buyGoodsController);
         add(MsgId.SHOW_GOODS, showGoodsController);

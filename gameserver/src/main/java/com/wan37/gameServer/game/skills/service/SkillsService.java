@@ -2,7 +2,7 @@ package com.wan37.gameServer.game.skills.service;
 
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
-import com.wan37.gameServer.game.skills.manager.SkillsCacheMgr;
+import com.wan37.gameServer.game.skills.manager.SkillsManager;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.manager.task.TimedTaskManager;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class SkillsService {
 
     @Resource
-    private SkillsCacheMgr skillsCacheMgr;
+    private SkillsManager skillsManager;
 
 
     @Resource
@@ -76,7 +76,7 @@ public class SkillsService {
      * @return 技能
      */
     public Skill getSkill(Integer skillId) {
-        return skillsCacheMgr.get(skillId);
+        return skillsManager.get(skillId);
     }
 
 

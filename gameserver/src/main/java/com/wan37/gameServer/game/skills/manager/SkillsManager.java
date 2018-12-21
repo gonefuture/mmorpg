@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class SkillsCacheMgr implements ICacheManager<Integer, Skill> {
+public class SkillsManager  {
 
 
 
@@ -51,14 +51,12 @@ public class SkillsCacheMgr implements ICacheManager<Integer, Skill> {
 
     }
 
-
-    @Override
-    public Skill get(Integer skillId) {
+    public static Skill get(Integer skillId) {
         return skillsCache.getIfPresent(skillId);
     }
 
-    @Override
-    public void put(Integer skillId, Skill value) {
+
+    public static void put(Integer skillId, Skill value) {
         skillsCache.put(skillId, value);
     }
 }

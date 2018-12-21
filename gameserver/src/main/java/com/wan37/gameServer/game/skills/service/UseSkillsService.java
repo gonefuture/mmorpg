@@ -8,7 +8,7 @@ import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
-import com.wan37.gameServer.game.skills.manager.SkillsCacheMgr;
+import com.wan37.gameServer.game.skills.manager.SkillsManager;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class UseSkillsService {
     private GameSceneService gameSceneService;
 
     @Resource
-    private SkillsCacheMgr skillsCacheMgr;
+    private SkillsManager skillsManager;
 
     @Resource
     private MonsterDropsService monsterDropsService;
@@ -55,7 +55,7 @@ public class UseSkillsService {
         GameScene gameScene = gameSceneService.findSceneById(player.getScene());
         Monster monster = gameScene.getMonsters().get(gameObjectId);
 
-        Skill skill =  skillsCacheMgr.get(skillId);
+        Skill skill =  skillsManager.get(skillId);
         if ( monster != null && skill != null &&
         canUseSkill(player,skill)
                 ) {

@@ -39,6 +39,9 @@ public class Skill implements IExcel<Integer> {
     @EntityName(column = "buffer")
     private Integer buffer;
 
+    @EntityName(column = "描述")
+    private String   describe;
+
     private Long activeTime;
 
 
@@ -46,4 +49,7 @@ public class Skill implements IExcel<Integer> {
     public Integer getKey() {
         return id;
     }
+
+
+
 }

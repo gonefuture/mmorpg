@@ -46,7 +46,7 @@ public enum MsgId {
     SHOW_EQUIPMENT_BAR("equip_bar",2005),
 
     // 展示玩家属性
-    SHOW_PLAYER("show_player",2006),
+    SHOW_PLAYER("player",2006),
 
 
     // 角色移动， 参数 场景id ， 例： move 2
