@@ -18,9 +18,13 @@ public final class ParameterCheckUtil {
         String[] args;
         try {
             args = new String(message.getContent()).split("\\s+");
+            if (args.length != parameterNumber) {
+                throw new IndexOutOfBoundsException();
+            }
         }catch (IndexOutOfBoundsException e) {
             message.setFlag((byte) 1);
             message.setContent("您输入的参数数目不正确！".getBytes());
+            ctx.writeAndFlush(message);
             throw new RuntimeException(e);
         }
         return args;

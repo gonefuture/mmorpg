@@ -31,6 +31,7 @@ public class GuildController  {
         ControllerManager.add(MsgId.GUILD_GRANT,this::guildGrant);
         ControllerManager.add(MsgId.GUILD_DONATE,this::guildDonate);
         ControllerManager.add(MsgId.GUILD_TAKE,this::guildTake);
+        ControllerManager.add(MsgId.GUILD_PERMIT,this::guildPermit);
 
     }
 
@@ -57,26 +58,34 @@ public class GuildController  {
 
     private void guildJoin(ChannelHandlerContext ctx, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
-        Integer guildId = Integer.valueOf(args[2]);
+        Integer guildId = Integer.valueOf(args[1]);
         guildService.guildJoin(ctx,guildId);
     }
 
+
+    private void guildPermit(ChannelHandlerContext ctx, Message message) {
+        String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
+        Long playerId = Long.valueOf(args[1]);
+        guildService.guildPermit(ctx,playerId);
+    }
+
+
     private void guildDonate(ChannelHandlerContext ctx, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
-        Integer bagIndex = Integer.valueOf(args[2]);
+        Integer bagIndex = Integer.valueOf(args[1]);
         guildService.guildDonate(ctx,bagIndex);
     }
 
     private void guildGrant(ChannelHandlerContext ctx, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
-        Long playerId = Long.valueOf(args[2]);
-        Integer guildClass = Integer.valueOf(args[3]);
+        Long playerId = Long.valueOf(args[1]);
+        Integer guildClass = Integer.valueOf(args[2]);
         guildService.guildGrant(ctx,playerId,guildClass);
     }
 
     private synchronized void guildTake(ChannelHandlerContext ctx, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
-        Integer wareHouseIndex = Integer.valueOf(args[2]);
+        Integer wareHouseIndex = Integer.valueOf(args[1]);
         guildService.guildTake(ctx,wareHouseIndex);
     }
 

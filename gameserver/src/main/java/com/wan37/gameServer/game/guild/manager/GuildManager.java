@@ -14,8 +14,11 @@ import com.wan37.mysql.pojo.entity.TGuildExample;
 import com.wan37.mysql.pojo.mapper.TGuildMapper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +31,11 @@ import java.util.Map;
  */
 
 @Slf4j
+@Component
 public class GuildManager {
 
     @Resource
-    private static TGuildMapper tGuildMapper;
-
+    private  TGuildMapper tGuildMapper;
 
 
     private static Cache<Integer, Guild> guildCache = CacheBuilder.newBuilder()
@@ -41,7 +44,10 @@ public class GuildManager {
             ).build();
 
 
-    static {
+    @PostConstruct
+    public void init() {
+
+
         // 从数据库加载公会数据到缓存
         List<TGuild> tGuildList = tGuildMapper.selectByExample(null);
         tGuildList.forEach(
@@ -105,10 +111,10 @@ public class GuildManager {
      */
     private static void loadJoinRequestList(Guild guild) {
         if (Strings.isNullOrEmpty(guild.getJoinRequest())) {
-            List<PlayerJoinRequest>  playerJoinRequestList =  JSON.parseObject(guild.getWarehouse(),
-                    new TypeReference<List<PlayerJoinRequest>>() {});
-            log.debug("playerJoinRequestList {}",playerJoinRequestList);
-            guild.setPlayerJoinRequestList(playerJoinRequestList);
+            Map<Long,PlayerJoinRequest>  playerJoinRequestMap =  JSON.parseObject(guild.getJoinRequest(),
+                    new TypeReference<Map<Long,PlayerJoinRequest>>() {});
+            log.debug("playerJoinRequestList {}",playerJoinRequestMap);
+            guild.setPlayerJoinRequestMap(playerJoinRequestMap);
         }
     }
 
@@ -117,9 +123,10 @@ public class GuildManager {
      *  持久化公会
      * @param guild 公会
      */
-    public static void saveGuild(Guild guild) {
+    public  void saveGuild(Guild guild) {
         guild.setMember(JSON.toJSONString(guild.getMemberMap()));
         guild.setWarehouse(JSON.toJSONString(guild.getWarehouseMap()));
+        guild.setJoinRequest(JSON.toJSONString(guild.getPlayerJoinRequestMap()));
         tGuildMapper.insert(guild);
     }
 

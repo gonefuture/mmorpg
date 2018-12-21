@@ -146,7 +146,7 @@ public enum MsgId {
     GUILD_SHOW("guild_show",4019),
 
     // 公会捐献
-    GUILD_DONATE("guild_donate",4019),
+    GUILD_DONATE("guild_donate",14019),
 
     // 加入公会
     GUILD_JOIN("guild_join",4020),
@@ -157,8 +157,10 @@ public enum MsgId {
     // 获取公会物品
     GUILD_TAKE("guild_take",4022),
 
+    // 允许入会
+    GUILD_PERMIT("guild_permit", 4023),
 
-    // 未知的命令
+   // 未知的命令
     UNKNOWN("unknown", 9999)
 
     ;

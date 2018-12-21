@@ -37,6 +37,9 @@ public class GuildService {
     @Resource
     private BagsService bagsService;
 
+    @Resource
+    private GuildManager guildManager;
+
 
     /**
      *  显示公会信息
@@ -90,7 +93,7 @@ public class GuildService {
         player.setGuildClass(3);
         notificationManager.notifyPlayer(player,"公会创建成功");
         GuildManager.putGuild(guild.getId(),guild);
-        GuildManager.saveGuild(guild);
+        guildManager.saveGuild(guild);
     }
 
     public void guildJoin(ChannelHandlerContext ctx,Integer guildId) {
@@ -105,8 +108,38 @@ public class GuildService {
             return;
         }
         PlayerJoinRequest playerJoinRequest = new PlayerJoinRequest(false,new Date(),player);
-        guild.getPlayerJoinRequestList().add(playerJoinRequest);
+        guild.getPlayerJoinRequestMap().put(player.getId(),playerJoinRequest);
         notificationManager.notifyPlayer(player,"发送入会申请成功");
+    }
+
+
+    /**
+     *  允许入会
+     * @param ctx 上下文
+     * @param playerId
+     */
+    public void guildPermit(ChannelHandlerContext ctx, Long playerId) {
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        if (player.getGuildId() != null  && player.getGuildId() != 0) {
+            notificationManager.notifyPlayer(player,"您并没有公会，不能操作");
+            return;
+        }
+        if (player.getGuildClass()<2) {
+            notificationManager.notifyPlayer(player,"您的公会职位没有权限允许别人入会");
+            return;
+        }
+        Guild guild = GuildManager.getGuild(player.getGuildId());
+        PlayerJoinRequest playerJoinRequest = guild.getPlayerJoinRequestMap().get(playerId);
+        if (null == playerJoinRequest) {
+            notificationManager.notifyPlayer(player,"该玩家并没有申请加入公会");
+            return;
+        }
+        Player joiner = playerJoinRequest.getPlayer();
+        guild.getMemberMap().put(joiner.getId(),joiner);
+        joiner.setGuildClass(0);
+        joiner.setGuildId(guild.getId());
+        notificationManager.notifyPlayer(player,MessageFormat.format("已允许玩家{0}加入公会",joiner.getName()));
+        guildManager.saveGuild(guild);
     }
 
 
@@ -133,7 +166,7 @@ public class GuildService {
             // 展示公会仓库的变化
             guildShow(ctx);
             // 持久化仓库
-            GuildManager.saveGuild(guild);
+            guildManager.saveGuild(guild);
         } else  {
             notificationManager.notifyPlayer(player,"捐献失败，可能是公会仓库已满");
         }
@@ -170,4 +203,5 @@ public class GuildService {
 
 
     }
+
 }
