@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -42,7 +40,7 @@ public  class NotificationManager {
      * @param e 信息
      * @param <E> 信息的类型
      */
-    public <E> void notifyScenePlayerWithMessage(GameScene gameScene, E e) {
+    public <E> void notifyScene(GameScene gameScene, E e) {
         Message message = new Message();
         if (e instanceof String) {
             message.setContent(e.toString().getBytes());
@@ -71,6 +69,13 @@ public  class NotificationManager {
         ctx.writeAndFlush(message);
     }
 
+
+
+
+
+
+
+
     /**
      *  通知单个玩家
      * @param players  玩家数组
@@ -95,7 +100,7 @@ public  class NotificationManager {
 
     /**
      *  通过通道上下文来通知玩家
-     * @param cxt 玩家
+     * @param ctx 上下文
      * @param e 信息
      * @param <E> 信息的类型
      */
@@ -113,7 +118,7 @@ public  class NotificationManager {
      */
     public void playerBeAttacked(Player form , Player to, long damage) {
         GameScene gameScene = gameSceneService.findSceneByPlayer(form);
-        notifyScenePlayerWithMessage(gameScene,
+        notifyScene(gameScene,
                 MessageFormat.format("\n玩家 {0} 受到 {1} 的攻击，  hp减少{2},当前hp为 {3}\n",
                         to.getName(),form.getName(),damage, to.getHp()));
     }
@@ -126,7 +131,7 @@ public  class NotificationManager {
      */
     public void playerDead(Creature murderer, Player player) {
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
-        notifyScenePlayerWithMessage(gameScene,
+        notifyScene(gameScene,
                 MessageFormat.format("玩家 {0} 被 {1} 杀死  \n",
                         player.getName(),murderer.getName()));
 

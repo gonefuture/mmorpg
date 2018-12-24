@@ -67,7 +67,7 @@ public class PlayerQuitService  {
     public void logoutScene(ChannelHandlerContext ctx) {
         Player player =playerDataService.getPlayerByCtx(ctx);
         GameScene gameScene = gameSceneService.findSceneByCtx(ctx);
-        notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
+        notificationManager.<String>notifyScene(gameScene,
                 MessageFormat.format("玩家 {0} 正在退出", player.getName()));
         // 重点，从场景中移除
         gameScene.getPlayers().remove(player.getId());

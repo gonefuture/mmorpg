@@ -86,8 +86,8 @@ public class PlayerController {
         sb.append("拥有技能：\n");
         roleClass.getSkillMap().values().forEach( skill ->
                 sb.append(MessageFormat.format("技能id：{0} 名字：{1} 伤害：{2} 消耗：{3} cd：{4} 描述：{5}" ,
-                        skill.getId(),skill.getName(),skill.getHpLose(),skill.getCd(),skill.getDescribe())));
-
+                        skill.getId(),skill.getName(),skill.getHpLose(),skill.getMpConsumption(),
+                        skill.getCd(),skill.getDescribe())));
 
 
         message.setFlag((byte) 1);

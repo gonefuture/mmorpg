@@ -22,19 +22,14 @@ import java.util.Optional;
 @Service
 public class SkillsService {
 
-    @Resource
-    private SkillsManager skillsManager;
+
 
 
     @Resource
     private BufferService bufferService;
 
 
-    @Resource
-    private TimedTaskManager timedTaskManager;
 
-    @Resource
-    private NotificationManager notificationManager;
 
     /**
      *
@@ -64,10 +59,7 @@ public class SkillsService {
         creature.getHasUseSkillMap().put(skill.getId(),playerSkill);
         // 技能cd结束后，移出活物cd状态
         playerSkill.setActiveTime(System.currentTimeMillis());
-        timedTaskManager.scheduleWithData(skill.getCd(), () -> {
-            creature.getHasUseSkillMap().remove(skill.getKey());
-            return null;
-        });
+        TimedTaskManager.schedule(skill.getCd(), () -> creature.getHasUseSkillMap().remove(skill.getKey()) );
     }
 
     /**
@@ -76,7 +68,7 @@ public class SkillsService {
      * @return 技能
      */
     public Skill getSkill(Integer skillId) {
-        return skillsManager.get(skillId);
+        return SkillsManager.get(skillId);
     }
 
 
@@ -100,6 +92,11 @@ public class SkillsService {
             Optional.ofNullable(buffer).map(
                     (b) -> bufferService.startBuffer(target,b)
             );
+        }
+
+        // 召唤兽类型的技能
+        if (skill.getSkillsType() == 5 ) {
+
         }
         // 开启技能冷却
         startSkill(initiator,skill);

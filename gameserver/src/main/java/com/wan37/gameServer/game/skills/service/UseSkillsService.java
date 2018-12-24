@@ -1,8 +1,8 @@
 package com.wan37.gameServer.game.skills.service;
 
-import com.wan37.gameServer.game.gameSceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
 
-import com.wan37.gameServer.game.gameSceneObject.service.MonsterDropsService;
+import com.wan37.gameServer.game.sceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -75,7 +75,7 @@ public class UseSkillsService {
 
                 // 广播事件
 
-                notificationManager.<Monster>notifyScenePlayerWithMessage(gameScene,monster);
+                notificationManager.<Monster>notifyScene(gameScene,monster);
 
 
             }

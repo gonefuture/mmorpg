@@ -1,12 +1,11 @@
 package com.wan37.gameServer.game.combat.service;
 
 import com.wan37.common.entity.Msg;
-import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
-import com.wan37.gameServer.game.gameSceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameSceneObject.service.MonsterAIService;
-import com.wan37.gameServer.game.gameSceneObject.service.MonsterDropsService;
+import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
+import com.wan37.gameServer.game.sceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.game.skills.model.Skill;
@@ -46,18 +45,12 @@ public class CombatService {
     @Resource
     private MonsterDropsService monsterDropsService;
 
-
     @Resource
     private SkillsService skillsService;
 
-    @Resource
-    private TimedTaskManager timedTaskManager;
 
     @Resource
-    private InstanceService instanceService;
-
-    @Resource
-    private MonsterAIService monsterAIService;
+    private GameObjectService gameObjectService;
 
 
 
@@ -65,10 +58,11 @@ public class CombatService {
     /**
      *  普通攻击服务
      */
-    public Msg commonAttack(Player player, Long gameObjectId) {
+    public void commonAttack(Player player, Long gameObjectId) {
 
         GameScene gameScene = gameSceneService.findSceneById(player.getScene());
         Monster target;
+
         // 地图类型为2，则从玩家所在的副本里取出怪物
         if (gameScene.getType() == 2) {
             gameScene = player.getCurrentGameInstance();
@@ -78,40 +72,39 @@ public class CombatService {
         }
 
         if (target == null) {
-            return new Msg(404,"攻击的目标不存在");
+            notificationManager.notifyPlayer(player,"攻击的目标不存在");
+            return;
         }
+
+        // 将场景对象的当前目标设置为玩家
+        target.setTarget(player);
+
         // 攻击力
         int attack = player.getAttack();
-        notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
+        notificationManager.notifyScene(gameScene,
                 MessageFormat.format("玩家{0}  向 {1} 发动普通攻击,攻击力为 {2} \n",player.getName(),target.getName(), attack));
 
 
-
         if (target.getState() ==  -1) {
-            notificationManager.<String>notifyScenePlayerWithMessage(gameScene,
+            notificationManager.notifyScene(gameScene,
                     MessageFormat.format("目标 {0} 已经死亡 \n",target.getName()));
-            return new Msg(401,"不能攻击，目标已经死亡 \n");
+            notificationManager.notifyPlayer(player,"不能攻击，目标已经死亡 \n");
         } else {
             target.setHp(target.getHp() - attack);
 
-            notificationManager.notifyScenePlayerWithMessage(gameScene,
+            notificationManager.notifyScene(gameScene,
                     MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
                             ,target.getName(),player.getName(),attack, target.getHp()));
 
-
-            if (target.getHp() <= 0) {
-                // 重要，设置死亡时间
-                target.setDeadTime(System.currentTimeMillis());
-
-                target.setHp(0L);
-                target.setState(-1);
+            // 如果怪物死亡
+            if (gameObjectService.sceneObjectAfterDead(target)) {
                 // 结算掉落，这里暂时直接放到背包里
                 monsterDropsService.dropItem(player,target);
             }
 
-            return new Msg(200,"\n"+player.getName()+" 使用普通攻击成功 \n");
         }
     }
+
 
 
 
@@ -120,7 +113,7 @@ public class CombatService {
         Player targetPlayer = playerDataService.getOnlinePlayerById(targetId);
         // 获取发起攻击者的战力
         int attack = player.getAttack();
-        notificationManager.notifyScenePlayerWithMessage(gameScene,
+        notificationManager.notifyScene(gameScene,
                 MessageFormat.format("玩家 {0} 向 {1} 发起攻击，攻击力是{2} \n",
                         player.getName(),targetPlayer.getName(),attack));
 
@@ -226,7 +219,7 @@ public class CombatService {
             return false;
         }
 
-        notificationManager.notifyScenePlayerWithMessage(gameScene,
+        notificationManager.notifyScene(gameScene,
                 MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
                         player.getName(),targetPlayer.getName(),skill.getName()));
 

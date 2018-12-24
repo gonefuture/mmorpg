@@ -1,4 +1,4 @@
-package com.wan37.gameServer.game.gameSceneObject.service;
+package com.wan37.gameServer.game.sceneObject.service;
 /*
  *  @author : 钱伟健 gonefuture@qq.com
  *  @version : 2018/11/6 15:55.

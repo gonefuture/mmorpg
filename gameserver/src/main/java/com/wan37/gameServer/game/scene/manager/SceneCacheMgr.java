@@ -2,7 +2,7 @@ package com.wan37.gameServer.game.scene.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
+import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 
 import com.wan37.gameServer.game.scene.model.SceneExcelUtil;

@@ -1,9 +1,9 @@
-package com.wan37.gameServer.game.gameSceneObject.service;
+package com.wan37.gameServer.game.sceneObject.service;
 
 
-import com.wan37.gameServer.game.gameSceneObject.manager.GameObjectCacheMgr;
-import com.wan37.gameServer.game.gameSceneObject.model.Monster;
-import com.wan37.gameServer.game.gameSceneObject.model.NPC;
+import com.wan37.gameServer.game.sceneObject.manager.GameObjectCacheMgr;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import org.springframework.beans.BeanUtils;
@@ -34,10 +34,30 @@ public class GameObjectService {
     }
 
 
+
+
     /**
-     *  检查游戏对象是否死亡。如果传入的参数为空，则返回否
-     *  游戏对象为state属性为-1时，表示死亡状态。
+     *  场景对象死亡后处理
+     * @param sceneObject 场景对象死亡后处理
+     * @return
      */
+    public boolean sceneObjectAfterDead(SceneObject sceneObject) {
+        if (sceneObject.getHp() <= 0) {
+            // 重要，设置死亡时间
+            sceneObject.setDeadTime(System.currentTimeMillis());
+            sceneObject.setHp(0L);
+            sceneObject.setState(-1);
+            // 重要，清空对象当前目标
+            sceneObject.setTarget(null);
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+
+
+
 
 
     /**

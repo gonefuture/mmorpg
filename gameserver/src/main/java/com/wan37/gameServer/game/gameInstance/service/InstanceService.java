@@ -4,10 +4,10 @@ package com.wan37.gameServer.game.gameInstance.service;
 import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameSceneObject.model.Monster;
-import com.wan37.gameServer.game.gameSceneObject.model.NPC;
-import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
-import com.wan37.gameServer.game.gameSceneObject.service.MonsterAIService;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.NPC;
+import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
+import com.wan37.gameServer.game.sceneObject.service.MonsterAIService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
@@ -94,7 +94,7 @@ public class InstanceService {
             gameInstance.setGuardBoss(nextBoss);
 
             // boss出场台词
-            notificationManager.notifyScenePlayerWithMessage(gameInstance, MessageFormat.format("\n {0} 说： {1} \n \n",
+            notificationManager.notifyScene(gameInstance, MessageFormat.format("\n {0} 说： {1} \n \n",
                     nextBoss.getName(), nextBoss.getTalk()));
         }
         return nextBoss;
@@ -192,7 +192,7 @@ public class InstanceService {
             Map<Long, Monster> monsterMap = gameInstance.getMonsters();
             if (guardBoss ==null  && gameInstance.getBossList().size() == 0) {
                 // 所有Boss死亡，挑战成功
-                notificationManager.notifyScenePlayerWithMessage(gameInstance, MessageFormat.format(
+                notificationManager.notifyScene(gameInstance, MessageFormat.format(
                         "恭喜你挑战副本{0}成功 ", gameInstance.getName()));
                 gameInstance.getPlayers().values().forEach(this::exitInstance);
             }
@@ -205,13 +205,11 @@ public class InstanceService {
                             monsterMap.remove(guardBoss.getKey());
                         } else {
                             // 如果boss尚未死亡，攻击玩家
-                            if (!gameInstance.getFail() &&
-                                    (boss.getAttackTime() + boss.getAttackSpeed()) < System.currentTimeMillis()
-                            ) {
+                            if (!gameInstance.getFail()) {
                                 // 守关boos主动攻击场景内玩家
                                 gameInstance.getPlayers().values().forEach(
                                         player -> {
-                                            monsterAIService.bossAttackAI(player, boss, gameInstance);
+                                            monsterAIService.startAI(player, boss, gameInstance);
 
                                             if (player.getHp() < 0) {
                                                 notificationManager.notifyPlayer(player,"很遗憾，你挑战副本失败");
@@ -221,8 +219,7 @@ public class InstanceService {
                                             }
                                         }
                                 );
-                                // 更新攻击时间
-                                boss.setAttackTime(System.currentTimeMillis());
+
                             }
                         }
                     }

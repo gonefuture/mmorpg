@@ -1,6 +1,6 @@
 package com.wan37.gameServer.game.gameInstance.model;
 
-import com.wan37.gameServer.game.gameSceneObject.model.Monster;
+import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import lombok.Data;
 
@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author gonefuture  gonefuture@qq.com

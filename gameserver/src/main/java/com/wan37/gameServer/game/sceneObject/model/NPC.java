@@ -1,10 +1,10 @@
-package com.wan37.gameServer.game.gameSceneObject.model;
+package com.wan37.gameServer.game.sceneObject.model;
 
 
 
 import com.wan37.gameServer.model.Creature;
 import lombok.Data;
-import com.wan37.gameServer.game.sceneObject.model.SceneObject;
+
 import java.text.MessageFormat;
 
 /**

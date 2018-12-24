@@ -4,10 +4,10 @@ import com.wan37.gameServer.game.skills.manager.SkillsManager;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.util.excel.EntityName;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 
 @Data
-
+@Slf4j
 public class RoleClass {
 
     @EntityName(column = "id")
@@ -48,7 +48,7 @@ public class RoleClass {
         // 如果技能映射不存在，则现在加载
         if (skillMap.size() == 0 && !this.skills.equals("")) {
             String skillsString = this.getSkills();
-            Arrays.stream(skillsString.split("\\s+,\\s+"))
+            Arrays.stream(skillsString.split(","))
                     .map(Integer::valueOf)
                     .map(SkillsManager::get)
                     .forEach(skill -> this.skillMap.put(skill.getKey(),skill));
@@ -58,5 +58,19 @@ public class RoleClass {
 
     public void setSkillMap(Map<Integer, Skill> skillMap) {
         this.skillMap = skillMap;
+    }
+
+
+    @Override
+    public String toString() {
+        return "RoleClass{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", ad=" + ad +
+                ", ap=" + ap +
+                ", def=" + def +
+                ", skills='" + skills + '\'' +
+                ", skillMap=" + skillMap +
+                '}';
     }
 }

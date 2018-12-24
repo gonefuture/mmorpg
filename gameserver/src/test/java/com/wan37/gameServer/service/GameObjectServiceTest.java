@@ -1,8 +1,7 @@
 package com.wan37.gameServer.service;
 
 
-import com.wan37.gameServer.game.gameSceneObject.service.GameObjectService;
-import org.junit.Assert;
+import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
 import org.junit.Test;
 
 /**

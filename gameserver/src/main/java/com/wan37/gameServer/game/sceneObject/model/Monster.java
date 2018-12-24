@@ -1,8 +1,7 @@
-package com.wan37.gameServer.game.gameSceneObject.model;
+package com.wan37.gameServer.game.sceneObject.model;
 
 import com.wan37.gameServer.model.Creature;
 import lombok.Data;
-import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import java.text.MessageFormat;
 
 /**
@@ -19,6 +18,10 @@ public class Monster  extends SceneObject implements Creature {
     // 攻击速率，默认10000毫秒
     private Integer attackSpeed = 10000;
     private long attackTime = System.currentTimeMillis();
+
+
+    // 当前攻击目标
+    Creature target;
 
 
 
