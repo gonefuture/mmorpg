@@ -80,7 +80,7 @@ public class RolePropertyService {
         thingPropertySet.forEach(
                 thingProperty -> {
                     // 改变属性
-                    RoleProperty playerProperty = playerPropertyMap.get(thingProperty.getKey());
+                    RoleProperty playerProperty = playerPropertyMap.get(Optional.ofNullable(thingProperty.getKey()).orElse(-1));
                     playerProperty.setValue(playerProperty.getValue() - thingProperty.getThingPropertyValue());
                     // 防止出现负数的属性
                     if (playerProperty.getValue() <0) {

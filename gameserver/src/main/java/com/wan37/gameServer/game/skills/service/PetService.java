@@ -25,7 +25,7 @@ public class PetService {
 
 
 
-    public boolean callPet(Creature master, GameScene gameScene, Integer petId, Creature target) {
+    public boolean callPet(Creature master, Creature target, GameScene gameScene, Integer petId) {
         SceneObject sceneObject = gameObjectService.getGameObject(petId);
         if (null == sceneObject)
             return false;

@@ -36,7 +36,7 @@ public class BufferCacheMgr implements ICacheManager<Integer, Buffer> {
     @PostConstruct
     private void init() {
 
-        String path = FileUtil.getStringPath("gameData/gameRole.model.buffer.xlsx");
+        String path = FileUtil.getStringPath("gameData/buffer.xlsx");
         BufferExcelUtil bufferExcelUtil = new BufferExcelUtil(path);
         Map<Integer,Buffer>  bufferMap = bufferExcelUtil.getMap();
         for (Buffer buffer : bufferMap.values()) {

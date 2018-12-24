@@ -2,8 +2,6 @@ package com.wan37.gameServer.game.gameRole.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.gameRole.model.Buffer;
-import com.wan37.gameServer.game.gameRole.model.BufferExcelUtil;
 import com.wan37.gameServer.game.gameRole.model.RoleClass;
 import com.wan37.gameServer.game.gameRole.model.RoleClassExcelUtil;
 import com.wan37.gameServer.util.FileUtil;
@@ -11,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.management.relation.Role;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -37,7 +33,7 @@ public class RoleClassManager {
     @PostConstruct
     private void init() {
 
-        String path = FileUtil.getStringPath("gameData/gameRole.model.RoleClass.xlsx");
+        String path = FileUtil.getStringPath("gameData/RoleClass.xlsx");
         RoleClassExcelUtil roleClassExcelUtil = new RoleClassExcelUtil(path);
         Map<Integer, RoleClass> roleClassMap = roleClassExcelUtil.getMap();
 

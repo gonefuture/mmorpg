@@ -2,6 +2,7 @@ package com.wan37.gameServer.game.skills.service;
 
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
+import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.skills.manager.SkillsManager;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.manager.notification.NotificationManager;
@@ -23,10 +24,11 @@ import java.util.Optional;
 public class SkillsService {
 
 
-
-
     @Resource
     private BufferService bufferService;
+
+    @Resource
+    private PetService petService;
 
 
 
@@ -79,7 +81,7 @@ public class SkillsService {
      * @param skill 技能
      * @return 是否成功
      */
-    public boolean useSkill(Creature initiator, Creature target ,Skill skill) {
+    public boolean useSkill(Creature initiator, Creature target , GameScene gameScene, Skill skill) {
 
         // 消耗mp和损伤目标hp
         initiator.setMp(initiator.getMp() - skill.getMpConsumption());
@@ -96,7 +98,7 @@ public class SkillsService {
 
         // 召唤兽类型的技能
         if (skill.getSkillsType() == 5 ) {
-
+            petService.callPet(initiator,target,gameScene,skill.getBuffer());
         }
         // 开启技能冷却
         startSkill(initiator,skill);

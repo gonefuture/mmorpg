@@ -157,7 +157,7 @@ public class BagsService {
                 if (i != null && i.getThings().getId().equals(item.getThings().getId())) {
                     i.setCount(i.getCount() + item.getCount());
                     notificationManager.notifyPlayer(player,
-                            MessageFormat.format("你获得了物品{0} x {1}  \n",
+                            MessageFormat.format("物品{0} x {1}  放入了你的背包\n",
                                     item.getThings().getName(),item.getCount()));
                     return true;
                 }
@@ -170,7 +170,7 @@ public class BagsService {
             item.setLocationIndex(locationIndex);
             if (null == bag.getItemMap().putIfAbsent(locationIndex,item)) {
                 notificationManager.notifyPlayer(player,
-                        MessageFormat.format("你获得了物品{0} x {1}  \n",
+                        MessageFormat.format("物品{0} x {1}  放入了你的背包 \n",
                                 item.getThings().getName(),item.getCount()));
                 return true;
             }

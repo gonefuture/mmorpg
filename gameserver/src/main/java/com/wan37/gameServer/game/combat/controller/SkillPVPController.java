@@ -42,14 +42,11 @@ public class SkillPVPController implements IController {
 
         String[] targetListString = Arrays.copyOfRange(command,2,command.length);
 
-
         Player player = playerDataService.getPlayerByCtx(ctx);
-
 
         List<Long>  targetIdList =  Arrays.stream(targetListString).map(Long::valueOf).collect(Collectors.toList());
 
-        Msg msg = combatService.useSkillPVP(player,skillId,targetIdList);
-        message.setContent(msg.getMsg().getBytes());
-        ctx.writeAndFlush(message);
+       combatService.useSkillPVP(player,skillId,targetIdList);
+
     }
 }

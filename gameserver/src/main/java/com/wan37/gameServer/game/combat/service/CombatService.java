@@ -169,23 +169,26 @@ public class CombatService {
      * @param targetIdList 目标列表
      * @return 返回
      */
-    public Msg useSkillPVP(Player player, Integer skillId, List<Long> targetIdList) {
+    public void useSkillPVP(Player player, Integer skillId, List<Long> targetIdList) {
 
 
         // 检查技能冷却，
         if (!skillsService.checkCD(player,skillId) ){
             log.debug("player.getHasUseSkillMap() {}",player.getHasUseSkillMap());
             log.debug("skill {}",skillId);
-            return new Msg(404,"你还不能使用该技能，还在冷却中");
+            notificationManager.notifyPlayer(player,"你还不能使用该技能，还在冷却中");
+            return;
         }
 
         Skill skill = skillsService.getSkill(skillId);
         if ( null == skill) {
-             return new Msg(404,"该技能不存在");
+            notificationManager.notifyPlayer(player,"该技能不存在");
+            return;
         }
 
         if (targetIdList.size() > 1 && skill.getSkillsType() !=3) {
-            return new Msg(401,"该技能不能对多个目标使用");
+            notificationManager.notifyPlayer(player,"该技能不能对多个目标使用");
+            return;
         }
 
         if (targetIdList.size() >1) {
@@ -198,7 +201,7 @@ public class CombatService {
             skillPVP(player,skill, targetIdList.get(0));
         }
 
-        return new Msg(200,"使用技能 "+ skill.getName()+" 成功");
+        notificationManager.notifyPlayer(player,"使用技能 "+ skill.getName()+" 成功");
     }
 
 
@@ -225,7 +228,7 @@ public class CombatService {
 
 
 
-        if (!skillsService.useSkill(player,targetPlayer,skill)) {
+        if (!skillsService.useSkill(player,targetPlayer,gameScene, skill)) {
             notificationManager.notifyPlayer(player,"使用技能失败，可能是mp不足");
             return false;
         }

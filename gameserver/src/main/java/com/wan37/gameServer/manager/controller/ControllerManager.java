@@ -2,10 +2,7 @@ package com.wan37.gameServer.manager.controller;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.game.bag.controller.EquipmentController;
-import com.wan37.gameServer.game.bag.controller.RemoveEquipController;
 import com.wan37.gameServer.game.bag.controller.ShowBagsController;
-import com.wan37.gameServer.game.bag.controller.ShowEquipmentController;
 import com.wan37.gameServer.game.chat.controller.PublicChatController;
 import com.wan37.gameServer.game.chat.controller.WhisperController;
 import com.wan37.gameServer.game.combat.controller.CommonAttackController;
@@ -21,7 +18,6 @@ import com.wan37.gameServer.game.scene.controller.LocationController;
 import com.wan37.gameServer.game.scene.controller.PlayerMoveController;
 import com.wan37.gameServer.game.shop.controller.BuyGoodsController;
 import com.wan37.gameServer.game.shop.controller.ShowGoodsController;
-import com.wan37.gameServer.game.skills.controller.UseSkillsAttackMonsterController;
 import com.wan37.gameServer.game.things.controller.UseItemController;
 import com.wan37.gameServer.game.user.controller.ListGameRoleController;
 import com.wan37.gameServer.game.user.controller.UserLoginController;
@@ -32,6 +28,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -45,7 +42,7 @@ import java.util.Map;
 public class ControllerManager {
 
     // MsgId标志和服务之间的映射
-    public final static Map<MsgId,IController>  controllerMapping = new HashMap<>();
+    public final static Map<MsgId,IController>  controllerMapping = new ConcurrentHashMap<>();
 
 
     ControllerManager(){
@@ -72,14 +69,9 @@ public class ControllerManager {
     private PlayerQuitController playerQuitController;
 
 
-    @Resource
-    private UseSkillsAttackMonsterController useSkillsAttackMonsterController;
 
     @Resource
     private StartBufferController startBufferController;
-
-    @Resource
-    private EquipmentController equipmentController;
 
     @Resource
     private UseItemController useItemController;
@@ -96,12 +88,8 @@ public class ControllerManager {
     @Resource
     private EnterInstanceController enterInstanceController;
 
-    @Resource
-    private ShowEquipmentController showEquipmentController;
 
 
-    @Resource
-    private RemoveEquipController removeEquipController;
 
     @Resource
     private BuyGoodsController buyGoodsController;
@@ -140,16 +128,12 @@ public class ControllerManager {
         add(MsgId.LIST_GAME_ROLES,listGameRoleController);
         add(MsgId.AOI,aoiController);
         add(MsgId.PLAYER_EXIT,playerQuitController);
-        add(MsgId.USE_SKILLS, useSkillsAttackMonsterController);
         add(MsgId.START_BUFFER,startBufferController);
-        add(MsgId.EQUIP,equipmentController);
         add(MsgId.USE_ITEM,useItemController);
         add(MsgId.SHOW_BAGS, showBagsController);
         add(MsgId.COMMON_ATTACK,commonAttackController);
         add(MsgId.LOCATION,locationController);
         add(MsgId.ENTER_INSTANCE, enterInstanceController);
-        add(MsgId.SHOW_EQUIPMENT_BAR,showEquipmentController);
-        add(MsgId.REMOVE_EQUIP,removeEquipController);
         add(MsgId.BUY_GOODS,buyGoodsController);
         add(MsgId.SHOW_GOODS, showGoodsController);
         add(MsgId.WHISPER,whisperController);

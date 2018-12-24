@@ -70,7 +70,7 @@ public class MonsterAIService {
                 .findAny().ifPresent(
                 skillId -> { // 如果技能存在，则释放技能
                     Skill skill = skillsService.getSkill(skillId);
-                    if (skillsService.useSkill(monster,target,skill)) {
+                    if (skillsService.useSkill(monster,target,gameScene,skill)) {
                         notificationManager.notifyScene(gameScene,
                                 MessageFormat.format("{0} 对你{1}用技能 {2}， 对你造成了{3}点伤害，你当前的hp为 {4}\n",
                                         monster.getName(), target.getName(),skill.getName(),skill.getHpLose(),target.getHp()));
