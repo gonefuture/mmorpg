@@ -1,10 +1,13 @@
 package com.wan37.gameServer.game.combat.service;
 
 import com.wan37.common.entity.Msg;
+import com.wan37.gameServer.game.gameRole.manager.RoleClassManager;
+import com.wan37.gameServer.game.gameRole.model.RoleClass;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
+import com.wan37.gameServer.game.sceneObject.service.MonsterAIService;
 import com.wan37.gameServer.game.sceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
@@ -13,10 +16,13 @@ import com.wan37.gameServer.game.skills.service.SkillsService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.manager.task.TimedTaskManager;
 import com.wan37.gameServer.model.Creature;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.management.relation.Role;
+import java.awt.event.MouseAdapter;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -50,7 +56,7 @@ public class CombatService {
 
 
     @Resource
-    private GameObjectService gameObjectService;
+    private MonsterAIService monsterAIService;
 
 
 
@@ -91,26 +97,24 @@ public class CombatService {
             notificationManager.notifyPlayer(player,"不能攻击，目标已经死亡 \n");
         } else {
             target.setHp(target.getHp() - attack);
-
-            notificationManager.notifyScene(gameScene,
-                    MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
-                            ,target.getName(),player.getName(),attack, target.getHp()));
-
-            // 如果怪物死亡
-            if (gameObjectService.sceneObjectAfterDead(target)) {
-                // 结算掉落，这里暂时直接放到背包里
-                monsterDropsService.dropItem(player,target);
-            }
-
+            monsterAIService.monsterBeAttack(player,target,gameScene,player.getAttack());
         }
     }
 
 
-
-
-    public Msg commonAttackByPVP(Player player, Long targetId) {
+    /**
+     *  pvp普通攻击
+     * @param player 玩家
+     * @param targetId 目标id
+     */
+    public void commonAttackByPVP(Player player, Long targetId) {
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
-        Player targetPlayer = playerDataService.getOnlinePlayerById(targetId);
+        Player targetPlayer = gameScene.getPlayers().get(targetId);
+
+        if (player.getId().equals(targetId)) {
+            notificationManager.notifyPlayer(player,"自己不能攻击自己");
+            return;
+        }
         // 获取发起攻击者的战力
         int attack = player.getAttack();
         notificationManager.notifyScene(gameScene,
@@ -124,42 +128,10 @@ public class CombatService {
         notificationManager.playerBeAttacked(player,targetPlayer, attack);
 
         // 检测玩家是否死亡
-        isPlayerDead(targetPlayer,player);
-        return new Msg(200,"\n普通攻击成功\n");
+        playerDataService.isPlayerDead(targetPlayer,player);
     }
 
 
-    /**
-     *     检测玩家是否死亡
-     * @param casualty 伤害承受者
-     * @param murderer 攻击发起者
-     */
-    public synchronized boolean isPlayerDead(Player casualty, Creature murderer) {
-
-        if (casualty.getHp() < 0){
-            casualty.setHp((long)0);
-            casualty.setState(-1);
-
-            // 广播并通知死亡的玩家
-            notificationManager.playerDead(murderer,casualty);
-
-            gameSceneService.carryToScene(casualty,12);
-            notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了,十秒后复活 \n");
-
-            TimedTaskManager.scheduleWithData(
-                    10, () -> {
-                        casualty.setState(1);
-                        playerDataService.initPlayer(casualty);
-                        notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经复活 \n");
-                        return null;
-                    }
-            );
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 
 
     /**
@@ -167,24 +139,11 @@ public class CombatService {
      * @param player 玩家
      * @param skillId 技能di
      * @param targetIdList 目标列表
-     * @return 返回
      */
     public void useSkillPVP(Player player, Integer skillId, List<Long> targetIdList) {
-
-
-        // 检查技能冷却，
-        if (!skillsService.checkCD(player,skillId) ){
-            log.debug("player.getHasUseSkillMap() {}",player.getHasUseSkillMap());
-            log.debug("skill {}",skillId);
-            notificationManager.notifyPlayer(player,"你还不能使用该技能，还在冷却中");
-            return;
-        }
-
         Skill skill = skillsService.getSkill(skillId);
-        if ( null == skill) {
-            notificationManager.notifyPlayer(player,"该技能不存在");
+        if (!skillsService.canSkill(player,skill))
             return;
-        }
 
         if (targetIdList.size() > 1 && skill.getSkillsType() !=3) {
             notificationManager.notifyPlayer(player,"该技能不能对多个目标使用");
@@ -200,8 +159,6 @@ public class CombatService {
         } else {
             skillPVP(player,skill, targetIdList.get(0));
         }
-
-        notificationManager.notifyPlayer(player,"使用技能 "+ skill.getName()+" 成功");
     }
 
 
@@ -210,16 +167,23 @@ public class CombatService {
      * @param player 玩家
      * @param skill 技能
      * @param targetId 目标玩家
-     * @return 结果
      */
-    public boolean skillPVP(Player player, Skill skill, Long targetId) {
-
-
+    private void skillPVP(Player player, Skill skill, Long targetId) {
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
         Player targetPlayer = gameScene.getPlayers().get(targetId);
         if (null == targetPlayer) {
             notificationManager.notifyPlayer(player,"目标不存在此场景，可能已离开或下线");
-            return false;
+            return;
+        }
+
+        if (player.getId().equals(targetId)) {
+            notificationManager.notifyPlayer(player,"自己不能攻击自己");
+            return;
+        }
+
+        if (!skillsService.useSkill(player,targetPlayer,gameScene, skill)) {
+            notificationManager.notifyPlayer(player,"使用技能失败，可能是mp不足");
+            return;
         }
 
         notificationManager.notifyScene(gameScene,
@@ -227,20 +191,75 @@ public class CombatService {
                         player.getName(),targetPlayer.getName(),skill.getName()));
 
 
-
-        if (!skillsService.useSkill(player,targetPlayer,gameScene, skill)) {
-            notificationManager.notifyPlayer(player,"使用技能失败，可能是mp不足");
-            return false;
-        }
-
         // 通知攻击结果
         notificationManager.playerBeAttacked(player,targetPlayer, skill.getHpLose());
 
         // 检测玩家是否死亡
-        isPlayerDead(targetPlayer,player);
-        return true;
+        playerDataService.isPlayerDead(targetPlayer,player);
     }
 
+
+    /**
+     *  使用技能攻击怪物
+     * @param ctx 上下文
+     * @param skillId 技能id
+     * @param targetIdList 目标id列表
+     */
+    public void useSkillAttackMonster(ChannelHandlerContext ctx,Integer skillId,  List<Long> targetIdList ) {
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        Skill skill = skillsService.getSkill(skillId);
+        if (!skillsService.canSkill(player,skill))
+            return;
+        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+
+
+        if (targetIdList.size() > 1 && skill.getSkillsType() !=3) {
+            notificationManager.notifyPlayer(player,"该技能不能对多个目标使用");
+            return;
+        }
+
+        if (targetIdList.size() >1) {
+            targetIdList.forEach(
+                    targetId -> {
+                        skillPVE(player,targetId,gameScene,skill);
+                    }
+            );
+        } else {
+            skillPVE(player,targetIdList.get(0),gameScene,skill);
+        }
+    }
+
+
+    /**
+     *  PVE
+     * @param player 玩家
+     * @param targetId id
+     * @param gameScene 场景
+     * @param skill 技能
+     */
+    public void skillPVE(Player player,Long targetId, GameScene gameScene, Skill skill){
+        Monster target = gameScene.getMonsters().get(targetId);
+
+
+        if (null == target) {
+            notificationManager.notifyPlayer(player,"目标怪物不存在此场景");
+            return;
+        }
+        // 将怪物当前目标设置为玩家,让怪物攻击玩家
+        target.setTarget(player);
+
+        // 使用技能
+        if (!skillsService.useSkill(player,target,gameScene, skill)) {
+            notificationManager.notifyPlayer(player,"使用技能失败，可能是mp不足的原因");
+            return;
+        }
+        notificationManager.notifyScene(gameScene,
+                MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
+                        player.getName(),target.getName(),skill.getName()));
+        //
+        monsterAIService.monsterBeAttack(player,target,gameScene,player.getAttack());
+
+    }
 
 
 

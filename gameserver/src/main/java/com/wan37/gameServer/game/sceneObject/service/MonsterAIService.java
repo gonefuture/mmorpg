@@ -4,6 +4,7 @@ import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.skills.model.Skill;
@@ -39,22 +40,31 @@ public class MonsterAIService {
     private SkillsService skillsService;
 
 
+    @Resource
+    private GameObjectService gameObjectService;
+
+    @Resource
+    private MonsterDropsService monsterDropsService;
+
+    @Resource
+    private PlayerDataService playerDataService;
+
 
     /**
      *  怪物进行攻击
      * @param monster 怪物
      * @param target 目标
      */
-    public void monsterAttack(Monster monster, Creature target) {
+    public void monsterAttack(Monster monster, Creature target,GameScene gameScene) {
         Integer attack = monster.getAttack();
         target.setHp(target.getHp() - attack);
 
-        if (target instanceof Player) {
-            notificationManager.notifyPlayer((Player) target,
-                    MessageFormat.format("{0}在攻击你， 对你造成了{1}点伤害，你当前的hp为 {2} \n",
-                    monster.getName(), monster.getAttack(),target.getHp()));
-            combatService.isPlayerDead((Player) target,monster);
-        }
+        notificationManager.notifyScene(gameScene,
+                MessageFormat.format("{0}在攻击{1}，造成了{2}点伤害，你当前的hp为 {3} \n",
+                monster.getName(),target.getName(), monster.getAttack(),target.getHp()));
+        playerDataService.isPlayerDead((Player) target,monster);
+
+
     }
 
 
@@ -70,9 +80,9 @@ public class MonsterAIService {
                 .findAny().ifPresent(
                 skillId -> { // 如果技能存在，则释放技能
                     Skill skill = skillsService.getSkill(skillId);
-                    if (skillsService.useSkill(monster,target,gameScene,skill)) {
+                    if (skillsService.canSkill(monster,skill) && skillsService.useSkill(monster,target,gameScene,skill)) {
                         notificationManager.notifyScene(gameScene,
-                                MessageFormat.format("{0} 对你{1}用技能 {2}， 对你造成了{3}点伤害，你当前的hp为 {4}\n",
+                                MessageFormat.format("{0} 对 {1}用技能 {2}， 对你造成了{3}点伤害，你当前的hp为 {4}\n",
                                         monster.getName(), target.getName(),skill.getName(),skill.getHpLose(),target.getHp()));
                     }
                 }
@@ -89,39 +99,56 @@ public class MonsterAIService {
     public void startAI(Creature target, Monster monster, GameScene gameScene) {
         // 目标死了,不进行攻击
         if (target instanceof Player){
-            if (combatService.isPlayerDead((Player) target, monster)) {
+            if (playerDataService.isPlayerDead((Player) target, monster)) {
+                monster.setTarget(null);
                 return;
             }
         } else {
             if (target.getHp() <=0 || target.getState() == -1) {
+                monster.setTarget(null);
                 return;
             }
         }
 
         // 玩家不在场景内，不进行攻击
         if (null == gameScene.getPlayers().get(target.getId())) {
+            monster.setTarget(null);
             return;
         }
         // 怪物死亡了，不进行攻击
         if (monster.getHp() <=0 || monster.getState() == -1) {
+            monster.setTarget(null);
             return;
         }
 
 
         if ((monster.getAttackTime() + monster.getAttackSpeed()) < System.currentTimeMillis()) {
-            // 对玩家进行普通攻击
-            monsterAttack(monster, target);
+            // 进行普通攻击
+            monsterAttack(monster, target,gameScene);
+
             // 更新普通攻击的攻击时间
             monster.setAttackTime(System.currentTimeMillis());
         }
 
-        // 如果怪物没有技能在冷却中，使用技能
+        // 使用没有冷却的技能
         if (monster.getHasUseSkillMap().size() < 1) {
             monsterUseSkill(monster, target,gameScene);
         }
     }
 
 
+
+    public void monsterBeAttack(Player player,Monster target,GameScene gameScene,Integer damage) {
+        notificationManager.notifyScene(gameScene,
+                MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
+                        ,target.getName(),player.getName(),damage, target.getHp()));
+
+        // 如果怪物死亡
+        if (gameObjectService.sceneObjectAfterDead(target)) {
+            // 结算掉落，这里暂时直接放到背包里
+            monsterDropsService.dropItem(player,target);
+        }
+    }
 
 
 

@@ -4,6 +4,7 @@ import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.skills.model.Pet;
+import com.wan37.gameServer.manager.task.TimedTaskManager;
 import com.wan37.gameServer.model.Creature;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ public class PetService {
         pet.setPetId(master.getId().intValue()+sceneObject.getId().intValue());
         pet.setTarget(target);
         gameScene.getMonsters().put(pet.getKey(),pet);
+        // cd结束召唤兽就消失
+        TimedTaskManager.schedule(pet.getRefreshTime(),()-> gameScene.getMonsters().remove(pet.getKey()));
         return true;
     }
 

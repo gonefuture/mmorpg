@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.scene.manager;
 
 
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.sceneObject.manager.GameObjectCacheMgr;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 
@@ -50,6 +51,9 @@ public class SceneManager {
     @Resource
     private MonsterAIService monsterAIService;
 
+    @Resource
+    private PlayerDataService playerDataService;
+
 
     @PostConstruct
     private void tick() {
@@ -66,6 +70,9 @@ public class SceneManager {
             // 刷新怪物和NPC
             gameScene.getMonsters().values().forEach(this::refreshDeadCreature);
             gameScene.getNpcs().values().forEach(this::refreshDeadCreature);
+
+            // 设置怪物攻击
+            gameScene.getMonsters().values().forEach(monster -> monsterAttack(monster,gameScene));
 
         }
     }
@@ -88,9 +95,10 @@ public class SceneManager {
     /**
      *  刷新怪物攻击
      */
-    private void MonsterAttack(Monster monster,GameScene gameScene) {
+    private void monsterAttack(Monster monster,GameScene gameScene) {
         if (null != monster.getTarget()) {
             monsterAIService.startAI(monster.getTarget(),monster,gameScene);
+
         }
     }
 

@@ -5,7 +5,7 @@ import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.game.bag.controller.ShowBagsController;
 import com.wan37.gameServer.game.chat.controller.PublicChatController;
 import com.wan37.gameServer.game.chat.controller.WhisperController;
-import com.wan37.gameServer.game.combat.controller.CommonAttackController;
+import com.wan37.gameServer.game.combat.controller.AttackController;
 import com.wan37.gameServer.game.combat.controller.PVPController;
 import com.wan37.gameServer.game.combat.controller.SkillPVPController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;
@@ -26,7 +26,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -80,16 +79,10 @@ public class ControllerManager {
     private ShowBagsController showBagsController;
 
     @Resource
-    private CommonAttackController commonAttackController;
-
-    @Resource
     private LocationController locationController;
 
     @Resource
     private EnterInstanceController enterInstanceController;
-
-
-
 
     @Resource
     private BuyGoodsController buyGoodsController;
@@ -131,7 +124,6 @@ public class ControllerManager {
         add(MsgId.START_BUFFER,startBufferController);
         add(MsgId.USE_ITEM,useItemController);
         add(MsgId.SHOW_BAGS, showBagsController);
-        add(MsgId.COMMON_ATTACK,commonAttackController);
         add(MsgId.LOCATION,locationController);
         add(MsgId.ENTER_INSTANCE, enterInstanceController);
         add(MsgId.BUY_GOODS,buyGoodsController);

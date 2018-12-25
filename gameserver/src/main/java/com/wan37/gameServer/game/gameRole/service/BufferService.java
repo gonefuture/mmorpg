@@ -29,8 +29,6 @@ import java.util.concurrent.Future;
 public class BufferService {
 
 
-    @Resource
-    private TimedTaskManager timedTaskManager;
 
     @Resource
     private BufferCacheMgr bufferCacheMgr;
@@ -38,6 +36,8 @@ public class BufferService {
     @Resource
     private NotificationManager notificationManager;
 
+    @Resource
+    private PlayerDataService playerDataService;
 
     @Resource
     private CombatService combatService;
@@ -65,7 +65,7 @@ public class BufferService {
         if (buffer.getDuration() != -1) {
             // 如果间隔时间不为-1，即buffer间隔触发
             if (buffer.getIntervalTime() != -1) {
-                Future cycleTask = timedTaskManager.scheduleAtFixedRate(0,buffer.getIntervalTime(),
+                Future cycleTask = TimedTaskManager.scheduleAtFixedRate(0,buffer.getIntervalTime(),
                         () -> {
                             creature.setHp(creature.getHp() + buffer.getHp());
                             creature.setMp(creature.getMp() + buffer.getMp());
@@ -77,19 +77,19 @@ public class BufferService {
                                         buffer.getName(),buffer.getHp(),buffer.getMp()
                                 ));
                                 // 检测玩家是否死亡
-                                combatService.isPlayerDead((Player) creature,null);
+                                playerDataService.isPlayerDead((Player) creature,null);
                             }
 
                         }
                 );
-                timedTaskManager.scheduleWithData(buffer.getDuration(),() -> {
+                TimedTaskManager.scheduleWithData(buffer.getDuration(),() -> {
                     cycleTask.cancel(true);
                     return null;
                 });
             }
 
             // buffer cd 处理
-            timedTaskManager.scheduleWithData(buffer.getDuration(),
+            TimedTaskManager.scheduleWithData(buffer.getDuration(),
                     () -> {
                         // 过期移除buffer
                         creature.getBufferList().remove(buffer);
@@ -104,7 +104,7 @@ public class BufferService {
                                     "你身上的buffer {0}  结束\n",buffer.getName()
                             ));
                             // 检测玩家是否死亡
-                            combatService.isPlayerDead((Player) creature,null);
+                            playerDataService.isPlayerDead((Player) creature,null);
                         }
                         log.debug(" buffer过期清除定时器 {}", new Date());
                         return null;

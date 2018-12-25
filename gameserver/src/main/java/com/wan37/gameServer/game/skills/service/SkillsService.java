@@ -1,6 +1,9 @@
 package com.wan37.gameServer.game.skills.service;
 
+import com.wan37.gameServer.game.gameRole.manager.RoleClassManager;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
+import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.model.RoleClass;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.skills.manager.SkillsManager;
@@ -30,6 +33,9 @@ public class SkillsService {
     @Resource
     private PetService petService;
 
+    @Resource
+    private NotificationManager notificationManager;
+
 
 
 
@@ -39,10 +45,10 @@ public class SkillsService {
      * @param skillId  技能id
      * @return true 可是使用。 false不可以使用
      */
-    public boolean checkCD(Creature creature, Integer skillId) {
+    public boolean inCD(Creature creature, Integer skillId) {
         Skill playerSkill = creature.getHasUseSkillMap().get(skillId);
         // 如果没有使用这个技能，表示可以使用
-        return playerSkill == null;
+        return playerSkill != null;
     }
 
 
@@ -132,6 +138,45 @@ public class SkillsService {
         startSkill(initiator,skill);
         return true;
     }
+
+    /**
+     *      检测玩家是否可以使用技能
+     * @param creature    玩家
+     * @param skill 技能
+     * @return 是否可用
+     */
+    public boolean canSkill(Creature creature, Skill skill) {
+
+
+        if ( null == skill) {
+            if (creature instanceof Player) {
+                notificationManager.notifyPlayer((Player) creature,"该技能不存在");
+            }
+            return false;
+        }
+
+        if (creature instanceof Player) {
+            Player player = (Player) creature;
+            RoleClass roleClass = RoleClassManager.getRoleClass(player.getRoleClass());
+            if (null == roleClass.getSkillMap().get(skill.getKey())) {
+                notificationManager.notifyPlayer(player,"该职业并没有这个技能");
+                return false;
+            }
+
+        }
+
+        // 检查技能冷却，
+        if (inCD(creature,skill.getId()) ){
+            if (creature instanceof Player) {
+            notificationManager.notifyPlayer((Player) creature,"你还不能使用该技能，还在冷却中");
+            }
+            return false;
+        }
+
+        return true;
+
+    }
+
 
 
 

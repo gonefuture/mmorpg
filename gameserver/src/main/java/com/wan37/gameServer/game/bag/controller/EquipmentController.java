@@ -47,7 +47,7 @@ public class EquipmentController  {
     private BagsService bagsService;
 
 
-    public void showEquip(ChannelHandlerContext ctx, Message message) {
+    public void equip(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
         Integer cellId = Integer.valueOf(command[1]);
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
@@ -67,7 +67,7 @@ public class EquipmentController  {
 
 
 
-    public void equip(ChannelHandlerContext ctx, Message message) {
+    public void showEquip(ChannelHandlerContext ctx, Message message) {
         Map<String, Item> equipmentBar = playerDataService.getPlayerByCtx(ctx).getEquipmentBar();
         StringBuilder sb = new StringBuilder();
         equipmentBar.values().stream().

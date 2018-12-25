@@ -11,6 +11,11 @@ import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 
 
+import com.wan37.gameServer.game.scene.model.GameScene;
+import com.wan37.gameServer.game.scene.servcie.GameSceneService;
+import com.wan37.gameServer.manager.notification.NotificationManager;
+import com.wan37.gameServer.manager.task.TimedTaskManager;
+import com.wan37.gameServer.model.Creature;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import io.netty.channel.ChannelHandlerContext;
@@ -46,6 +51,15 @@ public class PlayerDataService {
 
     @Resource
     private EquipmentBarService equipmentBarService;
+
+    @Resource
+    private NotificationManager notificationManager;
+
+    @Resource
+    private GameSceneService gameSceneService;
+
+
+
 
 
     public Player getPlayerByCtx(ChannelHandlerContext ctx) {
@@ -103,12 +117,37 @@ public class PlayerDataService {
     }
 
 
+    /**
+     *     检测玩家是否死亡
+     * @param casualty 伤害承受者
+     * @param murderer 攻击发起者
+     */
+    public synchronized boolean isPlayerDead(Player casualty, Creature murderer) {
 
+        if (casualty.getHp() < 0){
+            casualty.setHp((long)0);
+            casualty.setState(-1);
 
+            // 广播并通知死亡的玩家
+            notificationManager.playerDead(murderer,casualty);
 
+            gameSceneService.carryToScene(casualty,12);
+            notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了,十秒后复活 \n");
 
+            TimedTaskManager.scheduleWithData(
+                    10000, () -> {
+                        casualty.setState(1);
+                        initPlayer(casualty);
+                        notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经复活 \n");
+                        return null;
+                    }
+            );
+            return true;
+        } else {
+            return false;
+        }
 
-
+    }
 
 
 
@@ -136,11 +175,6 @@ public class PlayerDataService {
         log.debug("player {}", player);
 
     }
-
-
-
-
-
 
 
 

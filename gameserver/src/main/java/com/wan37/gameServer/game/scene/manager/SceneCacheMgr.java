@@ -57,7 +57,6 @@ public class SceneCacheMgr implements ICacheManager<Integer, GameScene> {
         }
         log.debug("场景资源 {}" , gameSceneMap);
         log.info("场景资源加载进缓存完毕");
-
     }
 
 

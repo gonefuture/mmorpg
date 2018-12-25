@@ -35,10 +35,6 @@ public class PVPController implements IController {
 
         Player player = playerDataService.getPlayerByCtx(ctx);
 
-        Msg msg = combatService.commonAttackByPVP(player,targetId);
-
-        message.setContent(msg.getMsg().getBytes());
-        ctx.writeAndFlush(message);
-
+        combatService.commonAttackByPVP(player,targetId);
     }
 }
