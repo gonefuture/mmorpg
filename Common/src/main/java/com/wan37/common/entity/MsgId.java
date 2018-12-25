@@ -57,7 +57,10 @@ public enum MsgId {
 
 
     // 使用技能
-    USE_SKILLS("use_skill",3003),
+    USE_SKILL("skill",3003),
+
+    // 使用技能攻击怪物
+    PVE_SKILL("pve_skill",3003),
 
     // buffer开始
     START_BUFFER("start_buffer",3004),
@@ -84,7 +87,7 @@ public enum MsgId {
     PVP("pvp",3011),
 
     // 技能攻击玩家
-    SKILL_PVP("skill_pvp",30012),
+    SKILL_PVP("pvp_skill",30012),
 
 
     // 私聊

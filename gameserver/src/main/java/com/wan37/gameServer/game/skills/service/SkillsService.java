@@ -5,12 +5,15 @@ import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.model.RoleClass;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
+import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.game.skills.manager.SkillsManager;
 import com.wan37.gameServer.game.skills.model.Skill;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.manager.task.TimedTaskManager;
 import com.wan37.gameServer.model.Creature;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,6 +38,12 @@ public class SkillsService {
 
     @Resource
     private NotificationManager notificationManager;
+
+    @Resource
+    private PlayerDataService playerDataService;
+
+    @Resource
+    private GameSceneService gameSceneService;
 
 
 
@@ -178,10 +187,13 @@ public class SkillsService {
     }
 
 
+    public void useSkillSelf(ChannelHandlerContext cxt, Integer skillId) {
+        Skill skill = SkillsManager.get(skillId);
+        Player player = playerDataService.getPlayerByCtx(cxt);
+        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
 
-
-
-
-
-
+        if (canSkill(player,skill)) {
+            useSkill(player,player,gameScene,skill);
+        }
+    }
 }

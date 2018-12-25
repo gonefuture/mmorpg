@@ -5,9 +5,6 @@ import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.game.bag.controller.ShowBagsController;
 import com.wan37.gameServer.game.chat.controller.PublicChatController;
 import com.wan37.gameServer.game.chat.controller.WhisperController;
-import com.wan37.gameServer.game.combat.controller.AttackController;
-import com.wan37.gameServer.game.combat.controller.PVPController;
-import com.wan37.gameServer.game.combat.controller.SkillPVPController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;
 import com.wan37.gameServer.game.gameRole.controller.*;
 import com.wan37.gameServer.game.mail.controller.GetMailController;
@@ -105,11 +102,7 @@ public class ControllerManager {
     @Resource
     private GetMailController getMailController;
 
-    @Resource
-    private PVPController pvpController;
 
-    @Resource
-    private SkillPVPController skillPVPController;
 
 
     // 加载MsgId与控制器之间的关系
@@ -133,8 +126,7 @@ public class ControllerManager {
         add(MsgId.SEND_MAIL,sendMailController);
         add(MsgId.MAIL_LIST,mailListController);
         add(MsgId.GET_MAIL,getMailController);
-        add(MsgId.PVP,pvpController);;
-        add(MsgId.SKILL_PVP,skillPVPController);
+
     }
 
 
