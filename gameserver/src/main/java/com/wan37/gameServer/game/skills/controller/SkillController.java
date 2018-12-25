@@ -34,8 +34,8 @@ public class SkillController {
      */
     private void useSkill(ChannelHandlerContext cxt, Message message) {
         String[] args =ParameterCheckUtil.checkParameter(cxt,message,1);
-        Integer skilId = Integer.valueOf(args[1]);
-        skillsService.useSkillSelf(cxt,skilId);
+        Integer skillId = Integer.valueOf(args[1]);
+        skillsService.useSkillSelf(cxt,skillId);
 
     }
 

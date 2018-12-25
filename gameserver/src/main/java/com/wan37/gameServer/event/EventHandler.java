@@ -9,5 +9,5 @@ package com.wan37.gameServer.event;
 
 @FunctionalInterface
 public interface EventHandler {
-    void handle(Class<?> handler, EventData eventData);
+    void handle(Event event);
 }

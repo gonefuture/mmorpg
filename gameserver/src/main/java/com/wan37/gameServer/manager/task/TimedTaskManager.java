@@ -1,6 +1,6 @@
 package com.wan37.gameServer.manager.task;
 
-import com.wan37.gameServer.event.EventData;
+import com.wan37.gameServer.event.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ public class TimedTaskManager {
      * @param callback 任务
      * @return 一个带结果的future
      */
-    public static Future<EventData> scheduleWithData(long delay, Callable<EventData> callback) {
+    public static Future<Event> scheduleWithData(long delay, Callable<Event> callback) {
         return executorService.schedule(callback,delay, TimeUnit.MILLISECONDS);
     }
 

@@ -113,7 +113,7 @@ public class SkillsService {
 
         // 召唤兽类型的技能
         if (skill.getSkillsType() == 5 ) {
-            petService.callPet(initiator,target,gameScene,skill.getBuffer());
+            petService.callPet(initiator,target,gameScene,skill.getCall());
         }
         // 开启技能冷却
         startSkill(initiator,skill);
@@ -192,7 +192,11 @@ public class SkillsService {
         Player player = playerDataService.getPlayerByCtx(cxt);
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
 
-        if (canSkill(player,skill)) {
+        if (!canSkill(player,skill)) {
+            return;
+        }
+        // 技能类型为1则对自己使用
+        if (skill.getSkillsType() == 1 ) {
             useSkill(player,player,gameScene,skill);
         }
     }

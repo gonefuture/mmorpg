@@ -1,8 +1,12 @@
 package com.wan37.gameServer.event;
 
 
+
+
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -12,35 +16,47 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class EventBus   {
 
-    private static Map<Class<?>,EventHandler> handlerMap = new ConcurrentHashMap<>();
+    private static Map<Event, List<EventHandler>> listenerMap = new ConcurrentHashMap<>();
 
+    /**
+     *  订阅事件
+     * @param event 事件的类对象
+     * @param eventHandler 事件处理器
+     */
+    public static void subscribe(Event event, EventHandler eventHandler) {
 
-    public static void bind(Class<?> eventClass, EventHandler eventHandler) {
-        handlerMap.put(eventClass, ((clazz, context) -> {
+        List<EventHandler> eventHandlerList = listenerMap.get(event);
+        if (null == eventHandlerList) {
+            eventHandlerList = new CopyOnWriteArrayList<>();
+        }
+
+        eventHandlerList.add( e -> {
             try {
-                eventHandler.handle(clazz, context);
-            } catch (Exception e) {
+                eventHandler.handle(e);
+            } catch (Exception ex) {
                 //记录错误日志
-                e.printStackTrace();
+                ex.printStackTrace();
             }
-            //打印处理器执行日志
-        }));
+
+        });
+
+        listenerMap.put(event,eventHandlerList);
     }
 
 
     /**
-     * 触发事件
-     * @param
+     * 发布事件
+     * @param event 事件
      */
-    public static  <T> void post(Class<?> EventClass,EventData<T> eventData) {
+    public static void publish(Event event) {
 
-        handlerMap.get(EventClass).handle(EventClass, eventData);
+        listenerMap.get(event).forEach(eventHandler -> eventHandler.handle(event));
     }
 
 
     public static void close() throws Exception {
         //释放资源
-        handlerMap.clear();
+        listenerMap.clear();
     }
 
 

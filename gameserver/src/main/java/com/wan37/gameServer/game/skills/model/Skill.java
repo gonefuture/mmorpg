@@ -39,6 +39,9 @@ public class Skill implements IExcel<Integer> {
     @EntityName(column = "buffer")
     private Integer buffer;
 
+    @EntityName(column = "召唤")
+    private Integer call;
+
     @EntityName(column = "描述")
     private String   describe;
 
