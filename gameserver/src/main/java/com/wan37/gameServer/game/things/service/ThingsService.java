@@ -8,7 +8,7 @@ import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.BufferService;
-import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
+import com.wan37.gameServer.game.things.manager.ThingsManager;
 import com.wan37.gameServer.game.things.model.ThingProperty;
 import com.wan37.gameServer.game.things.model.Things;
 
@@ -31,7 +31,7 @@ public class ThingsService {
 
 
     @Resource
-    private ThingsCacheMgr thingsCacheMgr;
+    private ThingsManager thingsManager;
 
     @Resource
     private RolePropertyService rolePropertyService;
@@ -75,7 +75,7 @@ public class ThingsService {
      * @param thingsId 物品id
      */
     public Things getThings(Integer thingsId) {
-        Things things = thingsCacheMgr.get(thingsId);
+        Things things = thingsManager.get(thingsId);
         //loadThingsProperties(things);
         return things;
     }
@@ -85,7 +85,7 @@ public class ThingsService {
         Item item = bag.getItemMap().get(locationIndex);
         if (item == null)
             return false;
-        Things things = thingsCacheMgr.get(item.getThings().getId());
+        Things things = thingsManager.get(item.getThings().getId());
         Buffer buffer = bufferService.getTBuffer(things.getBuffer());
         if (buffer != null) {
             bufferService.startBuffer(player,buffer);

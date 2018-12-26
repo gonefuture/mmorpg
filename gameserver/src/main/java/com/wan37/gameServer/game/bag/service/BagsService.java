@@ -14,7 +14,7 @@ import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
-import com.wan37.gameServer.game.things.manager.ThingsCacheMgr;
+import com.wan37.gameServer.game.things.manager.ThingsManager;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.mysql.pojo.entity.TBag;
@@ -39,7 +39,7 @@ public class BagsService {
     private PlayerDataService playerDataService;
 
     @Resource
-    private ThingsCacheMgr thingsCacheMgr;
+    private ThingsManager thingsManager;
 
     @Resource
     private TBagMapper tBagMapper;
@@ -67,7 +67,7 @@ public class BagsService {
         Item item = bag.getItemMap().get(locationIndex);
         if (item == null)
             return null;
-        return thingsCacheMgr.get(item.getThings().getId());
+        return thingsManager.get(item.getThings().getId());
     }
 
 

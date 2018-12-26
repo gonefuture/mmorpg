@@ -9,13 +9,13 @@ import com.wan37.gameServer.util.excel.ReadExcelByEntity;
  * @version 1.00
  * Description: mmorpg
  */
-public class MissonExcelUitl extends ReadExcelByEntity<ExcelUtil<Integer,Mission>> {
+public class MissionExcelUtil extends ReadExcelByEntity<Mission> {
     /**
      * 构造工具类
      *
      * @param filepath 文件路径
      */
-    public MissonExcelUitl(String filepath) {
+    public MissionExcelUtil(String filepath) {
         super(filepath);
     }
 }

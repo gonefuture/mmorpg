@@ -2,15 +2,11 @@ package com.wan37.gameServer.game.scene.manager;
 
 
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
-import com.wan37.gameServer.game.sceneObject.manager.GameObjectCacheMgr;
+import com.wan37.gameServer.game.sceneObject.manager.GameObjectManager;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 
-import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.sceneObject.model.SceneObject;
-import com.wan37.gameServer.game.gameRole.model.Buffer;
-import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.scene.model.GameScene;
-import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 
 
 import com.wan37.gameServer.game.sceneObject.service.MonsterAIService;
@@ -21,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +40,7 @@ public class SceneManager {
 
 
     @Resource
-    private GameObjectCacheMgr gameObjectCacheMgr;
+    private GameObjectManager gameObjectManager;
 
 
     @Resource
@@ -85,7 +80,7 @@ public class SceneManager {
     private void refreshDeadCreature(SceneObject creature) {
         if (creature.getState() == -1 &&
                 creature.getDeadTime()+ creature.getRefreshTime() <System.currentTimeMillis()) {
-            SceneObject sceneObject = gameObjectCacheMgr.get(creature.getId());
+            SceneObject sceneObject = gameObjectManager.get(creature.getId());
             creature.setHp(sceneObject.getHp());
             creature.setState(sceneObject.getState());
         }

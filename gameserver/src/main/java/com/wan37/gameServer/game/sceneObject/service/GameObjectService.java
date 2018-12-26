@@ -1,7 +1,7 @@
 package com.wan37.gameServer.game.sceneObject.service;
 
 
-import com.wan37.gameServer.game.sceneObject.manager.GameObjectCacheMgr;
+import com.wan37.gameServer.game.sceneObject.manager.GameObjectManager;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.scene.model.GameScene;
@@ -22,15 +22,15 @@ import java.util.Arrays;
 @Service
 public class GameObjectService {
     @Resource
-    private GameObjectCacheMgr gameObjectCacheMgr;
+    private GameObjectManager gameObjectManager;
 
     public SceneObject getGameObject(long gameObjectId) {
-        return gameObjectCacheMgr.get(gameObjectId);
+        return gameObjectManager.get(gameObjectId);
     }
 
 
     public void cacheGameObject(long gameObjectId, SceneObject sceneObject) {
-        gameObjectCacheMgr.put(gameObjectId, sceneObject);
+        gameObjectManager.put(gameObjectId, sceneObject);
     }
 
 

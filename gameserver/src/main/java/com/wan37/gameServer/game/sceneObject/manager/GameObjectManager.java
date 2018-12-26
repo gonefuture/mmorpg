@@ -22,17 +22,11 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class GameObjectCacheMgr implements ICacheManager<Long, SceneObject> {
+public class GameObjectManager implements ICacheManager<Long, SceneObject> {
 
     private static Cache<Long, SceneObject> gameObjectCache = CacheBuilder.newBuilder()
-            // 设置并发级别，最多8个线程同时写
-            .concurrencyLevel(10)
-            // 设置缓存容器的初始容量为100
-            .initialCapacity(100)
-            .maximumSize(5000)
-            .recordStats()
             .removalListener(
-                    notification -> System.out.println(notification.getKey() + "was removed, cause is" + notification.getCause())
+                    notification -> System.out.println(notification.getKey() + "游戏对象被移除，原因是" + notification.getCause())
             ).build();
 
 

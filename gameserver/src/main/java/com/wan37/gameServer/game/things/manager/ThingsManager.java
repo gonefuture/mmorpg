@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class ThingsCacheMgr  implements ICacheManager<Integer,Things> {
+public class ThingsManager implements ICacheManager<Integer,Things> {
 
     @Resource
     private ThingsService thingsService;
