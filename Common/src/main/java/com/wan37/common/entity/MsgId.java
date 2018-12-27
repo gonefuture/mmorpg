@@ -163,9 +163,14 @@ public enum MsgId {
     // 允许入会
     GUILD_PERMIT("guild_permit", 4023),
 
-
-    // 退出
+    // 退出公会
     GUILD_QUIT("guild_quit", 4024),
+
+    // 显示已接任务
+    MISSION_SHOW("mission", 4025),
+
+    // 显示所有任务和成就
+    ALL_MISSION("all_mission",4026),
 
    // 未知的命令
     UNKNOWN("unknown", 9999)

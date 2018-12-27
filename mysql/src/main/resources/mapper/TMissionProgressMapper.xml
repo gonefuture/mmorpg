@@ -5,8 +5,8 @@
     <id column="playerId" property="playerid" jdbcType="BIGINT" />
     <id column="missionId" property="missionid" jdbcType="INTEGER" />
     <result column="mission_state" property="missionState" jdbcType="INTEGER" />
-    <result column="beginTime" property="begintime" jdbcType="TIMESTAMP" />
-    <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="progress" property="progress" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    playerId, missionId, mission_state, beginTime, endTime, progress
+    playerId, missionId, mission_state, begin_time, end_time, progress
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TMissionProgressExample" >
     select
@@ -104,10 +104,10 @@
   </delete>
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TMissionProgress" >
     insert into t_mission_progress (playerId, missionId, mission_state, 
-      beginTime, endTime, progress
+      begin_time, end_time, progress
       )
     values (#{playerid,jdbcType=BIGINT}, #{missionid,jdbcType=INTEGER}, #{missionState,jdbcType=INTEGER}, 
-      #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{progress,jdbcType=VARCHAR}
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{progress,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TMissionProgress" >
@@ -122,11 +122,11 @@
       <if test="missionState != null" >
         mission_state,
       </if>
-      <if test="begintime != null" >
-        beginTime,
+      <if test="beginTime != null" >
+        begin_time,
       </if>
-      <if test="endtime != null" >
-        endTime,
+      <if test="endTime != null" >
+        end_time,
       </if>
       <if test="progress != null" >
         progress,
@@ -142,11 +142,11 @@
       <if test="missionState != null" >
         #{missionState,jdbcType=INTEGER},
       </if>
-      <if test="begintime != null" >
-        #{begintime,jdbcType=TIMESTAMP},
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endtime != null" >
-        #{endtime,jdbcType=TIMESTAMP},
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="progress != null" >
         #{progress,jdbcType=VARCHAR},
@@ -171,11 +171,11 @@
       <if test="record.missionState != null" >
         mission_state = #{record.missionState,jdbcType=INTEGER},
       </if>
-      <if test="record.begintime != null" >
-        beginTime = #{record.begintime,jdbcType=TIMESTAMP},
+      <if test="record.beginTime != null" >
+        begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.endtime != null" >
-        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.progress != null" >
         progress = #{record.progress,jdbcType=VARCHAR},
@@ -190,8 +190,8 @@
     set playerId = #{record.playerid,jdbcType=BIGINT},
       missionId = #{record.missionid,jdbcType=INTEGER},
       mission_state = #{record.missionState,jdbcType=INTEGER},
-      beginTime = #{record.begintime,jdbcType=TIMESTAMP},
-      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
       progress = #{record.progress,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -203,11 +203,11 @@
       <if test="missionState != null" >
         mission_state = #{missionState,jdbcType=INTEGER},
       </if>
-      <if test="begintime != null" >
-        beginTime = #{begintime,jdbcType=TIMESTAMP},
+      <if test="beginTime != null" >
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endtime != null" >
-        endTime = #{endtime,jdbcType=TIMESTAMP},
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="progress != null" >
         progress = #{progress,jdbcType=VARCHAR},
@@ -219,8 +219,8 @@
   <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TMissionProgress" >
     update t_mission_progress
     set mission_state = #{missionState,jdbcType=INTEGER},
-      beginTime = #{begintime,jdbcType=TIMESTAMP},
-      endTime = #{endtime,jdbcType=TIMESTAMP},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
       progress = #{progress,jdbcType=VARCHAR}
     where playerId = #{playerid,jdbcType=BIGINT}
       and missionId = #{missionid,jdbcType=INTEGER}

@@ -4,6 +4,7 @@ package com.wan37.gameServer.game.gameRole.service;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.bag.service.EquipmentBarService;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
+import com.wan37.gameServer.game.mission.service.MissionService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -42,7 +43,6 @@ public class PlayerDataService {
     @Resource
     private TPlayerMapper tPlayerMapper;
 
-
     @Resource
     private RolePropertyService rolePropertyService;
 
@@ -57,6 +57,9 @@ public class PlayerDataService {
 
     @Resource
     private GameSceneService gameSceneService;
+
+    @Resource
+    private MissionService missionService;
 
 
 
@@ -178,6 +181,9 @@ public class PlayerDataService {
 
         // 加载武器栏
         equipmentBarService.load(player);
+
+        // 加载任务进度
+        missionService.playerMissionProgressInit(player.getId());
 
 
         log.debug("player {}", player);

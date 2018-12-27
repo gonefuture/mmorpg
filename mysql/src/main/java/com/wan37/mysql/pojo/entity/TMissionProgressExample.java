@@ -285,123 +285,123 @@ public class TMissionProgressExample {
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeIsNull() {
-            addCriterion("beginTime is null");
+        public Criteria andBeginTimeIsNull() {
+            addCriterion("begin_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeIsNotNull() {
-            addCriterion("beginTime is not null");
+        public Criteria andBeginTimeIsNotNull() {
+            addCriterion("begin_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeEqualTo(Date value) {
-            addCriterion("beginTime =", value, "begintime");
+        public Criteria andBeginTimeEqualTo(Date value) {
+            addCriterion("begin_time =", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeNotEqualTo(Date value) {
-            addCriterion("beginTime <>", value, "begintime");
+        public Criteria andBeginTimeNotEqualTo(Date value) {
+            addCriterion("begin_time <>", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeGreaterThan(Date value) {
-            addCriterion("beginTime >", value, "begintime");
+        public Criteria andBeginTimeGreaterThan(Date value) {
+            addCriterion("begin_time >", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("beginTime >=", value, "begintime");
+        public Criteria andBeginTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("begin_time >=", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeLessThan(Date value) {
-            addCriterion("beginTime <", value, "begintime");
+        public Criteria andBeginTimeLessThan(Date value) {
+            addCriterion("begin_time <", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeLessThanOrEqualTo(Date value) {
-            addCriterion("beginTime <=", value, "begintime");
+        public Criteria andBeginTimeLessThanOrEqualTo(Date value) {
+            addCriterion("begin_time <=", value, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeIn(List<Date> values) {
-            addCriterion("beginTime in", values, "begintime");
+        public Criteria andBeginTimeIn(List<Date> values) {
+            addCriterion("begin_time in", values, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeNotIn(List<Date> values) {
-            addCriterion("beginTime not in", values, "begintime");
+        public Criteria andBeginTimeNotIn(List<Date> values) {
+            addCriterion("begin_time not in", values, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeBetween(Date value1, Date value2) {
-            addCriterion("beginTime between", value1, value2, "begintime");
+        public Criteria andBeginTimeBetween(Date value1, Date value2) {
+            addCriterion("begin_time between", value1, value2, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andBegintimeNotBetween(Date value1, Date value2) {
-            addCriterion("beginTime not between", value1, value2, "begintime");
+        public Criteria andBeginTimeNotBetween(Date value1, Date value2) {
+            addCriterion("begin_time not between", value1, value2, "beginTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeIsNull() {
-            addCriterion("endTime is null");
+        public Criteria andEndTimeIsNull() {
+            addCriterion("end_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeIsNotNull() {
-            addCriterion("endTime is not null");
+        public Criteria andEndTimeIsNotNull() {
+            addCriterion("end_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeEqualTo(Date value) {
-            addCriterion("endTime =", value, "endtime");
+        public Criteria andEndTimeEqualTo(Date value) {
+            addCriterion("end_time =", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeNotEqualTo(Date value) {
-            addCriterion("endTime <>", value, "endtime");
+        public Criteria andEndTimeNotEqualTo(Date value) {
+            addCriterion("end_time <>", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeGreaterThan(Date value) {
-            addCriterion("endTime >", value, "endtime");
+        public Criteria andEndTimeGreaterThan(Date value) {
+            addCriterion("end_time >", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("endTime >=", value, "endtime");
+        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("end_time >=", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeLessThan(Date value) {
-            addCriterion("endTime <", value, "endtime");
+        public Criteria andEndTimeLessThan(Date value) {
+            addCriterion("end_time <", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeLessThanOrEqualTo(Date value) {
-            addCriterion("endTime <=", value, "endtime");
+        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
+            addCriterion("end_time <=", value, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeIn(List<Date> values) {
-            addCriterion("endTime in", values, "endtime");
+        public Criteria andEndTimeIn(List<Date> values) {
+            addCriterion("end_time in", values, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeNotIn(List<Date> values) {
-            addCriterion("endTime not in", values, "endtime");
+        public Criteria andEndTimeNotIn(List<Date> values) {
+            addCriterion("end_time not in", values, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeBetween(Date value1, Date value2) {
-            addCriterion("endTime between", value1, value2, "endtime");
+        public Criteria andEndTimeBetween(Date value1, Date value2) {
+            addCriterion("end_time between", value1, value2, "endTime");
             return (Criteria) this;
         }
 
-        public Criteria andEndtimeNotBetween(Date value1, Date value2) {
-            addCriterion("endTime not between", value1, value2, "endtime");
+        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
+            addCriterion("end_time not between", value1, value2, "endTime");
             return (Criteria) this;
         }
 

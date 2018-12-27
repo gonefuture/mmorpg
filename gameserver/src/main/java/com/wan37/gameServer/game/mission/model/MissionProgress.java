@@ -1,5 +1,6 @@
 package com.wan37.gameServer.game.mission.model;
 
+import com.wan37.mysql.pojo.entity.TMissionProgress;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,28 +15,23 @@ import java.util.Map;
  */
 
 @Data
-public class MissionProgress {
-
-    private Long playerId;
+public class MissionProgress extends TMissionProgress {
 
 
-    private Integer missionId;
+
+
+    private MissionState state = MissionState.NOT_START;
+
 
     private Mission mission;
 
-    private MissionState missionState = MissionState.NOT_START;
-
-    private Date beginTime;
-
-    private Date endTime;
 
     // 进度
     Map<String, List<Integer>> progressMap;
 
-    public MissionProgress(Long playerId, Integer missionId,  Date beginTime, Date endTime) {
-        this.playerId = playerId;
-        this.missionId = missionId;
-        this.beginTime = beginTime;
-        this.endTime = endTime;
-    }
+
+
+
+
+
 }

@@ -4,23 +4,23 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.guild.model.Guild;
 import com.wan37.gameServer.game.mission.model.Mission;
 import com.wan37.gameServer.game.mission.model.MissionExcelUtil;
 import com.wan37.gameServer.game.mission.model.MissionProgress;
 import com.wan37.gameServer.game.mission.model.MissionState;
-import com.wan37.gameServer.game.sceneObject.model.SceneObject;
-import com.wan37.gameServer.game.sceneObject.model.SceneObjectExcelUtil;
 import com.wan37.gameServer.util.FileUtil;
 import com.wan37.mysql.pojo.entity.TMissionProgress;
+import com.wan37.mysql.pojo.entity.TMissionProgressExample;
 import com.wan37.mysql.pojo.mapper.TMissionProgressMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -45,7 +45,7 @@ public class MissionManager {
 
 
     // 玩家任务成就进度
-    private static Cache<Long, MissionProgress> missionProgressCache = CacheBuilder.newBuilder()
+    private static Cache<Long, Map<Integer,MissionProgress>> missionProgressCache = CacheBuilder.newBuilder()
             .removalListener(
                     notification -> log.info(notification.getKey() + "玩家任务成就进度被移除，原因是" + notification.getCause())
             ).build();
@@ -55,19 +55,27 @@ public class MissionManager {
         return missionCache.getIfPresent(missionId);
     }
 
-
-    public static MissionProgress getMissionProgress(Long playerId) {
-        return missionProgressCache.getIfPresent(playerId);
+    public static Map<Integer, Mission> allMission() {
+        return missionCache.asMap();
     }
 
 
+    public static MissionProgress getMissionProgress(Long playerId,Integer missionId) {
+        return Optional.ofNullable(missionProgressCache.getIfPresent(playerId)).map(
+                missionProgressMap -> missionProgressMap.get(missionId)).orElse(null);
+    }
+
+
+    public static Map<Integer,MissionProgress> getMissionProgressMap(Long playerId) {
+        return missionProgressCache.getIfPresent(playerId);
+    }
 
 
 
     @PostConstruct
     public void init() {
         loadMission();
-        loadMissionProgress();
+
     }
 
     private void loadMission() {
@@ -84,35 +92,43 @@ public class MissionManager {
         log.info("任务成就资源加载完毕");
     }
 
-    private void loadMissionProgress() {
-        List<TMissionProgress> tMissionProgressList =  tMissionProgressMapper.selectByExample(null);
+    public void loadMissionProgress(Long playerId) {
+        TMissionProgressExample tMissionProgressExample = new TMissionProgressExample();
+        tMissionProgressExample.or().andPlayeridEqualTo(playerId);
+        List<TMissionProgress> tMissionProgressList =  tMissionProgressMapper.selectByExample(tMissionProgressExample);
+        Map<Integer,MissionProgress> playerMissionProgressMap = new HashMap<>();
+
         tMissionProgressList.forEach(
-                tMissionProgress -> {
-                    MissionProgress missionProgress = new MissionProgress(
-                            tMissionProgress.getPlayerid(),tMissionProgress.getMissionid(),
-                            tMissionProgress.getBegintime(),tMissionProgress.getEndtime()
-                    );
-                    missionProgress.setMissionState(MissionState.valueOf(tMissionProgress.getMissionState()));
-
+                tMP -> {
+                    MissionProgress mp = new MissionProgress();
+                    mp.setPlayerid(tMP.getPlayerid());
+                    mp.setMissionid(tMP.getMissionid());
+                    mp.setBeginTime(tMP.getBeginTime());
+                    mp.setEndTime(tMP.getEndTime());
+                    mp.setState(MissionState.valueOf(tMP.getMissionState()));
+                    // 加载任务实体
+                    mp.setMission(getMission(mp.getMissionid()));
                     // 从数据库获取任务成就进度
-                    Map<String, List<Integer>>  missionProgressMap = JSON.parseObject(tMissionProgress.getProgress(),
+                    Map<String, List<Integer>>  missionProgressMap = JSON.parseObject(tMP.getProgress(),
                             new TypeReference<Map<String,List<Integer>>>(){});
-                    log.debug(" missionProgressMap",  missionProgressMap);
-                    missionProgress.setProgressMap(missionProgressMap);
-                    missionProgressCache.put(missionProgress.getPlayerId(),missionProgress);
-                    log.debug("玩家任务成就进度数据数据完毕",  missionProgressMap);
-
+                    log.debug(" missionProgressMap {}",  missionProgressMap);
+                    mp.setProgressMap(missionProgressMap);
+                    playerMissionProgressMap.put(mp.getMissionid(),mp);
                 }
         );
+        missionProgressCache.put(playerId,playerMissionProgressMap);
+        log.debug("玩家任务成就进度数据数据完毕 {}", playerMissionProgressMap);
     }
 
 
+    public  void saveMissionProgress(MissionProgress progress) {
+        tMissionProgressMapper.insert(progress);
+    }
 
 
-
-
-
-
+    public void upDateMissionProgress(MissionProgress progress) {
+        tMissionProgressMapper.updateByPrimaryKey(progress);
+    }
 
 
 }

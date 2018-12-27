@@ -6,9 +6,9 @@ import java.util.Date;
 public class TMissionProgress extends TMissionProgressKey implements Serializable {
     private Integer missionState;
 
-    private Date begintime;
+    private Date beginTime;
 
-    private Date endtime;
+    private Date endTime;
 
     private String progress;
 
@@ -22,20 +22,20 @@ public class TMissionProgress extends TMissionProgressKey implements Serializabl
         this.missionState = missionState;
     }
 
-    public Date getBegintime() {
-        return begintime;
+    public Date getBeginTime() {
+        return beginTime;
     }
 
-    public void setBegintime(Date begintime) {
-        this.begintime = begintime;
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
     }
 
-    public Date getEndtime() {
-        return endtime;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndtime(Date endtime) {
-        this.endtime = endtime;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public String getProgress() {
@@ -53,8 +53,8 @@ public class TMissionProgress extends TMissionProgressKey implements Serializabl
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", missionState=").append(missionState);
-        sb.append(", begintime=").append(begintime);
-        sb.append(", endtime=").append(endtime);
+        sb.append(", beginTime=").append(beginTime);
+        sb.append(", endTime=").append(endTime);
         sb.append(", progress=").append(progress);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

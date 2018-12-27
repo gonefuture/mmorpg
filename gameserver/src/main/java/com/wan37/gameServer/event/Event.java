@@ -13,9 +13,5 @@ import lombok.Data;
 @Data
 public abstract class Event {
 
-    private String name;
 
-    public Event(String name) {
-        this.name = name;
-    }
 }

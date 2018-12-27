@@ -1,5 +1,8 @@
 package com.wan37.gameServer.game.sceneObject.service;
 
+import com.wan37.gameServer.event.EventBus;
+import com.wan37.gameServer.event.achievement.AttackMonsterEvent;
+import com.wan37.gameServer.event.mission.MonsterEventDeadEvent;
 import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
@@ -142,13 +145,21 @@ public class MonsterAIService {
         notificationManager.notifyScene(gameScene,
                 MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
                         ,target.getName(),player.getName(),damage, target.getHp()));
+        // 怪物被攻击的事件
+        EventBus.publish(new AttackMonsterEvent(player,target,gameScene,damage));
 
         // 如果怪物死亡
         if (gameObjectService.sceneObjectAfterDead(target)) {
             // 结算掉落，这里暂时直接放到背包里
             monsterDropsService.dropItem(player,target);
+            // 怪物死亡的事件
+            EventBus.publish(new MonsterEventDeadEvent(player,target,gameScene,damage));
         }
     }
+
+
+
+
 
 
 

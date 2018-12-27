@@ -3,8 +3,13 @@ package com.wan37.gameServer.event;
 
 
 
+
+import lombok.extern.slf4j.Slf4j;
+
+
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -14,33 +19,27 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @version 1.00
  * Description: 事件总线
  */
-public class EventBus   {
 
-    private static Map<Event, List<EventHandler>> listenerMap = new ConcurrentHashMap<>();
+@Slf4j
+public class EventBus  {
+
+    private static Map<Class<? extends Event>, List<EventHandler>> listenerMap = new ConcurrentHashMap<>();
 
     /**
      *  订阅事件
-     * @param event 事件的类对象
+     * @param eventClass 事件的类对象类型
      * @param eventHandler 事件处理器
      */
-    public static void subscribe(Event event, EventHandler eventHandler) {
+    public static <E extends Event> void subscribe(Class<? extends Event> eventClass, EventHandler<E> eventHandler) {
 
-        List<EventHandler> eventHandlerList = listenerMap.get(event);
+        List<EventHandler> eventHandlerList = listenerMap.get(eventClass);
         if (null == eventHandlerList) {
             eventHandlerList = new CopyOnWriteArrayList<>();
         }
 
-        eventHandlerList.add( e -> {
-            try {
-                eventHandler.handle(e);
-            } catch (Exception ex) {
-                //记录错误日志
-                ex.printStackTrace();
-            }
+        eventHandlerList.add(eventHandler);
 
-        });
-
-        listenerMap.put(event,eventHandlerList);
+        listenerMap.put(eventClass,eventHandlerList);
     }
 
 
@@ -48,10 +47,22 @@ public class EventBus   {
      * 发布事件
      * @param event 事件
      */
-    public static void publish(Event event) {
+    public static <E extends Event> void publish(E event) {
 
-        listenerMap.get(event).forEach(eventHandler -> eventHandler.handle(event));
+        log.debug("listenerMap {}",listenerMap);
+        Optional.ofNullable(listenerMap.get(event.getClass()))
+                .ifPresent(
+                        map -> {
+                            map.forEach(eventHandler -> {
+                                log.debug("eventHandler", eventHandler);
+                                eventHandler.handle(event);
+                            });
+                        });
     }
+
+
+
+
 
 
     public static void close() throws Exception {
