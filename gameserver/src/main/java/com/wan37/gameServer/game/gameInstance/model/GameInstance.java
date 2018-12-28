@@ -3,6 +3,7 @@ package com.wan37.gameServer.game.gameInstance.model;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class GameInstance  extends GameScene {
 
 

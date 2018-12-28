@@ -6,6 +6,7 @@ import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -15,6 +16,7 @@ import lombok.Data;
  */
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 @AllArgsConstructor
 public class AttackMonsterEvent extends Event {
 

@@ -21,7 +21,6 @@ import javax.annotation.Resource;
 
 @Data
 @AllArgsConstructor
-
 public class MonsterEventDeadEvent  extends Event {
 
 

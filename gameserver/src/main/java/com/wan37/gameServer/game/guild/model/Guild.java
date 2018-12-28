@@ -4,6 +4,7 @@ import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.mysql.pojo.entity.TGuild;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  */
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class Guild  extends TGuild{
 
     public Guild() {

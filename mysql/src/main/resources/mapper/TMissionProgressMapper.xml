@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wan37.mysql.pojo.mapper.TMissionProgressMapper" >
   <resultMap id="BaseResultMap" type="com.wan37.mysql.pojo.entity.TMissionProgress" >
-    <id column="playerId" property="playerid" jdbcType="BIGINT" />
-    <id column="missionId" property="missionid" jdbcType="INTEGER" />
+    <id column="player_id" property="playerId" jdbcType="BIGINT" />
+    <id column="mission_id" property="missionId" jdbcType="INTEGER" />
     <result column="mission_state" property="missionState" jdbcType="INTEGER" />
     <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    playerId, missionId, mission_state, begin_time, end_time, progress
+    player_id, mission_id, mission_state, begin_time, end_time, progress
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TMissionProgressExample" >
     select
@@ -88,13 +88,13 @@
     select 
     <include refid="Base_Column_List" />
     from t_mission_progress
-    where playerId = #{playerid,jdbcType=BIGINT}
-      and missionId = #{missionid,jdbcType=INTEGER}
+    where player_id = #{playerId,jdbcType=BIGINT}
+      and mission_id = #{missionId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TMissionProgressKey" >
     delete from t_mission_progress
-    where playerId = #{playerid,jdbcType=BIGINT}
-      and missionId = #{missionid,jdbcType=INTEGER}
+    where player_id = #{playerId,jdbcType=BIGINT}
+      and mission_id = #{missionId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.wan37.mysql.pojo.entity.TMissionProgressExample" >
     delete from t_mission_progress
@@ -103,21 +103,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TMissionProgress" >
-    insert into t_mission_progress (playerId, missionId, mission_state, 
+    insert into t_mission_progress (player_id, mission_id, mission_state, 
       begin_time, end_time, progress
       )
-    values (#{playerid,jdbcType=BIGINT}, #{missionid,jdbcType=INTEGER}, #{missionState,jdbcType=INTEGER}, 
+    values (#{playerId,jdbcType=BIGINT}, #{missionId,jdbcType=INTEGER}, #{missionState,jdbcType=INTEGER}, 
       #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{progress,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TMissionProgress" >
     insert into t_mission_progress
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="playerid != null" >
-        playerId,
+      <if test="playerId != null" >
+        player_id,
       </if>
-      <if test="missionid != null" >
-        missionId,
+      <if test="missionId != null" >
+        mission_id,
       </if>
       <if test="missionState != null" >
         mission_state,
@@ -133,11 +133,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="playerid != null" >
-        #{playerid,jdbcType=BIGINT},
+      <if test="playerId != null" >
+        #{playerId,jdbcType=BIGINT},
       </if>
-      <if test="missionid != null" >
-        #{missionid,jdbcType=INTEGER},
+      <if test="missionId != null" >
+        #{missionId,jdbcType=INTEGER},
       </if>
       <if test="missionState != null" >
         #{missionState,jdbcType=INTEGER},
@@ -162,11 +162,11 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update t_mission_progress
     <set >
-      <if test="record.playerid != null" >
-        playerId = #{record.playerid,jdbcType=BIGINT},
+      <if test="record.playerId != null" >
+        player_id = #{record.playerId,jdbcType=BIGINT},
       </if>
-      <if test="record.missionid != null" >
-        missionId = #{record.missionid,jdbcType=INTEGER},
+      <if test="record.missionId != null" >
+        mission_id = #{record.missionId,jdbcType=INTEGER},
       </if>
       <if test="record.missionState != null" >
         mission_state = #{record.missionState,jdbcType=INTEGER},
@@ -187,8 +187,8 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update t_mission_progress
-    set playerId = #{record.playerid,jdbcType=BIGINT},
-      missionId = #{record.missionid,jdbcType=INTEGER},
+    set player_id = #{record.playerId,jdbcType=BIGINT},
+      mission_id = #{record.missionId,jdbcType=INTEGER},
       mission_state = #{record.missionState,jdbcType=INTEGER},
       begin_time = #{record.beginTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
@@ -213,8 +213,8 @@
         progress = #{progress,jdbcType=VARCHAR},
       </if>
     </set>
-    where playerId = #{playerid,jdbcType=BIGINT}
-      and missionId = #{missionid,jdbcType=INTEGER}
+    where player_id = #{playerId,jdbcType=BIGINT}
+      and mission_id = #{missionId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TMissionProgress" >
     update t_mission_progress
@@ -222,7 +222,7 @@
       begin_time = #{beginTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       progress = #{progress,jdbcType=VARCHAR}
-    where playerId = #{playerid,jdbcType=BIGINT}
-      and missionId = #{missionid,jdbcType=INTEGER}
+    where player_id = #{playerId,jdbcType=BIGINT}
+      and mission_id = #{missionId,jdbcType=INTEGER}
   </update>
 </mapper>

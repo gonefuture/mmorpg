@@ -2,10 +2,12 @@ package com.wan37.gameServer.game.mission.model;
 
 import com.wan37.mysql.pojo.entity.TMissionProgress;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -15,19 +17,18 @@ import java.util.Map;
  */
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class MissionProgress extends TMissionProgress {
 
-
-
-
-    private MissionState state = MissionState.NOT_START;
 
 
     private Mission mission;
 
 
     // 进度
-    Map<String, List<Integer>> progressMap;
+    Map<String, ProgressNumber> progressMap = new ConcurrentHashMap<>();
+
+
 
 
 

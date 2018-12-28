@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -47,17 +48,17 @@ public class EventBus  {
      * 发布事件
      * @param event 事件
      */
-    public static <E extends Event> void publish(E event) {
+    public static <E extends Event, T extends EventHandler<E>> void publish(E event) {
 
         log.debug("listenerMap {}",listenerMap);
-        Optional.ofNullable(listenerMap.get(event.getClass()))
-                .ifPresent(
-                        map -> {
-                            map.forEach(eventHandler -> {
-                                log.debug("eventHandler", eventHandler);
-                                eventHandler.handle(event);
-                            });
-                        });
+        List<EventHandler> handlerList =  listenerMap.get(event.getClass());
+        if (!Objects.isNull(handlerList)) {
+            for (EventHandler eventHandler: handlerList) {
+                log.debug("eventHandler", eventHandler);
+                eventHandler.handle(event);
+            }
+        }
+
     }
 
 

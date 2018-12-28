@@ -2,6 +2,8 @@ package com.wan37.gameServer.game.sceneObject.model;
 
 import com.wan37.gameServer.model.Creature;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.text.MessageFormat;
 
 /**
@@ -13,6 +15,7 @@ import java.text.MessageFormat;
 
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class Monster  extends SceneObject implements Creature {
 
     // 攻击速率，默认10000毫秒

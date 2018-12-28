@@ -13,6 +13,7 @@ import com.wan37.gameServer.model.Creature;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -29,6 +30,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Slf4j
 public class Player extends TPlayer   implements Creature  {
 

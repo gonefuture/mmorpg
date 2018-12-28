@@ -3,26 +3,26 @@ package com.wan37.mysql.pojo.entity;
 import java.io.Serializable;
 
 public class TMissionProgressKey implements Serializable {
-    private Long playerid;
+    private Long playerId;
 
-    private Integer missionid;
+    private Integer missionId;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getPlayerid() {
-        return playerid;
+    public Long getPlayerId() {
+        return playerId;
     }
 
-    public void setPlayerid(Long playerid) {
-        this.playerid = playerid;
+    public void setPlayerId(Long playerId) {
+        this.playerId = playerId;
     }
 
-    public Integer getMissionid() {
-        return missionid;
+    public Integer getMissionId() {
+        return missionId;
     }
 
-    public void setMissionid(Integer missionid) {
-        this.missionid = missionid;
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     @Override
@@ -31,8 +31,8 @@ public class TMissionProgressKey implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", playerid=").append(playerid);
-        sb.append(", missionid=").append(missionid);
+        sb.append(", playerId=").append(playerId);
+        sb.append(", missionId=").append(missionId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

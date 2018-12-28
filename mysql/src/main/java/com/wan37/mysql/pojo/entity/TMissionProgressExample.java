@@ -105,123 +105,123 @@ public class TMissionProgressExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andPlayeridIsNull() {
-            addCriterion("playerId is null");
+        public Criteria andPlayerIdIsNull() {
+            addCriterion("player_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridIsNotNull() {
-            addCriterion("playerId is not null");
+        public Criteria andPlayerIdIsNotNull() {
+            addCriterion("player_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridEqualTo(Long value) {
-            addCriterion("playerId =", value, "playerid");
+        public Criteria andPlayerIdEqualTo(Long value) {
+            addCriterion("player_id =", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridNotEqualTo(Long value) {
-            addCriterion("playerId <>", value, "playerid");
+        public Criteria andPlayerIdNotEqualTo(Long value) {
+            addCriterion("player_id <>", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridGreaterThan(Long value) {
-            addCriterion("playerId >", value, "playerid");
+        public Criteria andPlayerIdGreaterThan(Long value) {
+            addCriterion("player_id >", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridGreaterThanOrEqualTo(Long value) {
-            addCriterion("playerId >=", value, "playerid");
+        public Criteria andPlayerIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("player_id >=", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridLessThan(Long value) {
-            addCriterion("playerId <", value, "playerid");
+        public Criteria andPlayerIdLessThan(Long value) {
+            addCriterion("player_id <", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridLessThanOrEqualTo(Long value) {
-            addCriterion("playerId <=", value, "playerid");
+        public Criteria andPlayerIdLessThanOrEqualTo(Long value) {
+            addCriterion("player_id <=", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridIn(List<Long> values) {
-            addCriterion("playerId in", values, "playerid");
+        public Criteria andPlayerIdIn(List<Long> values) {
+            addCriterion("player_id in", values, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridNotIn(List<Long> values) {
-            addCriterion("playerId not in", values, "playerid");
+        public Criteria andPlayerIdNotIn(List<Long> values) {
+            addCriterion("player_id not in", values, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridBetween(Long value1, Long value2) {
-            addCriterion("playerId between", value1, value2, "playerid");
+        public Criteria andPlayerIdBetween(Long value1, Long value2) {
+            addCriterion("player_id between", value1, value2, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayeridNotBetween(Long value1, Long value2) {
-            addCriterion("playerId not between", value1, value2, "playerid");
+        public Criteria andPlayerIdNotBetween(Long value1, Long value2) {
+            addCriterion("player_id not between", value1, value2, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidIsNull() {
-            addCriterion("missionId is null");
+        public Criteria andMissionIdIsNull() {
+            addCriterion("mission_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidIsNotNull() {
-            addCriterion("missionId is not null");
+        public Criteria andMissionIdIsNotNull() {
+            addCriterion("mission_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidEqualTo(Integer value) {
-            addCriterion("missionId =", value, "missionid");
+        public Criteria andMissionIdEqualTo(Integer value) {
+            addCriterion("mission_id =", value, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidNotEqualTo(Integer value) {
-            addCriterion("missionId <>", value, "missionid");
+        public Criteria andMissionIdNotEqualTo(Integer value) {
+            addCriterion("mission_id <>", value, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidGreaterThan(Integer value) {
-            addCriterion("missionId >", value, "missionid");
+        public Criteria andMissionIdGreaterThan(Integer value) {
+            addCriterion("mission_id >", value, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("missionId >=", value, "missionid");
+        public Criteria andMissionIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("mission_id >=", value, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidLessThan(Integer value) {
-            addCriterion("missionId <", value, "missionid");
+        public Criteria andMissionIdLessThan(Integer value) {
+            addCriterion("mission_id <", value, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidLessThanOrEqualTo(Integer value) {
-            addCriterion("missionId <=", value, "missionid");
+        public Criteria andMissionIdLessThanOrEqualTo(Integer value) {
+            addCriterion("mission_id <=", value, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidIn(List<Integer> values) {
-            addCriterion("missionId in", values, "missionid");
+        public Criteria andMissionIdIn(List<Integer> values) {
+            addCriterion("mission_id in", values, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidNotIn(List<Integer> values) {
-            addCriterion("missionId not in", values, "missionid");
+        public Criteria andMissionIdNotIn(List<Integer> values) {
+            addCriterion("mission_id not in", values, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidBetween(Integer value1, Integer value2) {
-            addCriterion("missionId between", value1, value2, "missionid");
+        public Criteria andMissionIdBetween(Integer value1, Integer value2) {
+            addCriterion("mission_id between", value1, value2, "missionId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionidNotBetween(Integer value1, Integer value2) {
-            addCriterion("missionId not between", value1, value2, "missionid");
+        public Criteria andMissionIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("mission_id not between", value1, value2, "missionId");
             return (Criteria) this;
         }
 

@@ -28,7 +28,7 @@ public class AttackController {
 
     {
         ControllerManager.add(MsgId.COMMON_ATTACK,this::commonAttack);
-        ControllerManager.add(MsgId.USE_SKILL,this::useSkillAttackMonster);
+        ControllerManager.add(MsgId.PVE_SKILL,this::useSkillAttackMonster);
         ControllerManager.add(MsgId.PVP,this::pvpAttack);
         ControllerManager.add(MsgId.SKILL_PVP,this::pvpBySkill);
     }

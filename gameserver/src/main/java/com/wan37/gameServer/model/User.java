@@ -2,6 +2,7 @@ package com.wan37.gameServer.model;
 
 import com.wan37.mysql.pojo.entity.TUser;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -10,6 +11,7 @@ import lombok.Data;
  * Description: mmorpg
  */
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class User extends TUser {
 
     private String channelId;

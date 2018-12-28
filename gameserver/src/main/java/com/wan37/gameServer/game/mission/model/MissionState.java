@@ -32,6 +32,10 @@ public enum MissionState {
     }
 
 
+    public Integer getCode() {
+        return code;
+    }
+
     public static MissionState valueOf(Integer code) {
         switch (code) {
             case 1:

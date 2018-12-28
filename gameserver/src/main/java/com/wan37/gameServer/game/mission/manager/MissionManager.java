@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.mission.model.Mission;
-import com.wan37.gameServer.game.mission.model.MissionExcelUtil;
-import com.wan37.gameServer.game.mission.model.MissionProgress;
-import com.wan37.gameServer.game.mission.model.MissionState;
+import com.wan37.gameServer.game.mission.model.*;
 import com.wan37.gameServer.util.FileUtil;
 import com.wan37.mysql.pojo.entity.TMissionProgress;
 import com.wan37.mysql.pojo.entity.TMissionProgressExample;
@@ -61,8 +58,8 @@ public class MissionManager {
 
 
     public static MissionProgress getMissionProgress(Long playerId,Integer missionId) {
-        return Optional.ofNullable(missionProgressCache.getIfPresent(playerId)).map(
-                missionProgressMap -> missionProgressMap.get(missionId)).orElse(null);
+        return Optional.ofNullable(missionProgressCache.getIfPresent(playerId))
+                .map(missionProgressMap -> missionProgressMap.get(missionId)).orElse(null);
     }
 
 
@@ -94,26 +91,26 @@ public class MissionManager {
 
     public void loadMissionProgress(Long playerId) {
         TMissionProgressExample tMissionProgressExample = new TMissionProgressExample();
-        tMissionProgressExample.or().andPlayeridEqualTo(playerId);
+        tMissionProgressExample.or().andPlayerIdEqualTo(playerId);
         List<TMissionProgress> tMissionProgressList =  tMissionProgressMapper.selectByExample(tMissionProgressExample);
         Map<Integer,MissionProgress> playerMissionProgressMap = new HashMap<>();
 
         tMissionProgressList.forEach(
                 tMP -> {
                     MissionProgress mp = new MissionProgress();
-                    mp.setPlayerid(tMP.getPlayerid());
-                    mp.setMissionid(tMP.getMissionid());
+                    mp.setPlayerId(tMP.getPlayerId());
+                    mp.setMissionId(tMP.getMissionId());
                     mp.setBeginTime(tMP.getBeginTime());
                     mp.setEndTime(tMP.getEndTime());
-                    mp.setState(MissionState.valueOf(tMP.getMissionState()));
+                    mp.setMissionState(tMP.getMissionState());
                     // 加载任务实体
-                    mp.setMission(getMission(mp.getMissionid()));
+                    mp.setMission(getMission(mp.getMissionId()));
                     // 从数据库获取任务成就进度
-                    Map<String, List<Integer>>  missionProgressMap = JSON.parseObject(tMP.getProgress(),
-                            new TypeReference<Map<String,List<Integer>>>(){});
+                    Map<String, ProgressNumber>  missionProgressMap = JSON.parseObject(tMP.getProgress(),
+                            new TypeReference<Map<String,ProgressNumber>>(){});
                     log.debug(" missionProgressMap {}",  missionProgressMap);
                     mp.setProgressMap(missionProgressMap);
-                    playerMissionProgressMap.put(mp.getMissionid(),mp);
+                    playerMissionProgressMap.put(mp.getMissionId(),mp);
                 }
         );
         missionProgressCache.put(playerId,playerMissionProgressMap);
@@ -122,12 +119,12 @@ public class MissionManager {
 
 
     public  void saveMissionProgress(MissionProgress progress) {
-        tMissionProgressMapper.insert(progress);
+        tMissionProgressMapper.insertSelective(progress);
     }
 
 
     public void upDateMissionProgress(MissionProgress progress) {
-        tMissionProgressMapper.updateByPrimaryKey(progress);
+        tMissionProgressMapper.updateByPrimaryKeySelective(progress);
     }
 
 
