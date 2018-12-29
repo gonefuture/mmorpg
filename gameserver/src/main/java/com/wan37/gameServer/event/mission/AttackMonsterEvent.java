@@ -1,4 +1,4 @@
-package com.wan37.gameServer.event.achievement;
+package com.wan37.gameServer.event.mission;
 
 import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.game.gameRole.model.Player;

@@ -22,7 +22,7 @@ public class Skill implements IExcel<Integer> {
     private String name;
 
     @EntityName(column = "类型")
-    private Integer skillsType;
+    private Integer skillType;
 
     @EntityName(column = "cd")
     private Long cd;

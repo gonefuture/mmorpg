@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.gameRole.service;
 
 
+import com.wan37.gameServer.event.EventBus;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.bag.service.EquipmentBarService;
 import com.wan37.gameServer.game.gameRole.model.Buffer;
@@ -145,6 +146,7 @@ public class PlayerDataService {
                         return null;
                     }
             );
+
             return true;
         } else {
             return false;

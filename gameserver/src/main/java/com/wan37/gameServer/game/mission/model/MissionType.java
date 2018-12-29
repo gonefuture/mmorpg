@@ -12,9 +12,18 @@ public enum MissionType {
     KILL_MONSTER(1),
     COLLECT_THINGS(2),
     TALK_WITH(3),
-    FIRST_ACHIEVEMENT(4),
-    OTHER_ACHIEVEMENT(5),
-    MONEY_INCREASE(6)
+    MISSION(4),
+    LEVEL(5),
+    MONEY_INCREASE(6),
+    TEAM(7),
+    GUILD(8),
+    PK(9),
+    INSTANCE(10),
+    EQUIPMENT(11),
+    TRADE(12),
+    FRIEND(13)
+
+
     ;
 
 

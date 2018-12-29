@@ -103,7 +103,7 @@ public class SkillsService {
         target.setHp(target.getHp() - skill.getHpLose());
 
         // 如果技能类型是2，则对敌方单体目标释放buffer
-        if (skill.getSkillsType() == 2) {
+        if (skill.getSkillType() == 2) {
             Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
             // 如果buffer存在则启动buffer
             Optional.ofNullable(buffer).map(
@@ -112,7 +112,7 @@ public class SkillsService {
         }
 
         // 召唤兽类型的技能
-        if (skill.getSkillsType() == 5 ) {
+        if (skill.getSkillType() == 5 ) {
             petService.callPet(initiator,target,gameScene,skill.getCall());
         }
         // 开启技能冷却
@@ -196,7 +196,7 @@ public class SkillsService {
             return;
         }
         // 技能类型为1则对自己使用
-        if (skill.getSkillsType() == 1 ) {
+        if (skill.getSkillType() == 1 ) {
             useSkill(player,player,gameScene,skill);
         }
     }

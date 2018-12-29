@@ -1,5 +1,7 @@
 package com.wan37.gameServer.game.team.service;
 
+import com.wan37.gameServer.event.EventBus;
+import com.wan37.gameServer.event.achievement.TeamEvent;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
@@ -119,6 +121,8 @@ public class TeamService {
             showTeam(ctx);
             showTeam(invitor.getCtx());
         }
+
+        EventBus.publish(new TeamEvent(invitee));
     }
 
 

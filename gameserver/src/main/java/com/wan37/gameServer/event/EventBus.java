@@ -48,13 +48,11 @@ public class EventBus  {
      * 发布事件
      * @param event 事件
      */
-    public static <E extends Event, T extends EventHandler<E>> void publish(E event) {
-
-        log.debug("listenerMap {}",listenerMap);
+    public static <E extends Event> void publish(E event) {
+        // log.debug("listenerMap {}",listenerMap);
         List<EventHandler> handlerList =  listenerMap.get(event.getClass());
         if (!Objects.isNull(handlerList)) {
             for (EventHandler eventHandler: handlerList) {
-                log.debug("eventHandler", eventHandler);
                 eventHandler.handle(event);
             }
         }

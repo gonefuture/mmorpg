@@ -1,28 +1,23 @@
 package com.wan37.gameServer.game.combat.service;
 
-import com.wan37.common.entity.Msg;
-import com.wan37.gameServer.game.gameRole.manager.RoleClassManager;
-import com.wan37.gameServer.game.gameRole.model.RoleClass;
+import com.wan37.gameServer.event.EventBus;
+import com.wan37.gameServer.event.achievement.PKEvent;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
 import com.wan37.gameServer.game.sceneObject.service.MonsterAIService;
 import com.wan37.gameServer.game.sceneObject.service.MonsterDropsService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.game.skills.model.Skill;
+import com.wan37.gameServer.game.skills.model.SkillType;
 import com.wan37.gameServer.game.skills.service.SkillsService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
-import com.wan37.gameServer.manager.task.TimedTaskManager;
-import com.wan37.gameServer.model.Creature;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.management.relation.Role;
-import java.awt.event.MouseAdapter;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -145,7 +140,7 @@ public class CombatService {
         if (!skillsService.canSkill(player,skill))
             return;
 
-        if (targetIdList.size() > 1 && skill.getSkillsType() !=3) {
+        if (targetIdList.size() > 1 && skill.getSkillType() !=3) {
             notificationManager.notifyPlayer(player,"该技能不能对多个目标使用");
             return;
         }
@@ -195,7 +190,11 @@ public class CombatService {
         notificationManager.playerBeAttacked(player,targetPlayer, skill.getHpLose());
 
         // 检测玩家是否死亡
-        playerDataService.isPlayerDead(targetPlayer,player);
+        if (playerDataService.isPlayerDead(targetPlayer,player)) {
+            // 如果目标死亡，玩家pk胜利,抛出pk胜利事件
+                EventBus.publish(new PKEvent(player,true));
+
+        }
     }
 
 
@@ -213,7 +212,7 @@ public class CombatService {
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
 
 
-        if (targetIdList.size() > 1 && skill.getSkillsType() !=3) {
+        if (targetIdList.size() > 1 && skill.getSkillType() != SkillType.ATTACK_MULTI.getTypeId()) {
             notificationManager.notifyPlayer(player,"该技能不能对多个目标使用");
             return;
         }
