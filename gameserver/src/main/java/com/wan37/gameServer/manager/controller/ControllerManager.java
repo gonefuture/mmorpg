@@ -16,8 +16,7 @@ import com.wan37.gameServer.game.scene.controller.PlayerMoveController;
 import com.wan37.gameServer.game.shop.controller.BuyGoodsController;
 import com.wan37.gameServer.game.shop.controller.ShowGoodsController;
 import com.wan37.gameServer.game.things.controller.UseItemController;
-import com.wan37.gameServer.game.user.controller.ListGameRoleController;
-import com.wan37.gameServer.game.user.controller.UserLoginController;
+import com.wan37.gameServer.game.user.controller.UserController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +46,7 @@ public class ControllerManager {
     }
 
     @Resource
-    private UserLoginController userLoginController;
+    private UserController userController;
 
     @Resource
     private PlayerLoginController playerLoginController;
@@ -55,8 +54,6 @@ public class ControllerManager {
     @Resource
     private PlayerMoveController playerMoveController;
 
-    @Resource
-    private ListGameRoleController listGameRoleController;
 
     @Resource
     private AOIController aoiController;
@@ -108,10 +105,9 @@ public class ControllerManager {
     // 加载MsgId与控制器之间的关系
     @PostConstruct
     private void init() {
-        add(MsgId.USER_LOGIN, userLoginController);
+
         add(MsgId.PLAYER_LOGIN,playerLoginController);
         add(MsgId.MOVE, playerMoveController);
-        add(MsgId.LIST_GAME_ROLES,listGameRoleController);
         add(MsgId.AOI,aoiController);
         add(MsgId.PLAYER_EXIT,playerQuitController);
         add(MsgId.START_BUFFER,startBufferController);

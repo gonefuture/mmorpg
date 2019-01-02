@@ -1,6 +1,9 @@
 package com.wan37.gameServer.game.gameRole.model;
 
 
+import com.wan37.gameServer.event.EventBus;
+import com.wan37.gameServer.event.achievement.LevelEvent;
+import com.wan37.gameServer.event.achievement.MoneyEvent;
 import com.wan37.gameServer.game.bag.model.Bag;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
@@ -76,6 +79,34 @@ public class Player extends TPlayer   implements Creature  {
 
     // 玩家当前的队伍id
     private String teamId = "";
+
+
+    /**
+     *  经验增加
+     * @param exp 经验
+     */
+    public void addExp(Integer exp) {
+        this.setExp(this.getExp()+exp);
+        log.debug("this.getExp()",this.getExp());
+
+        int newLevel = this.getExp()/100;
+
+        // 如果等级发生变化，抛出等级事件
+        if (newLevel!= this.getLevel()) {
+            EventBus.publish(new LevelEvent(this,newLevel));
+        }
+        this.setLevel(newLevel);
+    }
+
+
+    /**
+     *  金币变化
+     * @param money 当前要变化的金币数量，正数为增加，负数减少
+     */
+    public void MoneyChange(Integer money) {
+        this.setMoney(this.getMoney()+money);
+        EventBus.publish(new MoneyEvent(this,money));
+    }
 
 
 

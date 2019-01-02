@@ -49,7 +49,7 @@ public class EventBus  {
      * @param event 事件
      */
     public static <E extends Event> void publish(E event) {
-        // log.debug("listenerMap {}",listenerMap);
+        log.debug("事件{}被抛出 ，listenerMap {}",event.getClass(),listenerMap);
         List<EventHandler> handlerList =  listenerMap.get(event.getClass());
         if (!Objects.isNull(handlerList)) {
             for (EventHandler eventHandler: handlerList) {

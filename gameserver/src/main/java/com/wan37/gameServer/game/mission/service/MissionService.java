@@ -53,12 +53,8 @@ public class MissionService {
         StringBuilder sb = new StringBuilder();
         sb.append("玩家的当前进行的任务：\n");
         MissionManager.getMissionProgressMap(player.getId()).forEach(
-                (k,v) -> {
-                    sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n",
-                            k,v.getMission().getName(),v.getMission().getLevel(),v.getMission().getDescribe()));
-                }
-        );
-
+                (k,v) -> sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n",
+                            k,v.getMission().getName(),v.getMission().getLevel(),v.getMission().getDescribe())));
         notificationManager.notifyPlayer(player,sb);
     }
 
@@ -70,22 +66,14 @@ public class MissionService {
         sb.append("所有的任务：\n");
         MissionManager.allMission().values().stream().
                 filter( mission -> mission.getType() !=  4)
-                .forEach(
-                mission -> {
-                    sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n"
-                            ,mission.getName(),mission.getLevel(),mission.getDescribe()));
-                }
-        );
+                .forEach( mission -> sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n"
+                            ,mission.getName(),mission.getLevel(),mission.getDescribe())));
         sb.append("\n").append("所有的成就：\n");
         MissionManager.allMission().values().stream().
                 filter( mission -> mission.getType() ==  4)
                 .forEach(
-                        mission -> {
-                            sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n"
-                                    ,mission.getName(),mission.getLevel(),mission.getDescribe()));
-                        }
-                );
-
+                        mission -> sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n"
+                                    ,mission.getName(),mission.getLevel(),mission.getDescribe())));
         notificationManager.notifyPlayer(player,sb);
     }
 
@@ -101,7 +89,7 @@ public class MissionService {
      * @param missionType 任务类型
      * @return 任务类型是否相同
      */
-    public Stream<Mission> getMissionType(MissionType missionType) {
+    private Stream<Mission> getMissionType(MissionType missionType) {
         return MissionManager.allMission().values().stream().filter(
                 mission -> mission.getType().equals(missionType.getTypeId())
         );
@@ -166,7 +154,7 @@ public class MissionService {
                 getMissionProgress(playerId,m.getId());
         log.debug("missionProgress {}",missionProgress);
         // 如果玩家没有记录，现在创建记录
-        MissionProgress  mp = Optional.ofNullable(missionProgress)
+       return Optional.ofNullable(missionProgress)
                 .orElseGet( () -> {
                             MissionProgress missionProgressNow = new MissionProgress();
                             missionProgressNow.setMissionId(m.getId());
@@ -185,7 +173,6 @@ public class MissionService {
                             return missionProgressNow;
                         }
                 );
-        return  mp;
     }
 
 
@@ -197,6 +184,9 @@ public class MissionService {
                 m ->{
                     // 如果角色没有该任务进度，新建一个
                     MissionProgress mp = getOrCreateProgress(m,player.getId());
+                    if (mp.getMissionState().equals(MissionState.NEVER.getCode())){
+                        return;
+                    }
 
                     // 如果任务进行中
                     //if (MissionState.RUNNING.getCode().equals(mp.getMissionState())) {
@@ -205,10 +195,12 @@ public class MissionService {
                         //检测任务是否完成
                         if (isMissionComplete(mp)) {
                             EventBus.publish(new MissionEvent(player,m,mp));
+                            // 如果任务成就是只有一次的，则设置为不再触发
+                            if(MissionCondition.FIRST_ACHIEVEMENT.equals(condition)) {
+                                mp.setMissionState(MissionState.NEVER.getCode());
+                            }
                         }
-
                         mp.setProgress(JSON.toJSONString(mp.getProgressMap()));
-                        log.debug("杀怪任务更新mp前{}",mp);
                         missionManager.upDateMissionProgress(mp);
                     //}
                 }
@@ -216,6 +208,37 @@ public class MissionService {
 
     }
 
+    public void checkMissionProgressByNumber(MissionType missionType, Player player, String condition, Integer goalNumber) {
+        getMissionType(missionType)
+                .filter(m -> hasCondition(m,condition))
+                .forEach(
+                        m ->{
+                            // 如果角色没有该任务进度，新建一个
+                            MissionProgress mp = getOrCreateProgress(m,player.getId());
+                            if (mp.getMissionState().equals(MissionState.NEVER.getCode()))
+                                return;
+
+                            // 如果任务进行中
+                            //if (MissionState.RUNNING.getCode().equals(mp.getMissionState())) {
+                            // 增加任务进度
+                            int now = mp.getProgressMap().get(condition).getNow().incrementAndGet();
+                            //检测任务是否完成
+                            if (now >= goalNumber) {
+                                EventBus.publish(new MissionEvent(player,m,mp));
+                                // 如果任务成就是只有一次的，则设置为不再触发
+                                if(MissionCondition.FIRST_ACHIEVEMENT.equals(condition)) {
+                                    mp.setMissionState(MissionState.NEVER.getCode());
+                                } else {
+                                    mp.setMissionState(MissionState.COMPLETE.getCode());
+                                }
+                            }
+                            mp.setProgress(JSON.toJSONString(mp.getProgressMap()));
+                            log.debug("进度更新前{}",mp);
+                            missionManager.upDateMissionProgress(mp);
+
+                        }
+                );
+    }
 
 
 

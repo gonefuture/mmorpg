@@ -153,10 +153,9 @@ public class PlayerDataService {
     }
 
 
-
-
-
-
+    private void initLevel(Player player) {
+        player.setLevel(player.getExp()/100);
+    }
 
 
 
@@ -165,6 +164,8 @@ public class PlayerDataService {
      * @param player 角色
      */
     public void initPlayer(Player player) {
+        // 初始化等级
+        initLevel(player);
 
         // 加载属性
         rolePropertyService.loadRoleProperty(player);

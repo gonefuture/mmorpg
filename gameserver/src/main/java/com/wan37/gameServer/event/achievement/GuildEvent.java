@@ -8,15 +8,14 @@ import lombok.EqualsAndHashCode;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2019/1/2 9:53
+ * time 2018/12/29 14:55
  * @version 1.00
- * Description: mmorpg
+ * Description: 公会事件
  */
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class AddFriendEvent extends Event {
-    Player player;
-
+public class GuildEvent  extends Event {
+    private Player player;
 }

@@ -37,7 +37,7 @@ public class PKEventHandler  {
 
         // 玩家pk胜利
         if (event.isWin()) {
-            missionService.checkMissionProgress(MissionType.KILL_MONSTER,player, MissionCondition.FIRST_ACHIEVEMENT);
+            missionService.checkMissionProgress(MissionType.PK,player, MissionCondition.FIRST_ACHIEVEMENT);
         }
     }
 

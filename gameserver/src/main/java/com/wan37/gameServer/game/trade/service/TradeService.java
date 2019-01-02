@@ -1,7 +1,6 @@
 package com.wan37.gameServer.game.trade.service;
 
 import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.achievement.MoneyEvent;
 import com.wan37.gameServer.event.achievement.TradeEvent;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
@@ -19,7 +18,6 @@ import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -162,11 +160,11 @@ public class TradeService {
         Player initiator = tradeBoard.getInitiator();
         Player accepter = tradeBoard.getAccepter();
         // 将交易栏的金币放入玩家钱袋,发起者的金币放入接收者，接收者的金币放入发起者
-        initiator.setMoney(initiator.getMoney() + tradeBoard.getMoneyMap().get(accepter.getId()));
+        initiator.MoneyChange(tradeBoard.getMoneyMap().get(accepter.getId()));
         // 玩家扣钱
         accepter.setMoney(accepter.getMoney() - tradeBoard.getMoneyMap().get(accepter.getId()));
 
-        accepter.setMoney(accepter.getMoney() + tradeBoard.getMoneyMap().get(initiator.getId()));
+        accepter.MoneyChange(tradeBoard.getMoneyMap().get(initiator.getId()));
         // 玩家扣钱
         initiator.setMoney(initiator.getMoney() - tradeBoard.getMoneyMap().get(initiator.getId()));
 
@@ -188,10 +186,6 @@ public class TradeService {
 
         notificationManager.notifyPlayers(Arrays.asList(tradeBoard.getAccepter(),tradeBoard.getInitiator()),
                 "交易成功，双方已收到相应的物品和装备");
-
-        // 抛出金币变化事件
-        EventBus.publish(new MoneyEvent(initiator,initiator.getMoney()));
-        EventBus.publish(new MoneyEvent(accepter,accepter.getMoney()));
 
     }
 }

@@ -19,8 +19,10 @@ public enum MissionState {
 
     COMPLETE("任务完成", 3),
 
-    FINISH("任务结束", 4);
+    FINISH("任务结束", 4),
 
+    // 任务完成了之后不再触发
+    NEVER("不再触发",5);
 
     String name;
 

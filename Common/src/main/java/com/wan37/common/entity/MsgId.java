@@ -142,7 +142,7 @@ public enum MsgId {
     TRADE_MONEY("trade_money",4016),
 
     // 确定交易
-    CONFIRM_TRADE("confirm_trade",4017),
+    CONFIRM_TRADE("trade_confirm",4017),
 
     // 创建公会
     GUILD_CREATE("guild_create",4018),

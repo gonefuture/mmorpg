@@ -20,7 +20,7 @@ import java.text.MessageFormat;
 
 @Component
 @Slf4j
-public class MissionSuccessHandler {
+public class MissionHandler {
 
     {
         EventBus.subscribe(MissionEvent.class,this::notificationMission);
@@ -38,8 +38,9 @@ public class MissionSuccessHandler {
     private  void notificationMission(MissionEvent missionEvent) {
        MissionProgress missionProgress = missionEvent.getMissionProgress();
        if (MissionState.COMPLETE.getCode().equals(missionProgress.getMissionState())) {
-           notificationManager.notifyPlayer(missionEvent.getPlayer(), MessageFormat.format("{0}  达成",
-                   missionEvent.getMission().getName()));
+           notificationManager.notifyPlayer(missionEvent.getPlayer(), MessageFormat.format("{0}  达成 \n" +
+                           "{1}",
+                   missionEvent.getMission().getName(),missionEvent.getMission().getDescribe()));
        }
 
         if (MissionState.FINISH.getCode().equals(missionProgress.getMissionState())) {

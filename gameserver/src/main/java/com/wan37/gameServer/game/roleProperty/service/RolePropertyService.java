@@ -47,18 +47,11 @@ public class RolePropertyService {
 
         thingPropertySet.forEach(
                 thingProperty -> {
-                    log.debug("加载物品的增益到玩家属性中 thingProperty {}",thingProperty);
+                    // log.debug("加载物品的增益到玩家属性中 thingProperty {}",thingProperty);
                     // 改变属性
-
                     Optional<RoleProperty> playerProperty = Optional.ofNullable(thingProperty.getKey())
                             .map(playerPropertyMap::get);
-
-                    log.debug("加载物品的增益到玩家属性中 playerProperty {}",playerProperty);
-                    playerProperty.ifPresent(
-                            p -> {
-                                p.setValue(p.getValue() + thingProperty.getThingPropertyValue());
-                            }
-                    );
+                    playerProperty.ifPresent(p -> p.setValue(p.getValue() + thingProperty.getThingPropertyValue()));
 
                 }
         );

@@ -2,6 +2,7 @@ package com.wan37.gameServer.event.achievement;
 
 import com.wan37.gameServer.event.Event;
 
+import com.wan37.gameServer.game.gameRole.model.Player;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,5 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class StartTeamEvent  extends Event {
+
+    private Player player;
 
 }

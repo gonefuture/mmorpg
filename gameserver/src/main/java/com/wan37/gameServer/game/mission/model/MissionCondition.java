@@ -7,8 +7,13 @@ package com.wan37.gameServer.game.mission.model;
  * Description: 任务条件
  */
 public final class MissionCondition {
-    public static final String FIRST_ACHIEVEMENT = "condition";
+    // 第一次类型的任务，只能完成一次
+    public static final String FIRST_ACHIEVEMENT = "first";
 
-    public static final String NUMBER = "condition";
+    // 以目标数量为条件
+    public static final String NUMBER = "number";
+
+    //  以特定目标NPC,怪物，物品，副本等id为完成条件
+    public static final String ID = "id";
 
 }

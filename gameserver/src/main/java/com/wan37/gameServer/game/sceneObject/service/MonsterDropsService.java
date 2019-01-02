@@ -48,8 +48,12 @@ public class MonsterDropsService {
      */
     public void dropItem(Player player, SceneObject sceneObject) {
 
-        // 掉落金钱，此处默认按怪物血量掉钱
-        player.setMoney(player.getMoney()+ sceneObject.getHp().intValue());
+        // 掉落金钱，此处默认按怪物mp掉钱
+        player.setMoney(player.getMoney()+ sceneObject.getMp().intValue());
+
+
+        // 掉落经验，，此处默认按怪物mp来计算
+        player.addExp(sceneObject.getMp().intValue());
 
         Bag bag = player.getBag();
         List<Drop> dropList = calculateDrop(sceneObject);
@@ -60,7 +64,6 @@ public class MonsterDropsService {
             if (flag) {
                 Things things = thingsService.getThings(drop.getThingId());
                 // 物品id
-
                 // 唯一id用一个long类型存储，long类型有64位，我们使用它的低32位存储策划配置的物品表中的物品id，
                 // 高32用来记录每获得一个物品就自增加1的序列order
                 Long itemId =  (((long) new Date().getTime())<< 32) + (long)things.getId();

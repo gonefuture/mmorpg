@@ -102,14 +102,9 @@ public class CombatService {
      * @param player 玩家
      * @param targetId 目标id
      */
-    public void commonAttackByPVP(Player player, Long targetId) {
+    public void commonAttackByPVP(Player player, Player targetPlayer) {
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
-        Player targetPlayer = gameScene.getPlayers().get(targetId);
 
-        if (player.getId().equals(targetId)) {
-            notificationManager.notifyPlayer(player,"自己不能攻击自己");
-            return;
-        }
         // 获取发起攻击者的战力
         int attack = player.getAttack();
         notificationManager.notifyScene(gameScene,
@@ -122,7 +117,6 @@ public class CombatService {
         // 通知攻击结果
         notificationManager.playerBeAttacked(player,targetPlayer, attack);
 
-        // 检测玩家是否死亡
         // 检测玩家是否死亡
         if (playerDataService.isPlayerDead(targetPlayer,player)) {
             // 如果目标死亡，玩家pk胜利,抛出pk胜利事件
@@ -217,7 +211,7 @@ public class CombatService {
         GameScene gameScene = gameSceneService.findSceneByPlayer(player);
 
 
-        if (targetIdList.size() > 1 && skill.getSkillType() != SkillType.ATTACK_MULTI.getTypeId()) {
+        if (targetIdList.size() > 1 && !skill.getSkillType().equals(SkillType.ATTACK_MULTI.getTypeId())) {
             notificationManager.notifyPlayer(player,"该技能不能对多个目标使用");
             return;
         }
@@ -261,7 +255,7 @@ public class CombatService {
                 MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
                         player.getName(),target.getName(),skill.getName()));
         //
-        monsterAIService.monsterBeAttack(player,target,gameScene,player.getAttack());
+        monsterAIService.monsterBeAttack(player,target,gameScene,skill.getHpLose().intValue());
 
     }
 

@@ -5,6 +5,7 @@ import com.wan37.gameServer.event.achievement.TradeEvent;
 import com.wan37.gameServer.game.mission.model.MissionCondition;
 import com.wan37.gameServer.game.mission.model.MissionType;
 import com.wan37.gameServer.game.mission.service.MissionService;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -14,6 +15,8 @@ import javax.annotation.Resource;
  * @version 1.00
  * Description: 交易事件处理器
  */
+
+@Component
 public class TradeEventHandler {
 
     {

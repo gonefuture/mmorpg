@@ -41,8 +41,9 @@ public class PlayerController {
         Player player = playerDataService.getPlayerByCtx(ctx);
 
         StringBuilder sb = new StringBuilder();
-        sb.append(MessageFormat.format("玩家 {0}，hp:{1}, mp:{2} 经验：{3} 战力： {4}  货币： {5}\n",
-                player.getName(),player.getHp(),player.getMp(),player.getExp(), player.getAttack(),player.getMoney()));
+        sb.append(MessageFormat.format("玩家 {0}，hp:{1}, mp:{2} 经验：{3} 战力： {4}  等级：{5} 货币： {6}\n",
+                player.getName(),player.getHp(),player.getMp(),player.getExp(),
+                player.getAttack(),player.getLevel(),player.getMoney()));
         sb.append("玩家正在冷却的技能:\n");
         if (player.getHasUseSkillMap().isEmpty()) {
             sb.append("无");
