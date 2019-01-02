@@ -123,7 +123,12 @@ public class CombatService {
         notificationManager.playerBeAttacked(player,targetPlayer, attack);
 
         // 检测玩家是否死亡
-        playerDataService.isPlayerDead(targetPlayer,player);
+        // 检测玩家是否死亡
+        if (playerDataService.isPlayerDead(targetPlayer,player)) {
+            // 如果目标死亡，玩家pk胜利,抛出pk胜利事件
+            EventBus.publish(new PKEvent(player,true));
+
+        }
     }
 
 

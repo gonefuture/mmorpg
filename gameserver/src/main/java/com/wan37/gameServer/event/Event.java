@@ -1,7 +1,7 @@
 package com.wan37.gameServer.event;
 
 
-import com.wan37.gameServer.game.gameRole.model.Player;
+
 import lombok.Data;
 
 /**
@@ -15,7 +15,6 @@ import lombok.Data;
 public abstract class Event {
 
 
-    Player player;
 
 
 }

@@ -135,9 +135,15 @@ public class MissionService {
     }
 
 
+    /**
+     *  检测任务是否已经完成
+     * @param missionProgress 任务进度
+     * @return 是否完成
+     */
     public boolean isMissionComplete(MissionProgress missionProgress) {
         boolean isComplete = missionProgress.getProgressMap().values().stream().
-                allMatch(progressNumber -> progressNumber.getGoal().equals(progressNumber.getNow().get()));
+                // 当前进度的数目指标大于或等于目标数目指标
+                allMatch(progressNumber -> progressNumber.getNow().get() >= progressNumber.getGoal());
 
         if (isComplete) {
             missionProgress.setMissionState(MissionState.COMPLETE.getCode());

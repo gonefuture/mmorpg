@@ -1,11 +1,17 @@
 package com.wan37.gameServer.game.sceneObject.service;
 
 
+import com.wan37.gameServer.event.EventBus;
+import com.wan37.gameServer.event.achievement.TalkWithEvent;
+import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.sceneObject.manager.GameObjectManager;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.sceneObject.model.SceneObject;
+import com.wan37.gameServer.manager.notification.NotificationManager;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +29,15 @@ import java.util.Arrays;
 public class GameObjectService {
     @Resource
     private GameObjectManager gameObjectManager;
+
+    @Resource
+    private NotificationManager notificationManager;
+
+    @Resource
+    private PlayerDataService playerDataService;
+
+
+
 
     public SceneObject getGameObject(long gameObjectId) {
         return gameObjectManager.get(gameObjectId);
@@ -82,6 +97,31 @@ public class GameObjectService {
                 }
         );
         return gameScene;
+    }
+
+
+    /**
+     *  与NPC谈话
+     * @param ctx 上下文
+     */
+    public void talkWithNPC(Long npcId,ChannelHandlerContext ctx) {
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        SceneObject sceneObject = getGameObject(npcId);
+        talk(player,sceneObject);
+
+        // 谈话事件
+        EventBus.publish(new TalkWithEvent(player,npcId));
+
+    }
+
+
+    /**
+     *      场景对象谈话
+     * @param player 玩家
+     * @param sceneObject 场景对象
+     */
+    public void talk(Player player, SceneObject sceneObject) {
+        notificationManager.notifyPlayer(player,sceneObject.getTalk());
     }
 
 

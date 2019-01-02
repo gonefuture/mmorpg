@@ -14,7 +14,7 @@ public enum MissionType {
     TALK_WITH(3),
     MISSION(4),
     LEVEL(5),
-    MONEY_INCREASE(6),
+    MONEY(6),
     TEAM(7),
     GUILD(8),
     PK(9),

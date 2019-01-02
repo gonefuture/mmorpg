@@ -138,24 +138,19 @@ public class PlayerDataService {
             gameSceneService.carryToScene(casualty,12);
             notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了,十秒后复活 \n");
 
-            TimedTaskManager.scheduleWithData(
+            TimedTaskManager.schedule(
                     10000, () -> {
                         casualty.setState(1);
                         initPlayer(casualty);
                         notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经复活 \n");
-                        return null;
                     }
             );
-
             return true;
         } else {
             return false;
         }
 
     }
-
-
-
 
 
 

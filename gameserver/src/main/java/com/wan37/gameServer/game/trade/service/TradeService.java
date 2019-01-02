@@ -1,5 +1,8 @@
 package com.wan37.gameServer.game.trade.service;
 
+import com.wan37.gameServer.event.EventBus;
+import com.wan37.gameServer.event.achievement.MoneyEvent;
+import com.wan37.gameServer.event.achievement.TradeEvent;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -64,6 +67,8 @@ public class TradeService {
         notificationManager.notifyPlayer(accepter, MessageFormat.format(
                 "{0} 向你发起交易请求，如果同意开始交易，请回复 `begin_trade`，交易请求将于三分钟后失效\n",
                 initiator.getName()));
+        // 交易事件
+        EventBus.publish(new TradeEvent(initiator,accepter));
     }
 
 
@@ -159,11 +164,11 @@ public class TradeService {
         // 将交易栏的金币放入玩家钱袋,发起者的金币放入接收者，接收者的金币放入发起者
         initiator.setMoney(initiator.getMoney() + tradeBoard.getMoneyMap().get(accepter.getId()));
         // 玩家扣钱
-        accepter.setMoney(player.getMoney() - tradeBoard.getMoneyMap().get(accepter.getId()));
+        accepter.setMoney(accepter.getMoney() - tradeBoard.getMoneyMap().get(accepter.getId()));
 
         accepter.setMoney(accepter.getMoney() + tradeBoard.getMoneyMap().get(initiator.getId()));
         // 玩家扣钱
-        initiator.setMoney(player.getMoney() - tradeBoard.getMoneyMap().get(initiator.getId()));
+        initiator.setMoney(initiator.getMoney() - tradeBoard.getMoneyMap().get(initiator.getId()));
 
         // 物品放入玩家背包,发起者的物品放入接收者背包，接收者的物品放入发起者背包
         tradeBoard.getPlayerItems().get(initiator.getId()).values().forEach(
@@ -184,8 +189,9 @@ public class TradeService {
         notificationManager.notifyPlayers(Arrays.asList(tradeBoard.getAccepter(),tradeBoard.getInitiator()),
                 "交易成功，双方已收到相应的物品和装备");
 
+        // 抛出金币变化事件
+        EventBus.publish(new MoneyEvent(initiator,initiator.getMoney()));
+        EventBus.publish(new MoneyEvent(accepter,accepter.getMoney()));
 
     }
-
-
 }

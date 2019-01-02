@@ -55,9 +55,11 @@ public enum MsgId {
     // AOI, 显示场景内各种游戏对象
     AOI("aoi",3002),
 
+    // 与npc谈话
+    TALK_WITH_NPC("talk",13002),
 
     // 使用技能
-    USE_SKILL("skill",3003),
+    USE_SKILL("skill",13003),
 
     // 使用技能攻击怪物
     PVE_SKILL("pve_skill",3003),
