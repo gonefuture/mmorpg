@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -63,6 +65,19 @@ public class MissionManager {
     }
 
 
+    public static void putMissionProgress(Long playerId, MissionProgress missionProgress) {
+
+        Optional.ofNullable(missionProgressCache.getIfPresent(playerId))
+                .map(missionProgressMap -> missionProgressMap.put(missionProgress.getMissionId(),missionProgress))
+                .orElseGet( () ->  {
+                    missionProgressCache.put(playerId,new ConcurrentHashMap<Integer, MissionProgress>() {{
+                        put(missionProgress.getMissionId(),missionProgress);
+                    }});
+                    return  null;
+                });
+    }
+
+
     public static Map<Integer,MissionProgress> getMissionProgressMap(Long playerId) {
         return missionProgressCache.getIfPresent(playerId);
     }
@@ -96,7 +111,7 @@ public class MissionManager {
         TMissionProgressExample tMissionProgressExample = new TMissionProgressExample();
         tMissionProgressExample.or().andPlayerIdEqualTo(playerId);
         List<TMissionProgress> tMissionProgressList =  tMissionProgressMapper.selectByExample(tMissionProgressExample);
-        Map<Integer,MissionProgress> playerMissionProgressMap = new HashMap<>();
+        Map<Integer,MissionProgress> playerMissionProgressMap = new ConcurrentHashMap<>();
 
         tMissionProgressList.forEach(
                 tMP -> {
@@ -111,7 +126,7 @@ public class MissionManager {
                     // 从数据库获取任务成就进度
                     Map<String, ProgressNumber>  missionProgressMap = JSON.parseObject(tMP.getProgress(),
                             new TypeReference<Map<String,ProgressNumber>>(){});
-                    log.debug(" missionProgressMap {}",  missionProgressMap);
+                    log.debug(" 从数据库加载的任务进程 {}",  mp);
                     mp.setProgressMap(missionProgressMap);
                     playerMissionProgressMap.put(mp.getMissionId(),mp);
                 }

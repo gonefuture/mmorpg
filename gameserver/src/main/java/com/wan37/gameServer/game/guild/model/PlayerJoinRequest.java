@@ -20,8 +20,7 @@ public class PlayerJoinRequest {
         this.player = player;
     }
 
-    public PlayerJoinRequest() {
-    }
+
 
     private boolean isAgree;
 

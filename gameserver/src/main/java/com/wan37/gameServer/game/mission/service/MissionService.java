@@ -2,17 +2,12 @@ package com.wan37.gameServer.game.mission.service;
 
 import com.alibaba.fastjson.JSON;
 import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.mission.MissionEvent;
+import com.wan37.gameServer.event.model.MissionEvent;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.mission.manager.MissionManager;
 import com.wan37.gameServer.game.mission.model.*;
-import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.manager.notification.NotificationManager;
-import com.wan37.mysql.pojo.entity.TMissionProgress;
-import com.wan37.mysql.pojo.entity.TMissionProgressExample;
-import com.wan37.mysql.pojo.entity.TMissionProgressKey;
-import com.wan37.mysql.pojo.mapper.TMissionProgressMapper;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -168,7 +163,8 @@ public class MissionService {
                             );
                             missionProgressNow.setProgress(JSON.toJSONString(missionProgressNow.getProgressMap()));
                             log.debug("missionProgressNow前 {}",missionProgressNow);
-                            // 持久化进度
+                            // 放入缓存并持久化进度
+                            MissionManager.putMissionProgress(playerId,missionProgressNow);
                             missionManager.saveMissionProgress(missionProgressNow);
                             return missionProgressNow;
                         }
@@ -176,7 +172,12 @@ public class MissionService {
     }
 
 
-
+    /**
+     *  检测进度
+     * @param missionType   任务类型
+     * @param player 玩家
+     * @param condition 条件
+     */
     public void checkMissionProgress(MissionType missionType,Player player, String condition) {
         getMissionType(missionType)
                 .filter(m -> hasCondition(m,condition))
@@ -208,7 +209,7 @@ public class MissionService {
 
     }
 
-    public void checkMissionProgressByNumber(MissionType missionType, Player player, String condition, Integer goalNumber) {
+    public void checkMissionProgressByNumber(MissionType missionType, Player player, String condition, Integer nowNumber) {
         getMissionType(missionType)
                 .filter(m -> hasCondition(m,condition))
                 .forEach(
@@ -221,16 +222,16 @@ public class MissionService {
                             // 如果任务进行中
                             //if (MissionState.RUNNING.getCode().equals(mp.getMissionState())) {
                             // 增加任务进度
-                            int now = mp.getProgressMap().get(condition).getNow().incrementAndGet();
+                            int goal = mp.getProgressMap().get(condition).getGoal();
                             //检测任务是否完成
-                            if (now >= goalNumber) {
-                                EventBus.publish(new MissionEvent(player,m,mp));
+                            if (nowNumber >= goal) {
                                 // 如果任务成就是只有一次的，则设置为不再触发
                                 if(MissionCondition.FIRST_ACHIEVEMENT.equals(condition)) {
                                     mp.setMissionState(MissionState.NEVER.getCode());
                                 } else {
                                     mp.setMissionState(MissionState.COMPLETE.getCode());
                                 }
+                                EventBus.publish(new MissionEvent(player,m,mp));
                             }
                             mp.setProgress(JSON.toJSONString(mp.getProgressMap()));
                             log.debug("进度更新前{}",mp);

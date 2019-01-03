@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -112,7 +113,7 @@ public class GuildManager {
             Map<Long,PlayerJoinRequest>  playerJoinRequestMap =  JSON.parseObject(guild.getJoinRequest(),
                     new TypeReference<Map<Long,PlayerJoinRequest>>() {});
             log.debug("playerJoinRequestList {}",playerJoinRequestMap);
-            guild.setPlayerJoinRequestMap(playerJoinRequestMap);
+            Optional.ofNullable(playerJoinRequestMap).ifPresent(guild::setPlayerJoinRequestMap);
         }
     }
 

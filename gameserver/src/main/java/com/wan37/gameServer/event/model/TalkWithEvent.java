@@ -1,15 +1,14 @@
-package com.wan37.gameServer.event.achievement;
+package com.wan37.gameServer.event.model;
 
 import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.checkerframework.checker.units.qual.A;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/12/29 14:56
+ * time 2019/1/2 11:36
  * @version 1.00
  * Description: mmorpg
  */
@@ -17,10 +16,7 @@ import org.checkerframework.checker.units.qual.A;
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class PKEvent extends Event {
-
+public class TalkWithEvent extends Event {
     private Player player;
-
-    private boolean isWin;
-
+    private Long sceneObjectId;
 }

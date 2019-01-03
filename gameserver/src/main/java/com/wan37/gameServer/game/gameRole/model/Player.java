@@ -2,8 +2,8 @@ package com.wan37.gameServer.game.gameRole.model;
 
 
 import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.achievement.LevelEvent;
-import com.wan37.gameServer.event.achievement.MoneyEvent;
+import com.wan37.gameServer.event.model.LevelEvent;
+import com.wan37.gameServer.event.model.MoneyEvent;
 import com.wan37.gameServer.game.bag.model.Bag;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
@@ -11,7 +11,7 @@ import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
 
 import com.wan37.gameServer.game.skills.model.Skill;
-import com.wan37.gameServer.game.things.model.Things;
+
 import com.wan37.gameServer.model.Creature;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import io.netty.channel.ChannelHandlerContext;
@@ -99,14 +99,16 @@ public class Player extends TPlayer   implements Creature  {
     }
 
 
+
     /**
      *  金币变化
      * @param money 当前要变化的金币数量，正数为增加，负数减少
      */
-    public void MoneyChange(Integer money) {
+    public void moneyChange(Integer money) {
         this.setMoney(this.getMoney()+money);
         EventBus.publish(new MoneyEvent(this,money));
     }
+
 
 
 

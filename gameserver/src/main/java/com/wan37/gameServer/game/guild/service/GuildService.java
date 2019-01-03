@@ -1,5 +1,8 @@
 package com.wan37.gameServer.game.guild.service;
 
+import com.wan37.gameServer.event.Event;
+import com.wan37.gameServer.event.EventBus;
+import com.wan37.gameServer.event.model.GuildEvent;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -54,7 +58,7 @@ public class GuildService {
             return;
         }
         sb.append(MessageFormat.format(
-                "公会： {0} {1}  等级：{2} \n ",guild.getId(),guild.getName(),guild.getLevel()
+                "id: {0} 公会：{1}  等级：{2} \n ",guild.getId(),guild.getName(),guild.getLevel()
         ));
 
         sb.append(MessageFormat.format("公会成员({0}个)：\n",guild.getMemberMap().size()));
@@ -64,7 +68,7 @@ public class GuildService {
                 p.getId(),p.getName(),p.getRoleClass(),p.getLevel(),p.getGuildClass()))
         );
 
-        sb.append(MessageFormat.format("公会仓库(容量{0})：\n",guild.getWarehouseSize()));
+        sb.append(MessageFormat.format("公会仓库(容量{0})：\n", Optional.ofNullable(guild.getWarehouseSize()).orElse(0)));
         if (guild.getWarehouseMap().size() == 0) {
             sb.append("公会仓库为空\n");
         }
@@ -100,6 +104,8 @@ public class GuildService {
         notificationManager.notifyPlayer(player,"公会创建成功");
         GuildManager.putGuild(guild.getId(),guild);
         guildManager.insertGuild(guild);
+        // 公会事件
+        EventBus.publish(new GuildEvent(player,guild));
     }
 
     public void guildJoin(ChannelHandlerContext ctx,Integer guildId) {
@@ -123,7 +129,7 @@ public class GuildService {
     /**
      *  允许入会
      * @param ctx 上下文
-     * @param playerId
+     * @param playerId 玩家id
      */
     public void guildPermit(ChannelHandlerContext ctx, Long playerId) {
         Player player = playerDataService.getPlayerByCtx(ctx);
@@ -150,6 +156,9 @@ public class GuildService {
         notificationManager.notifyPlayer(player,MessageFormat.format("已允许玩家{0}加入公会",joiner.getName()));
         notificationManager.notifyPlayer(joiner,MessageFormat.format("你已加入{0}公会",guild.getName()));
         guildManager.updateGuild(guild);
+
+        // 公会事件
+        EventBus.publish(new GuildEvent(joiner,guild));
     }
 
 

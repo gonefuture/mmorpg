@@ -1,10 +1,7 @@
-package com.wan37.gameServer.event.eventHandler;
+package com.wan37.gameServer.event.handler;
 
-import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.achievement.GuildEvent;
-import com.wan37.gameServer.game.guild.model.Guild;
-import com.wan37.gameServer.game.mission.model.Mission;
+import com.wan37.gameServer.event.model.InstanceEvent;
 import com.wan37.gameServer.game.mission.model.MissionCondition;
 import com.wan37.gameServer.game.mission.model.MissionType;
 import com.wan37.gameServer.game.mission.service.MissionService;
@@ -14,24 +11,23 @@ import javax.annotation.Resource;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2019/1/2 18:30
+ * time 2019/1/3 17:27
  * @version 1.00
  * Description: mmorpg
  */
 
 @Component
-public class GuildEventHandler {
+public class InstanceEventHandler {
 
     {
-        EventBus.subscribe(GuildEvent.class,this::joinGuild);
+        EventBus.subscribe(InstanceEvent.class,this::passInstance);
     }
 
     @Resource
     private MissionService missionService;
 
-    private  void joinGuild(GuildEvent guildEvent) {
+
+    private  void passInstance(InstanceEvent guildEvent) {
         missionService.checkMissionProgress(MissionType.GUILD,guildEvent.getPlayer(), MissionCondition.FIRST_ACHIEVEMENT);
     }
-
-
 }

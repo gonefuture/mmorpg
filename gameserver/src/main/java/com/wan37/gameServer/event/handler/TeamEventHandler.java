@@ -1,9 +1,7 @@
-package com.wan37.gameServer.event.eventHandler;
+package com.wan37.gameServer.event.handler;
 
-import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.achievement.StartTeamEvent;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.event.model.TeamEvent;
 import com.wan37.gameServer.game.mission.model.MissionCondition;
 import com.wan37.gameServer.game.mission.model.MissionType;
 import com.wan37.gameServer.game.mission.service.MissionService;
@@ -25,7 +23,7 @@ import javax.annotation.Resource;
 public class TeamEventHandler {
 
     {
-        EventBus.subscribe(StartTeamEvent.class,this::firstTeam);
+        EventBus.subscribe(TeamEvent.class,this::firstTeam);
     }
 
 
@@ -36,11 +34,11 @@ public class TeamEventHandler {
     private MissionService missionService;
 
 
-    private  void firstTeam(StartTeamEvent event) {
-        Player player = event.getPlayer();
-
-        missionService.checkMissionProgress(MissionType.KILL_MONSTER,player, MissionCondition.FIRST_ACHIEVEMENT);
-
+    private  void firstTeam(TeamEvent teamEvent) {
+        // 检测队伍是否是第一次组队
+        teamEvent.getTeammate().forEach(
+                p -> missionService.checkMissionProgress(MissionType.TEAM,p, MissionCondition.FIRST_ACHIEVEMENT)
+        );
 
     }
 

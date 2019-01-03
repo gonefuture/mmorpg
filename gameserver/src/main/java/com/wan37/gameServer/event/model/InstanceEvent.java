@@ -1,4 +1,4 @@
-package com.wan37.gameServer.event.achievement;
+package com.wan37.gameServer.event.model;
 
 import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;

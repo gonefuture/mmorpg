@@ -1,10 +1,12 @@
-package com.wan37.gameServer.event.achievement;
+package com.wan37.gameServer.event.model;
 
 import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -16,7 +18,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class TeamEvent extends Event {
-    private Player player;
+
+    private List<Player> teammate;
 
 
 }

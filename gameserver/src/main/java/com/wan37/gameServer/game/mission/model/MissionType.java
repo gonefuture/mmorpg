@@ -21,7 +21,9 @@ public enum MissionType {
     INSTANCE(10),
     EQUIPMENT(11),
     TRADE(12),
-    FRIEND(13)
+    FRIEND(13),
+    FIRST_ACHIEVEMENT(14),
+
 
 
     ;

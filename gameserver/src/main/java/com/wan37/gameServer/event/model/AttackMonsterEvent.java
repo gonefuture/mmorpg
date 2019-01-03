@@ -1,4 +1,4 @@
-package com.wan37.gameServer.event.mission;
+package com.wan37.gameServer.event.model;
 
 import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -8,26 +8,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/12/27 15:33
+ * time 2018/12/27 14:56
  * @version 1.00
- * Description: 怪物死亡的事件
+ * Description: mmorpg
  */
 
 @Data
 @EqualsAndHashCode(callSuper=true)
 @AllArgsConstructor
-public class MonsterEventDeadEvent  extends Event {
-
+public class AttackMonsterEvent extends Event {
 
     private Player player;
     private Monster target;
     private GameScene gameScene;
     private Integer damage;
-
-
 
 
 }

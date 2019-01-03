@@ -1,7 +1,7 @@
 package com.wan37.gameServer.game.combat.service;
 
 import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.achievement.PKEvent;
+import com.wan37.gameServer.event.model.PKEvent;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.gameRole.model.Player;

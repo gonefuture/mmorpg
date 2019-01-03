@@ -1,9 +1,9 @@
-package com.wan37.gameServer.event.eventHandler;
+package com.wan37.gameServer.event.handler;
 
 
 import com.wan37.gameServer.event.EventBus;
 
-import com.wan37.gameServer.event.mission.MonsterEventDeadEvent;
+import com.wan37.gameServer.event.model.MonsterEventDeadEvent;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.mission.manager.MissionManager;
 import com.wan37.gameServer.game.mission.model.*;

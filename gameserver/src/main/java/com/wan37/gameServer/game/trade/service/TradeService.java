@@ -1,7 +1,7 @@
 package com.wan37.gameServer.game.trade.service;
 
 import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.achievement.TradeEvent;
+import com.wan37.gameServer.event.model.TradeEvent;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -160,13 +160,13 @@ public class TradeService {
         Player initiator = tradeBoard.getInitiator();
         Player accepter = tradeBoard.getAccepter();
         // 将交易栏的金币放入玩家钱袋,发起者的金币放入接收者，接收者的金币放入发起者
-        initiator.MoneyChange(tradeBoard.getMoneyMap().get(accepter.getId()));
+        initiator.moneyChange(tradeBoard.getMoneyMap().get(accepter.getId()));
         // 玩家扣钱
-        accepter.setMoney(accepter.getMoney() - tradeBoard.getMoneyMap().get(accepter.getId()));
+        accepter.moneyChange(- tradeBoard.getMoneyMap().get(accepter.getId()));
 
-        accepter.MoneyChange(tradeBoard.getMoneyMap().get(initiator.getId()));
+        accepter.moneyChange(tradeBoard.getMoneyMap().get(initiator.getId()));
         // 玩家扣钱
-        initiator.setMoney(initiator.getMoney() - tradeBoard.getMoneyMap().get(initiator.getId()));
+        initiator.moneyChange( - tradeBoard.getMoneyMap().get(initiator.getId()));
 
         // 物品放入玩家背包,发起者的物品放入接收者背包，接收者的物品放入发起者背包
         tradeBoard.getPlayerItems().get(initiator.getId()).values().forEach(

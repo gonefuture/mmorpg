@@ -2,10 +2,6 @@ package com.wan37.gameServer.game.sceneObject.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.event.Event;
-import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.achievement.TalkWithEvent;
 import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import com.wan37.gameServer.util.ParameterCheckUtil;

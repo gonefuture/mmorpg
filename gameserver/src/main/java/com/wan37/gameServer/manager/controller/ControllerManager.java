@@ -2,7 +2,6 @@ package com.wan37.gameServer.manager.controller;
 
 import com.wan37.gameServer.common.IController;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.game.bag.controller.ShowBagsController;
 import com.wan37.gameServer.game.chat.controller.PublicChatController;
 import com.wan37.gameServer.game.chat.controller.WhisperController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;
@@ -69,8 +68,7 @@ public class ControllerManager {
     @Resource
     private UseItemController useItemController;
 
-    @Resource
-    private ShowBagsController showBagsController;
+
 
     @Resource
     private LocationController locationController;
@@ -112,7 +110,6 @@ public class ControllerManager {
         add(MsgId.PLAYER_EXIT,playerQuitController);
         add(MsgId.START_BUFFER,startBufferController);
         add(MsgId.USE_ITEM,useItemController);
-        add(MsgId.SHOW_BAGS, showBagsController);
         add(MsgId.LOCATION,locationController);
         add(MsgId.ENTER_INSTANCE, enterInstanceController);
         add(MsgId.BUY_GOODS,buyGoodsController);

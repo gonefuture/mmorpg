@@ -1,6 +1,8 @@
-package com.wan37.gameServer.event.mission;
+package com.wan37.gameServer.event.model;
 
 import com.wan37.gameServer.event.Event;
+import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.things.model.Things;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CollectThingEvent extends Event {
-
-
-
+    private Player player;
+    private Things things;
+    private Integer count;
 }

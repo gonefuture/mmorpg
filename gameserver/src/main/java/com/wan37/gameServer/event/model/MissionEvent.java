@@ -1,4 +1,4 @@
-package com.wan37.gameServer.event.mission;
+package com.wan37.gameServer.event.model;
 
 
 import com.wan37.gameServer.event.Event;

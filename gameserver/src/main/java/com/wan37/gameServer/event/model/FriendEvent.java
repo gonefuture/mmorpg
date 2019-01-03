@@ -1,4 +1,4 @@
-package com.wan37.gameServer.event.achievement;
+package com.wan37.gameServer.event.model;
 
 import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.game.gameRole.model.Player;
@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/12/29 14:59
+ * time 2019/1/2 9:53
  * @version 1.00
  * Description: mmorpg
  */
@@ -16,9 +16,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-public class LevelEvent extends Event {
+public class FriendEvent extends Event {
+    Player player;
 
-    private Player player;
-
-    private Integer level;
 }

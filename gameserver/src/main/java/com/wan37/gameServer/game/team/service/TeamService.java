@@ -1,7 +1,7 @@
 package com.wan37.gameServer.game.team.service;
 
 import com.wan37.gameServer.event.EventBus;
-import com.wan37.gameServer.event.achievement.TeamEvent;
+import com.wan37.gameServer.event.model.TeamEvent;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -59,6 +59,8 @@ public class TeamService {
         teamMnanger.putTeamQequest(invitee.getId(),invitor.getId());
 
         return true;
+
+
     }
 
     /**
@@ -122,7 +124,8 @@ public class TeamService {
             showTeam(invitor.getCtx());
         }
 
-        EventBus.publish(new TeamEvent(invitee));
+        // 组队事件
+        EventBus.publish(new TeamEvent(Arrays.asList(invitee,invitor)));
     }
 
 

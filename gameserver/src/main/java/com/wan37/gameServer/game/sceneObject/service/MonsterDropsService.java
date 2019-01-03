@@ -6,6 +6,7 @@ package com.wan37.gameServer.game.sceneObject.service;
  */
 
 import com.alibaba.fastjson.JSON;
+import com.wan37.common.entity.Message;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.sceneObject.model.Drop;
 import com.wan37.gameServer.game.sceneObject.model.SceneObject;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class MonsterDropsService {
     public void dropItem(Player player, SceneObject sceneObject) {
 
         // 掉落金钱，此处默认按怪物mp掉钱
-        player.setMoney(player.getMoney()+ sceneObject.getMp().intValue());
+        player.moneyChange(sceneObject.getMp().intValue());
 
 
         // 掉落经验，，此处默认按怪物mp来计算
@@ -75,13 +77,15 @@ public class MonsterDropsService {
                 item.setLocationIndex(0);
                 item.setThings(things);
                 if (!bagsService.addItem(player,item)) {
-                    notificationManager.<String>notifyPlayer(player,"背包已满");
+                    notificationManager.notifyPlayer(player,
+                            MessageFormat.format("背包已满，放不下物品 {0}",things.getName()));
                 }
-
                 log.debug("bag {}", bag);
             }
         }
     }
+
+
 
     /**
      * 计算物品掉落,获得
@@ -90,8 +94,6 @@ public class MonsterDropsService {
         String dropString = sceneObject.getDrop();
         return JSON.parseArray(dropString, Drop.class);
     }
-
-
 
 
 

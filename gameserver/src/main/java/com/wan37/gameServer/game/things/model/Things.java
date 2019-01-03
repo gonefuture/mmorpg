@@ -28,8 +28,8 @@ public class Things implements IExcel<Integer> {
     @EntityName(column="触发效果")
     private Integer  buffer;
 
-    @EntityName(column="能否绑定")
-    private Integer isBind;
+    @EntityName(column="装备等级")
+    private Integer level;
 
     @EntityName(column = "种类")
     private Integer kind;

@@ -1,17 +1,14 @@
 package com.wan37.gameServer.game.bag.controller;
-/*
- *  @author : 钱伟健 gonefuture@qq.com
- *  @version : 2018/11/5 10:36.
- *  说明：
- */
 
 import com.wan37.common.entity.Message;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.bag.model.Item;
-import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.bag.service.BagsService;
+import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -23,27 +20,39 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * <pre> </pre>
+ * @author gonefuture  gonefuture@qq.com
+ * time 2018/11/28 15:05
+ * @version 1.00
+ * Description: 背包相关
  */
+
 
 @Controller
 @Slf4j
-public class ShowBagsController implements IController {
+public class BagController  {
+    {
+        ControllerManager.add(MsgId.PACK_BAG,this::packBag);
+        ControllerManager.add(MsgId.SHOW_BAGS,this::showBag);
+    }
 
     @Resource
     private BagsService bagsService;
-
 
     @Resource
     private PlayerDataService playerDataService;
 
 
-    @Override
-    public void handle(ChannelHandlerContext ctx, Message message) {
+    public void packBag(ChannelHandlerContext ctx, Message message) {
+        bagsService.packBag(ctx);
+    }
+
+
+
+    public void showBag(ChannelHandlerContext ctx, Message message) {
         //String[] command = new String(message.getContent()).split(" \\s+");
 
         Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
-        Map<Integer,Item> itemMap = bagsService.show(player);
+        Map<Integer, Item> itemMap = bagsService.show(player);
         log.debug("itemMap {}",itemMap);
 
         StringBuilder sb = new StringBuilder();
@@ -59,12 +68,11 @@ public class ShowBagsController implements IController {
             // 遍历物品属性
             Set<RoleProperty> rolePropertyList = entry.getValue().getThings().getThingRoleProperty();
             rolePropertyList.forEach(
-                    roleProperty -> {
-                        sb.append(MessageFormat.format("{0}:{1} "
-                                ,roleProperty.getName(),roleProperty.getThingPropertyValue()));
-                    }
+                    roleProperty -> sb.append(MessageFormat.format("{0}:{1} "
+                                ,roleProperty.getName(),roleProperty.getThingPropertyValue()))
             );
-            sb.append(MessageFormat.format(" 价格：{0}",
+            sb.append(MessageFormat.format(" 等级：{0}，价格：{1}",
+                    Optional.ofNullable(entry.getValue().getThings().getLevel()).orElse(0),
                     Optional.ofNullable(entry.getValue().getThings().getPrice()).orElse(0)));
             sb.append("\n");
         }
