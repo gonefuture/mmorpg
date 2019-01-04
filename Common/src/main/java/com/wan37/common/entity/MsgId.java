@@ -174,6 +174,9 @@ public enum MsgId {
     // 显示所有任务和成就
     ALL_MISSION("all_mission",4026),
 
+    FRIEND_LIST("friend_list",4027),
+
+    FRIEND_ADD("friend_add",4028),
 
 
    // 未知的命令

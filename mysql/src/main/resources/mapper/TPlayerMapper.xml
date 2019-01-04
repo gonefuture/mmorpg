@@ -13,6 +13,7 @@
     <result column="guild_id" property="guildId" jdbcType="INTEGER" />
     <result column="role_class" property="roleClass" jdbcType="INTEGER" />
     <result column="guild_class" property="guildClass" jdbcType="INTEGER" />
+    <result column="friends" property="friends" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, exp, state, scene, user_id, equipments, money, guild_id, role_class, guild_class
+    id, name, exp, state, scene, user_id, equipments, money, guild_id, role_class, guild_class, 
+    friends
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TPlayerExample" >
     select
@@ -109,11 +111,13 @@
     insert into t_player (id, name, exp, 
       state, scene, user_id, 
       equipments, money, guild_id, 
-      role_class, guild_class)
+      role_class, guild_class, friends
+      )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, 
       #{state,jdbcType=INTEGER}, #{scene,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, 
       #{equipments,jdbcType=VARCHAR}, #{money,jdbcType=INTEGER}, #{guildId,jdbcType=INTEGER}, 
-      #{roleClass,jdbcType=INTEGER}, #{guildClass,jdbcType=INTEGER})
+      #{roleClass,jdbcType=INTEGER}, #{guildClass,jdbcType=INTEGER}, #{friends,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TPlayer" >
     insert into t_player
@@ -151,6 +155,9 @@
       <if test="guildClass != null" >
         guild_class,
       </if>
+      <if test="friends != null" >
+        friends,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -185,6 +192,9 @@
       </if>
       <if test="guildClass != null" >
         #{guildClass,jdbcType=INTEGER},
+      </if>
+      <if test="friends != null" >
+        #{friends,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -230,6 +240,9 @@
       <if test="record.guildClass != null" >
         guild_class = #{record.guildClass,jdbcType=INTEGER},
       </if>
+      <if test="record.friends != null" >
+        friends = #{record.friends,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -247,7 +260,8 @@
       money = #{record.money,jdbcType=INTEGER},
       guild_id = #{record.guildId,jdbcType=INTEGER},
       role_class = #{record.roleClass,jdbcType=INTEGER},
-      guild_class = #{record.guildClass,jdbcType=INTEGER}
+      guild_class = #{record.guildClass,jdbcType=INTEGER},
+      friends = #{record.friends,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -285,6 +299,9 @@
       <if test="guildClass != null" >
         guild_class = #{guildClass,jdbcType=INTEGER},
       </if>
+      <if test="friends != null" >
+        friends = #{friends,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -299,7 +316,8 @@
       money = #{money,jdbcType=INTEGER},
       guild_id = #{guildId,jdbcType=INTEGER},
       role_class = #{roleClass,jdbcType=INTEGER},
-      guild_class = #{guildClass,jdbcType=INTEGER}
+      guild_class = #{guildClass,jdbcType=INTEGER},
+      friends = #{friends,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

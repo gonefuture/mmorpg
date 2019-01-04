@@ -1,8 +1,16 @@
 package com.wan37.gameServer.game.friend.controller;
 
+import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
+import com.wan37.gameServer.game.friend.service.FriendService;
+import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
+import com.wan37.gameServer.util.ParameterCheckUtil;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
+
+import javax.annotation.Resource;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -15,7 +23,30 @@ import org.springframework.stereotype.Controller;
 public class FriendController {
 
     {
-        ControllerManager.add(MsgId);
+        ControllerManager.add(MsgId.FRIEND_LIST,this::friendList);
+        ControllerManager.add(MsgId.FRIEND_ADD,this::friendAdd);
+    }
+
+
+    @Resource
+    private FriendService friendService;
+
+    @Resource
+    private PlayerDataService playerDataService;
+
+
+
+
+    private void friendAdd(ChannelHandlerContext ctx, Message message) {
+        String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
+        Long friendId = Long.valueOf(args[1]);
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        friendService.friendAdd(player,friendId);
+    }
+
+    private void friendList(ChannelHandlerContext ctx, Message message) {
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        friendService.friendList(player);
     }
 
 

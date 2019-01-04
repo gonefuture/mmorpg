@@ -25,6 +25,8 @@ public class TPlayer implements Serializable {
 
     private Integer guildClass;
 
+    private String friends;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -115,6 +117,14 @@ public class TPlayer implements Serializable {
         this.guildClass = guildClass;
     }
 
+    public String getFriends() {
+        return friends;
+    }
+
+    public void setFriends(String friends) {
+        this.friends = friends == null ? null : friends.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -132,6 +142,7 @@ public class TPlayer implements Serializable {
         sb.append(", guildId=").append(guildId);
         sb.append(", roleClass=").append(roleClass);
         sb.append(", guildClass=").append(guildClass);
+        sb.append(", friends=").append(friends);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

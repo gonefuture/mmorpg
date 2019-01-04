@@ -28,6 +28,6 @@ public class InstanceEventHandler {
 
 
     private  void passInstance(InstanceEvent guildEvent) {
-        missionService.checkMissionProgress(MissionType.GUILD,guildEvent.getPlayer(), MissionCondition.FIRST_ACHIEVEMENT);
+        missionService.checkMissionProgress(MissionType.INSTANCE,guildEvent.getPlayer(), MissionCondition.FIRST_ACHIEVEMENT);
     }
 }

@@ -76,6 +76,7 @@
 
         <table tableName="t_player">
             <columnOverride column="equipments"  jdbcType="VARCHAR" />
+            <columnOverride column="friends"  jdbcType="VARCHAR" />
         </table>
 
         <table tableName="t_bag">

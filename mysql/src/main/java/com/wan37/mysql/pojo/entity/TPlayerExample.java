@@ -783,6 +783,76 @@ public class TPlayerExample {
             addCriterion("guild_class not between", value1, value2, "guildClass");
             return (Criteria) this;
         }
+
+        public Criteria andFriendsIsNull() {
+            addCriterion("friends is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsIsNotNull() {
+            addCriterion("friends is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsEqualTo(String value) {
+            addCriterion("friends =", value, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsNotEqualTo(String value) {
+            addCriterion("friends <>", value, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsGreaterThan(String value) {
+            addCriterion("friends >", value, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsGreaterThanOrEqualTo(String value) {
+            addCriterion("friends >=", value, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsLessThan(String value) {
+            addCriterion("friends <", value, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsLessThanOrEqualTo(String value) {
+            addCriterion("friends <=", value, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsLike(String value) {
+            addCriterion("friends like", value, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsNotLike(String value) {
+            addCriterion("friends not like", value, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsIn(List<String> values) {
+            addCriterion("friends in", values, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsNotIn(List<String> values) {
+            addCriterion("friends not in", values, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsBetween(String value1, String value2) {
+            addCriterion("friends between", value1, value2, "friends");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendsNotBetween(String value1, String value2) {
+            addCriterion("friends not between", value1, value2, "friends");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

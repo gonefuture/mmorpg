@@ -6,6 +6,7 @@ import com.wan37.gameServer.event.model.LevelEvent;
 import com.wan37.gameServer.event.model.MoneyEvent;
 import com.wan37.gameServer.game.bag.model.Bag;
 import com.wan37.gameServer.game.bag.model.Item;
+import com.wan37.gameServer.game.friend.model.Friend;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
@@ -52,6 +53,9 @@ public class Player extends TPlayer   implements Creature  {
     // 等级，根据经验计算得出
     private Integer level;
 
+
+    private Date LastOnlineTime = new Date();
+
     // 角色当前使用技能的集合
     private Map<Integer, Skill> hasUseSkillMap = new ConcurrentHashMap<>();
 
@@ -76,9 +80,11 @@ public class Player extends TPlayer   implements Creature  {
     // 玩家当前进行的副本。
     private GameInstance currentGameInstance;
 
-
     // 玩家当前的队伍id
     private String teamId = "";
+
+    // 玩家好友列表
+    private Map<Long, Friend> FriendMap = new HashMap<>();
 
 
     /**

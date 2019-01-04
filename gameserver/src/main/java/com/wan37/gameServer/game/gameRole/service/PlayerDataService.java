@@ -1,10 +1,12 @@
 package com.wan37.gameServer.game.gameRole.service;
 
 
-import com.wan37.gameServer.event.EventBus;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.google.common.base.Strings;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.bag.service.EquipmentBarService;
-import com.wan37.gameServer.game.gameRole.model.Buffer;
+import com.wan37.gameServer.game.friend.model.Friend;
 import com.wan37.gameServer.game.mission.service.MissionService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
@@ -13,7 +15,6 @@ import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
 
 
-import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.manager.task.TimedTaskManager;
@@ -22,10 +23,12 @@ import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -63,12 +66,36 @@ public class PlayerDataService {
     private MissionService missionService;
 
 
-
-
-
+    /**
+     *  通过上下文查找玩家
+     * @param ctx   上下文
+     * @return  玩家
+     */
     public Player getPlayerByCtx(ChannelHandlerContext ctx) {
         return playerCacheMgr.get(ctx.channel().id().asLongText());
     }
+
+    /**
+     *  通过玩家id查找玩家，如果玩家不在线，从数据库中寻找
+     * @param playerId  玩家id
+     * @return 如果存在玩家记录则返回玩家，不存在则返回空，注意玩家可能尚未初始化
+     */
+    public Player getPlayerById(long playerId) {
+        ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
+        if(Objects.nonNull(ctx)) {
+            return getPlayerByCtx(ctx);
+        } else {
+               TPlayer tPlayer = findTPlayer(playerId);
+               if (Objects.nonNull(tPlayer)) {
+                   Player player = new Player();
+                   BeanUtils.copyProperties(tPlayer,player);
+                   return player;
+               } else {
+                   return null;
+               }
+        }
+    }
+
 
     /**
      *  通过玩家id查找在线玩家
@@ -80,9 +107,12 @@ public class PlayerDataService {
         if(null != ctx) {
             return getPlayerByCtx(ctx);
         } else {
-               return null;
+            return null;
         }
     }
+
+
+
 
 
     /**
@@ -153,8 +183,22 @@ public class PlayerDataService {
     }
 
 
+    /**
+     *  初始化等级
+     * @param player 玩家
+     */
     private void initLevel(Player player) {
         player.setLevel(player.getExp()/100);
+    }
+
+    public void initFriend(Player player) {
+
+        // 如果玩家好友列表为空，初始化玩家列表
+        if (!Strings.isNullOrEmpty(player.getFriends()) && player.getFriendMap().isEmpty()) {
+            Map<Long, Friend> friendMap = JSON.parseObject(player.getFriends(),
+                    new TypeReference<Map<Long,Friend>>(){});
+            player.getFriendMap().putAll(friendMap);
+        }
     }
 
 
@@ -166,6 +210,9 @@ public class PlayerDataService {
     public void initPlayer(Player player) {
         // 初始化等级
         initLevel(player);
+
+        // 初始化朋友
+        initFriend(player);
 
         // 加载属性
         rolePropertyService.loadRoleProperty(player);

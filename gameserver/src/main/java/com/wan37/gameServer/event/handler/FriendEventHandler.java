@@ -28,6 +28,6 @@ public class FriendEventHandler {
 
 
     private  void addFriend(FriendEvent guildEvent) {
-        missionService.checkMissionProgress(MissionType.GUILD,guildEvent.getPlayer(), MissionCondition.FIRST_ACHIEVEMENT);
+        missionService.checkMissionProgress(MissionType.FRIEND,guildEvent.getPlayer(), MissionCondition.FIRST_ACHIEVEMENT);
     }
 }
