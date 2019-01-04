@@ -72,10 +72,6 @@ public  class NotificationManager {
 
 
 
-
-
-
-
     /**
      *  通知单个玩家
      * @param players  玩家数组
@@ -96,17 +92,17 @@ public  class NotificationManager {
 
 
 
-
-
     /**
      *  通过通道上下文来通知玩家
      * @param ctx 上下文
      * @param e 信息
      * @param <E> 信息的类型
      */
-    public <E> void notifyByCtx(ChannelHandlerContext ctx,E e) {
-        Player player = playerCacheMgr.get(ctx.channel().id().asLongText());
-        notifyPlayer(player,e);
+    public static  <E> void notifyByCtx(ChannelHandlerContext ctx,E e) {
+        Message message = new Message();
+        message.setFlag((byte) 1);
+        message.setContent((e.toString()+"\n").getBytes());
+        ctx.writeAndFlush(message);
     }
 
 

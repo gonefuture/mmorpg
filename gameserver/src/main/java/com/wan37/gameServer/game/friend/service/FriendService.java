@@ -67,7 +67,7 @@ public class FriendService {
     public void friendAdd(Player player, Long friendId) {
         Player beAdded = playerDataService.getPlayerById(friendId);
 
-        Optional.ofNullable(beAdded).ifPresent(
+        Optional.ofNullable(beAdded).map(
                 b -> {
                     Friend friend = new Friend(
                             b.getId(),
@@ -80,8 +80,9 @@ public class FriendService {
                             .put(friend.getPlayerId(),friend);
                     player.setFriends(JSON.toJSONString(player.getFriendMap()));
                     notificationManager.notifyPlayer(player,MessageFormat.format("添加好友{0}成功",b.getName()));
+                    return friend;
                 }
-        );
+        ).orElseGet(() ->  {notificationManager.notifyPlayer(player,"添加的玩家不存在"); return null;});
 
 
         EventBus.publish(new FriendEvent(player));

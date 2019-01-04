@@ -4,7 +4,7 @@ package com.wan37.gameServer.game.gameRole.service;
 import com.wan37.gameServer.game.gameRole.model.Player;
 import com.wan37.gameServer.model.User;
 import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
-import com.wan37.gameServer.manager.cache.UserCacheMgr;
+import com.wan37.gameServer.manager.cache.UserCacheManger;
 import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
@@ -35,7 +35,7 @@ public class PlayerLoginService {
     private PlayerDataService playerDataService;
 
     @Resource
-    private UserCacheMgr userCacheMgr;
+    private UserCacheManger userCacheManger;
 
 
     @Resource
@@ -85,9 +85,9 @@ public class PlayerLoginService {
      *  判断用户是否拥有这个角色
      */
 
-    public boolean hasPlayer(String channelId, Long playerId) {
-        User user = userCacheMgr.get(channelId);
-        List<TPlayer>  tPlayerList = userService.findPlayers(user.getId());
+    public boolean hasPlayer(ChannelHandlerContext ctx, Long playerId) {
+        User user = userCacheManger.getUserByCtx(ctx);
+        List<TPlayer>  tPlayerList = userService.findPlayers(playerId);
         for (TPlayer tPlayer : tPlayerList) {
             if (tPlayer.getId().equals(playerId)) {
                 return true;

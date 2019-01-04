@@ -2,9 +2,11 @@ package com.wan37.gameServer.game.user.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
+import com.wan37.gameServer.game.gameRole.manager.RoleClassManager;
 import com.wan37.gameServer.game.user.service.UserService;
-import com.wan37.gameServer.manager.cache.UserCacheMgr;
+import com.wan37.gameServer.manager.cache.UserCacheManger;
 import com.wan37.gameServer.manager.controller.ControllerManager;
+import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.model.User;
 import com.wan37.gameServer.util.ParameterCheckUtil;
 import com.wan37.mysql.pojo.entity.TPlayer;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -37,7 +40,9 @@ public class UserController  {
     private UserService userService;
 
     @Resource
-    private UserCacheMgr userCacheMgr;
+    private NotificationManager notificationManager;
+
+
 
 
 
@@ -45,35 +50,20 @@ public class UserController  {
         String[] array = ParameterCheckUtil.checkParameter(ctx,message,3);
         long userId =  Long.valueOf(array[1]);
         String password = array[2];
-        boolean flag = userService.login(userId, password,
-                ctx);
-        String result = null;
-        if (flag) {
-            // 将用户id放入缓存，与channel上下文联系起来
-            userCacheMgr.saveCtx(userId,ctx);
-            result = "登陆成功,请发送指令 list_roles 加载角色列表";
-        } else {
-           result = "登陆失败，请检查用户名或密码";
-        }
-        message.setContent(result.getBytes());
-        ctx.writeAndFlush(message);
+        userService.login(userId,password,ctx);
     }
 
 
 
 
-
     public void roleList(ChannelHandlerContext ctx, Message message) {
-
-        User user = userCacheMgr.get(ctx.channel().id().asLongText());
-        List<TPlayer> tPlayerList = userService.findPlayers(user.getId());
+        User user = UserCacheManger.getUserByCtx(ctx);
+        List<TPlayer> list = userService.findPlayers(user.getId());
         StringBuilder sb = new StringBuilder();
+        list.forEach(tPlayer -> sb.append(MessageFormat.format("id:{0} 名字：{1} 职业：{2} \n",
+                tPlayer.getId(),tPlayer.getName(),
+                RoleClassManager.getRoleClass(tPlayer.getRoleClass()).getName())));
+        notificationManager.notifyByCtx(ctx,sb.toString());
 
-        tPlayerList.forEach( tPlayer -> {
-            sb.append(tPlayer.toString());
-            sb.append("\n");
-        });
-        message.setContent(sb.toString().getBytes());
-        ctx.writeAndFlush(message);
     }
 }

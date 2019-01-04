@@ -49,7 +49,7 @@ public class PlayerLoginController implements IController {
         Long playerId = Long.valueOf(array[1]);
         StringBuilder result = new StringBuilder();
         String channelId = ctx.channel().id().asLongText();
-        if (userService.isUserOnline(channelId) && playerLoginService.hasPlayer(channelId, playerId) ){
+        if (userService.isUserOnline(ctx) && playerLoginService.hasPlayer(ctx, playerId) ){
             Player player = playerLoginService.login(playerId,ctx);
 
 
