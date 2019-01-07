@@ -4,6 +4,7 @@ package com.wan37.gameServer.game.gameInstance.service;
 import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.scene.model.SceneType;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.sceneObject.service.GameObjectService;
@@ -57,8 +58,9 @@ public class InstanceService {
      *  进入副本，将副本与玩家绑定起来
      */
     public GameInstance enterInstance(Player player, Integer instanceId) {
+
         // 玩家当前的场景
-        GameInstance gameInstance = init(player,instanceId);
+        GameInstance gameInstance = initGameInstance(player,instanceId);
 
         if (null == gameInstance || null == gameInstance.getInstanceTime())
             return null;
@@ -69,7 +71,6 @@ public class InstanceService {
 
 
         log.debug("gameInstance {}",gameInstance);
-
 
 
         return gameInstance;
@@ -131,8 +132,12 @@ public class InstanceService {
      * @param instanceId 副本id
      * @return 一个初始化好的副本实例
      */
-    private GameInstance init(Player player, Integer instanceId) {
+    private GameInstance initGameInstance(Player player, Integer instanceId) {
         GameScene gameScene = gameSceneService.findSceneById(instanceId);
+        // 如果不是副本，返回null
+        if (!gameScene.getType().equals(SceneType.INSTANCE_SCENE.getCode()))
+            return null;
+
         GameInstance gameInstance = new GameInstance();
         BeanUtils.copyProperties(gameScene,gameInstance);
 

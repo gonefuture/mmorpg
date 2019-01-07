@@ -102,7 +102,7 @@ public enum MsgId {
     BUY_GOODS("buy",4003),
 
     // 展示商店货物
-    SHOW_GOODS("shop",4004),
+    SHOW_SHOP("shop",4004),
 
     // 发送邮件
     SEND_MAIL("send_mail",4005),

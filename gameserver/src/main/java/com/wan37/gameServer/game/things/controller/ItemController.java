@@ -1,10 +1,13 @@
 package com.wan37.gameServer.game.things.controller;
 
 import com.wan37.common.entity.Message;
+import com.wan37.common.entity.Msg;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.things.service.ThingsService;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -17,7 +20,12 @@ import javax.annotation.Resource;
  * Description: mmorpg
  */
 @Controller
-public class UseItemController implements IController {
+public class ItemController {
+
+
+    {
+        ControllerManager.add(MsgId.USE_ITEM,this::useItem);
+    }
 
     @Resource
     private ThingsService thingsService;
@@ -25,8 +33,8 @@ public class UseItemController implements IController {
     @Resource
     private PlayerDataService playerDataService;
 
-    @Override
-    public void handle(ChannelHandlerContext ctx, Message message) {
+
+    private void useItem(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
         Integer locationIndex = Integer.valueOf(command[1]);
         Player player = playerDataService.getPlayer(ctx);

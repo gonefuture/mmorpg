@@ -2,10 +2,12 @@ package com.wan37.gameServer.game.chat.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Msg;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.chat.service.ChatService;
 import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.player.service.PlayerDataService;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -15,10 +17,17 @@ import javax.annotation.Resource;
  * @author gonefuture  gonefuture@qq.com
  * time 2018/12/4 17:48
  * @version 1.00
- * Description: 私聊接口
+ * Description: 聊天接口
  */
 @Controller
-public class WhisperController implements IController {
+public class ChatController {
+
+
+    {
+        ControllerManager.add(MsgId.PUBLIC_CHAT,this::publicChat);
+        ControllerManager.add(MsgId.WHISPER,this::whisper);
+    }
+
 
     @Resource
     private ChatService chatService;
@@ -26,8 +35,20 @@ public class WhisperController implements IController {
     @Resource
     private PlayerDataService playerDataService;
 
-    @Override
-    public void handle(ChannelHandlerContext ctx, Message message) {
+
+    public void publicChat(ChannelHandlerContext ctx, Message message) {
+        String[] cmd = new String(message.getContent()).split("\\s+");
+        String words = cmd[1];
+
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        chatService.publicChat(player,words);
+
+
+    }
+
+
+
+    public void  whisper(ChannelHandlerContext ctx, Message message) {
         String[] cmd = new String(message.getContent()).split("\\s+");
         Integer targetId = Integer.valueOf(cmd[1]);
         String words = cmd[2];

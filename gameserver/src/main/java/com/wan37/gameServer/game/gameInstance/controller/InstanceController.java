@@ -1,11 +1,13 @@
 package com.wan37.gameServer.game.gameInstance.controller;
 
 import com.wan37.common.entity.Message;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.player.service.PlayerDataService;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -20,7 +22,14 @@ import java.text.MessageFormat;
  */
 
 @Controller
-public class EnterInstanceController implements IController {
+public class InstanceController {
+
+    {
+        ControllerManager.add(MsgId.ENTER_INSTANCE,this::instanceEnter);
+        ControllerManager.add(MsgId.EXIT_INSTANCE,this::instanceExit);
+
+    }
+
 
     @Resource
     private PlayerDataService playerDataService;
@@ -28,8 +37,10 @@ public class EnterInstanceController implements IController {
     @Resource
     private InstanceService instanceService;
 
-    @Override
-    public void handle(ChannelHandlerContext ctx, Message message) {
+
+
+
+    public void instanceEnter(ChannelHandlerContext ctx, Message message) {
         String[] cmd  = new String(message.getContent()).split("\\s+");
 
         Integer instanceId = Integer.valueOf(cmd[1]);
@@ -43,6 +54,15 @@ public class EnterInstanceController implements IController {
         } else {
             message.setContent(MessageFormat.format("进入id为{}的失败", instanceId).getBytes());
         }
+        ctx.writeAndFlush(message);
+    }
+
+
+    public void instanceExit(ChannelHandlerContext ctx, Message message) {
+        Player player = playerDataService.getPlayer(ctx);
+        instanceService.exitInstance(player);
+        message.setFlag((byte) 1);
+        message.setContent("退出副本成功".getBytes());
         ctx.writeAndFlush(message);
     }
 }

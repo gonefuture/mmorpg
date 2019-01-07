@@ -161,7 +161,13 @@ public class TeamService {
      * @param instanceId 副本id
      */
     public void teamInstance(ChannelHandlerContext ctx, Integer instanceId) {
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        Team team = teamMnanger.get(player.getTeamId());
 
+
+
+
+        //instanceService.enterInstance();
 
     }
 }

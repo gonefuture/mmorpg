@@ -2,10 +2,12 @@ package com.wan37.gameServer.game.scene.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 import com.wan37.gameServer.game.scene.servcie.PlayerMoveService;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,12 @@ import java.util.Map;
 @Slf4j
 @Component
 public class
-PlayerMoveController implements IController {
+SceneController  {
+
+
+    {
+        ControllerManager.add(MsgId.MOVE,this::playerMove);
+    }
 
     @Resource
     private PlayerMoveService playerMoveService;
@@ -33,8 +40,8 @@ PlayerMoveController implements IController {
     @Resource
     private SceneCacheMgr sceneCacheMgr;
 
-    @Override
-    public void handle(ChannelHandlerContext ctx, Message message) {
+
+    public void playerMove(ChannelHandlerContext ctx, Message message) {
         String[] array = new String(message.getContent()).split("\\s+");
         int willMoveSceneId =  Integer.valueOf(array[1]);
 

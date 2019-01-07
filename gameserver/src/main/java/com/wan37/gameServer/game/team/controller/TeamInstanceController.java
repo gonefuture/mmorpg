@@ -5,6 +5,7 @@ import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.team.service.TeamService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
+import com.wan37.gameServer.util.ParameterCheckUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -30,9 +31,8 @@ public class TeamInstanceController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        String[] args = new String(message.getContent()).split("\\s+");
+        String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
         Integer instanceId = Integer.valueOf(args[1]);
-
         teamService.teamInstance(ctx,instanceId);
     }
 }

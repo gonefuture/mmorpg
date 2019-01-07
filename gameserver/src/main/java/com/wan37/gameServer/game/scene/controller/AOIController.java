@@ -1,6 +1,7 @@
 package com.wan37.gameServer.game.scene.controller;
 
 import com.wan37.common.entity.Message;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
 
 import com.wan37.gameServer.game.sceneObject.model.Monster;
@@ -12,6 +13,7 @@ import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.AOIService;
 import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,7 +32,14 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class AOIController implements IController {
+public class AOIController  {
+
+
+    {
+        ControllerManager.add(MsgId.AOI,this::aoi);
+        ControllerManager.add(MsgId.LOCATION,this::location);
+    }
+
 
     @Resource
     private AOIService aoiService;
@@ -41,8 +50,8 @@ public class AOIController implements IController {
     @Resource
     private GameSceneService gameSceneService;
 
-    @Override
-    public void handle(ChannelHandlerContext ctx, Message message) {
+
+    public void aoi(ChannelHandlerContext ctx, Message message) {
 
         Player player = playerDataService.getPlayer(ctx);
 
@@ -90,6 +99,29 @@ public class AOIController implements IController {
         log.debug("当前场景的玩家对象有{}个，分别为{} ",playerList.size(),playerList);
         message.setFlag((byte)1);
         message.setContent(sb.toString().getBytes());
+        ctx.writeAndFlush(message);
+    }
+
+
+    public void location(ChannelHandlerContext ctx, Message message) {
+        Player player = playerDataService.getPlayer(ctx);
+
+        GameScene gameScene = gameSceneService.findSceneById(player.getScene());
+
+        List<GameScene> gameSceneList = gameSceneService.findNeighborsSceneByIds(gameScene.getNeighbors());
+
+        String location = MessageFormat.format("当前场景是： {0} \n",gameScene.getName() );
+        StringBuilder neighbors = new StringBuilder();
+        neighbors.append(location);
+        neighbors.append("相邻的场景是： ");
+        gameSceneList.forEach(
+                neighbor -> {
+                    neighbors.append(MessageFormat.format("{0}: {1} ",neighbor.getId(), neighbor.getName() ));
+                }
+        );
+
+        message.setFlag((byte) 1);
+        message.setContent(neighbors.toString().getBytes());
         ctx.writeAndFlush(message);
     }
 
