@@ -1,4 +1,4 @@
-package com.wan37.gameServer.game.gameRole.service;
+package com.wan37.gameServer.game.player.service;
 
 
 import com.alibaba.fastjson.JSON;
@@ -10,9 +10,9 @@ import com.wan37.gameServer.game.friend.model.Friend;
 import com.wan37.gameServer.game.mission.service.MissionService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 
-import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
+import com.wan37.gameServer.game.player.manager.PlayerCacheMgr;
 
 
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
@@ -72,7 +72,7 @@ public class PlayerDataService {
      * @return  玩家
      */
     public Player getPlayerByCtx(ChannelHandlerContext ctx) {
-        return playerCacheMgr.get(ctx.channel().id().asLongText());
+        return playerCacheMgr.getPlayerByCtx(ctx);
     }
 
     /**
@@ -128,8 +128,8 @@ public class PlayerDataService {
 
 
 
-    public Player getPlayer(String channelId) {
-        return playerCacheMgr.get(channelId);
+    public Player getPlayer(ChannelHandlerContext ctx) {
+        return playerCacheMgr.getPlayerByCtx(ctx);
     }
 
 

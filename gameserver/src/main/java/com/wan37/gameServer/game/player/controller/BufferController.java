@@ -1,13 +1,15 @@
-package com.wan37.gameServer.game.gameRole.controller;
+package com.wan37.gameServer.game.player.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Msg;
+import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.gameRole.model.Buffer;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.BufferService;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Buffer;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.BufferService;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
+import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -21,7 +23,11 @@ import javax.annotation.Resource;
  */
 
 @Controller
-public class StartBufferController implements IController {
+public class BufferController {
+
+    {
+        ControllerManager.add(MsgId.START_BUFFER,this::startBuffer);
+    }
 
     @Resource
     private BufferService bufferService;
@@ -30,13 +36,12 @@ public class StartBufferController implements IController {
     private PlayerDataService playerDataService;
 
 
-    @Override
-    public void handle(ChannelHandlerContext ctx, Message message) {
-        String[] param = new String(message.getContent()).split(" ");
+    public void startBuffer(ChannelHandlerContext ctx, Message message) {
+        String[] param = new String(message.getContent()).split("\\s+");
         int bufferId = Integer.valueOf(param[1]);
 
         Buffer buffer = bufferService.getTBuffer(bufferId);
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayer(ctx);
         boolean flag = bufferService.startBuffer(player,buffer);
 
         String result = "";

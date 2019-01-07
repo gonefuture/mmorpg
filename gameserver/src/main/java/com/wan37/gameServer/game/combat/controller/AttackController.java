@@ -3,8 +3,8 @@ package com.wan37.gameServer.game.combat.controller;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.game.combat.service.CombatService;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
@@ -56,7 +56,7 @@ public class AttackController {
         String[] command = new String(message.getContent()).split("\\s+");
         Long gameObjectId = Long.valueOf(command[1]);
 
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayer(ctx);
        combatService.commonAttack(player,gameObjectId);
     }
 

@@ -2,8 +2,8 @@ package com.wan37.gameServer.game.things.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.things.service.ThingsService;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class UseItemController implements IController {
     public void handle(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
         Integer locationIndex = Integer.valueOf(command[1]);
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayer(ctx);
         boolean flag  = thingsService.useItem(player,locationIndex);
         String result ;
         if (flag) {

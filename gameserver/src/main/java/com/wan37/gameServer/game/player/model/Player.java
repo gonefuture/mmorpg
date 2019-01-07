@@ -1,4 +1,4 @@
-package com.wan37.gameServer.game.gameRole.model;
+package com.wan37.gameServer.game.player.model;
 
 
 import com.wan37.gameServer.event.EventBus;

@@ -1,9 +1,9 @@
-package com.wan37.gameServer.game.gameRole.service;
+package com.wan37.gameServer.game.player.service;
 
 import com.alibaba.fastjson.JSON;
 import com.wan37.gameServer.game.bag.service.BagsService;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.manager.PlayerCacheMgr;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
@@ -97,8 +97,7 @@ public class PlayerQuitService  {
      *  保存角色所有数据
      */
     public void savePlayer(ChannelHandlerContext ctx) {
-        String channelId = ctx.channel().id().asLongText();
-        Player player = playerCacheMgr.get(channelId);
+        Player player = playerCacheMgr.getPlayerByCtx(ctx);
 
         // 保存角色信息
         if (player != null) {

@@ -5,6 +5,7 @@ import com.wan37.gameServer.game.sceneObject.model.Monster;
 
 import com.wan37.gameServer.model.Creature;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -14,16 +15,11 @@ import lombok.Data;
  */
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Pet extends Monster {
 
 
     private Integer petId;
-
-
-
-
-
-
 
 
 

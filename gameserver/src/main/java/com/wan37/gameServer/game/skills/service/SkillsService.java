@@ -1,11 +1,11 @@
 package com.wan37.gameServer.game.skills.service;
 
-import com.wan37.gameServer.game.gameRole.manager.RoleClassManager;
-import com.wan37.gameServer.game.gameRole.model.Buffer;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.model.RoleClass;
-import com.wan37.gameServer.game.gameRole.service.BufferService;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.manager.RoleClassManager;
+import com.wan37.gameServer.game.player.model.Buffer;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.model.RoleClass;
+import com.wan37.gameServer.game.player.service.BufferService;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.game.skills.manager.SkillsManager;

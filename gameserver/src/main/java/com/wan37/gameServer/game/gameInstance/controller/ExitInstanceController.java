@@ -3,8 +3,8 @@ package com.wan37.gameServer.game.gameInstance.controller;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -28,7 +28,7 @@ public class ExitInstanceController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayer(ctx);
         instanceService.exitInstance(player);
         message.setFlag((byte) 1);
         message.setContent("退出副本成功".getBytes());

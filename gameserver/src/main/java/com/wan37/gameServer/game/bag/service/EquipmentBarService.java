@@ -6,7 +6,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.google.common.base.Strings;
 import com.wan37.common.entity.Msg;
 import com.wan37.gameServer.game.bag.model.Item;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;

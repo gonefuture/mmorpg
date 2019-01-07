@@ -1,7 +1,7 @@
 package com.wan37.gameServer.game.scene.manager;
 
 
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.sceneObject.manager.GameObjectManager;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 

@@ -1,9 +1,9 @@
-package com.wan37.gameServer.game.gameRole.manager;
+package com.wan37.gameServer.game.player.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.gameRole.model.RoleClass;
-import com.wan37.gameServer.game.gameRole.model.RoleClassExcelUtil;
+import com.wan37.gameServer.game.player.model.RoleClass;
+import com.wan37.gameServer.game.player.model.RoleClassExcelUtil;
 import com.wan37.gameServer.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

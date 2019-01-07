@@ -2,7 +2,7 @@ package com.wan37.gameServer.event.handler;
 
 import com.wan37.gameServer.event.EventBus;
 import com.wan37.gameServer.event.model.PKEvent;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.mission.model.MissionCondition;
 import com.wan37.gameServer.game.mission.model.MissionType;
 import com.wan37.gameServer.game.mission.service.MissionService;

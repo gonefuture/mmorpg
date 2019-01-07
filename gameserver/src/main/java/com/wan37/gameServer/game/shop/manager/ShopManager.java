@@ -72,7 +72,6 @@ public class ShopManager  implements ICacheManager<Integer,Shop> {
 
         // 如果货物列表未初始化，初始化货物
         String[] thingsIds = shop.getGoods().split(",");
-        log.debug("配置表的thingsIds {}",thingsIds);
         Arrays.stream(thingsIds)
                 .map(Integer::valueOf)
                 .forEach(thingId -> {

@@ -3,7 +3,6 @@ package com.wan37.gameServer.game.team.controller;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
 import com.wan37.gameServer.game.team.service.TeamService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;

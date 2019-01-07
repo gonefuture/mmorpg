@@ -1,9 +1,9 @@
-package com.wan37.gameServer.game.gameRole.service;
+package com.wan37.gameServer.game.player.service;
 
 import com.wan37.gameServer.game.combat.service.CombatService;
-import com.wan37.gameServer.game.gameRole.model.Buffer;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.manager.BufferCacheMgr;
+import com.wan37.gameServer.game.player.model.Buffer;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.manager.BufferCacheMgr;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.manager.task.TimedTaskManager;
 

@@ -3,7 +3,7 @@ package com.wan37.gameServer.game.gameInstance.service;
 
 import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.sceneObject.service.GameObjectService;

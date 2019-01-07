@@ -5,8 +5,8 @@ package com.wan37.gameServer.game.user.service;
 
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.model.User;
-import com.wan37.gameServer.manager.cache.PlayerListCacheMgr;
-import com.wan37.gameServer.manager.cache.UserCacheManger;
+import com.wan37.gameServer.game.user.manager.PlayerListCacheMgr;
+import com.wan37.gameServer.game.user.manager.UserCacheManger;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.entity.TPlayerExample;
 
@@ -68,12 +68,12 @@ public class UserService {
                         }
                 );
         if(Objects.isNull(user)) {
-            notificationManager.notifyByCtx(ctx,"玩家id不存在");
+            NotificationManager.notifyByCtx(ctx,"玩家id不存在");
             return ;
         }
         // 用户名或密码错误，或没注册
         if (!user.getPassword().equals(password)) {
-            notificationManager.notifyByCtx(ctx,"密码或用户名错误");
+            NotificationManager.notifyByCtx(ctx,"密码或用户名错误");
             return ;
         }
 
@@ -82,7 +82,7 @@ public class UserService {
         // 替换channel上下文和用户缓存的联系
         UserCacheManger.putUserIdCtx(user.getId(),ctx);
         user.setChannelHandlerContext(ctx);
-        notificationManager.notifyByCtx(ctx,"登陆成功,请发送指令 list_roles 加载角色列表");
+        NotificationManager.notifyByCtx(ctx,"登陆成功,请发送指令 list_roles 加载角色列表");
     }
 
 

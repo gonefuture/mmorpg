@@ -8,12 +8,11 @@ package com.wan37.gameServer.game.bag.controller;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Msg;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.bag.service.EquipmentBarService;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
@@ -50,7 +49,7 @@ public class EquipmentController  {
     public void equip(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
         Integer cellId = Integer.valueOf(command[1]);
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayer(ctx);
         Things things = bagsService.getThings(player,cellId);
         boolean flag = equipmentBarService.equip(player,cellId);
 

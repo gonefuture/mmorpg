@@ -1,6 +1,6 @@
 package com.wan37.gameServer.game.guild.model;
 
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import lombok.Data;
 
 import java.util.Date;

@@ -1,8 +1,8 @@
 package com.wan37.gameServer.game.roleProperty.service;
 
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.things.model.Things;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

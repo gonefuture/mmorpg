@@ -6,12 +6,11 @@ package com.wan37.gameServer.game.sceneObject.service;
  */
 
 import com.alibaba.fastjson.JSON;
-import com.wan37.common.entity.Message;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.sceneObject.model.Drop;
 import com.wan37.gameServer.game.sceneObject.model.SceneObject;
 import com.wan37.gameServer.game.bag.model.Bag;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.bag.service.BagsService;
 import com.wan37.gameServer.game.things.model.Things;
 import com.wan37.gameServer.game.things.service.ThingsService;

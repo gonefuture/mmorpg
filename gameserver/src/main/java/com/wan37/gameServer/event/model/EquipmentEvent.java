@@ -1,7 +1,7 @@
 package com.wan37.gameServer.event.model;
 
 import com.wan37.gameServer.event.Event;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.things.model.Things;
 import lombok.AllArgsConstructor;
 import lombok.Data;

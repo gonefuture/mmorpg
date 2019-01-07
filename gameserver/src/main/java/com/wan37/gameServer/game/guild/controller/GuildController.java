@@ -2,14 +2,12 @@ package com.wan37.gameServer.game.guild.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.guild.service.GuildService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import com.wan37.gameServer.util.ParameterCheckUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 

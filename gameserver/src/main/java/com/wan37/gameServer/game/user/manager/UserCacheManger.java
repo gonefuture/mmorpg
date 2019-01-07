@@ -1,4 +1,4 @@
-package com.wan37.gameServer.manager.cache;
+package com.wan37.gameServer.game.user.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -8,7 +8,6 @@ import com.wan37.gameServer.model.User;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -77,7 +76,7 @@ public class UserCacheManger {
         Optional.ofNullable(old).ifPresent( o -> {
                     ctxUserCache.invalidate(o);
                     if (!old.equals(ctx)) {
-                        NotificationManager.notifyByCtx(ctx,"你在另一个登陆，除非你在此从新登陆");
+                        NotificationManager.notifyByCtx(old,"你在另一个登陆，除非你在此从新登陆");
                     }
                 }
                 );

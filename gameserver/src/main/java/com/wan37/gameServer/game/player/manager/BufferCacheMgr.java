@@ -1,9 +1,9 @@
-package com.wan37.gameServer.game.gameRole.manager;
+package com.wan37.gameServer.game.player.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameServer.game.gameRole.model.Buffer;
-import com.wan37.gameServer.game.gameRole.model.BufferExcelUtil;
+import com.wan37.gameServer.game.player.model.Buffer;
+import com.wan37.gameServer.game.player.model.BufferExcelUtil;
 import com.wan37.gameServer.manager.cache.ICacheManager;
 import com.wan37.gameServer.util.FileUtil;
 

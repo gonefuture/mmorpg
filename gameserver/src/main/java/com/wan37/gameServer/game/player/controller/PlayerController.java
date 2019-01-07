@@ -1,18 +1,27 @@
-package com.wan37.gameServer.game.gameRole.controller;
+package com.wan37.gameServer.game.player.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.game.gameRole.manager.RoleClassManager;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.model.RoleClass;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.manager.PlayerCacheMgr;
+import com.wan37.gameServer.game.player.manager.RoleClassManager;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.model.RoleClass;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
+import com.wan37.gameServer.game.player.service.PlayerLoginService;
+import com.wan37.gameServer.game.player.service.PlayerQuitService;
+import com.wan37.gameServer.game.scene.model.GameScene;
+import com.wan37.gameServer.game.scene.servcie.GameSceneService;
+import com.wan37.gameServer.game.scene.servcie.PlayerMoveService;
+import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
+import com.wan37.gameServer.util.ParameterCheckUtil;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
-import javax.management.relation.Role;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,17 +32,82 @@ import java.util.Optional;
  */
 
 @Controller
+@Slf4j
 public class PlayerController {
 
     {
+        ControllerManager.add(MsgId.PLAYER_LOGIN,this::playerLogin);
+        ControllerManager.add(MsgId.PLAYER_EXIT,this::playerQuit);
         ControllerManager.add(MsgId.SHOW_PLAYER,this::showPlayer);
     }
-
 
 
     @Resource
     private PlayerDataService playerDataService;
 
+    @Resource
+    private PlayerLoginService playerLoginService;
+
+    @Resource
+    private PlayerMoveService playerMoveService;
+
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private GameSceneService gameSceneService;
+
+    @Resource
+    private PlayerQuitService playerQuitService;
+
+
+    /**
+     *  游戏角色登陆
+     * @param ctx 上下文
+     * @param message 信息
+     */
+    public void  playerLogin(ChannelHandlerContext ctx, Message message) {
+        String[] array = ParameterCheckUtil.checkParameter(ctx,message,2);
+        Long playerId = Long.valueOf(array[1]);
+        StringBuilder result = new StringBuilder();
+
+        if (userService.isUserOnline(ctx) && playerLoginService.hasPlayer(ctx, playerId) ){
+            Player player = playerLoginService.login(playerId,ctx);
+
+            GameScene gameScene = playerMoveService.currentScene(ctx);
+            // 将角色加入场景
+            playerMoveService.putPlayerInScene(gameScene,player);
+
+            result.append(player.getName()).append(",角色登陆成功")
+                    .append("\n 你所在位置为: ")
+                    .append(gameScene.getName()).append("\n")
+                    .append("相邻的场景是： ");
+            List<GameScene> gameSceneList = gameSceneService.findNeighborsSceneByIds(gameScene.getNeighbors());
+            gameSceneList.forEach(neighbor -> {
+                result.append(neighbor.getId()).append(": ").append(neighbor.getName()).append(", ");
+            });
+
+            message.setFlag((byte) 1);
+        } else {
+            result.append("用户尚未登陆，不能加载角色");
+            message.setFlag((byte) -1);
+        }
+
+
+        message.setContent(result.toString().getBytes());
+        log.debug("角色登陆返回的信息: "+ result);
+        ctx.writeAndFlush(message);
+    }
+
+
+
+
+    public void playerQuit(ChannelHandlerContext ctx, Message message) {
+
+        // 断开连接退出
+        playerQuitService.logout(ctx);
+
+    }
 
 
     private void showPlayer(ChannelHandlerContext ctx, Message message) {

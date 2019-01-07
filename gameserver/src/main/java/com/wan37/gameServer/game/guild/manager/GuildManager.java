@@ -6,7 +6,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.gameServer.game.bag.model.Item;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.guild.model.Guild;
 import com.wan37.gameServer.game.guild.model.PlayerJoinRequest;
 import com.wan37.mysql.pojo.entity.TGuild;

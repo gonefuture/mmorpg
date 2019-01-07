@@ -2,8 +2,8 @@ package com.wan37.gameServer.game.mail.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.mail.service.MailService;
 import com.wan37.mysql.pojo.entity.TMail;
 import com.wan37.mysql.pojo.entity.TPlayer;

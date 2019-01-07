@@ -1,20 +1,20 @@
-package com.wan37.gameServer.game.gameRole.model;
+package com.wan37.gameServer.game.player.model;
 
 import com.wan37.gameServer.util.excel.ReadExcelByEntity;
 
 /**
  * @author gonefuture  gonefuture@qq.com
- * time 2018/12/21 16:34
+ * time 2018/11/1 10:09
  * @version 1.00
  * Description: mmorpg
  */
-public class RoleClassExcelUtil  extends ReadExcelByEntity<RoleClass> {
+public class BufferExcelUtil extends ReadExcelByEntity<Buffer> {
     /**
      * 构造工具类
      *
      * @param filepath
      */
-    public RoleClassExcelUtil(String filepath) {
+    public BufferExcelUtil(String filepath) {
         super(filepath);
     }
 }

@@ -4,7 +4,7 @@ package com.wan37.gameServer.game.shop.service;
 import com.wan37.common.entity.Msg;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.shop.manager.ShopManager;
 import com.wan37.gameServer.game.shop.model.Shop;
 import com.wan37.gameServer.game.things.model.Things;

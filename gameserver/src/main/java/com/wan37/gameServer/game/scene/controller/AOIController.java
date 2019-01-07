@@ -5,12 +5,12 @@ import com.wan37.gameServer.common.IController;
 
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 
 import com.wan37.gameServer.game.sceneObject.model.NPC;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.AOIService;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class AOIController implements IController {
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
 
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayer(ctx);
 
         int sceneId = player.getScene();
         // 分别获取场景内的玩家和游戏对象

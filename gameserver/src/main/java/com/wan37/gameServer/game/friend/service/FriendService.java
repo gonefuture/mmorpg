@@ -1,14 +1,12 @@
 package com.wan37.gameServer.game.friend.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.wan37.gameServer.event.EventBus;
 import com.wan37.gameServer.event.model.FriendEvent;
 import com.wan37.gameServer.game.friend.model.Friend;
-import com.wan37.gameServer.game.gameRole.manager.RoleClassManager;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.model.RoleClass;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.manager.RoleClassManager;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import org.springframework.stereotype.Service;
 

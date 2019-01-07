@@ -2,11 +2,10 @@ package com.wan37.gameServer.game.bag.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
@@ -49,9 +48,8 @@ public class BagController  {
 
 
     public void showBag(ChannelHandlerContext ctx, Message message) {
-        //String[] command = new String(message.getContent()).split(" \\s+");
 
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayerByCtx(ctx);
         Map<Integer, Item> itemMap = bagsService.show(player);
         log.debug("itemMap {}",itemMap);
 

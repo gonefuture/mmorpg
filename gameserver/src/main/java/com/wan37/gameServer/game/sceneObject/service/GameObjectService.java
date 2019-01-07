@@ -3,8 +3,8 @@ package com.wan37.gameServer.game.sceneObject.service;
 
 import com.wan37.gameServer.event.EventBus;
 import com.wan37.gameServer.event.model.TalkWithEvent;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.sceneObject.manager.GameObjectManager;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.sceneObject.model.NPC;

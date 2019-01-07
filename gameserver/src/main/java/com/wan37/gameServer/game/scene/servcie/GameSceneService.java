@@ -1,8 +1,8 @@
 package com.wan37.gameServer.game.scene.servcie;
 
 
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 import io.netty.channel.ChannelHandlerContext;
@@ -79,7 +79,7 @@ public class GameSceneService {
      */
     public GameScene findSceneByCtx(ChannelHandlerContext ctx) {
 
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayer(ctx);
         return sceneCacheMgr.get(player.getScene());
     }
 

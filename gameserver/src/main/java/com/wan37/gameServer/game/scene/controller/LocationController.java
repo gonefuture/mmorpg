@@ -7,8 +7,8 @@ package com.wan37.gameServer.game.scene.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import io.netty.channel.ChannelHandlerContext;
@@ -32,7 +32,7 @@ public class LocationController implements IController {
 
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
-        Player player = playerDataService.getPlayer(ctx.channel().id().asLongText());
+        Player player = playerDataService.getPlayer(ctx);
 
         GameScene gameScene = gameSceneService.findSceneById(player.getScene());
 

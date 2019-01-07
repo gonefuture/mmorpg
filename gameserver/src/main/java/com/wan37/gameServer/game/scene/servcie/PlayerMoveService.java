@@ -1,10 +1,11 @@
 package com.wan37.gameServer.game.scene.servcie;
 
 import com.wan37.gameServer.game.scene.model.GameScene;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
-import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
+import com.wan37.gameServer.game.player.manager.PlayerCacheMgr;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
@@ -34,15 +35,15 @@ public class PlayerMoveService {
     private PlayerDataService playerDataService;
 
 
-    public boolean moveScene(String channel,int willMoveSceneId) {
-        Player player = playerCacheMgr.get(channel);
+    public boolean moveScene(ChannelHandlerContext ctx, int willMoveSceneId) {
+        Player player = playerCacheMgr.getPlayerByCtx(ctx);
         GameScene nowScene = sceneCacheMgr.get(player.getScene());
         String[] neighbors = nowScene.getNeighbors().split(",");
         for (String sceneId : neighbors) {
             if (String.valueOf(willMoveSceneId).equals(sceneId)) {
                 // 将移动后的场景记录进玩家信息里
                 player.setScene(willMoveSceneId);
-                playerCacheMgr.put(channel,player);
+                playerCacheMgr.putCtxPlayer(ctx,player);
 
                 // 从当前场景中退出
                 playerOutScene(nowScene, player);
@@ -58,8 +59,8 @@ public class PlayerMoveService {
 
 
 
-    public GameScene currentScene(String channelId) {
-        Player player =  playerCacheMgr.get(channelId);
+    public GameScene currentScene(ChannelHandlerContext ctx) {
+        Player player =  playerDataService.getPlayerByCtx(ctx);
         return sceneCacheMgr.get(player.getScene());
 
     }

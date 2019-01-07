@@ -3,8 +3,8 @@ package com.wan37.gameServer.game.chat.controller;
 import com.wan37.common.entity.Message;
 import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.chat.service.ChatService;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 

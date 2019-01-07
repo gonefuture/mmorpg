@@ -1,10 +1,10 @@
-package com.wan37.gameServer.game.gameRole.service;
+package com.wan37.gameServer.game.player.service;
 
 
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.model.User;
-import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
-import com.wan37.gameServer.manager.cache.UserCacheManger;
+import com.wan37.gameServer.game.player.manager.PlayerCacheMgr;
+import com.wan37.gameServer.game.user.manager.UserCacheManger;
 import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
@@ -48,8 +48,7 @@ public class PlayerLoginService {
      *  角色登陆
      */
     public Player login(Long playerId, ChannelHandlerContext ctx) {
-        String channelId = ctx.channel().id().asLongText();
-        Player playerCache  = playerCacheMgr.get(channelId);
+        Player playerCache  = playerCacheMgr.getPlayerByCtx(ctx);
 
 
         // 如果角色缓存为空 或者 不是相同的角色，那就从数据库查询
@@ -62,7 +61,7 @@ public class PlayerLoginService {
             playerDataService.initPlayer(player);
 
             // 以channel id 为键储存玩家数据
-            playerCacheMgr.put(channelId,player);
+            playerCacheMgr.putCtxPlayer(ctx,player);
             // 保存playerId跟ChannelHandlerContext之间的关系
             playerCacheMgr.savePlayerCtx(playerId,ctx);
 
@@ -71,7 +70,7 @@ public class PlayerLoginService {
             return player;
         } else {
             // 以 当前的channelId缓存player
-            playerCacheMgr.put(channelId,playerCache);
+            playerCacheMgr.putCtxPlayer(ctx,playerCache);
 
             // 保存playerId跟ChannelHandlerContext之间的关系
             playerCacheMgr.savePlayerCtx(playerId,ctx);
@@ -86,7 +85,7 @@ public class PlayerLoginService {
      */
 
     public boolean hasPlayer(ChannelHandlerContext ctx, Long playerId) {
-        User user = userCacheManger.getUserByCtx(ctx);
+        User user = UserCacheManger.getUserByCtx(ctx);
         List<TPlayer>  tPlayerList = userService.findPlayers(playerId);
         for (TPlayer tPlayer : tPlayerList) {
             if (tPlayer.getId().equals(playerId)) {

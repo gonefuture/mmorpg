@@ -4,6 +4,7 @@ package com.wan37.gameServer.game.sceneObject.model;
 
 import com.wan37.gameServer.model.Creature;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.text.MessageFormat;
 
@@ -15,6 +16,7 @@ import java.text.MessageFormat;
  */
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class NPC  extends SceneObject  implements Creature {
 
 

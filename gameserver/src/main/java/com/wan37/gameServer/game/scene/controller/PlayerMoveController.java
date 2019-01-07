@@ -40,13 +40,13 @@ PlayerMoveController implements IController {
 
         GameScene gameScene = sceneCacheMgr.get(willMoveSceneId);
         Map<String, Object> result = new HashMap<>();
-        if (playerMoveService.moveScene(ctx.channel().id().asLongText(),willMoveSceneId)) {
+        if (playerMoveService.moveScene(ctx,willMoveSceneId)) {
             // 获取当前角色所在的场景
 
             result.put("你到达的地方是： ", gameScene.display());
         } else {
             result.put("这个地点不能到： ",gameScene.display());
-            GameScene currentScene = playerMoveService.currentScene(ctx.channel().id().asLongText());
+            GameScene currentScene = playerMoveService.currentScene(ctx);
             result.put("\n 当前所处的地方是",currentScene.display());
         }
 

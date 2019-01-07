@@ -2,9 +2,9 @@ package com.wan37.gameServer.game.user.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.game.gameRole.manager.RoleClassManager;
+import com.wan37.gameServer.game.player.manager.RoleClassManager;
 import com.wan37.gameServer.game.user.service.UserService;
-import com.wan37.gameServer.manager.cache.UserCacheManger;
+import com.wan37.gameServer.game.user.manager.UserCacheManger;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.model.User;

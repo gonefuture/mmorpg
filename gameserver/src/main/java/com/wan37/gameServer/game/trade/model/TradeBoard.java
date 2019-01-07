@@ -1,7 +1,7 @@
 package com.wan37.gameServer.game.trade.model;
 
 import com.wan37.gameServer.game.bag.model.Item;
-import com.wan37.gameServer.game.gameRole.model.Player;
+import com.wan37.gameServer.game.player.model.Player;
 import lombok.Data;
 
 import java.util.Map;

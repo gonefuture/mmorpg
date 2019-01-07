@@ -1,12 +1,11 @@
 package com.wan37.gameServer.game.guild.service;
 
-import com.wan37.gameServer.event.Event;
 import com.wan37.gameServer.event.EventBus;
 import com.wan37.gameServer.event.model.GuildEvent;
 import com.wan37.gameServer.game.bag.model.Item;
 import com.wan37.gameServer.game.bag.service.BagsService;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.guild.manager.GuildManager;
 import com.wan37.gameServer.game.guild.model.Guild;
 import com.wan37.gameServer.game.guild.model.PlayerJoinRequest;

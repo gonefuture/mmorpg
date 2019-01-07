@@ -5,7 +5,7 @@ import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.game.chat.controller.PublicChatController;
 import com.wan37.gameServer.game.chat.controller.WhisperController;
 import com.wan37.gameServer.game.gameInstance.controller.EnterInstanceController;
-import com.wan37.gameServer.game.gameRole.controller.*;
+import com.wan37.gameServer.game.player.controller.*;
 import com.wan37.gameServer.game.mail.controller.GetMailController;
 import com.wan37.gameServer.game.mail.controller.MailListController;
 import com.wan37.gameServer.game.mail.controller.SendMailController;
@@ -45,29 +45,16 @@ public class ControllerManager {
     }
 
     @Resource
-    private UserController userController;
-
-    @Resource
-    private PlayerLoginController playerLoginController;
-
-    @Resource
     private PlayerMoveController playerMoveController;
 
 
     @Resource
     private AOIController aoiController;
 
-    @Resource
-    private PlayerQuitController playerQuitController;
 
-
-
-    @Resource
-    private StartBufferController startBufferController;
 
     @Resource
     private UseItemController useItemController;
-
 
 
     @Resource
@@ -104,11 +91,8 @@ public class ControllerManager {
     @PostConstruct
     private void init() {
 
-        add(MsgId.PLAYER_LOGIN,playerLoginController);
         add(MsgId.MOVE, playerMoveController);
         add(MsgId.AOI,aoiController);
-        add(MsgId.PLAYER_EXIT,playerQuitController);
-        add(MsgId.START_BUFFER,startBufferController);
         add(MsgId.USE_ITEM,useItemController);
         add(MsgId.LOCATION,locationController);
         add(MsgId.ENTER_INSTANCE, enterInstanceController);

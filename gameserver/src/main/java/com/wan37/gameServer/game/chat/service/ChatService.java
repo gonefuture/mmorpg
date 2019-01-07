@@ -2,15 +2,17 @@ package com.wan37.gameServer.game.chat.service;
 
 import com.google.common.cache.Cache;
 import com.wan37.common.entity.Msg;
-import com.wan37.gameServer.game.gameRole.manager.PlayerCacheMgr;
-import com.wan37.gameServer.game.gameRole.model.Player;
-import com.wan37.gameServer.game.gameRole.service.PlayerDataService;
+import com.wan37.gameServer.game.player.manager.PlayerCacheMgr;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.manager.notification.NotificationManager;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Service;
 
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.Map;
 
 
 /**
@@ -57,11 +59,11 @@ public class ChatService {
      * @param words 消息
      */
     public void publicChat(Player player , String words) {
-        Cache<String,Player> playerCache = playerCacheMgr.getAllPlayerCache();
+        Map<ChannelHandlerContext,Player> playerCache = playerCacheMgr.getAllPlayerCache();
         String message = MessageFormat.format("[全服]: {0} : {1}",
                 player.getName(),words);
 
-        playerCache.asMap().values().forEach(
+        playerCache.values().forEach(
                 playerOnline -> {
                     notificationManager.<String>notifyPlayer(playerOnline,message);
                 }
