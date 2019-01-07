@@ -51,7 +51,7 @@ public class AOIController  {
     private GameSceneService gameSceneService;
 
 
-    public void aoi(ChannelHandlerContext ctx, Message message) {
+    private void aoi(ChannelHandlerContext ctx, Message message) {
 
         Player player = playerDataService.getPlayer(ctx);
 
@@ -69,9 +69,7 @@ public class AOIController  {
         sb.append(MessageFormat.format("    当前的位置是：{0}  {1}",gameScene.getId(),gameScene.getName())).append("\n");
         sb.append("   相邻的场景是：");
         gameSceneList.forEach(
-                neighbor -> {
-                    sb.append(MessageFormat.format("  {0}: {1} ",neighbor.getId(), neighbor.getName() ));
-                }
+                neighbor -> sb.append(MessageFormat.format("  {0}: {1} ",neighbor.getId(), neighbor.getName() ))
         );
 
         if (npCMap.isEmpty() && monsterMap.isEmpty() && playerList.size() == 0) {
@@ -79,20 +77,13 @@ public class AOIController  {
         } else {
 
             sb.append("\n 场景内玩家: \n");
-            playerList.forEach( (p -> {
-                sb.append(p.displayData()).append("\n");
-            }));
+            playerList.forEach( (p -> sb.append(p.displayData()).append("\n")));
+
             sb. append("场景内NPC： ").append("\n");
-            npCMap.values().forEach( npc -> {
-                sb.append(npc.displayData()
-                ).append("\n");
-            });
+            npCMap.values().forEach( npc -> sb.append(npc.displayData()).append("\n"));
 
             sb. append("场景内怪物: ").append("\n");
-            monsterMap.values().forEach( monster -> {
-                sb.append(monster.displayData()
-                ).append("\n");
-            });
+            monsterMap.values().forEach( monster -> sb.append(monster.displayData()).append("\n"));
 
 
         }
@@ -103,7 +94,7 @@ public class AOIController  {
     }
 
 
-    public void location(ChannelHandlerContext ctx, Message message) {
+    private void location(ChannelHandlerContext ctx, Message message) {
         Player player = playerDataService.getPlayer(ctx);
 
         GameScene gameScene = gameSceneService.findSceneById(player.getScene());

@@ -56,7 +56,7 @@ public class PlayerQuitService  {
 
         // 主动退出游戏的清除其缓存
         //cleanPlayerCache(ctx);
-        ctx.close();
+
     }
 
 

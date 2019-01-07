@@ -97,7 +97,7 @@ public class MissionService {
      * @param condition 事件条件
      * @return 是否含有相关条件
      */
-    public boolean hasCondition(Mission mission, String condition) {
+    private boolean hasCondition(Mission mission, String condition) {
         log.debug("mission.getConditionsMap() {}", mission.getConditionsMap());
         // 如果任务中有任意一个条件需要这个条件时，则是相关任务
         return mission.getConditionsMap().keySet().stream()
@@ -106,12 +106,13 @@ public class MissionService {
 
 
 
-    public void increaseProgress(MissionProgress missionProgress,String progressId) {
+    private void increaseProgress(MissionProgress missionProgress, String progressId) {
         missionProgress.getProgressMap().forEach(
                 (id,progressNumber) -> {
                     if (id.equals(progressId)) {
                         // 当前进杀死怪物进度度加一
                         progressNumber.getNow().incrementAndGet();
+                        log.debug("progressNumber{}",progressNumber);
                     }
                 }
         );
@@ -165,7 +166,7 @@ public class MissionService {
                             log.debug("missionProgressNow前 {}",missionProgressNow);
                             // 放入缓存并持久化进度
                             MissionManager.putMissionProgress(playerId,missionProgressNow);
-                            missionManager.saveMissionProgress(missionProgressNow);
+                            missionManager.saveOrUpdateMissionProgress(missionProgressNow);
                             return missionProgressNow;
                         }
                 );
@@ -202,7 +203,7 @@ public class MissionService {
                             }
                         }
                         mp.setProgress(JSON.toJSONString(mp.getProgressMap()));
-                        missionManager.upDateMissionProgress(mp);
+                        missionManager.updateMissionProgress(mp);
                     //}
                 }
         );
@@ -222,7 +223,9 @@ public class MissionService {
                             // 如果任务进行中
                             //if (MissionState.RUNNING.getCode().equals(mp.getMissionState())) {
                             // 增加任务进度
+                            mp.getProgressMap().get(condition).getNow().set(nowNumber);
                             int goal = mp.getProgressMap().get(condition).getGoal();
+
                             //检测任务是否完成
                             if (nowNumber >= goal) {
                                 // 如果任务成就是只有一次的，则设置为不再触发
@@ -235,7 +238,7 @@ public class MissionService {
                             }
                             mp.setProgress(JSON.toJSONString(mp.getProgressMap()));
                             log.debug("进度更新前{}",mp);
-                            missionManager.upDateMissionProgress(mp);
+                            missionManager.updateMissionProgress(mp);
 
                         }
                 );

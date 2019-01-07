@@ -9,6 +9,7 @@ import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * Description: 角色登陆服务
  */
 @Service
+@Slf4j
 public class PlayerLoginService {
 
     @Resource
@@ -50,8 +52,7 @@ public class PlayerLoginService {
     public Player login(Long playerId, ChannelHandlerContext ctx) {
         Player playerCache  = playerCacheMgr.getPlayerByCtx(ctx);
 
-
-        // 如果角色缓存为空 或者 不是相同的角色，那就从数据库查询
+        // 如果角色缓存为空 或者 缓存中的角色不是要加载的角色，那就从数据库查询
         if (playerCache == null || !playerCache.getId().equals(playerId)) {
             TPlayer tPlayer=  tPlayerMapper.selectByPrimaryKey(playerId);
             Player player = new Player();
@@ -80,15 +81,19 @@ public class PlayerLoginService {
     }
 
 
+
     /**
      *  判断用户是否拥有这个角色
+     * @param ctx   上下文
+     * @param playerId  要判定的角色id
+     * @return 用户是否拥有此角色
      */
-
     public boolean hasPlayer(ChannelHandlerContext ctx, Long playerId) {
         User user = UserCacheManger.getUserByCtx(ctx);
-        List<TPlayer>  tPlayerList = userService.findPlayers(playerId);
+        List<TPlayer>  tPlayerList = userService.findPlayers(user.getId());
         for (TPlayer tPlayer : tPlayerList) {
             if (tPlayer.getId().equals(playerId)) {
+                log.debug("tPlayerId {0}   playerId {1} ",tPlayer.getId(),playerId);
                 return true;
             }
         }

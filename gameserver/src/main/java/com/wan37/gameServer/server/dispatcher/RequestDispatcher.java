@@ -85,7 +85,7 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)  {
 
-        notificationManager.notifyByCtx(ctx,"出现了点小意外"+cause.getMessage());
+        NotificationManager.notifyByCtx(ctx,"出现了点小意外"+cause.getMessage());
         log.error("服务器内部发生错误");
 
         // 将角色信息保存到数据库

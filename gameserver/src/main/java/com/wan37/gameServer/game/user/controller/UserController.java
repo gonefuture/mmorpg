@@ -46,7 +46,7 @@ public class UserController  {
 
 
 
-    public void userLogin(ChannelHandlerContext ctx, Message message) {
+    private void userLogin(ChannelHandlerContext ctx, Message message) {
         String[] array = ParameterCheckUtil.checkParameter(ctx,message,3);
         long userId =  Long.valueOf(array[1]);
         String password = array[2];
@@ -56,14 +56,14 @@ public class UserController  {
 
 
 
-    public void roleList(ChannelHandlerContext ctx, Message message) {
+    private void roleList(ChannelHandlerContext ctx, Message message) {
         User user = UserCacheManger.getUserByCtx(ctx);
         List<TPlayer> list = userService.findPlayers(user.getId());
         StringBuilder sb = new StringBuilder();
         list.forEach(tPlayer -> sb.append(MessageFormat.format("id:{0} 名字：{1} 职业：{2} \n",
                 tPlayer.getId(),tPlayer.getName(),
                 RoleClassManager.getRoleClass(tPlayer.getRoleClass()).getName())));
-        notificationManager.notifyByCtx(ctx,sb.toString());
+        NotificationManager.notifyByCtx(ctx,sb.toString());
 
     }
 }

@@ -93,8 +93,6 @@ public class Player extends TPlayer   implements Creature  {
      */
     public void addExp(Integer exp) {
         this.setExp(this.getExp()+exp);
-        log.debug("this.getExp()",this.getExp());
-
         int newLevel = this.getExp()/100;
 
         // 如果等级发生变化，抛出等级事件

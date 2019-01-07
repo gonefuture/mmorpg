@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -82,7 +83,8 @@ public class UserService {
         // 替换channel上下文和用户缓存的联系
         UserCacheManger.putUserIdCtx(user.getId(),ctx);
         user.setChannelHandlerContext(ctx);
-        NotificationManager.notifyByCtx(ctx,"登陆成功,请发送指令 list_roles 加载角色列表");
+        NotificationManager.notifyByCtx(ctx, MessageFormat.format(
+                "用户{0}登陆成功,请发送指令 list_roles 加载角色列表",user.getName()));
     }
 
 
@@ -101,8 +103,7 @@ public class UserService {
                     // 将角色列表加入缓存
                     playerListCacheMgr.put(userId, tPlayerList);
                     return tPlayerList;
-                        }
-                );
+                });
     }
 
 

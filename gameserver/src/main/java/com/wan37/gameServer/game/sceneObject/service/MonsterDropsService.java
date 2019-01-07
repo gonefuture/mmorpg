@@ -47,7 +47,7 @@ public class MonsterDropsService {
     /**
      * 物品掉落
      */
-    public void dropItem(Player player, SceneObject sceneObject) {
+    void dropItem(Player player, SceneObject sceneObject) {
 
         // 掉落金钱，此处默认按怪物mp掉钱
         player.moneyChange(sceneObject.getMp().intValue());

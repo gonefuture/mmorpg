@@ -29,7 +29,6 @@ public  class NotificationManager {
     @Resource
     private PlayerCacheMgr playerCacheMgr;
 
-
     @Resource
     private GameSceneService gameSceneService;
 

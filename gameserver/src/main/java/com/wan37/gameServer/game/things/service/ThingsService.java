@@ -43,9 +43,6 @@ public class ThingsService {
 
 
 
-
-
-
     /**
      *  加载物品的属性内容
      * @param things 物品
@@ -65,8 +62,8 @@ public class ThingsService {
             );
 
         }
-        log.debug("加载物品的属性内容 things.getRoleProperties() {}", things.getRoleProperties());
-        log.debug("thingProperties {}", thingProperties);
+        //log.debug("加载物品的属性内容 things.getRoleProperties() {}", things.getRoleProperties());
+        //log.debug("thingProperties {}", thingProperties);
     }
 
 
