@@ -60,9 +60,14 @@ public class InstanceController {
 
     public void instanceExit(ChannelHandlerContext ctx, Message message) {
         Player player = playerDataService.getPlayer(ctx);
-        instanceService.exitInstance(player);
-        message.setFlag((byte) 1);
-        message.setContent("退出副本成功".getBytes());
+
+        if (instanceService.isInInstance(player)) {
+            instanceService.exitInstance(player,(GameInstance)player.getCurrentScene());
+            message.setFlag((byte) 1);
+            message.setContent("退出副本成功".getBytes());
+        } else {
+            message.setContent("你不在副本中".getBytes());
+        }
         ctx.writeAndFlush(message);
     }
 }

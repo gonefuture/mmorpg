@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Component
-public class TeamMnanger implements ICacheManager<String, Team> {
+public class TeamManager {
 
 
     // 缓存不过期
@@ -32,16 +32,15 @@ public class TeamMnanger implements ICacheManager<String, Team> {
             ).build();
 
 
-    @Override
-    public Team get(String id) {
+
+    public static Team getTeam(String id) {
         // 如果队伍id是默认的空，则返回null
        if (id.isEmpty())
             return null;
         return teamCache.getIfPresent(id);
     }
 
-    @Override
-    public void put(String teamId, Team team) {
+    public static void putTeam(String teamId, Team team) {
         teamCache.put(teamId,team);
     }
 
@@ -56,12 +55,12 @@ public class TeamMnanger implements ICacheManager<String, Team> {
                     notification -> System.out.println(notification.getKey() + "组队请求被移除, 原因是" + notification.getCause())
             ).build();
 
-    public Long getTeamQequest(Long inviteeId) {
+    public static Long getTeamRequest(Long inviteeId) {
         return teamRequestCache.getIfPresent(inviteeId);
     }
 
 
-    public void putTeamQequest(Long inviteeId, Long inviter){
+    public static void putTeamRequest(Long inviteeId, Long inviter){
         teamRequestCache.put(inviteeId,inviter);
 
     }

@@ -10,7 +10,6 @@ import com.wan37.gameServer.game.player.service.PlayerLoginService;
 import com.wan37.gameServer.game.player.service.PlayerQuitService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
-import com.wan37.gameServer.game.scene.servcie.PlayerMoveService;
 import com.wan37.gameServer.game.user.service.UserService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import com.wan37.gameServer.util.ParameterCheckUtil;
@@ -47,8 +46,7 @@ public class PlayerController {
     @Resource
     private PlayerLoginService playerLoginService;
 
-    @Resource
-    private PlayerMoveService playerMoveService;
+
 
     @Resource
     private UserService userService;
@@ -73,9 +71,8 @@ public class PlayerController {
         if (userService.isUserOnline(ctx) && playerLoginService.hasPlayer(ctx, playerId) ){
             Player player = playerLoginService.login(playerId,ctx);
 
-            GameScene gameScene = playerMoveService.currentScene(ctx);
-            // 将角色加入场景
-            playerMoveService.putPlayerInScene(gameScene,player);
+            GameScene gameScene = player.getCurrentScene();
+
 
             result.append(player.getName()).append(",角色登陆成功")
                     .append("\n 你所在位置为: ")

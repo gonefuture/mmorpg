@@ -40,16 +40,14 @@ public class GameClient {
     public static Channel channel = null;
 
 
-    private String ip = "127.0.0.1";
+    private static String ip = "127.0.0.1";
 
-    private int port = 8000;
+    private static int port = 8000;
 
-    // 停止标志位
-    private boolean stop = false;
 
 
     @PostConstruct
-    public void run() throws IOException {
+    public void run() {
         //设置一个多线程循环器
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         //启动附注类
@@ -73,35 +71,52 @@ public class GameClient {
         try {
             //连接服务
             Channel channel = bootstrap.connect(ip, port).sync().channel();
-            while (true) {
-                System.out.println("请输入您的操作：  操作 + 数据（多个数据之间用空格隔开）");
-                //向服务端发送内容
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                String content = reader.readLine();
-                if (StringUtils.isNotEmpty(content)) {
-                    if (StringUtils.equalsIgnoreCase(content, "q")) {
-                        System.exit(1);
-                    }
-                    //log.debug("客户端发送的信息： "+content);
-                    String[] array = content.split("\\s+");
-                    Message message = new Message();
-                    MsgId msgId = MsgId.findByCommand(array[0],MsgId.UNKNOWN);
-                    message.setMsgId(msgId.getMsgId());
-                    message.setType((byte)1);
-                    message.setContent(content.getBytes());
-                    channel.writeAndFlush(message);
-                }
-            }
-            //指定所使用的NIO传输channel
+            // 循环监听输入
+            loop();
+
         } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.exit(1);
-        } finally {
-            workerGroup.shutdownGracefully();
-            log.info("释放所有的资源");
+            log.debug("=========== 线程中断错误 =========");
+        } catch (IOException e) {
+            try {
+                // 四秒后重启客户端
+                Thread.sleep(4000);
+            } catch (InterruptedException e1) {
+                log.debug("=========== 睡眠错误 =========");
+            }
+            // 重启连接
+            log.debug("=========== 重启中 =========");
+            new GameClient().run();
+        }catch (Exception e) {
+            log.debug("=========== 其他错误 =========");
         }
     }
 
+
+    /**
+     *
+     * @throws IOException
+     */
+    private void loop() throws IOException {
+        while (true) {
+            System.out.println("请输入您的操作：  操作 + 数据（多个数据之间用空格隔开）");
+            //向服务端发送内容
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String content = reader.readLine();
+            if (StringUtils.isNotEmpty(content)) {
+                if (StringUtils.equalsIgnoreCase(content, "q")) {
+                    System.exit(1);
+                }
+                //log.debug("客户端发送的信息： "+content);
+                String[] array = content.split("\\s+");
+                Message message = new Message();
+                MsgId msgId = MsgId.findByCommand(array[0],MsgId.UNKNOWN);
+                message.setMsgId(msgId.getMsgId());
+                message.setType((byte)1);
+                message.setContent(content.getBytes());
+                channel.writeAndFlush(message);
+            }
+        }
+    }
     public static void main(String[] args) throws Exception {
         new GameClient().run();
     }

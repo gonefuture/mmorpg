@@ -3,9 +3,11 @@ package com.wan37.gameServer.game.scene.controller;
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
-import com.wan37.gameServer.game.scene.servcie.PlayerMoveService;
+import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -34,26 +36,29 @@ SceneController  {
     }
 
     @Resource
-    private PlayerMoveService playerMoveService;
+    private GameSceneService gameSceneService;
 
     @Resource
-    private SceneCacheMgr sceneCacheMgr;
+    private PlayerDataService playerDataService;
+
+
 
 
     public void playerMove(ChannelHandlerContext ctx, Message message) {
         String[] array = new String(message.getContent()).split("\\s+");
         int willMoveSceneId =  Integer.valueOf(array[1]);
 
-        GameScene gameScene = sceneCacheMgr.getScene(willMoveSceneId);
-        Map<String, Object> result = new HashMap<>();
-        if (playerMoveService.moveScene(ctx,willMoveSceneId)) {
-            // 获取当前角色所在的场景
+        Player player = playerDataService.getPlayerByCtx(ctx);
 
+        GameScene gameScene = SceneCacheMgr.getScene(willMoveSceneId);
+        Map<String, Object> result = new HashMap<>();
+        if (gameSceneService.canMoveTo(player,gameScene)) {
+            // 获取当前角色所在的场景
+            gameSceneService.moveToScene(player,willMoveSceneId);
             result.put("你到达的地方是： ", gameScene.display());
         } else {
             result.put("这个地点不能到： ",gameScene.display());
-            GameScene currentScene = playerMoveService.currentScene(ctx);
-            result.put("\n 当前所处的地方是",currentScene.display());
+            result.put("\n 当前所处的地方是",player.getCurrentScene().display());
         }
 
         message.setContent(JSON.toJSONString(result).getBytes());

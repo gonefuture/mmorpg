@@ -191,7 +191,7 @@ public class MissionService {
                     }
 
                     // 如果任务进行中
-                    //if (MissionState.RUNNING.getCode().equals(mp.getMissionState())) {
+                    //if (MissionState.RUNNING.getType().equals(mp.getMissionState())) {
                         // 增加任务进度
                         increaseProgress(mp,condition);
                         //检测任务是否完成
@@ -221,7 +221,7 @@ public class MissionService {
                                 return;
 
                             // 如果任务进行中
-                            //if (MissionState.RUNNING.getCode().equals(mp.getMissionState())) {
+                            //if (MissionState.RUNNING.getType().equals(mp.getMissionState())) {
                             // 增加任务进度
                             mp.getProgressMap().get(condition).getNow().set(nowNumber);
                             int goal = mp.getProgressMap().get(condition).getGoal();

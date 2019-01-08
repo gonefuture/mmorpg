@@ -11,6 +11,7 @@ import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.roleProperty.model.RoleProperty;
 
 
+import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.skills.model.Skill;
 
 import com.wan37.gameServer.model.Creature;
@@ -18,6 +19,7 @@ import com.wan37.mysql.pojo.entity.TPlayer;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -35,6 +37,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
+@ToString(exclude = {"currentScene","rolePropertyMap","equipmentBar","bag"})
 @Slf4j
 public class Player extends TPlayer   implements Creature  {
 
@@ -77,8 +80,10 @@ public class Player extends TPlayer   implements Creature  {
     private Bag bag = new Bag(this.getId(),"16格背包",16,1) ;
 
 
-    // 玩家当前进行的副本。
-    private GameInstance currentGameInstance;
+    // 玩家当前所处场景。
+    private GameScene currentScene;
+
+
 
     // 玩家当前的队伍id
     private String teamId = "";

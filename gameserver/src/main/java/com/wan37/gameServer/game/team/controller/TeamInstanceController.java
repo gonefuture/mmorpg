@@ -2,14 +2,23 @@ package com.wan37.gameServer.game.team.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.common.IController;
+import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.player.service.PlayerDataService;
+import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
+import com.wan37.gameServer.game.scene.model.GameScene;
+import com.wan37.gameServer.game.team.manager.TeamManager;
+import com.wan37.gameServer.game.team.model.Team;
 import com.wan37.gameServer.game.team.service.TeamService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
+import com.wan37.gameServer.manager.notification.NotificationManager;
 import com.wan37.gameServer.util.ParameterCheckUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -19,20 +28,38 @@ import javax.annotation.Resource;
  */
 
 @Controller
-public class TeamInstanceController implements IController {
+public class TeamInstanceController  {
 
     {
-        ControllerManager.add(MsgId.TEAM_INSTANCE,this);
+        ControllerManager.add(MsgId.TEAM_INSTANCE,this::teamInstance);
     }
 
 
     @Resource
     private TeamService teamService;
 
-    @Override
-    public void handle(ChannelHandlerContext ctx, Message message) {
+    @Resource
+    private PlayerDataService playerDataService;
+
+    @Resource
+    private NotificationManager notificationManager;
+
+
+    private void teamInstance(ChannelHandlerContext ctx, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
         Integer instanceId = Integer.valueOf(args[1]);
-        teamService.teamInstance(ctx,instanceId);
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        Team team = TeamManager.getTeam(player.getTeamId());
+        if (Objects.isNull(team)) {
+            notificationManager.notifyPlayer(player,"你没有队伍");
+            return;
+        }
+        if (!player.getId().equals(team.getCaptainId())) {
+            notificationManager.notifyPlayer(player,"你不是队长，无法开始副本");
+            return;
+        }
+        notificationManager.notifyPlayer(player, MessageFormat.format("开始进入副本{0}",
+               SceneCacheMgr.getScene(instanceId).getName()));
+        teamService.teamInstance(team,instanceId);
     }
 }

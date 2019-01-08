@@ -2,10 +2,11 @@ package com.wan37.gameServer.game.team.service;
 
 import com.wan37.gameServer.event.EventBus;
 import com.wan37.gameServer.event.model.TeamEvent;
+import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.player.service.PlayerDataService;
-import com.wan37.gameServer.game.team.manager.TeamMnanger;
+import com.wan37.gameServer.game.team.manager.TeamManager;
 import com.wan37.gameServer.game.team.model.Team;
 import com.wan37.gameServer.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,6 +16,7 @@ import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -27,8 +29,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class TeamService {
 
-    @Resource
-    private TeamMnanger teamMnanger;
 
     @Resource
     private PlayerDataService playerDataService;
@@ -50,13 +50,13 @@ public class TeamService {
         if (!invitee.getTeamId().isEmpty())
             return false;
 
-        Long invitorIdNow = teamMnanger.getTeamQequest(invitee.getId());
+        Long invitorIdNow = TeamManager.getTeamRequest(invitee.getId());
         // 如果当前有人正在邀请玩家，则不能组队
         if (null != invitorIdNow)
             return false;
 
         //保存组队请求
-        teamMnanger.putTeamQequest(invitee.getId(),invitor.getId());
+        TeamManager.putTeamRequest(invitee.getId(),invitor.getId());
 
         return true;
 
@@ -72,7 +72,7 @@ public class TeamService {
         if (leaver.getTeamId().isEmpty()) {
             notificationManager.notifyPlayer(leaver,"你并不在任何队伍里");
         } else {
-            Team team = teamMnanger.get(leaver.getTeamId());
+            Team team = TeamManager.getTeam(leaver.getTeamId());
             team.getTeamPlayer().remove(leaver.getId());
             leaver.setTeamId("");
             // 如果退出者是队长，随机指定一个队员作为队长
@@ -95,7 +95,7 @@ public class TeamService {
      */
     public void joinTeam(ChannelHandlerContext ctx) {
         Player invitee = playerDataService.getPlayerByCtx(ctx);
-        Long invitorId = teamMnanger.getTeamQequest(invitee.getId());
+        Long invitorId = TeamManager.getTeamRequest(invitee.getId());
         Player invitor = playerDataService.getOnlinePlayerById(invitorId);
 
         String invitorTeamId = invitor.getTeamId();
@@ -107,7 +107,7 @@ public class TeamService {
             playerMap.putIfAbsent(invitee.getId(),invitee) ;
             String teamId = invitor.getId().toString();
             Team team = new Team(teamId,playerMap);
-            teamMnanger.put(teamId,team);
+            TeamManager.putTeam(teamId,team);
             invitee.setTeamId(teamId);
             invitor.setTeamId(teamId);
             team.setCaptainId(invitor.getId());
@@ -117,7 +117,7 @@ public class TeamService {
             showTeam(invitor.getCtx());
         } else {
             // 从发起组队的人获取队伍实体
-            Team team = teamMnanger.get(invitorTeamId);
+            Team team = TeamManager.getTeam(invitorTeamId);
             team.getTeamPlayer().putIfAbsent(invitee.getId(),invitee);
             invitee.setTeamId(team.getId());
             showTeam(ctx);
@@ -139,35 +139,38 @@ public class TeamService {
         if (teamId.isEmpty()) {
             notificationManager.notifyPlayer(player,"你并没有加入队伍 \n");
         } else {
-            Team team = teamMnanger.get(teamId);
+            Team team = TeamManager.getTeam(teamId);
             notificationManager.notifyPlayer(player,"当前队伍：\n");
-            team.getTeamPlayer().values().forEach(
-                    p -> {
-                        if (p.getId().equals(team.getCaptainId())) {
-                            notificationManager.notifyPlayer(player,MessageFormat.format("队长： {0} hp:{1} mp:{2} \n",
-                                    p.getName(),p.getHp(),p.getMp()));
-                        } else {
-                            notificationManager.notifyPlayer(player,MessageFormat.format("队员： {0} hp:{1} mp:{2} \n",
-                                    p.getName(),p.getHp(),p.getMp()));
-                        }
-                    }
+            Optional.ofNullable(team).ifPresent(
+                    t -> t.getTeamPlayer().values().forEach(
+                            p -> {
+                                if (p.getId().equals(team.getCaptainId())) {
+                                    notificationManager.notifyPlayer(player,MessageFormat.format("队长： {0} hp:{1} mp:{2} \n",
+                                            p.getName(),p.getHp(),p.getMp()));
+                                } else {
+                                    notificationManager.notifyPlayer(player,MessageFormat.format("队员： {0} hp:{1} mp:{2} \n",
+                                            p.getName(),p.getHp(),p.getMp()));
+                                }
+                            }
+                    )
             );
+
         }
     }
 
     /**
      *      传送进入团队副本
-     * @param ctx 通道上下文呢
+     * @param team 队伍
      * @param instanceId 副本id
      */
-    public void teamInstance(ChannelHandlerContext ctx, Integer instanceId) {
-        Player player = playerDataService.getPlayerByCtx(ctx);
-        Team team = teamMnanger.get(player.getTeamId());
+    public void teamInstance(Team team, Integer instanceId) {
+        Player captain = team.getTeamPlayer().get(team.getCaptainId());
+        GameInstance gameInstance = instanceService.enterInstance(captain,instanceId);
 
-
-
-
-        //instanceService.enterInstance();
-
+        team.getTeamPlayer().values()
+                .forEach(player -> gameInstance.getPlayers().put(player.getId(),player));
+        team.getTeamPlayer().values()
+                .forEach(player -> notificationManager.notifyPlayer(player,MessageFormat.format("{0}进入副本",
+                        player.getName())));
     }
 }

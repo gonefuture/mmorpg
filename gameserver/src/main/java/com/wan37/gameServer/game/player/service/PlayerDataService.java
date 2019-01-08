@@ -165,7 +165,7 @@ public class PlayerDataService {
             // 广播并通知死亡的玩家
             notificationManager.playerDead(murderer,casualty);
 
-            gameSceneService.carryToScene(casualty,12);
+            gameSceneService.moveToScene(casualty,12);
             notificationManager.notifyPlayer(casualty,casualty.getName()+"  你已经在墓地了,十秒后复活 \n");
 
             TimedTaskManager.schedule(
@@ -220,7 +220,6 @@ public class PlayerDataService {
         // 计算初始战力
         computeAttack(player);
 
-
         // 加载背包
         bagsService.loadBag(player);
 
@@ -230,6 +229,8 @@ public class PlayerDataService {
         // 加载任务进度
         missionService.playerMissionProgressInit(player.getId());
 
+        // 加载到场景中
+        gameSceneService.initScene(player);
 
         log.debug("player {}", player);
 

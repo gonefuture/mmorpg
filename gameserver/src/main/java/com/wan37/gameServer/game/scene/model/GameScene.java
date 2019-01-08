@@ -36,7 +36,7 @@ public class GameScene  {
     private String state;
 
     @EntityName(column = "相邻场景")
-    private String neighbors;
+    private String neighbors = "";
 
     @EntityName(column = "地图类型")
     private Integer type;

@@ -4,6 +4,7 @@ import com.wan37.gameServer.game.player.model.Player;
 import lombok.Data;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -20,7 +21,7 @@ public class Team {
     // 队长id
     private Long captainId;
 
-    private Map<Long, Player> teamPlayer;
+    private Map<Long, Player> teamPlayer ;
 
     // 小队默认是五人一队
     private Integer teamSize = 5;

@@ -18,19 +18,19 @@ public enum  SceneType {
 
 
     ;
-    Integer code;
+    Integer type;
 
 
-    SceneType(Integer code) {
-        this.code = code;
+    SceneType(Integer type) {
+        this.type = type;
     }
 
-    public Integer getCode() {
-        return code;
+    public Integer getType() {
+        return type;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
 

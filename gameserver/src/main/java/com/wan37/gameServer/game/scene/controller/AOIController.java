@@ -6,7 +6,6 @@ import com.wan37.common.entity.MsgId;
 import com.wan37.gameServer.game.player.model.Player;
 
 import com.wan37.gameServer.game.scene.model.GameScene;
-import com.wan37.gameServer.game.scene.servcie.AOIService;
 import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.manager.controller.ControllerManager;
@@ -22,7 +21,7 @@ import java.util.List;
  * @author gonefuture  gonefuture@qq.com
  * time 2018/9/29 19:35
  * @version 1.00
- * Description: mmorpg
+ * Description:
  */
 
 @Component
@@ -36,8 +35,6 @@ public class AOIController  {
     }
 
 
-    @Resource
-    private AOIService aoiService;
 
     @Resource
     private PlayerDataService playerDataService;
@@ -46,18 +43,17 @@ public class AOIController  {
     private GameSceneService gameSceneService;
 
 
-
-
-
-
+    /**
+     *  * Description: AOI(Area Of Interest)，中文就是感兴趣区域。通
+     *  *  * 俗一点说，感兴趣区域就是玩家在场景实时看到的区域；也就是AOI会随着英雄的移动改变而改变。
+     * @param ctx   上下文
+     * @param message 信息
+     */
     private void aoi(ChannelHandlerContext ctx, Message message) {
 
         Player player = playerDataService.getPlayer(ctx);
 
-
         GameScene gameScene = gameSceneService.getSceneByPlayer(player);
-
-
 
         List<GameScene> gameSceneList = gameSceneService.getNeighborsSceneByIds(gameScene.getNeighbors());
 
