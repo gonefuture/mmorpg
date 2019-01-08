@@ -61,8 +61,8 @@ public class MonsterAIService {
         target.setHp(target.getHp() - attack);
 
         notificationManager.notifyScene(gameScene,
-                MessageFormat.format("{0}在攻击{1}，造成了{2}点伤害，你当前的hp为 {3} \n",
-                monster.getName(),target.getName(), monster.getAttack(),target.getHp()));
+                MessageFormat.format("{0}在攻击{1}，造成了{2}点伤害，{3}当前的hp为 {4} \n",
+                monster.getName(),target.getName(), monster.getAttack(),target.getName(),target.getHp()));
         playerDataService.isPlayerDead((Player) target,monster);
 
 
@@ -138,7 +138,13 @@ public class MonsterAIService {
     }
 
 
-
+    /**
+     *  怪物被攻击
+     * @param player 玩家
+     * @param target    怪物目标
+     * @param gameScene 游戏场景
+     * @param damage    伤害
+     */
     public void monsterBeAttack(Player player,Monster target,GameScene gameScene,Integer damage) {
         notificationManager.notifyScene(gameScene,
                 MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"

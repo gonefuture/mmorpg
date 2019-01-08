@@ -51,19 +51,20 @@ public class InstanceService {
     @Resource
     private MonsterAIService monsterAIService;
 
-    @Resource
-    private CombatService combatService;
 
     /**
      *  进入副本，将副本与玩家绑定起来
      */
     public GameInstance enterInstance(Player player, Integer instanceId) {
 
-        // 玩家当前的场景
+        // 初始化好的副本场景
         GameInstance gameInstance = initGameInstance(player,instanceId);
+
 
         if (null == gameInstance || null == gameInstance.getInstanceTime())
             return null;
+
+        log.debug("================= 副本内人数{}",gameInstance.getPlayers().size());
 
         // 设置玩家的当前副本
         player.setCurrentGameInstance(gameInstance);
@@ -139,6 +140,8 @@ public class InstanceService {
             return null;
 
         GameInstance gameInstance = new GameInstance();
+        // 复制属性前必须清空场景里的状态
+        gameScene.getPlayers().clear();
         BeanUtils.copyProperties(gameScene,gameInstance);
 
         // 设置副本开始的时间
@@ -170,6 +173,12 @@ public class InstanceService {
         gameInstance.setGuardBoss(firstBoss);
 
         gameInstance.getPlayers().put(player.getId(), player);
+
+        gameInstance.getPlayers().values().stream().map(Player::getName).forEach(System.out::println);
+
+
+
+
         // 记录玩家原先的位置
         gameInstance.getPlayerFrom().put(player.getId(),player.getScene());
 
@@ -188,7 +197,7 @@ public class InstanceService {
      *  开启场景心跳
      * @param gameInstance 场景
      */
-    public void startTick(GameInstance gameInstance) {
+    private void startTick(GameInstance gameInstance) {
 
         // 副本500ms进行心跳一次
         ScheduledFuture<?> attackTask = TimedTaskManager.scheduleWithFixedDelay(0, 500, () -> {
