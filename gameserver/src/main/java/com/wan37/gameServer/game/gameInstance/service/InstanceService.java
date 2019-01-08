@@ -4,6 +4,7 @@ package com.wan37.gameServer.game.gameInstance.service;
 import com.wan37.gameServer.game.combat.service.CombatService;
 import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.player.model.Player;
+import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 import com.wan37.gameServer.game.scene.model.SceneType;
 import com.wan37.gameServer.game.sceneObject.model.Monster;
 import com.wan37.gameServer.game.sceneObject.model.NPC;
@@ -39,8 +40,6 @@ public class InstanceService {
     @Resource
     private GameSceneService gameSceneService;
 
-    @Resource
-    private TimedTaskManager timedTaskManager;
 
     @Resource
     private NotificationManager notificationManager;
@@ -60,7 +59,6 @@ public class InstanceService {
         // 初始化好的副本场景
         GameInstance gameInstance = initGameInstance(player,instanceId);
 
-
         if (null == gameInstance || null == gameInstance.getInstanceTime())
             return null;
 
@@ -69,9 +67,6 @@ public class InstanceService {
         // 设置玩家的当前副本
         player.setCurrentGameInstance(gameInstance);
         player.setScene(gameInstance.getId());
-
-
-        log.debug("gameInstance {}",gameInstance);
 
 
         return gameInstance;
@@ -89,7 +84,7 @@ public class InstanceService {
         Monster nextBoss = null;
         if (monsterList.size()>0) {
             nextBoss = monsterList.remove(0);
-            log.debug("下一个boss {} ,当前boss列表 {}",nextBoss,monsterList);
+            log.debug("下一个boss {} ,当前boss列表 {}",nextBoss.getName(),monsterList);
             // 将Bos放入怪物集合中
             gameInstance.getMonsters().put(nextBoss.getKey(),nextBoss);
             // 设置当前守关Boos
@@ -116,7 +111,6 @@ public class InstanceService {
             player.setScene(player.getCurrentGameInstance()
                     .getPlayerFrom().get(player.getId()));
 
-
             // 设置当前副本实例为空
             player.setCurrentGameInstance(null);
             notificationManager.notifyPlayer(player,"你已经退出副本");
@@ -134,21 +128,20 @@ public class InstanceService {
      * @return 一个初始化好的副本实例
      */
     private GameInstance initGameInstance(Player player, Integer instanceId) {
-        GameScene gameScene = gameSceneService.findSceneById(instanceId);
+        GameScene sceneTemplate = SceneCacheMgr.getScene(instanceId);
         // 如果不是副本，返回null
-        if (!gameScene.getType().equals(SceneType.INSTANCE_SCENE.getCode()))
+        if (!sceneTemplate.getType().equals(SceneType.INSTANCE_SCENE.getCode()))
             return null;
 
         GameInstance gameInstance = new GameInstance();
-        // 复制属性前必须清空场景里的状态
-        gameScene.getPlayers().clear();
-        BeanUtils.copyProperties(gameScene,gameInstance);
 
+        gameInstance.setId(sceneTemplate.getId());
+        gameInstance.setName(sceneTemplate.getName());
         // 设置副本开始的时间
+        gameInstance.setInstanceTime(sceneTemplate.getInstanceTime());
 
         // 加载怪物和boss
-
-        String  gameObjectIds = gameInstance.getGameObjectIds();
+        String  gameObjectIds = sceneTemplate.getGameObjectIds();
         Arrays.stream(gameObjectIds.split(","))
                 .map(Long::valueOf)
                 .map( gameObjectService::getGameObject)
@@ -175,8 +168,6 @@ public class InstanceService {
         gameInstance.getPlayers().put(player.getId(), player);
 
         gameInstance.getPlayers().values().stream().map(Player::getName).forEach(System.out::println);
-
-
 
 
         // 记录玩家原先的位置
@@ -242,10 +233,8 @@ public class InstanceService {
 
         // 根据副本存在时间销毁副本定时器
         TimedTaskManager.schedule(gameInstance.getInstanceTime(), () -> {
-            log.debug("{}的副本定时器销毁",gameInstance.getName());
-            gameInstance.setFail(true);
-            gameInstance.getPlayers().values().forEach(this::exitInstance);
             attackTask.cancel(false);
+            destroyInstance(gameInstance);
         });
 
         // 副本存活时间到期， 销毁副本，传送玩家出副本。
@@ -260,6 +249,19 @@ public class InstanceService {
         );
 
     }
+
+
+    /**
+     *  重要，及时销毁副本
+     * @param gameInstance 副本
+     */
+    public void destroyInstance(GameInstance gameInstance){
+        gameInstance.setFail(true);
+        gameInstance.getPlayers().values().forEach(this::exitInstance);
+        gameInstance = null;
+        log.debug("{}的副本定时器销毁",gameInstance.getName());
+    }
+
 
 
 

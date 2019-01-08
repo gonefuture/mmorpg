@@ -46,32 +46,22 @@ public class AOIService {
     private PlayerDataService playerDataService;
 
     // 获取场景内的NPC
-    public Map<Long,NPC> getNPCs(int sceneId) {
-        GameScene gameScene = gameSceneService.findSceneById(sceneId);
-        if (gameScene != null) {
+    public Map<Long,NPC> getNPCs(GameScene gameScene) {
             return gameScene.getNpcs();
-        } else {
-            return null;
-        }
+
     }
 
     //  获取场景内怪物
-    public Map<Long,Monster> getMonsters(Player player, int sceneId) {
-        GameScene gameScene = gameSceneService.findSceneById(sceneId);
-        // 如果玩家正处于副本中
-        if (gameScene.getType() == 3 && player.getCurrentGameInstance() != null) {
+    public Map<Long,Monster> getMonsters(GameScene gameScene) {
+        return gameScene.getMonsters();
 
-            return player.getCurrentGameInstance().getMonsters();
-        } else {
-            return gameScene.getMonsters();
-        }
     }
 
 
 
     public List<Player> getPlayerInScene(int sceneId) {
         List<Player> playerList = new ArrayList<>();
-        GameScene gameScene = sceneCacheMgr.get(sceneId);
+        GameScene gameScene = sceneCacheMgr.getScene(sceneId);
         Map<Long,Player> playerMap = gameScene.getPlayers();
 
 

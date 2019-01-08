@@ -3,7 +3,6 @@ package com.wan37.gameServer.game.scene.controller;
 import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.common.IController;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
 import com.wan37.gameServer.game.scene.servcie.PlayerMoveService;
@@ -45,7 +44,7 @@ SceneController  {
         String[] array = new String(message.getContent()).split("\\s+");
         int willMoveSceneId =  Integer.valueOf(array[1]);
 
-        GameScene gameScene = sceneCacheMgr.get(willMoveSceneId);
+        GameScene gameScene = sceneCacheMgr.getScene(willMoveSceneId);
         Map<String, Object> result = new HashMap<>();
         if (playerMoveService.moveScene(ctx,willMoveSceneId)) {
             // 获取当前角色所在的场景

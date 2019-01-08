@@ -26,7 +26,7 @@ import java.util.*;
 
 @Slf4j
 @Component
-public class SceneCacheMgr implements ICacheManager<Integer, GameScene> {
+public class SceneCacheMgr  {
 
 
     // 缓存不过期
@@ -61,20 +61,13 @@ public class SceneCacheMgr implements ICacheManager<Integer, GameScene> {
 
 
 
-
-    @Override
-    public GameScene get(Integer key) {
+    public static GameScene getScene(Integer key) {
         return sceneCache.getIfPresent(key);
     }
 
-    @Override
-    public void put(Integer key, GameScene value) {
-        sceneCache.put(key,value);
-    }
 
 
-
-    public List<GameScene> list() {
+    public static List<GameScene> list() {
         List<GameScene> gameScenes = new ArrayList<>();
         Map<Integer,GameScene>  sceneCacheMap = sceneCache.asMap();
 

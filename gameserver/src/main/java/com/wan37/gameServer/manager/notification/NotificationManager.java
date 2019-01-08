@@ -112,7 +112,7 @@ public  class NotificationManager {
      * @param damage    伤害
      */
     public void playerBeAttacked(Player form , Player to, long damage) {
-        GameScene gameScene = gameSceneService.findSceneByPlayer(form);
+        GameScene gameScene = gameSceneService.getSceneByPlayer(form);
         notifyScene(gameScene,
                 MessageFormat.format("\n玩家 {0} 受到 {1} 的攻击，  hp减少{2},当前hp为 {3}\n",
                         to.getName(),form.getName(),damage, to.getHp()));
@@ -125,7 +125,7 @@ public  class NotificationManager {
      * @param player 玩家
      */
     public void playerDead(Creature murderer, Player player) {
-        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+        GameScene gameScene = gameSceneService.getSceneByPlayer(player);
         notifyScene(gameScene,
                 MessageFormat.format("玩家 {0} 被 {1} 杀死  \n",
                         player.getName(),murderer.getName()));

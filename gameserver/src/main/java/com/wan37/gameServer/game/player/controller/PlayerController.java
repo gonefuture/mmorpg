@@ -2,7 +2,6 @@ package com.wan37.gameServer.game.player.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameServer.game.player.manager.PlayerCacheMgr;
 import com.wan37.gameServer.game.player.manager.RoleClassManager;
 import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.player.model.RoleClass;
@@ -82,7 +81,7 @@ public class PlayerController {
                     .append("\n 你所在位置为: ")
                     .append(gameScene.getName()).append("\n")
                     .append("相邻的场景是： ");
-            List<GameScene> gameSceneList = gameSceneService.findNeighborsSceneByIds(gameScene.getNeighbors());
+            List<GameScene> gameSceneList = gameSceneService.getNeighborsSceneByIds(gameScene.getNeighbors());
             gameSceneList.forEach(neighbor -> {
                 result.append(neighbor.getId()).append(": ").append(neighbor.getName()).append(", ");
             });

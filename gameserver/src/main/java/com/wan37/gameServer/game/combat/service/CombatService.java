@@ -61,16 +61,10 @@ public class CombatService {
      */
     public void commonAttack(Player player, Long gameObjectId) {
 
-        GameScene gameScene = gameSceneService.findSceneById(player.getScene());
+        GameScene gameScene = gameSceneService.getSceneByPlayer(player);
         Monster target;
 
-        // 地图类型为2，则从玩家所在的副本里取出怪物
-        if (gameScene.getType() == 2) {
-            gameScene = player.getCurrentGameInstance();
-            target = gameScene.getMonsters().get(gameObjectId);
-        } else {
-            target = gameScene.getMonsters().get(gameObjectId);
-        }
+        target = gameScene.getMonsters().get(gameObjectId);
 
         if (target == null) {
             notificationManager.notifyPlayer(player,"攻击的目标不存在");
@@ -103,7 +97,7 @@ public class CombatService {
      * @param targetId 目标id
      */
     public void commonAttackByPVP(Player player, Player targetPlayer) {
-        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+        GameScene gameScene = gameSceneService.getSceneByPlayer(player);
 
         // 获取发起攻击者的战力
         int attack = player.getAttack();
@@ -163,7 +157,7 @@ public class CombatService {
      * @param targetId 目标玩家
      */
     private void skillPVP(Player player, Skill skill, Long targetId) {
-        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+        GameScene gameScene = gameSceneService.getSceneByPlayer(player);
         Player targetPlayer = gameScene.getPlayers().get(targetId);
         if (null == targetPlayer) {
             notificationManager.notifyPlayer(player,"目标不存在此场景，可能已离开或下线");
@@ -208,7 +202,7 @@ public class CombatService {
         Skill skill = skillsService.getSkill(skillId);
         if (!skillsService.canSkill(player,skill))
             return;
-        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+        GameScene gameScene = gameSceneService.getSceneByPlayer(player);
 
 
         if (targetIdList.size() > 1 && !skill.getSkillType().equals(SkillType.ATTACK_MULTI.getTypeId())) {

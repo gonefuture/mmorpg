@@ -133,7 +133,7 @@ public final class ExportExcelUtil<T> {
                 if (fieldName.equals("serialVersionUID"))
                     continue;
                 //  拼接出getXxx（）的名字
-                String getMethodName = "get"
+                String getMethodName = "getScene"
                         +fieldName.substring(0,1).toUpperCase()
                         +fieldName.substring(1);
                 try {

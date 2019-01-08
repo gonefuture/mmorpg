@@ -80,7 +80,7 @@ public class AttackController {
         Long targetId = Long.valueOf(command[1]);
 
         Player player = playerDataService.getPlayerByCtx(ctx);
-        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+        GameScene gameScene = gameSceneService.getSceneByPlayer(player);
 
         Player targetPlayer = gameScene.getPlayers().get(targetId);
 

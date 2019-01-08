@@ -5,6 +5,7 @@ import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.player.service.PlayerDataService;
 import com.wan37.gameServer.game.scene.model.GameScene;
 import com.wan37.gameServer.game.scene.manager.SceneCacheMgr;
+import com.wan37.gameServer.game.scene.model.SceneType;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -25,38 +27,33 @@ import java.util.List;
 @Service
 public class GameSceneService {
 
-    @Resource
-    private SceneCacheMgr sceneCacheMgr;
-
 
     @Resource
     private PlayerDataService playerDataService;
-
-    /**
-     *  通过id查找场景
-     */
-    public GameScene findSceneById(int sceneId) {
-        return sceneCacheMgr.get(sceneId);
-    }
 
     /**
      *      通过
      * @param player   玩家
      * @return 空或者场景
      */
-    public GameScene findSceneByPlayer(Player player) {
-        return sceneCacheMgr.get(player.getScene());
+    public GameScene getSceneByPlayer(Player player) {
+        GameScene gameScene = SceneCacheMgr.getScene(player.getScene());
+        if (gameScene.getType().equals(SceneType.INSTANCE_SCENE.getCode()))
+            return player.getCurrentGameInstance();
+        return gameScene;
     }
 
     /**
      *  通过字符串的id序列查找场景
      */
-    public List<GameScene> findNeighborsSceneByIds(String sceneIds) {
+    public List<GameScene> getNeighborsSceneByIds(String sceneIds) {
         List<GameScene> gameSceneList = new ArrayList<>();
+        if (Objects.isNull(sceneIds))
+            return gameSceneList;
         String[] stringIds = sceneIds.split(",");
         Arrays.stream(stringIds).forEach((stringId) -> {
             Integer id = Integer.valueOf(stringId);
-            GameScene gameScene = sceneCacheMgr.get(id);
+            GameScene gameScene = SceneCacheMgr.getScene(id);
             gameSceneList.add(gameScene);
         });
         return gameSceneList;
@@ -68,8 +65,8 @@ public class GameSceneService {
      * @return 相邻的场景
      */
     public List<GameScene> findNeighborsSceneByPlayer(Player player) {
-        GameScene gameScene = findSceneById(player.getScene());
-        return findNeighborsSceneByIds(gameScene.getNeighbors());
+        GameScene gameScene = getSceneByPlayer(player);
+        return getNeighborsSceneByIds(gameScene.getNeighbors());
     }
 
     /**
@@ -77,10 +74,12 @@ public class GameSceneService {
      * @param ctx 通道上下文
      * @return 该通道当前的场景
      */
-    public GameScene findSceneByCtx(ChannelHandlerContext ctx) {
-
+    public GameScene getSceneByCtx(ChannelHandlerContext ctx) {
         Player player = playerDataService.getPlayer(ctx);
-        return sceneCacheMgr.get(player.getScene());
+        GameScene gameScene = SceneCacheMgr.getScene(player.getScene());
+        if (gameScene.getType().equals(SceneType.INSTANCE_SCENE.getCode()))
+            return player.getCurrentGameInstance();
+        return gameScene;
     }
 
     /**
@@ -90,7 +89,7 @@ public class GameSceneService {
      */
     public void carryToScene(Player player, int sceneId) {
 
-        GameScene gameScene = findSceneByPlayer(player);
+        GameScene gameScene = getSceneByPlayer(player);
 
         log.debug("gameScene  {}",gameScene.getPlayers() );
         // 从当前场景移除
@@ -99,11 +98,10 @@ public class GameSceneService {
         log.debug("after gameScene  {}", gameScene.getPlayers() );
         player.setScene(sceneId);
 
-        GameScene targetScene = findSceneById(sceneId);
+        GameScene targetScene = getSceneByPlayer(player);
         // 放入目的场景
         targetScene.getPlayers().put(player.getId(), player);
     }
-
 
 
 

@@ -190,7 +190,7 @@ public class SkillsService {
     public void useSkillSelf(ChannelHandlerContext cxt, Integer skillId) {
         Skill skill = SkillsManager.get(skillId);
         Player player = playerDataService.getPlayerByCtx(cxt);
-        GameScene gameScene = gameSceneService.findSceneByPlayer(player);
+        GameScene gameScene = gameSceneService.getSceneByPlayer(player);
 
         if (!canSkill(player,skill)) {
             return;

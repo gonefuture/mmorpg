@@ -28,16 +28,18 @@ public class PlayerMoveService {
     @Resource
     private PlayerCacheMgr playerCacheMgr;
 
-    @Resource
-    private SceneCacheMgr sceneCacheMgr;
 
     @Resource
     private PlayerDataService playerDataService;
 
 
+    @Resource
+    private GameSceneService gameSceneService;
+
+
     public boolean moveScene(ChannelHandlerContext ctx, int willMoveSceneId) {
         Player player = playerCacheMgr.getPlayerByCtx(ctx);
-        GameScene nowScene = sceneCacheMgr.get(player.getScene());
+        GameScene nowScene = gameSceneService.getSceneByPlayer(player);
         String[] neighbors = nowScene.getNeighbors().split(",");
         for (String sceneId : neighbors) {
             if (String.valueOf(willMoveSceneId).equals(sceneId)) {
@@ -49,7 +51,7 @@ public class PlayerMoveService {
                 playerOutScene(nowScene, player);
 
                 // 添加玩家进入场景
-                GameScene hasMoveToScene = sceneCacheMgr.get(willMoveSceneId);
+                GameScene hasMoveToScene = SceneCacheMgr.getScene(willMoveSceneId);
                 putPlayerInScene(hasMoveToScene,player);
                 return true;
             }
@@ -61,7 +63,7 @@ public class PlayerMoveService {
 
     public GameScene currentScene(ChannelHandlerContext ctx) {
         Player player =  playerDataService.getPlayerByCtx(ctx);
-        return sceneCacheMgr.get(player.getScene());
+        return SceneCacheMgr.getScene(player.getScene());
 
     }
 
@@ -75,21 +77,19 @@ public class PlayerMoveService {
                 players.put(player.getId(),player);
                 hasMoveToScene.setPlayers(players);
             }
-            sceneCacheMgr.put(hasMoveToScene.getId(),hasMoveToScene);
         }
     }
 
     /**
      *  玩家离开场景
      */
-    public void playerOutScene(GameScene nowScene, Player player) {
+    private void playerOutScene(GameScene nowScene, Player player) {
         if (player != null && nowScene != null) {
                 Map<Long,Player> players = nowScene.getPlayers();
                 if (players != null) {
                     players.remove(player.getId());
                     nowScene.setPlayers(players);
                 }
-                sceneCacheMgr.put(nowScene.getId(),nowScene);
         }
     }
 
