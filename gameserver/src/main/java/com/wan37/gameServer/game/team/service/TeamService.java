@@ -6,6 +6,7 @@ import com.wan37.gameServer.game.gameInstance.model.GameInstance;
 import com.wan37.gameServer.game.gameInstance.service.InstanceService;
 import com.wan37.gameServer.game.player.model.Player;
 import com.wan37.gameServer.game.player.service.PlayerDataService;
+import com.wan37.gameServer.game.scene.servcie.GameSceneService;
 import com.wan37.gameServer.game.team.manager.TeamManager;
 import com.wan37.gameServer.game.team.model.Team;
 import com.wan37.gameServer.manager.notification.NotificationManager;
@@ -38,6 +39,10 @@ public class TeamService {
 
     @Resource
     private InstanceService instanceService;
+
+
+    @Resource
+    private GameSceneService gameSceneService;
 
 
     /**
@@ -168,7 +173,7 @@ public class TeamService {
         GameInstance gameInstance = instanceService.enterInstance(captain,instanceId);
 
         team.getTeamPlayer().values()
-                .forEach(player -> gameInstance.getPlayers().put(player.getId(),player));
+                .forEach(player -> gameSceneService.moveToScene(player,gameInstance));
         team.getTeamPlayer().values()
                 .forEach(player -> notificationManager.notifyPlayer(player,MessageFormat.format("{0}进入副本",
                         player.getName())));

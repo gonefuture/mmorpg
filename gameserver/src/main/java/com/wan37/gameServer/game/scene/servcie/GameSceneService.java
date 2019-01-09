@@ -96,15 +96,32 @@ public class GameSceneService {
         // 放入目的场景
         targetScene.getPlayers().put(player.getId(), player);
         player.setCurrentScene(targetScene);
-        log.debug("player.getCurrentScene()  {}", player.getCurrentScene() );
     }
+
+
+    /**
+     *  移动到某个场景
+     * @param player 玩家
+     * @param gameScene 场景
+     */
+    public void moveToScene(Player player, GameScene gameScene) {
+        // 从旧场景移除
+        player.getCurrentScene().getPlayers().remove(player.getId());
+
+        player.setScene(gameScene.getId());
+        // 放入目的场景
+        gameScene.getPlayers().put(player.getId(), player);
+        player.setCurrentScene(gameScene);
+    }
+
+
 
 
     /**
      *  进入场景初始化
      * @param player 玩家
      */
-    public void initScene(Player player) {
+    public void initPlayerScene(Player player) {
         GameScene scene = SceneCacheMgr.getScene(player.getScene());
 
         // 如果玩家场景id显示在副本但是身上却没关联副本实例，返回墓地的场景
@@ -116,6 +133,7 @@ public class GameSceneService {
             return;
         }
         scene.getPlayers().put(player.getId(),player);
+        log.debug("当前场景{}",scene);
         player.setCurrentScene(scene);
     }
 

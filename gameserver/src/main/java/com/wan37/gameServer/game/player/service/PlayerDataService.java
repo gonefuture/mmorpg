@@ -230,7 +230,7 @@ public class PlayerDataService {
         missionService.playerMissionProgressInit(player.getId());
 
         // 加载到场景中
-        gameSceneService.initScene(player);
+        gameSceneService.initPlayerScene(player);
 
         log.debug("player {}", player);
 

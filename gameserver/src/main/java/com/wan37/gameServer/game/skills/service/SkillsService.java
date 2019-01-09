@@ -155,15 +155,18 @@ public class SkillsService {
      * @return 是否可用
      */
     public boolean canSkill(Creature creature, Skill skill) {
-
-
         if ( null == skill) {
             if (creature instanceof Player) {
                 notificationManager.notifyPlayer((Player) creature,"该技能不存在");
             }
             return false;
         }
-
+        if (creature.getMp() < skill.getMpConsumption()) {
+            if (creature instanceof Player) {
+                notificationManager.notifyPlayer((Player) creature,"您的mp不足");
+            }
+            return false;
+        }
         if (creature instanceof Player) {
             Player player = (Player) creature;
             RoleClass roleClass = RoleClassManager.getRoleClass(player.getRoleClass());

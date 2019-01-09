@@ -75,11 +75,12 @@ public class PlayerLoginService {
 
             // 保存playerId跟ChannelHandlerContext之间的关系
             playerCacheMgr.savePlayerCtx(playerId,ctx);
+            // 玩家初始化
+            playerDataService.initPlayer(playerCache);
 
             return playerCache;
         }
     }
-
 
 
     /**

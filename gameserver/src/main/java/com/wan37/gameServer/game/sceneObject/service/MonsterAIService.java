@@ -83,8 +83,9 @@ public class MonsterAIService {
                     Skill skill = skillsService.getSkill(skillId);
                     if (skillsService.canSkill(monster,skill) && skillsService.useSkill(monster,target,gameScene,skill)) {
                         notificationManager.notifyScene(gameScene,
-                                MessageFormat.format("{0} 对 {1}用技能 {2}， 对你造成了{3}点伤害，你当前的hp为 {4}\n",
-                                        monster.getName(), target.getName(),skill.getName(),skill.getHpLose(),target.getHp()));
+                                MessageFormat.format("{0} 对 {1}用技能 {2}， 造成了{3}点伤害，{4} 当前的hp为 {5}\n",
+                                        monster.getName(), target.getName(),skill.getName(),skill.getHpLose()
+                                        ,target.getName(),target.getHp()));
                     }
                 }
         );

@@ -69,14 +69,13 @@ public class InstanceService {
 
         if (null == gameInstance || null == gameInstance.getInstanceTime())
             return null;
-
+        // 记录玩家原先的位置
+        gameInstance.getPlayerFrom().put(player.getId(),player.getScene());
         // 设置玩家的当前副本
-        player.setCurrentScene(gameInstance);
         player.setCurrentScene(gameInstance);
         player.setScene(gameInstance.getId());
         return gameInstance;
     }
-
 
 
 
@@ -115,10 +114,9 @@ public class InstanceService {
 
             // 返回原来的场景
             player.setScene(gameInstance.getPlayerFrom().get(player.getId()));
-            gameSceneService.initScene(player);
+            gameSceneService.initPlayerScene(player);
 
             // 设置当前副本实例为空
-            player.setCurrentScene(null);
             notificationManager.notifyPlayer(player,"你已经退出副本");
         } else {
             notificationManager.notifyPlayer(player,"你不在副本中");
@@ -143,6 +141,7 @@ public class InstanceService {
 
         gameInstance.setId(sceneTemplate.getId());
         gameInstance.setName(sceneTemplate.getName());
+        gameInstance.setType(SceneType.INSTANCE_SCENE.getType());
         // 设置副本开始的时间
         gameInstance.setInstanceTime(sceneTemplate.getInstanceTime());
 
@@ -165,24 +164,12 @@ public class InstanceService {
                             }
                         }
                 );
-
         // 加载第一个boss
         Monster firstBoss =  nextBoss(gameInstance);
-
         gameInstance.setGuardBoss(firstBoss);
-
-        gameInstance.getPlayers().put(player.getId(), player);
-
-        gameInstance.getPlayers().values().stream().map(Player::getName).forEach(System.out::println);
-
-
-        // 记录玩家原先的位置
-        gameInstance.getPlayerFrom().put(player.getId(),player.getScene());
-
         // 开启场景心跳
         startTick(gameInstance);
 
-        log.debug(" gameInstance.getMonsters() {}", gameInstance.getMonsters());
         return gameInstance;
     }
 
@@ -203,11 +190,13 @@ public class InstanceService {
             Map<Long, Monster> monsterMap = gameInstance.getMonsters();
             if (guardBoss ==null  && gameInstance.getBossList().size() == 0) {
                 // 所有Boss死亡，挑战成功
-                notificationManager.notifyScene(gameInstance, MessageFormat.format(
-                        "恭喜你挑战副本{0}成功 ", gameInstance.getName()));
+                gameInstance.getPlayers().values().forEach(
+                        p ->    notificationManager.notifyScene(gameInstance, MessageFormat.format(
+                                "恭喜你挑战副本{0}成功 ", gameInstance.getName()))
+                );
+                // 退出副本
                 gameInstance.getPlayers().values().forEach(p -> exitInstance(p,gameInstance));
             }
-
             Optional.ofNullable(guardBoss).ifPresent(
                     boss -> {
                         // 如果守关boss死亡，下一个Boss出场，将守关boos移除怪物列表
@@ -220,13 +209,11 @@ public class InstanceService {
                                 // 守关boos主动攻击场景内玩家
                                 gameInstance.getPlayers().values().forEach(
                                         player -> {
+                                            // 开始怪物自动攻击的AI
                                             monsterAIService.startAI(player, boss, gameInstance);
-
                                             if (player.getHp() < 0) {
                                                 notificationManager.notifyPlayer(player,"很遗憾，你挑战副本失败");
-                                                gameInstance.getPlayers().remove(player.getId());
                                                 exitInstance(player,gameInstance);
-                                                gameInstance.setFail(true);
                                             }
                                         }
                                 );
@@ -261,7 +248,7 @@ public class InstanceService {
      *  重要，及时销毁副本
      * @param gameInstance 副本
      */
-    public void destroyInstance(GameInstance gameInstance){
+    private void destroyInstance(GameInstance gameInstance){
         gameInstance.setFail(true);
         GameInstance finalGameInstance = gameInstance;
         gameInstance.getPlayers().values().forEach(p -> exitInstance(p, finalGameInstance));
