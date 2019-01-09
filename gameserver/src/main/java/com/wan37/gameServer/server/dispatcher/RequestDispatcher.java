@@ -38,8 +38,6 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
     @Resource
     private PlayerQuitService playerQuitService;
 
-    @Resource
-    private NotificationManager notificationManager;
 
 
     //  当客户端连上服务器的时候触发此函数
@@ -75,7 +73,8 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
         if (controller == null) {
             errorController.handle( ctx ,msg);
         } else {
-            controller.handle(ctx,msg);
+            log.debug("{}",new String(msg.getContent()));
+            controllerManager.execute(controller,ctx,msg);
         }
      }
 
@@ -90,10 +89,6 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
 
         // 将角色信息保存到数据库
         playerQuitService.savePlayer(ctx);
-
-        // 从场景退出
-        //playerQuitService.logoutScene(ctx);
-
 
         // 清除缓存
         //playerQuitService.cleanPlayerCache(ctx);

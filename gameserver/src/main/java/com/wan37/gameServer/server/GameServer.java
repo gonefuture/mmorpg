@@ -2,14 +2,9 @@ package com.wan37.gameServer.server;
 
 
 import com.wan37.gameServer.server.channelInitializer.SocketChannelInitializer;
-import com.wan37.gameServer.server.channelInitializer.WebSocketChannelInitializer;
-import com.wan37.gameServer.server.dispatcher.RequestDispatcher;
-import com.wan37.gameServer.server.handler.MessageDecoder;
-import com.wan37.gameServer.server.handler.MessageEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -32,8 +27,6 @@ public class GameServer {
     @Resource
     private SocketChannelInitializer socketChannelInitializer;
 
-    @Resource
-    private WebSocketChannelInitializer webSocketChannelInitializer;
 
 
     //绑定端口

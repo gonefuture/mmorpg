@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -65,6 +67,13 @@ public class GameScene  {
         return MessageFormat.format("id:{0}  name:{1}"
                 ,this.getId(),this.getName());
     }
+
+
+
+
+    // 通过一个场景一个线程处理器的方法保证每个场景的指令循序
+    ExecutorService singleThreadSchedule = Executors.newSingleThreadScheduledExecutor();
+
 
 
 

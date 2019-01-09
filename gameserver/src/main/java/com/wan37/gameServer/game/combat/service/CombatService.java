@@ -76,9 +76,9 @@ public class CombatService {
 
         // 攻击力
         int attack = player.getAttack();
+
         notificationManager.notifyScene(gameScene,
                 MessageFormat.format("玩家{0}  向 {1} 发动普通攻击,攻击力为 {2} \n",player.getName(),target.getName(), attack));
-
 
         if (target.getState() ==  -1) {
             notificationManager.notifyScene(gameScene,
@@ -94,7 +94,7 @@ public class CombatService {
     /**
      *  pvp普通攻击
      * @param player 玩家
-     * @param targetId 目标id
+     * @param targetPlayer 目标玩家
      */
     public void commonAttackByPVP(Player player, Player targetPlayer) {
         GameScene gameScene = gameSceneService.getSceneByPlayer(player);
