@@ -21,6 +21,8 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -118,27 +120,39 @@ public class GuildManager {
     }
 
 
+
+    /**
+     *  持久化玩家任务成就进程的线程池，由于持久化不需要保证循序，所以直接用多线程的线程池。
+     *  线程数 为 服务器核心*2+1
+     */
+    private ExecutorService threadPool = Executors.newFixedThreadPool(5);
+
     /**
      *  持久化插入公会
      * @param guild 公会
      */
     public  void insertGuild(Guild guild) {
-        guild.setMember(JSON.toJSONString(guild.getMemberMap()));
-        guild.setWarehouse(JSON.toJSONString(guild.getWarehouseMap()));
-        guild.setJoinRequest(JSON.toJSONString(guild.getPlayerJoinRequestMap()));
-        tGuildMapper.insertSelective(guild);
+        threadPool.execute(() -> {
+            guild.setMember(JSON.toJSONString(guild.getMemberMap()));
+            guild.setWarehouse(JSON.toJSONString(guild.getWarehouseMap()));
+            guild.setJoinRequest(JSON.toJSONString(guild.getPlayerJoinRequestMap()));
+            tGuildMapper.insertSelective(guild);
+        });
+
     }
 
 
     /**
-     *  持久化更新公会
+     *  数据库更新公会
      * @param guild 公会
      */
     public  void updateGuild(Guild guild) {
-        guild.setMember(JSON.toJSONString(guild.getMemberMap()));
-        guild.setWarehouse(JSON.toJSONString(guild.getWarehouseMap()));
-        guild.setJoinRequest(JSON.toJSONString(guild.getPlayerJoinRequestMap()));
-        tGuildMapper.updateByPrimaryKeySelective(guild);
+        threadPool.execute(() -> {
+            guild.setMember(JSON.toJSONString(guild.getMemberMap()));
+            guild.setWarehouse(JSON.toJSONString(guild.getWarehouseMap()));
+            guild.setJoinRequest(JSON.toJSONString(guild.getPlayerJoinRequestMap()));
+            tGuildMapper.updateByPrimaryKeySelective(guild);
+        });
     }
 
 

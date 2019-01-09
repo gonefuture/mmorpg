@@ -106,7 +106,6 @@ public class BagsService {
     /**
      *  持久化背包数据
      */
-
     public void saveBag(Player player){
         TBag tBag = new TBag();
         Bag bag = player.getBag();

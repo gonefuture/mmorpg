@@ -71,9 +71,9 @@ public class InstanceService {
             return null;
         // 记录玩家原先的位置
         gameInstance.getPlayerFrom().put(player.getId(),player.getScene());
-        // 设置玩家的当前副本
-        player.setCurrentScene(gameInstance);
-        player.setScene(gameInstance.getId());
+        // 进入副本
+        gameSceneService.moveToScene(player,gameInstance);
+
         return gameInstance;
     }
 

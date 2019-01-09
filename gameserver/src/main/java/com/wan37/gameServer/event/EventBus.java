@@ -13,6 +13,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -44,6 +46,10 @@ public class EventBus  {
     }
 
 
+    // 单独一个线程异步处理事件处理，同时保证了事件的循序
+    private static ExecutorService singleThreadSchedule = Executors.newSingleThreadScheduledExecutor();
+
+
     /**
      * 发布事件
      * @param event 事件
@@ -53,7 +59,7 @@ public class EventBus  {
         List<EventHandler> handlerList =  listenerMap.get(event.getClass());
         if (!Objects.isNull(handlerList)) {
             for (EventHandler eventHandler: handlerList) {
-                eventHandler.handle(event);
+               singleThreadSchedule.execute( () -> eventHandler.handle(event));
             }
         }
 

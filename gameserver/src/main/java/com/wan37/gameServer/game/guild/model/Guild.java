@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * @author gonefuture  gonefuture@qq.com
  * time 2018/12/20 9:49
  * @version 1.00
- * Description: 工会实体
+ * Description: 工会实体，对于公会仓库的操作都有同步处理
  */
 
 @Data
@@ -45,7 +45,7 @@ public class Guild  extends TGuild{
     /**
      *   获取公会仓库物品
      * @param warehouseIndex 仓库格子索引
-     * @return
+     * @return 物品
      */
     public synchronized Item warehouseTake(Integer warehouseIndex) {
         return this.getWarehouseMap().get(warehouseIndex);

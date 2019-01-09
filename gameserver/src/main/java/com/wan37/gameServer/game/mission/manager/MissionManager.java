@@ -17,6 +17,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 /**
@@ -48,7 +50,7 @@ public class MissionManager {
             ).build();
 
 
-    public static Mission getMission(Integer missionId) {
+    private static Mission getMission(Integer missionId) {
         return missionCache.getIfPresent(missionId);
     }
 
@@ -78,8 +80,6 @@ public class MissionManager {
     public static Map<Integer,MissionProgress> getMissionProgressMap(Long playerId) {
         return missionProgressCache.getIfPresent(playerId);
     }
-
-
 
 
 
@@ -132,25 +132,43 @@ public class MissionManager {
         log.debug("玩家任务成就进度数据数据完毕 {}", playerMissionProgressMap);
     }
 
+
+
+
+
+
+
+    /**
+     *  持久化玩家任务成就进程的线程池，由于持久化不需要保证循序，所以直接用多线程的线程池。
+     *  线程数 为 服务器核心*2+1
+     */
+    private ExecutorService threadPool = Executors.newFixedThreadPool(5);
+
     /**
      *  创建或更新一个玩家任务成就进度记录
      * @param progress 新创建的进度
      */
     public  void saveOrUpdateMissionProgress(MissionProgress progress) {
-        TMissionProgressKey key = new TMissionProgressKey();
-        key.setMissionId(progress.getMissionId());
-        key.setPlayerId(progress.getPlayerId());
-        TMissionProgress tMissionProgress = tMissionProgressMapper.selectByPrimaryKey(key);
-        if (Objects.isNull(tMissionProgress)) {
-            tMissionProgressMapper.insertSelective(progress);
-        } else {
-            tMissionProgressMapper.updateByPrimaryKeySelective(progress);
-        }
+        threadPool.execute(() -> {
+            TMissionProgressKey key = new TMissionProgressKey();
+            key.setMissionId(progress.getMissionId());
+            key.setPlayerId(progress.getPlayerId());
+            TMissionProgress tMissionProgress = tMissionProgressMapper.selectByPrimaryKey(key);
+            if (Objects.isNull(tMissionProgress)) {
+                tMissionProgressMapper.insertSelective(progress);
+            } else {
+                tMissionProgressMapper.updateByPrimaryKeySelective(progress);
+            }
+        });
     }
 
 
+    /**
+     *  更新瓦加进程
+     * @param progress 更新玩家进程
+     */
     public void updateMissionProgress(MissionProgress progress) {
-        tMissionProgressMapper.updateByPrimaryKeySelective(progress);
+        threadPool.execute(() -> tMissionProgressMapper.updateByPrimaryKeySelective(progress) );
     }
 
 

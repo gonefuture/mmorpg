@@ -32,9 +32,6 @@ public class ControllerManager {
 
 
 
-
-
-
     // MsgId标志和服务之间的映射
     private final static Map<MsgId,IController>  controllerMapping = new ConcurrentHashMap<>();
     
@@ -72,7 +69,6 @@ public class ControllerManager {
         if (Objects.isNull(player) || Objects.isNull(player.getCurrentScene())) {
             controller.handle(ctx,msg);
         }
-
     }
 
 

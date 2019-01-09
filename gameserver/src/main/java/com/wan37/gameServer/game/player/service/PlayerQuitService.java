@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -96,6 +98,15 @@ public class PlayerQuitService  {
     }
 
 
+
+
+
+    /**
+      *  玩家信息持久化的线程池，由于持久化不需要保证循序，所以直接用多线程的线程池。
+      *  线程数 为 服务器核心*2+1
+     */
+    private ExecutorService threadPool = Executors.newFixedThreadPool(5);
+
     /**
      *  保存角色所有数据
      */
@@ -107,12 +118,16 @@ public class PlayerQuitService  {
             // 持久化角色信息
             TPlayer tPlayer = new TPlayer();
             BeanUtils.copyProperties(player,tPlayer);
-            // 保存背包
-            tPlayer.setEquipments(JSON.toJSONString(player.getEquipmentBar()));
 
-            tPlayerMapper.updateByPrimaryKey(tPlayer);
-            // 保存角色背包
-            bagsService.saveBag(player);
+            // 异步持久化
+            threadPool.execute(
+                    () -> {
+                        tPlayer.setEquipments(JSON.toJSONString(player.getEquipmentBar()));
+                        tPlayerMapper.updateByPrimaryKey(tPlayer);
+                        // 保存背包
+                        bagsService.saveBag(player);
+                    }
+            );
         }
     }
 
