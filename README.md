@@ -18,7 +18,7 @@ A game server for mmorpg game based on Netty, SpringBoot, MyBatis。
     ├── sceneObject.xlsx
     ├── shop.xlsx
     ├── skill.xlsx
-    └── things.xlsx
+    └── thingInfo.xlsx
     
  分别是角色状态、游戏场景、角色属性、场景对象（怪物和NPC）,游戏商店，角色技能，游戏物品（武器和普通物品）的配置表
 

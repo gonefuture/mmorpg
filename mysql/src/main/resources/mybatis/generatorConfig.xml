@@ -95,6 +95,10 @@
             <columnOverride column="progress"  jdbcType="VARCHAR" />
         </table>
 
+        <table tableName="t_auction_item">
+            <columnOverride column="bidders"  jdbcType="VARCHAR" />
+        </table>
+
 
     </context>
 </generatorConfiguration>

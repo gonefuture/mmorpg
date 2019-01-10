@@ -178,6 +178,10 @@ public enum MsgId {
 
     FRIEND_ADD("friend_add",4028),
 
+    AUCTION_BID("friend_add",4029),
+
+
+
 
    // 未知的命令
     UNKNOWN("unknown", 9999)
