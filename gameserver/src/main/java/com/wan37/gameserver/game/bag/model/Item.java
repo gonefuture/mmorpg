@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@NoArgsConstructor
 public class Item {
 
     private Long id;
@@ -25,7 +24,9 @@ public class Item {
     private ThingInfo thingInfo;
 
 
+    private Item() {
 
+    }
 
     public Item(Long id, Integer count, ThingInfo thingInfo) {
         this.id = id;

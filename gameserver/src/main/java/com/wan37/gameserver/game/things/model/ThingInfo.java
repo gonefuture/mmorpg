@@ -47,10 +47,10 @@ public class ThingInfo implements IExcel<Integer> {
     private String describe;
 
 
-    // 物品状态，1为已装备，2为未装备
+    /** 物品状态，1为已装备，2为未装备 */
     private Integer state;
 
-    // 物品属性
+    /** 物品属性 */
     private Set<RoleProperty> thingRoleProperty = new HashSet<>();
 
 

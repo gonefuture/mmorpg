@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,20 +49,17 @@ public class MailService {
      */
     public Msg sendMail(Player player, Long target,
                         String subject, String content, Integer bagIndex) {
-
         Player targetPlayer = playerDataService.getOnlinePlayerById(target);
-
-        Optional<Item> item = bagsService.removeItem(player,bagIndex);
-
+        Item item = bagsService.removeItem(player,bagIndex);
 
         TMail tMail = new TMail();
-        tMail.setId((int)new Date().getTime());
+        tMail.setId((int)System.currentTimeMillis());
         tMail.setSubject(subject);
         tMail.setContent(content);
         tMail.setSender(player.getId());
         tMail.setReceiver(targetPlayer.getId());
         // 如果邮件，插入附件
-        item.ifPresent( i -> tMail.setAttachment(JSON.toJSONString(i)));
+        Optional.ofNullable(item).ifPresent( i -> tMail.setAttachment(JSON.toJSONString(i)));
 
         //持久化
         tMailMapper.insertSelective(tMail);
@@ -99,10 +95,9 @@ public class MailService {
         if (tMail.getReceiver().equals(player.getId())){
             String itemString = tMail.getAttachment();
             Item item = JSON.parseObject(itemString,Item.class);
-            if (item == null)
+            if (item == null) {
                 return new Msg(500,"邮件并没有附件或者附件已经取走");
-
-
+            }
             if (bagsService.addItem(player,item)) {
                 // 更新邮件状态
                 tMail.setAttachment(null);

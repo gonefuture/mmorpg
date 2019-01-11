@@ -1,7 +1,5 @@
 package com.wan37.common.entity;
 
-import lombok.Data;
-
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -178,22 +176,24 @@ public enum MsgId {
 
     FRIEND_ADD("friend_add",4028),
 
-    AUCTION_BID("friend_add",4029),
+    /** 竞拍 */
+    AUCTION_BID("auction_bid",4029),
 
+    /** 发布拍卖品 */
+    AUCTION_PUSH("auction_push",4030),
 
-
-
-   // 未知的命令
+   /** 未知的命令 */
     UNKNOWN("unknown", 9999)
 
     ;
-    // MsgId
+
+
     private String command;
 
     private Integer msgId;
 
-    private static final Map<String, MsgId>  commandMap = new  HashMap<>();
-    private static final Map<Integer, MsgId>  idMap = new  HashMap<>();
+    private static final Map<String, MsgId> COMMAND_MAP = new  HashMap<>();
+    private static final Map<Integer, MsgId> ID_MAP = new  HashMap<>();
 
     MsgId(String command, Integer msgId) {
         this.command = command;
@@ -205,8 +205,8 @@ public enum MsgId {
      */
     static {
         for (MsgId e : EnumSet.allOf(MsgId.class)) {
-            commandMap.put(e.command,e);
-            idMap.put(e.msgId,e);
+            COMMAND_MAP.put(e.command,e);
+            ID_MAP.put(e.msgId,e);
         }
     }
 
@@ -217,7 +217,7 @@ public enum MsgId {
      * @return 一个相关服务的枚举
      */
     public static MsgId findByCommand(String command, MsgId defaultValue){
-        MsgId value = commandMap.get(command);
+        MsgId value = COMMAND_MAP.get(command);
         if(value == null){
             return defaultValue;
         }
@@ -231,7 +231,7 @@ public enum MsgId {
      * @return 一个相关服务的枚举
      */
     public static MsgId find(int msgId,  MsgId defaultValue){
-        MsgId value = idMap.get(msgId);
+        MsgId value = ID_MAP.get(msgId);
         if(value == null){
             return defaultValue;
         }

@@ -23,7 +23,7 @@ public class Bag  {
 
     private String bagName;
 
-    // 背包容量
+    /** 背包容量 */
     private Integer bagSize;
 
     private Integer type;

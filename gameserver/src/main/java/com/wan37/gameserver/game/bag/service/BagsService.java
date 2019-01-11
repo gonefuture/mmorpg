@@ -16,6 +16,7 @@ import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.roleProperty.model.RoleProperty;
 import com.wan37.gameserver.game.things.manager.ThingsManager;
 import com.wan37.gameserver.game.things.model.ThingInfo;
+import com.wan37.gameserver.game.things.model.ThingKind;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import com.wan37.mysql.pojo.entity.TBag;
 import com.wan37.mysql.pojo.entity.TBagExample;
@@ -142,13 +143,13 @@ public class BagsService {
      */
     public boolean addItem(Player player, Item item) {
         Bag bag = player.getBag();
-        if (item == null)
+        if (item == null) {
             return false;
-
+        }
         Map<Integer,Item> itemMap = bag.getItemMap();
 
         // 种类为3的物品为可堆叠的
-        if (item.getThingInfo().getKind() == 3) {
+        if (item.getThingInfo().getKind().equals(ThingKind.STACKABLE.getKind())) {
             for (int locationIndex=1; locationIndex <= bag.getBagSize(); locationIndex++) {
                 Item i = itemMap.get(locationIndex);
                 // 如果是用一种物品且堆叠未满

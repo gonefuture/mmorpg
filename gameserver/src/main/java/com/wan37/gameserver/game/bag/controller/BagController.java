@@ -8,6 +8,7 @@ import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.roleProperty.model.RoleProperty;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,9 @@ public class BagController  {
     @Resource
     private PlayerDataService playerDataService;
 
+    @Resource
+    private NotificationManager notificationManager;
+
 
     public void packBag(ChannelHandlerContext ctx, Message message) {
         bagsService.packBag(ctx);
@@ -57,8 +61,9 @@ public class BagController  {
         sb.append(MessageFormat.format("背包：{0} 大小: {1}",
                 player.getBag().getBagName(),player.getBag().getBagSize())).append("\n");
 
-        if (0 == itemMap.size() )
+        if (0 == itemMap.size() ) {
             sb.append("背包空荡荡的");
+        }
         for (Map.Entry<Integer,Item> entry : itemMap.entrySet()) {
             sb.append(MessageFormat.format("格子：{0}  {1} {2} 数量：{3} 描述：{4}  属性：",
                     entry.getKey(), entry.getValue().getThingInfo().getName(), entry.getValue().getThingInfo().getPart(),
@@ -75,8 +80,6 @@ public class BagController  {
             sb.append("\n");
         }
 
-        message.setFlag((byte) 1);
-        message.setContent(sb.toString().getBytes());
-        ctx.writeAndFlush(message);
+        notificationManager.notifyPlayer(player,sb.toString());
     }
 }

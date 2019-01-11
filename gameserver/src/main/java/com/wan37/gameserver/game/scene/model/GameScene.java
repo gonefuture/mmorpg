@@ -2,6 +2,7 @@ package com.wan37.gameserver.game.scene.model;
 
 
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.wan37.gameserver.game.sceneObject.model.Monster;
 
 import com.wan37.gameserver.game.player.model.Player;
@@ -13,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -51,15 +50,14 @@ public class GameScene  {
     private Long instanceTime;
 
 
-    // 处于场景的玩家,key为player_id
+    /** 处于场景的玩家,key为player_id */
     private Map<Long,Player> players = new ConcurrentHashMap<>();
 
 
-    // 处于场景中的NPC
+    /** 处于场景中的NPC */
     private  Map<Long, NPC> npcs = new ConcurrentHashMap<>();
 
-    // 处于场景中的怪物
-
+    /** 处于场景中的怪物 */
     private Map<Long,Monster> monsters = new ConcurrentHashMap<>();
 
     public String display() {
@@ -68,10 +66,11 @@ public class GameScene  {
     }
 
 
+    private static ThreadFactory sceneThreadFactory = new ThreadFactoryBuilder()
+            .setNameFormat("scene-single-loop-%d").build();
 
-
-    // 通过一个场景一个线程处理器的方法保证每个场景的指令循序
-    ExecutorService singleThreadSchedule = Executors.newSingleThreadScheduledExecutor();
+    /** 通过一个场景一个线程处理器的方法保证每个场景的指令循序 */
+    ExecutorService singleThreadSchedule = Executors.newSingleThreadScheduledExecutor(sceneThreadFactory);
 
 
 

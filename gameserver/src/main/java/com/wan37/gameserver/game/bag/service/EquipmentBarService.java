@@ -58,14 +58,15 @@ public class EquipmentBarService {
         Map<String, Item>  equipmentBar = player.getEquipmentBar();
 
         Item item = player.getBag().getItemMap().get(index);
-        if (null == item)
+        if (null == item) {
               return false;
+        }
         ThingInfo thingInfo = item.getThingInfo();
 
         // 判断是否是装备,装备的种类代号为 1
-        if ( null == thingInfo || thingInfo.getKind() != 1)
+        if ( null == thingInfo || thingInfo.getKind() != 1) {
             return false;
-
+        }
 
         Item preItem = equipmentBar.get(thingInfo.getPart());
         if ( null != preItem) {
@@ -88,7 +89,6 @@ public class EquipmentBarService {
             // 将原先的物品放入背包
             bagsService.addItem(player,preItem);
         }
-
         return true;
     }
 
@@ -105,8 +105,9 @@ public class EquipmentBarService {
     public Msg removeEquip(Player player, String part)  {
         Map<String,Item> equipmentBar = player.getEquipmentBar();
         Item item = equipmentBar.get(part);
-        if (item == null)
+        if (item == null) {
             return new Msg(404,"你身上没有穿戴这件装备");
+        }
         // 移除属性增益,放入背包
         if (bagsService.addItem(player,item)
                 && rolePropertyService.removeThingPropertyForPlayer(player,item.getThingInfo())) {

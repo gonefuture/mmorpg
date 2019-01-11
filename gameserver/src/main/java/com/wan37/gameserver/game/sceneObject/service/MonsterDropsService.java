@@ -65,12 +65,7 @@ public class MonsterDropsService {
                 ThingInfo thingInfo = thingInfoService.getThingInfo(drop.getThingId());
                 // 随机的物品id
                 Long itemId = thingInfoService.generateItemId();
-                Item item = new Item();
-                item.setId(itemId);
-                // 设置数量
-                item.setCount(1);
-                // 默认的位置索引为零
-                item.setLocationIndex(0);
+                Item item = new Item(itemId,1,thingInfo);
                 item.setThingInfo(thingInfo);
                 if (!bagsService.addItem(player,item)) {
                     notificationManager.notifyPlayer(player,

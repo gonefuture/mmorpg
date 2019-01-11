@@ -1,9 +1,4 @@
 package com.wan37.gameserver.game.bag.controller;
-/*
- *  @author : 钱伟健 gonefuture@qq.com
- *  @version : 2018/10/29 9:11.
- *  说明：
- */
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Msg;
@@ -15,6 +10,7 @@ import com.wan37.gameserver.game.bag.service.EquipmentBarService;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.things.model.ThingInfo;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -23,8 +19,13 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 /**
- * <pre> </pre>
+ *  @author : 钱伟健 gonefuture@qq.com
+ *  @version : 2018/10/29 9:11.
+ *  说明：
  */
+
+
+
 
 @Controller
 public class EquipmentController  {
@@ -46,13 +47,14 @@ public class EquipmentController  {
     private BagsService bagsService;
 
 
-    public void equip(ChannelHandlerContext ctx, Message message) {
+
+
+    private void equip(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
         Integer cellId = Integer.valueOf(command[1]);
         Player player = playerDataService.getPlayer(ctx);
         ThingInfo thingInfo = bagsService.getThingInfo(player,cellId);
         boolean flag = equipmentBarService.equip(player,cellId);
-
 
         if (flag) {
             message.setFlag((byte) 1);
@@ -66,7 +68,7 @@ public class EquipmentController  {
 
 
 
-    public void showEquip(ChannelHandlerContext ctx, Message message) {
+    private void showEquip(ChannelHandlerContext ctx, Message message) {
         Map<String, Item> equipmentBar = playerDataService.getPlayerByCtx(ctx).getEquipmentBar();
         StringBuilder sb = new StringBuilder();
         equipmentBar.values().stream().
@@ -78,27 +80,24 @@ public class EquipmentController  {
                             );
 
                             things.getThingRoleProperty().forEach(
-                                    roleProperty -> {
-                                        sb.append(MessageFormat.format(" {0}：{1} ",
-                                                roleProperty.getName(),roleProperty.getThingPropertyValue()));
-                                    }
+                                    roleProperty -> sb.append(MessageFormat.format(" {0}：{1} ",
+                                            roleProperty.getName(),roleProperty.getThingPropertyValue()))
                             );
 
                             sb.append("\n");
                         }
                 );
 
-        if (equipmentBar.isEmpty())
+        if (equipmentBar.isEmpty()) {
             sb.append("你没有穿戴装备，快去商城或背包里挑一件吧");
-        message.setFlag((byte)1);
-        message.setContent(sb.toString().getBytes());
-        ctx.writeAndFlush(message);
+        }
+        NotificationManager.notifyByCtx(ctx,sb.toString());
     }
 
 
 
 
-    public void removeEquip(ChannelHandlerContext ctx, Message message) {
+    private void removeEquip(ChannelHandlerContext ctx, Message message) {
         String[] cmd = new String(message.getContent()).split("\\s+");
         // 需要卸下装备的部位
         String part = cmd[1];
