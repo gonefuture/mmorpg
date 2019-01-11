@@ -4,16 +4,14 @@ package com.wan37.gameserver.event;
 
 
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -45,8 +43,10 @@ public class EventBus  {
     }
 
 
-    // 单独一个线程异步处理事件处理，同时保证了事件的循序
-    private static ExecutorService singleThreadSchedule = Executors.newSingleThreadScheduledExecutor();
+    /** 单独一个线程异步处理事件处理，同时保证了事件的循序 */
+    private static ThreadFactory sceneThreadFactory = new ThreadFactoryBuilder()
+            .setNameFormat("event-loop-%d").build();
+    private static ExecutorService singleThreadSchedule = Executors.newSingleThreadScheduledExecutor(sceneThreadFactory);
 
 
     /**
@@ -63,8 +63,6 @@ public class EventBus  {
         }
 
     }
-
-
 
 
 

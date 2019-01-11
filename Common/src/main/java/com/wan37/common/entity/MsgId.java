@@ -182,6 +182,9 @@ public enum MsgId {
     /** 发布拍卖品 */
     AUCTION_PUSH("auction_push",4030),
 
+    /** 查看拍卖品 */
+    AUCTION_SHOW("auction_show",4031),
+
    /** 未知的命令 */
     UNKNOWN("unknown", 9999)
 

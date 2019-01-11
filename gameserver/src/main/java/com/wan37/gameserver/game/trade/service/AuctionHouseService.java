@@ -12,7 +12,9 @@ import com.wan37.gameserver.manager.notification.NotificationManager;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -51,6 +53,8 @@ public class AuctionHouseService  {
         auctionItem.setAuctionPrice(auctionPrice);
         auctionItem.setPushTime(new Date());
         auctionHouseManager.putAuctionItem(auctionItem);
+        notificationManager.notifyPlayer(player, MessageFormat.format("发布物品{0}成功,初始化价格是{1}",
+                item.getThingInfo().getName(),auctionPrice));
     }
 
 
@@ -84,15 +88,13 @@ public class AuctionHouseService  {
        }
        // 竞拍模式
        if (auctionItem.getAuctionMode().equals(AuctionMode.AT_AUCTION.getType())) {
-
-
+           bidAuctionItem(player,auctionItem,price);
         }
-
     }
 
 
 
-    public void bidAuctionItem(Player player, AuctionItem auctionItem,int price) {
+    private void bidAuctionItem(Player player, AuctionItem auctionItem, int price) {
         Integer auctionMoney = auctionItem.getBiddersMap().get(player.getId());
         if (Objects.isNull(auctionMoney)) {
             //  第一次竞拍
@@ -107,6 +109,8 @@ public class AuctionHouseService  {
     }
 
 
+    public Map<Integer, AuctionItem> getALLAuction() {
+        return AuctionHouseManager.getAllAuctionItem();
 
-
+    }
 }

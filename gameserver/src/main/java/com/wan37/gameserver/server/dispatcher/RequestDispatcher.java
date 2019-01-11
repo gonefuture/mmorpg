@@ -72,7 +72,6 @@ public class RequestDispatcher  extends SimpleChannelInboundHandler<Message> {
         if (controller == null) {
             errorController.handle( ctx ,msg);
         } else {
-            log.debug("{}",new String(msg.getContent()));
             controllerManager.execute(controller,ctx,msg);
         }
      }

@@ -70,8 +70,6 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         buf.readBytes(values);
         message.setContent(values);
 
-        //log.info("message： "+message);
-        log.info("收到的内容： "+new String(message.getContent()));
         return message;
     }
 }

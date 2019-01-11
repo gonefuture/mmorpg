@@ -32,18 +32,18 @@ public class ControllerManager {
 
 
 
-    // MsgId标志和服务之间的映射
-    private final static Map<MsgId,IController>  controllerMapping = new ConcurrentHashMap<>();
+    /** MsgId标志和服务之间的映射 */
+    private final static Map<MsgId,IController> CONTROLLER_MAP = new ConcurrentHashMap<>();
     
     public static void add(MsgId msgId, IController controller) {
-        controllerMapping.put(msgId, controller);
+        CONTROLLER_MAP.put(msgId, controller);
     }
 
 
 
     public IController get(int msgId) {
         // 通过int的msgId找到枚举的MsgId
-        return controllerMapping.get(MsgId.find(msgId,MsgId.UNKNOWN));
+        return CONTROLLER_MAP.get(MsgId.find(msgId,MsgId.UNKNOWN));
     }
 
     /**
@@ -55,7 +55,6 @@ public class ControllerManager {
     public void execute(IController controller,ChannelHandlerContext ctx, Message msg) {
         Player player = playerDataService.getPlayerByCtx(ctx);
 
-        log.debug("{}",player);
         // 玩家在场景内则用场景的执行器执行
         Optional.ofNullable(player).map(Player::getCurrentScene).ifPresent(
             scene -> scene.getSingleThreadSchedule().execute(() -> {

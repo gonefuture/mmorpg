@@ -22,7 +22,7 @@ public final class WorkThreadPool {
      *  线程数 为 服务器核心*2+1
      */
     private static ThreadFactory persistenceThreadFactory = new ThreadFactoryBuilder()
-            .setNameFormat("persistence-pool-%d").build();
+            .setNameFormat("persistence-%d").build();
     public static ExecutorService threadPool = new ThreadPoolExecutor(4,8,
             1000, TimeUnit.SECONDS,new LinkedBlockingQueue<>(100), persistenceThreadFactory);
 

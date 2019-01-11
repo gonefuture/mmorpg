@@ -3,6 +3,7 @@ package com.wan37.gameserver.game.trade.manager;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.wan37.gameserver.game.trade.dao.AuctionItemDao;
 import com.wan37.gameserver.game.trade.model.AuctionItem;
 import com.wan37.gameserver.manager.task.WorkThreadPool;
 import com.wan37.mysql.pojo.entity.TAuctionItem;
@@ -75,22 +76,28 @@ public class AuctionHouseManager {
     }
 
 
+
+    @Resource
+    private AuctionItemDao auctionItemDao;
+
+
     /**
      *  向缓存和数据库中添加拍卖品
      */
     public  void putAuctionItem(AuctionItem auctionItem) {
         CompletableFuture<Integer>  future = CompletableFuture.supplyAsync(
                 () -> {
-            tAuctionItemMapper.insert(auctionItem);
-            return auctionItem.getAuctionId();
+                    auctionItemDao.insertAndReturnKey(auctionItem);
+                    log.debug("===== auctionItem {}",auctionItem);
+                    auctionItemCache.put(auctionItem.getAuctionId(),auctionItem);
+                    return auctionItem.getAuctionId();
             }, WorkThreadPool.threadPool
+        ).exceptionally(
+                e -> {
+                    log.debug("持久化拍卖品出现异常 {}",e);
+                    return 0;
+                }
         );
-
-        future.thenRunAsync(() -> {
-            log.debug("===== auctionItem {}",auctionItem);
-            auctionItemCache.put(auctionItem.getAuctionId(),auctionItem);
-        }, WorkThreadPool.threadPool);
-
     }
 
 

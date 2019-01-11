@@ -67,7 +67,7 @@ public class GameScene  {
 
 
     private static ThreadFactory sceneThreadFactory = new ThreadFactoryBuilder()
-            .setNameFormat("scene-single-loop-%d").build();
+            .setNameFormat("scene-loop-%d").build();
 
     /** 通过一个场景一个线程处理器的方法保证每个场景的指令循序 */
     ExecutorService singleThreadSchedule = Executors.newSingleThreadScheduledExecutor(sceneThreadFactory);
