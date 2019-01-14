@@ -12,15 +12,13 @@ import com.wan37.gameserver.game.trade.manager.AuctionHouseManager;
 import com.wan37.gameserver.game.trade.model.AuctionItem;
 import com.wan37.gameserver.game.trade.model.AuctionMode;
 import com.wan37.gameserver.manager.notification.NotificationManager;
+import com.wan37.mysql.pojo.entity.TPlayer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -63,6 +61,8 @@ public class AuctionHouseService  {
         auctionItem.setAuctionMode(auctionMode);
         auctionItem.setAuctionPrice(auctionPrice);
         auctionItem.setPushTime(new Date());
+        log.debug("{}",player.getId());
+        auctionItem.setPublisherId(player.getId());
         auctionHouseManager.putAuctionItem(auctionItem);
         notificationManager.notifyPlayer(player, MessageFormat.format("发布物品{0}成功,初始化价格是{1}",
                 item.getThingInfo().getName(),auctionPrice));
@@ -102,6 +102,7 @@ public class AuctionHouseService  {
            mailService.sendMail(DefaultSender.AuctionHouse.getId(),player.getId(),"物品出售时间已到",
                    MessageFormat.format("物品 {0} x {1}",thingInfo.getName(),auctionItem.getNumber())
                    ,item);
+           auctionHouseManager.removeAuctionItem(auctionItem.getAuctionId());
        } else {
             // 竞拍模式
            bidAuctionItem(player,auctionItem,price);
@@ -115,17 +116,18 @@ public class AuctionHouseService  {
      * @param auctionItem  拍卖品
      * @param price 出价
      */
-    private void bidAuctionItem(Player player, AuctionItem auctionItem, int price) {
+    private synchronized void bidAuctionItem(Player player, AuctionItem auctionItem, int price) {
         Integer auctionMoney = auctionItem.getBiddersMap().get(player.getId());
+        auctionItem.addBidder(player,price);
+        auctionItem.setAuctionPrice(price);
         if (Objects.isNull(auctionMoney)) {
             //  第一次竞拍
-            auctionItem.addBidder(player,price);
             player.moneyChange(-price);
         } else {
-            auctionItem.addBidder(player,price);
             // 减去继续竞的差价
             player.moneyChange(-(price-auctionItem.getAuctionPrice()));
         }
+        auctionHouseManager.updateAuctionItem(auctionItem);
         notificationManager.notifyPlayer(player,MessageFormat.format("叫价功成。当前拍卖品价格是{0}",
                 auctionItem.getAuctionPrice()));
     }
@@ -148,7 +150,7 @@ public class AuctionHouseService  {
         Item item = new Item(thingInfoService.generateItemId(),auctionItem.getNumber(),thingInfo);
         // 如果无人拍卖
         if (biddersMap.isEmpty()) {
-            Player publisher = playerDataService.getOnlinePlayerById(auctionItem.getPublisherId());
+            Player publisher = playerDataService.getPlayerById(auctionItem.getPublisherId());
             notificationManager.notifyPlayer(publisher,"物品发布时间结束，已发往你的邮箱，请注意查收");
             mailService.sendMail(DefaultSender.AuctionHouse.getId(),publisher.getId(),"物品出售时间已到",
                     MessageFormat.format("物品 {0} x {1}",thingInfo.getName(),auctionItem.getNumber())
@@ -166,5 +168,6 @@ public class AuctionHouseService  {
                                     ,item);
                         }
                 );
+        auctionHouseManager.removeAuctionItem(auctionItem.getAuctionId());
     }
 }

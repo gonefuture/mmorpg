@@ -17,7 +17,10 @@ import java.util.concurrent.*;
 @Component
 public class TimedTaskManager {
 
-    private static ScheduledExecutorService executorService = Executors.newScheduledThreadPool(20);
+    private static ScheduledExecutorService executorService =
+            Executors.newScheduledThreadPool( Runtime.getRuntime().availableProcessors()*2+1);
+
+
 
 
     /**

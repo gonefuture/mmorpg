@@ -5,10 +5,12 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="subject" property="subject" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="sender" property="sender" jdbcType="BIGINT" />
     <result column="receiver" property="receiver" jdbcType="BIGINT" />
     <result column="has_read" property="hasRead" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wan37.mysql.pojo.entity.TMail" extends="BaseResultMap" >
+    <result column="attachment" property="attachment" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,8 +71,27 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, subject, content, attachment, sender, receiver, has_read
+    id, subject, content, sender, receiver, has_read
   </sql>
+  <sql id="Blob_Column_List" >
+    attachment
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TMailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_mail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TMailExample" >
     select
     <if test="distinct" >
@@ -85,9 +106,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_mail
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -103,11 +126,11 @@
   </delete>
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TMail" >
     insert into t_mail (id, subject, content, 
-      attachment, sender, receiver, 
-      has_read)
+      sender, receiver, has_read, 
+      attachment)
     values (#{id,jdbcType=INTEGER}, #{subject,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{attachment,jdbcType=VARCHAR}, #{sender,jdbcType=BIGINT}, #{receiver,jdbcType=BIGINT}, 
-      #{hasRead,jdbcType=BIT})
+      #{sender,jdbcType=BIGINT}, #{receiver,jdbcType=BIGINT}, #{hasRead,jdbcType=BIT}, 
+      #{attachment,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TMail" >
     insert into t_mail
@@ -121,9 +144,6 @@
       <if test="content != null" >
         content,
       </if>
-      <if test="attachment != null" >
-        attachment,
-      </if>
       <if test="sender != null" >
         sender,
       </if>
@@ -132,6 +152,9 @@
       </if>
       <if test="hasRead != null" >
         has_read,
+      </if>
+      <if test="attachment != null" >
+        attachment,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -144,9 +167,6 @@
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="attachment != null" >
-        #{attachment,jdbcType=VARCHAR},
-      </if>
       <if test="sender != null" >
         #{sender,jdbcType=BIGINT},
       </if>
@@ -155,6 +175,9 @@
       </if>
       <if test="hasRead != null" >
         #{hasRead,jdbcType=BIT},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -176,9 +199,6 @@
       <if test="record.content != null" >
         content = #{record.content,jdbcType=VARCHAR},
       </if>
-      <if test="record.attachment != null" >
-        attachment = #{record.attachment,jdbcType=VARCHAR},
-      </if>
       <if test="record.sender != null" >
         sender = #{record.sender,jdbcType=BIGINT},
       </if>
@@ -188,7 +208,23 @@
       <if test="record.hasRead != null" >
         has_read = #{record.hasRead,jdbcType=BIT},
       </if>
+      <if test="record.attachment != null" >
+        attachment = #{record.attachment,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_mail
+    set id = #{record.id,jdbcType=INTEGER},
+      subject = #{record.subject,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      sender = #{record.sender,jdbcType=BIGINT},
+      receiver = #{record.receiver,jdbcType=BIGINT},
+      has_read = #{record.hasRead,jdbcType=BIT},
+      attachment = #{record.attachment,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -198,7 +234,6 @@
     set id = #{record.id,jdbcType=INTEGER},
       subject = #{record.subject,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
-      attachment = #{record.attachment,jdbcType=VARCHAR},
       sender = #{record.sender,jdbcType=BIGINT},
       receiver = #{record.receiver,jdbcType=BIGINT},
       has_read = #{record.hasRead,jdbcType=BIT}
@@ -215,9 +250,6 @@
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="attachment != null" >
-        attachment = #{attachment,jdbcType=VARCHAR},
-      </if>
       <if test="sender != null" >
         sender = #{sender,jdbcType=BIGINT},
       </if>
@@ -227,14 +259,26 @@
       <if test="hasRead != null" >
         has_read = #{hasRead,jdbcType=BIT},
       </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wan37.mysql.pojo.entity.TMail" >
+    update t_mail
+    set subject = #{subject,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=BIGINT},
+      receiver = #{receiver,jdbcType=BIGINT},
+      has_read = #{hasRead,jdbcType=BIT},
+      attachment = #{attachment,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wan37.mysql.pojo.entity.TMail" >
     update t_mail
     set subject = #{subject,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      attachment = #{attachment,jdbcType=VARCHAR},
       sender = #{sender,jdbcType=BIGINT},
       receiver = #{receiver,jdbcType=BIGINT},
       has_read = #{hasRead,jdbcType=BIT}

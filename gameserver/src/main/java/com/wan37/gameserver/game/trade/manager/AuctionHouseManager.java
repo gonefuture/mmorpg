@@ -95,6 +95,7 @@ public class AuctionHouseManager {
      *  向缓存和数据库中添加拍卖品
      */
     public  void putAuctionItem(AuctionItem auctionItem) {
+        auctionItem.setBidders("");
         CompletableFuture<Integer>  future = CompletableFuture.supplyAsync(
                 () -> {
                     auctionItemDao.insertAndReturnKey(auctionItem);
@@ -111,6 +112,11 @@ public class AuctionHouseManager {
     }
 
 
+
+    public void updateAuctionItem(AuctionItem auctionItem) {
+        WorkThreadPool.threadPool.execute(() -> tAuctionItemMapper.updateByPrimaryKey(auctionItem));
+    }
+
     /**
      *  从数据库和缓存中中移除拍卖品
      */
@@ -124,15 +130,22 @@ public class AuctionHouseManager {
      */
     private void auctionHouseListener() {
         TimedTaskManager.scheduleAtFixedRate(5000,500,
-                () -> auctionItemCache.asMap().values()
-                        .forEach(
-                            item -> {
-                                // 如果拍卖品被拍卖超过一天，结束拍卖
-                                if (System.currentTimeMillis() - item.getPushTime().getTime() > Duration.ofMinutes(1).toMillis()) {
-                                    auctionHouseService.finishAuction(item);
-                                }
-                            }
-                        )
+                () -> {
+                    try {
+                        auctionItemCache.asMap().values()
+                                .forEach(
+                                        item -> {
+                                            log.debug("拍卖品{}",item);
+                                            // 如果拍卖品被拍卖超过一天，结束拍卖
+                                            if (System.currentTimeMillis() - item.getPushTime().getTime() > Duration.ofMinutes(1).toMillis()) {
+                                                auctionHouseService.finishAuction(item);
+                                            }
+                                        }
+                                );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
         );
     }
 

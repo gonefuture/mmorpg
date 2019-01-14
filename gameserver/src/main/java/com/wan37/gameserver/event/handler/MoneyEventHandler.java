@@ -47,6 +47,10 @@ public class MoneyEventHandler {
      * @param moneyEvent 金币事件
      */
     private void moneyChange(MoneyEvent moneyEvent) {
+        if (moneyEvent.getMoney() > moneyEvent.getPlayer().getMoney()) {
+            moneyEvent.getPlayer().setMoney(0);
+            notificationManager.notifyPlayer(moneyEvent.getPlayer(),"你身上没钱了");
+        }
         if (moneyEvent.getMoney() > 0) {
             notificationManager.notifyPlayer(moneyEvent.getPlayer(), MessageFormat.format("你的金币增加了{0}",moneyEvent.getMoney()));
         }

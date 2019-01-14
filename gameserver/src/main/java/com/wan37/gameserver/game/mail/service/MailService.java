@@ -75,6 +75,7 @@ public class MailService {
         tMail.setContent(content);
         tMail.setSender(sender);
         tMail.setReceiver(receiver);
+        tMail.setHasRead(false);
         // 如果邮件，插入附件
         Optional.ofNullable(item).ifPresent( i -> tMail.setAttachment(JSON.toJSONString(i)));
 

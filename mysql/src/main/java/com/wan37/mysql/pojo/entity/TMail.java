@@ -9,13 +9,13 @@ public class TMail implements Serializable {
 
     private String content;
 
-    private String attachment;
-
     private Long sender;
 
     private Long receiver;
 
     private Boolean hasRead;
+
+    private String attachment;
 
     private static final long serialVersionUID = 1L;
 
@@ -43,14 +43,6 @@ public class TMail implements Serializable {
         this.content = content == null ? null : content.trim();
     }
 
-    public String getAttachment() {
-        return attachment;
-    }
-
-    public void setAttachment(String attachment) {
-        this.attachment = attachment == null ? null : attachment.trim();
-    }
-
     public Long getSender() {
         return sender;
     }
@@ -75,6 +67,14 @@ public class TMail implements Serializable {
         this.hasRead = hasRead;
     }
 
+    public String getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(String attachment) {
+        this.attachment = attachment == null ? null : attachment.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -84,10 +84,10 @@ public class TMail implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", subject=").append(subject);
         sb.append(", content=").append(content);
-        sb.append(", attachment=").append(attachment);
         sb.append(", sender=").append(sender);
         sb.append(", receiver=").append(receiver);
         sb.append(", hasRead=").append(hasRead);
+        sb.append(", attachment=").append(attachment);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

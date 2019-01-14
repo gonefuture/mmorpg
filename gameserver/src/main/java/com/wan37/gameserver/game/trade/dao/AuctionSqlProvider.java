@@ -19,7 +19,8 @@ public class AuctionSqlProvider {
                     .VALUES("auction_price","#{auctionPrice}")
                     .VALUES("auction_mode","#{auctionMode}")
                     .VALUES("push_time","#{pushTime}")
-                    .VALUES("bidders","#{bidders}");
+                    .VALUES("bidders","#{bidders}")
+                    .VALUES("publisher_id","#{publisherId}");
         }}.toString();
     }
 }

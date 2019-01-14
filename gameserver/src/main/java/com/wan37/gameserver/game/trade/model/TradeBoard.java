@@ -17,10 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Data
 public class TradeBoard {
 
-    // 发起交易的玩家
+    /** 发起交易的玩家 */
     private Player initiator;
 
-    // 接受交易的玩家
+    /** 接受交易的玩家 */
     private Player accepter;
 
 
