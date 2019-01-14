@@ -534,6 +534,66 @@ public class TAuctionItemExample {
             addCriterion("bidders not between", value1, value2, "bidders");
             return (Criteria) this;
         }
+
+        public Criteria andPublisherIdIsNull() {
+            addCriterion("publisher_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdIsNotNull() {
+            addCriterion("publisher_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdEqualTo(Long value) {
+            addCriterion("publisher_id =", value, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdNotEqualTo(Long value) {
+            addCriterion("publisher_id <>", value, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdGreaterThan(Long value) {
+            addCriterion("publisher_id >", value, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("publisher_id >=", value, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdLessThan(Long value) {
+            addCriterion("publisher_id <", value, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdLessThanOrEqualTo(Long value) {
+            addCriterion("publisher_id <=", value, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdIn(List<Long> values) {
+            addCriterion("publisher_id in", values, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdNotIn(List<Long> values) {
+            addCriterion("publisher_id not in", values, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdBetween(Long value1, Long value2) {
+            addCriterion("publisher_id between", value1, value2, "publisherId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublisherIdNotBetween(Long value1, Long value2) {
+            addCriterion("publisher_id not between", value1, value2, "publisherId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

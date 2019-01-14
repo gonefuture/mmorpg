@@ -40,6 +40,7 @@ public class MailService {
     private TMailMapper tMailMapper;
 
 
+
     /**
      *      发送邮件
      * @param player 玩家
@@ -47,26 +48,38 @@ public class MailService {
      * @param bagIndex 背包物品格子索引
      * @return 结果
      */
-    public Msg sendMail(Player player, Long target,
+    public Msg playerSendMail(Player player, Long target,
                         String subject, String content, Integer bagIndex) {
         Player targetPlayer = playerDataService.getOnlinePlayerById(target);
         Item item = bagsService.removeItem(player,bagIndex);
 
+        sendMail(player.getId(),targetPlayer.getId(),subject,content,item);
+        notificationManager.notifyPlayer(targetPlayer,MessageFormat.format("你收到一封来自 {0} 邮件 ",
+                player.getName()));
+        return new Msg(200,"邮件发送成功");
+    }
+
+
+    /**
+     *     发送邮件
+     * @param sender    发送者
+     * @param receiver  接收者
+     * @param subject
+     * @param content
+     * @param item
+     */
+    public void sendMail(Long sender, Long receiver,
+                        String subject, String content, Item item) {
         TMail tMail = new TMail();
-        tMail.setId((int)System.currentTimeMillis());
         tMail.setSubject(subject);
         tMail.setContent(content);
-        tMail.setSender(player.getId());
-        tMail.setReceiver(targetPlayer.getId());
+        tMail.setSender(sender);
+        tMail.setReceiver(receiver);
         // 如果邮件，插入附件
         Optional.ofNullable(item).ifPresent( i -> tMail.setAttachment(JSON.toJSONString(i)));
 
         //持久化
         tMailMapper.insertSelective(tMail);
-
-        notificationManager.notifyPlayer(targetPlayer,MessageFormat.format("你收到一封来自 {0} 邮件 ",
-                player.getName()));
-        return new Msg(200,"邮件发送成功");
     }
 
 
@@ -78,7 +91,6 @@ public class MailService {
     public List<TMail> mailList(Player player) {
         TMailExample tMailExample = new TMailExample();
         tMailExample.or().andReceiverEqualTo(player.getId());
-
 
         return tMailMapper.selectByExample(tMailExample);
     }
@@ -101,6 +113,7 @@ public class MailService {
             if (bagsService.addItem(player,item)) {
                 // 更新邮件状态
                 tMail.setAttachment(null);
+                tMail.setHasRead(true);
                 tMailMapper.updateByPrimaryKeySelective(tMail);
                 return new Msg(200,"接收邮件成功，附件已经在你的背包了");
             } else {

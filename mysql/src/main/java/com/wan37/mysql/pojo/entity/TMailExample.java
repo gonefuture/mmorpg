@@ -493,6 +493,66 @@ public class TMailExample {
             addCriterion("receiver not between", value1, value2, "receiver");
             return (Criteria) this;
         }
+
+        public Criteria andHasReadIsNull() {
+            addCriterion("has_read is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadIsNotNull() {
+            addCriterion("has_read is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadEqualTo(Boolean value) {
+            addCriterion("has_read =", value, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadNotEqualTo(Boolean value) {
+            addCriterion("has_read <>", value, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadGreaterThan(Boolean value) {
+            addCriterion("has_read >", value, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_read >=", value, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadLessThan(Boolean value) {
+            addCriterion("has_read <", value, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_read <=", value, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadIn(List<Boolean> values) {
+            addCriterion("has_read in", values, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadNotIn(List<Boolean> values) {
+            addCriterion("has_read not in", values, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_read between", value1, value2, "hasRead");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasReadNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_read not between", value1, value2, "hasRead");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

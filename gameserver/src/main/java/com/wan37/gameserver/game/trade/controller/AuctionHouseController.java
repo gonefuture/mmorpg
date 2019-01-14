@@ -48,7 +48,7 @@ public class AuctionHouseController {
     private ThingInfoService thingInfoService;
 
     private void bid(ChannelHandlerContext ctx, Message message) {
-        String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
+        String[] args = ParameterCheckUtil.checkParameter(ctx,message,3);
         Integer auctionId = Integer.valueOf(args[1]);
         Integer price = Integer.valueOf(args[2]);
         Player player = playerDataService.getPlayer(ctx);
@@ -74,14 +74,15 @@ public class AuctionHouseController {
         Map<Integer, AuctionItem> auctionItemMap = auctionHouseService.getALLAuction();
         log.debug(" 拍卖品里列表 {}",auctionItemMap);
         NotificationManager.notifyByCtx(ctx,"拍卖行的拍卖品列表");
+        StringBuilder sb = new StringBuilder();
         auctionItemMap.values().forEach(
-                item -> NotificationManager.notifyByCtx(ctx, MessageFormat.format("物品{0} {1}  当前拍卖价{2}",
+                item -> sb.append(MessageFormat.format("物品{0} {1}  当前拍卖价{2} \n",
                         item.getAuctionId(),
                         thingInfoService.getThingInfo(item.getThingInfoId()).getName(),
                         item.getAuctionPrice())
                 )
         );
-
+        NotificationManager.notifyByCtx(ctx,sb.toString());
     }
 
 }

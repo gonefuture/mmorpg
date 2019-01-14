@@ -8,6 +8,7 @@
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="sender" property="sender" jdbcType="BIGINT" />
     <result column="receiver" property="receiver" jdbcType="BIGINT" />
+    <result column="has_read" property="hasRead" jdbcType="BIT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, subject, content, attachment, sender, receiver
+    id, subject, content, attachment, sender, receiver, has_read
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TMailExample" >
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TMail" >
     insert into t_mail (id, subject, content, 
-      attachment, sender, receiver
-      )
+      attachment, sender, receiver, 
+      has_read)
     values (#{id,jdbcType=INTEGER}, #{subject,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{attachment,jdbcType=VARCHAR}, #{sender,jdbcType=BIGINT}, #{receiver,jdbcType=BIGINT}
-      )
+      #{attachment,jdbcType=VARCHAR}, #{sender,jdbcType=BIGINT}, #{receiver,jdbcType=BIGINT}, 
+      #{hasRead,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TMail" >
     insert into t_mail
@@ -129,6 +130,9 @@
       <if test="receiver != null" >
         receiver,
       </if>
+      <if test="hasRead != null" >
+        has_read,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,6 +152,9 @@
       </if>
       <if test="receiver != null" >
         #{receiver,jdbcType=BIGINT},
+      </if>
+      <if test="hasRead != null" >
+        #{hasRead,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.receiver != null" >
         receiver = #{record.receiver,jdbcType=BIGINT},
       </if>
+      <if test="record.hasRead != null" >
+        has_read = #{record.hasRead,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       content = #{record.content,jdbcType=VARCHAR},
       attachment = #{record.attachment,jdbcType=VARCHAR},
       sender = #{record.sender,jdbcType=BIGINT},
-      receiver = #{record.receiver,jdbcType=BIGINT}
+      receiver = #{record.receiver,jdbcType=BIGINT},
+      has_read = #{record.hasRead,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="receiver != null" >
         receiver = #{receiver,jdbcType=BIGINT},
       </if>
+      <if test="hasRead != null" >
+        has_read = #{hasRead,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -222,7 +236,8 @@
       content = #{content,jdbcType=VARCHAR},
       attachment = #{attachment,jdbcType=VARCHAR},
       sender = #{sender,jdbcType=BIGINT},
-      receiver = #{receiver,jdbcType=BIGINT}
+      receiver = #{receiver,jdbcType=BIGINT},
+      has_read = #{hasRead,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

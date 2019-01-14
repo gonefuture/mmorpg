@@ -8,6 +8,7 @@ import com.wan37.gameserver.game.player.manager.RoleClassManager;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
+import com.wan37.mysql.pojo.entity.TPlayer;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -63,7 +64,7 @@ public class FriendService {
      * @param friendId 被添加的玩家id
      */
     public void friendAdd(Player player, Long friendId) {
-        Player beAdded = playerDataService.getPlayerById(friendId);
+        TPlayer beAdded = playerDataService.getPlayerById(friendId);
 
         Optional.ofNullable(beAdded).map(
                 b -> {
@@ -71,8 +72,7 @@ public class FriendService {
                             b.getId(),
                             b.getName(),
                             RoleClassManager.getRoleClass(b.getRoleClass()).getName(),
-                            new Date(),
-                            b.getCtx() == null
+                            new Date()
                     );
                     player.getFriendMap()
                             .put(friend.getPlayerId(),friend);

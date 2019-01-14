@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -65,7 +66,7 @@ public  class NotificationManager {
         message.setFlag((byte) 1);
         message.setContent((e.toString()+"\n").getBytes());
         ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(player.getId());
-        ctx.writeAndFlush(message);
+        Optional.ofNullable(ctx).ifPresent(c -> c.writeAndFlush(message));
     }
 
 

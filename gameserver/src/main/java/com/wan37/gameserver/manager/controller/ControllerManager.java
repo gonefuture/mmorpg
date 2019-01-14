@@ -5,6 +5,7 @@ import com.wan37.gameserver.common.IController;
 import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -57,10 +58,16 @@ public class ControllerManager {
 
         // 玩家在场景内则用场景的执行器执行
         Optional.ofNullable(player).map(Player::getCurrentScene).ifPresent(
-            scene -> scene.getSingleThreadSchedule().execute(() -> {
-                controller.handle(ctx,msg);
-                log.debug("{}  {} 的 {} 在执行命令 {}",scene.getSingleThreadSchedule(),
-                        scene.getName(),player.getName(),new String(msg.getContent()));
+            scene -> scene.getSingleThreadSchedule().execute(
+                    () -> {
+                        log.debug("{}  {} 的 {} 在执行命令 {}",scene.getSingleThreadSchedule(),
+                                scene.getName(),player.getName(),new String(msg.getContent()));
+                        try {
+                            controller.handle(ctx,msg);
+                        } catch (Exception e) {
+                            NotificationManager.notifyByCtx(ctx,"这个功能暂时无法使用，请忽略本功能");
+                            e.printStackTrace();
+                        }
             })
         );
 

@@ -5,6 +5,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.wan37.gameserver.game.trade.dao.AuctionItemDao;
 import com.wan37.gameserver.game.trade.model.AuctionItem;
+import com.wan37.gameserver.game.trade.service.AuctionHouseService;
+import com.wan37.gameserver.manager.task.TimedTaskManager;
 import com.wan37.gameserver.manager.task.WorkThreadPool;
 import com.wan37.mysql.pojo.entity.TAuctionItem;
 import com.wan37.mysql.pojo.mapper.TAuctionItemMapper;
@@ -13,7 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -43,10 +47,13 @@ public class AuctionHouseManager {
     @Resource
     private TAuctionItemMapper tAuctionItemMapper;
 
+    @Resource
+    private AuctionHouseService auctionHouseService;
 
 
 
 
+    @PostConstruct
     private void initAuctionHouse() {
         WorkThreadPool.threadPool.execute(() -> {
             List<TAuctionItem> tAuctionItemList = tAuctionItemMapper.selectByExample(null);
@@ -58,6 +65,9 @@ public class AuctionHouseManager {
                     }
             );
         });
+        log.debug("拍卖行数据从数据库加载完毕");
+        auctionHouseListener();
+        log.debug("拍卖行到时监听开始");
     }
 
 
@@ -101,7 +111,6 @@ public class AuctionHouseManager {
     }
 
 
-
     /**
      *  从数据库和缓存中中移除拍卖品
      */
@@ -110,6 +119,22 @@ public class AuctionHouseManager {
         WorkThreadPool.threadPool.execute(() -> tAuctionItemMapper.deleteByPrimaryKey(auctionId));
     }
 
+    /**
+     *  循环检测拍卖是否过时
+     */
+    private void auctionHouseListener() {
+        TimedTaskManager.scheduleAtFixedRate(5000,500,
+                () -> auctionItemCache.asMap().values()
+                        .forEach(
+                            item -> {
+                                // 如果拍卖品被拍卖超过一天，结束拍卖
+                                if (System.currentTimeMillis() - item.getPushTime().getTime() > Duration.ofMinutes(1).toMillis()) {
+                                    auctionHouseService.finishAuction(item);
+                                }
+                            }
+                        )
+        );
+    }
 
 
 }

@@ -66,8 +66,9 @@ public class BagsService {
     public ThingInfo getThingInfo(Player player, Integer locationIndex) {
         Bag bag = player.getBag();
         Item item = bag.getItemMap().get(locationIndex);
-        if (item == null)
+        if (Objects.isNull(item)) {
             return null;
+        }
         return thingsManager.get(item.getThingInfo().getId());
     }
 
@@ -132,7 +133,11 @@ public class BagsService {
      * @return 如果移除返回一个Item,否则返回null
      */
         public Item removeItem(Player player, Integer index) {
-            return player.getBag().getItemMap().remove(index);
+            Item item = player.getBag().getItemMap().remove(index);
+            if (Objects.isNull(item)) {
+                notificationManager.notifyPlayer(player,"你的背包这个格子并没有物品");
+            }
+            return item;
         }
 
     /**

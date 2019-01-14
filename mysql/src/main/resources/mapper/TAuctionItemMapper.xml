@@ -9,6 +9,7 @@
     <result column="auction_mode" property="auctionMode" jdbcType="INTEGER" />
     <result column="push_time" property="pushTime" jdbcType="TIMESTAMP" />
     <result column="bidders" property="bidders" jdbcType="VARCHAR" />
+    <result column="publisher_id" property="publisherId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    auction_id, thing_info_id, number, auction_price, auction_mode, push_time, bidders
+    auction_id, thing_info_id, number, auction_price, auction_mode, push_time, bidders, 
+    publisher_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wan37.mysql.pojo.entity.TAuctionItemExample" >
     select
@@ -104,10 +106,10 @@
   <insert id="insert" parameterType="com.wan37.mysql.pojo.entity.TAuctionItem" >
     insert into t_auction_item (auction_id, thing_info_id, number, 
       auction_price, auction_mode, push_time, 
-      bidders)
+      bidders, publisher_id)
     values (#{auctionId,jdbcType=INTEGER}, #{thingInfoId,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 
       #{auctionPrice,jdbcType=INTEGER}, #{auctionMode,jdbcType=INTEGER}, #{pushTime,jdbcType=TIMESTAMP}, 
-      #{bidders,jdbcType=VARCHAR})
+      #{bidders,jdbcType=VARCHAR}, #{publisherId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.wan37.mysql.pojo.entity.TAuctionItem" >
     insert into t_auction_item
@@ -133,6 +135,9 @@
       <if test="bidders != null" >
         bidders,
       </if>
+      <if test="publisherId != null" >
+        publisher_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="auctionId != null" >
@@ -155,6 +160,9 @@
       </if>
       <if test="bidders != null" >
         #{bidders,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherId != null" >
+        #{publisherId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -188,6 +196,9 @@
       <if test="record.bidders != null" >
         bidders = #{record.bidders,jdbcType=VARCHAR},
       </if>
+      <if test="record.publisherId != null" >
+        publisher_id = #{record.publisherId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +212,8 @@
       auction_price = #{record.auctionPrice,jdbcType=INTEGER},
       auction_mode = #{record.auctionMode,jdbcType=INTEGER},
       push_time = #{record.pushTime,jdbcType=TIMESTAMP},
-      bidders = #{record.bidders,jdbcType=VARCHAR}
+      bidders = #{record.bidders,jdbcType=VARCHAR},
+      publisher_id = #{record.publisherId,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +239,9 @@
       <if test="bidders != null" >
         bidders = #{bidders,jdbcType=VARCHAR},
       </if>
+      <if test="publisherId != null" >
+        publisher_id = #{publisherId,jdbcType=BIGINT},
+      </if>
     </set>
     where auction_id = #{auctionId,jdbcType=INTEGER}
   </update>
@@ -237,7 +252,8 @@
       auction_price = #{auctionPrice,jdbcType=INTEGER},
       auction_mode = #{auctionMode,jdbcType=INTEGER},
       push_time = #{pushTime,jdbcType=TIMESTAMP},
-      bidders = #{bidders,jdbcType=VARCHAR}
+      bidders = #{bidders,jdbcType=VARCHAR},
+      publisher_id = #{publisherId,jdbcType=BIGINT}
     where auction_id = #{auctionId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -18,6 +18,8 @@ public class TAuctionItem implements Serializable {
 
     private String bidders;
 
+    private Long publisherId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getAuctionId() {
@@ -76,6 +78,14 @@ public class TAuctionItem implements Serializable {
         this.bidders = bidders == null ? null : bidders.trim();
     }
 
+    public Long getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(Long publisherId) {
+        this.publisherId = publisherId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -89,6 +99,7 @@ public class TAuctionItem implements Serializable {
         sb.append(", auctionMode=").append(auctionMode);
         sb.append(", pushTime=").append(pushTime);
         sb.append(", bidders=").append(bidders);
+        sb.append(", publisherId=").append(publisherId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

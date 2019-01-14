@@ -15,6 +15,8 @@ public class TMail implements Serializable {
 
     private Long receiver;
 
+    private Boolean hasRead;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -65,6 +67,14 @@ public class TMail implements Serializable {
         this.receiver = receiver;
     }
 
+    public Boolean getHasRead() {
+        return hasRead;
+    }
+
+    public void setHasRead(Boolean hasRead) {
+        this.hasRead = hasRead;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -77,6 +87,7 @@ public class TMail implements Serializable {
         sb.append(", attachment=").append(attachment);
         sb.append(", sender=").append(sender);
         sb.append(", receiver=").append(receiver);
+        sb.append(", hasRead=").append(hasRead);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

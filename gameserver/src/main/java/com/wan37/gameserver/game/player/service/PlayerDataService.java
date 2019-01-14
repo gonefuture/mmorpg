@@ -80,7 +80,7 @@ public class PlayerDataService {
      * @param playerId  玩家id
      * @return 如果存在玩家记录则返回玩家，不存在则返回空，注意玩家可能尚未初始化
      */
-    public Player getPlayerById(long playerId) {
+    public TPlayer getPlayerById(long playerId) {
         ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
         if(Objects.nonNull(ctx)) {
             return getPlayerByCtx(ctx);

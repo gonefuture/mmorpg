@@ -16,7 +16,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
 public class Friend {
 
     private Long playerId;
@@ -25,8 +25,20 @@ public class Friend {
 
     private String roleClass;
 
-    private Date LastOnlineTime;
+    private Date lastOnlineTime;
 
     private boolean isOnline;
+
+
+    public Friend() {
+    }
+
+    public Friend(Long playerId, String name, String roleClass, Date lastOnlineTime) {
+        this.playerId = playerId;
+        this.name = name;
+        this.roleClass = roleClass;
+        this.lastOnlineTime = lastOnlineTime;
+    }
+
 
 }

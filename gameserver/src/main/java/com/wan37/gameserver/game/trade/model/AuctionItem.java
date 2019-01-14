@@ -27,22 +27,20 @@ public class AuctionItem extends TAuctionItem {
 
 
 
-    private final ConcurrentHashMap<Long,Integer> biddersMap
-            = JSON.parseObject(this.getBidders(),new TypeReference<ConcurrentHashMap<Long,Integer>>(){});
+    private Map<Long,Integer> biddersMap
+            = new ConcurrentHashMap<>();
 
 
     public synchronized void addBidder(Player player,Integer auctionPrice) {
         // 加载竞拍者数据
-//        if (!this.getBidders().isEmpty() && biddersMap.isEmpty()) {
-//            biddersMap = JSON.parseObject(this.getBidders(),new TypeReference<ConcurrentHashMap<Long,Integer>>(){});
-//        }
+        if (!this.getBidders().isEmpty() && biddersMap.isEmpty()) {
+            biddersMap = JSON.parseObject(this.getBidders(),new TypeReference<ConcurrentHashMap<Long,Integer>>(){});
+        }
 
         biddersMap.put(player.getId(),auctionPrice);
         // 将竞拍者信息保存在数据库更新做准备
         this.setBidders(JSON.toJSONString(biddersMap));
     }
-
-
 
 
 
