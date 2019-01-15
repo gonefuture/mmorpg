@@ -25,18 +25,26 @@ public class PetService {
     private GameObjectService gameObjectService;
 
 
-
+    /**
+     *  召唤宠物，宠物的信息模板是从场景对象中来的
+     * @param master    宠物主人
+     * @param target    宠物攻击目标
+     * @param gameScene 场景
+     * @param petId 宠物id
+     * @return  是否召唤成功
+     */
     public boolean callPet(Creature master, Creature target, GameScene gameScene, Integer petId) {
         SceneObject sceneObject = gameObjectService.getGameObject(petId);
-        if (null == sceneObject)
+        if (null == sceneObject) {
             return false;
+        }
         Pet pet = new Pet();
         BeanUtils.copyProperties(sceneObject,pet);
         pet.setPetId(master.getId().intValue()+sceneObject.getId().intValue());
         pet.setTarget(target);
         gameScene.getMonsters().put(pet.getKey(),pet);
         // cd结束召唤兽就消失
-        TimedTaskManager.schedule(pet.getRefreshTime(),()-> gameScene.getMonsters().remove(pet.getKey()));
+        TimedTaskManager.singleThreadSchedule(pet.getRefreshTime(),()-> gameScene.getMonsters().remove(pet.getKey()));
         return true;
     }
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.Optional;
 import java.util.concurrent.*;
 
 /**
@@ -66,17 +67,26 @@ public class PlayerQuitService  {
     }
 
 
+
+
+
     /**
      *  退出场景
      */
 
     public void logoutScene(ChannelHandlerContext ctx) {
         Player player = playerDataService.getPlayerByCtx(ctx);
-        GameScene gameScene = gameSceneService.getSceneByCtx(ctx);
-        notificationManager.notifyScene(gameScene,
-                MessageFormat.format("玩家 {0} 正在退出", player.getName()));
-        // 重点，从场景中移除
-        gameScene.getPlayers().remove(player.getId());
+
+        Optional.ofNullable(player).ifPresent(
+                p -> {
+                    GameScene gameScene = gameSceneService.getSceneByCtx(ctx);
+                    notificationManager.notifyScene(gameScene,
+                            MessageFormat.format("玩家 {0} 正在退出", player.getName()));
+                    // 重点，从场景中移除
+                    gameScene.getPlayers().remove(player.getId());
+                }
+        );
+
     }
 
 
@@ -97,10 +107,6 @@ public class PlayerQuitService  {
             playerCacheMgr.removePlayerByChannelId(channelId);
         }
     }
-
-
-
-
 
 
 

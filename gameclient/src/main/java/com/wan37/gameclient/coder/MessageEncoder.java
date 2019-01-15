@@ -1,4 +1,4 @@
-package com.wan37.gameClient.coder;
+package com.wan37.gameclient.coder;
 
 
 import com.wan37.common.entity.Message;

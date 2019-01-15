@@ -70,9 +70,7 @@ public class PlayerController {
 
         if (userService.isUserOnline(ctx) && playerLoginService.hasPlayer(ctx, playerId) ){
             Player player = playerLoginService.login(playerId,ctx);
-
             GameScene gameScene = player.getCurrentScene();
-
 
             result.append(player.getName()).append(",角色登陆成功")
                     .append("\n 你所在位置为: ")

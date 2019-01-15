@@ -28,14 +28,13 @@ import java.util.Arrays;
 
 @Slf4j
 @Service
-public class MonsterAIService {
+public class MonsterAiService {
 
 
     @Resource
     private NotificationManager notificationManager;
 
-    @Resource
-    private CombatService combatService;
+
 
     @Resource
     private SkillsService skillsService;
@@ -77,11 +76,13 @@ public class MonsterAIService {
     public void monsterUseSkill(Monster monster, Creature target,GameScene gameScene) {
 
         Arrays.stream(monster.getSkills().split(","))
-                .map(Integer::valueOf).parallel() // 随机返回一个技能id
+                .map(Integer::valueOf).parallel()
+                // 随机返回一个技能id
                 .findAny().ifPresent(
-                skillId -> { // 如果技能存在，则释放技能
+                skillId -> {
+                    // 如果技能存在，则释放技能
                     Skill skill = skillsService.getSkill(skillId);
-                    if (skillsService.canSkill(monster,skill) && skillsService.useSkill(monster,target,gameScene,skill)) {
+                    if (skillsService.canSkill(monster,skill) && skillsService.castSkill(monster,target,gameScene,skill)) {
                         notificationManager.notifyScene(gameScene,
                                 MessageFormat.format("{0} 对 {1}用技能 {2}， 造成了{3}点伤害，{4} 当前的hp为 {5}\n",
                                         monster.getName(), target.getName(),skill.getName(),skill.getHpLose()

@@ -117,7 +117,7 @@ public class BagsService {
         tBag.setBagSize(bag.getBagSize());
         tBag.setItems(JSON.toJSONString(bag.getItemMap()));
 
-        if (tBagMapper.updateByPrimaryKeySelective(tBag) == 1) {
+        if (tBagMapper.updateByPrimaryKeySelective(tBag) > 0) {
             log.debug("更新背包成功 {}",tBag);
         } else {
             tBagMapper.insertSelective(tBag);
@@ -179,7 +179,6 @@ public class BagsService {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -199,8 +198,6 @@ public class BagsService {
         olderItemMap.values().forEach(
                 item -> addItem(player,item)
         );
-        olderItemMap = null;
-
         notificationManager.notifyPlayer(player,"整理背包完毕");
 
         bag.getItemMap().forEach((key, value) -> {

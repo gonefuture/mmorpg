@@ -1,5 +1,6 @@
 package com.wan37.gameserver.manager.task;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.wan37.gameserver.event.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,8 +18,19 @@ import java.util.concurrent.*;
 @Component
 public class TimedTaskManager {
 
-    private static ScheduledExecutorService executorService =
-            Executors.newScheduledThreadPool( Runtime.getRuntime().availableProcessors()*2+1);
+    private static ThreadFactory scheduledThreadPoolFactory = new ThreadFactoryBuilder()
+            .setNameFormat("scheduledThreadPool-%d").setUncaughtExceptionHandler((t,e) -> e.printStackTrace()).build();
+    private static ScheduledExecutorService ScheduledThreadPool =
+            Executors.newScheduledThreadPool( Runtime.getRuntime().availableProcessors()*2+1,scheduledThreadPoolFactory);
+
+
+    /**
+     *  单线程循环执行器
+     */
+    private static ThreadFactory singleThreadFactory = new ThreadFactoryBuilder()
+            .setNameFormat("singleThread-%d").setUncaughtExceptionHandler((t,e) -> e.printStackTrace()).build();
+    public static ScheduledExecutorService singleThreadSchedule =  Executors.newSingleThreadScheduledExecutor(singleThreadFactory);
+
 
 
 
@@ -30,20 +42,30 @@ public class TimedTaskManager {
      * @return 一个带结果的future
      */
     public static Future<Event> scheduleWithData(long delay, Callable<Event> callback) {
-        return executorService.schedule(callback,delay, TimeUnit.MILLISECONDS);
+        return ScheduledThreadPool.schedule(callback,delay, TimeUnit.MILLISECONDS);
+    }
+
+
+    /**
+     *  设置单线程定时任务
+     * @param delay 延迟执行时间，单位毫秒
+     * @param runnable 任务
+     * @return 一个不带结果的future
+     */
+    public static Future singleThreadSchedule(long delay, Runnable runnable) {
+        return singleThreadSchedule.schedule(runnable,delay, TimeUnit.MILLISECONDS);
     }
 
 
 
-
     /**
-     *  设置定时任务
+     *  设置定时任务(注意这个多线程的)
      * @param delay 延迟执行时间，单位毫秒
      * @param runnable 任务
      * @return 一个不带结果的future
      */
     public static Future schedule(long delay, Runnable runnable) {
-        return executorService.schedule(runnable,delay, TimeUnit.MILLISECONDS);
+        return ScheduledThreadPool.schedule(runnable,delay, TimeUnit.MILLISECONDS);
     }
 
 
@@ -55,7 +77,7 @@ public class TimedTaskManager {
      * @return    一个不带结果的future
      */
     public static ScheduledFuture<?> scheduleAtFixedRate(long initDelay , long delay , Runnable runnable) {
-        return executorService.scheduleAtFixedRate(runnable,initDelay,delay, TimeUnit.MILLISECONDS);
+        return ScheduledThreadPool.scheduleAtFixedRate(runnable,initDelay,delay, TimeUnit.MILLISECONDS);
     }
 
 
@@ -67,7 +89,7 @@ public class TimedTaskManager {
      *
      */
     public static ScheduledFuture<?> scheduleWithFixedDelay(long initDelay , long delay , Runnable runnable) {
-        return executorService.scheduleWithFixedDelay(runnable,initDelay,delay, TimeUnit.MILLISECONDS);
+        return ScheduledThreadPool.scheduleWithFixedDelay(runnable,initDelay,delay, TimeUnit.MILLISECONDS);
     }
 
 

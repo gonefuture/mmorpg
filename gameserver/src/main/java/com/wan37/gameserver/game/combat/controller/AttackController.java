@@ -92,24 +92,20 @@ public class AttackController {
             notificationManager.notifyPlayer(player,"目标不在当前场景");
             return;
         }
-
         combatService.commonAttackByPVP(player,targetPlayer);
     }
 
 
     private void pvpBySkill(ChannelHandlerContext ctx, Message message) {
         String[] command = new String(message.getContent()).split("\\s+");
-
+        if (command.length < 3 ) {
+            NotificationManager.notifyByCtx(ctx,"参数不足，模板是：pvp_skill  技能id  目标id..");
+            return;
+        }
         Integer skillId = Integer.valueOf(command[1]);
-
-        Long targetId = Long.valueOf(command[2]);
-
         String[] targetListString = Arrays.copyOfRange(command,2,command.length);
-
         Player player = playerDataService.getPlayerByCtx(ctx);
-
         List<Long>  targetIdList =  Arrays.stream(targetListString).map(Long::valueOf).collect(Collectors.toList());
-
         combatService.useSkillPVP(player,skillId,targetIdList);
     }
 

@@ -60,7 +60,7 @@ public class ControllerManager {
         Optional.ofNullable(player).map(Player::getCurrentScene).ifPresent(
             scene -> scene.getSingleThreadSchedule().execute(
                     () -> {
-                        log.debug("{}  {} 的 {} 在执行命令 {}",scene.getSingleThreadSchedule(),
+                        log.debug("{} 的 {} 在执行命令 {}",
                                 scene.getName(),player.getName(),new String(msg.getContent()));
                         try {
                             controller.handle(ctx,msg);

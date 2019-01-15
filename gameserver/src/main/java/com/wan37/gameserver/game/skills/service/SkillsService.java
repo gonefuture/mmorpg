@@ -10,6 +10,7 @@ import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.game.scene.servcie.GameSceneService;
 import com.wan37.gameserver.game.skills.manager.SkillsManager;
 import com.wan37.gameserver.game.skills.model.Skill;
+import com.wan37.gameserver.game.skills.model.SkillType;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import com.wan37.gameserver.manager.task.TimedTaskManager;
 import com.wan37.gameserver.model.Creature;
@@ -17,6 +18,7 @@ import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,9 +47,6 @@ public class SkillsService {
     @Resource
     private GameSceneService gameSceneService;
 
-
-
-
     /**
      *
      * @param creature  活物
@@ -66,7 +65,7 @@ public class SkillsService {
      * @param creature 活物
      * @param skill 技能
      */
-    public void startSkill(Creature creature, Skill skill) {
+    public void startSkillCd(Creature creature, Skill skill) {
         Skill playerSkill = new Skill();
         playerSkill.setName(skill.getName());
         playerSkill.setCd(skill.getCd());
@@ -96,14 +95,45 @@ public class SkillsService {
      * @param skill 技能
      * @return 是否成功
      */
-    public boolean useSkill(Creature initiator, Creature target , GameScene gameScene, Skill skill) {
+    public boolean castSkill(Creature initiator, Creature target , GameScene gameScene, Skill skill) {
+        // 如果技能施法时间不少于0
+        if (!skill.getCastTime().equals(0)) {
+            notificationManager.notifyCreature(initiator,
+                    MessageFormat.format("开始施法，吟唱需要{0}秒",skill.getCastTime()));
+            // 按吟唱时间延迟执行
+            TimedTaskManager.singleThreadSchedule( skill.getCastTime()*1000,
+                    () -> gameScene.getSingleThreadSchedule().execute(
+                            () ->  {
+                                // 注意，这里的技能进行还是要用场景执行器执行，不然会导致多线程问题
+                                skillEffect(initiator,target,gameScene,skill);
+                                // 开启技能冷却
+                                startSkillCd(initiator,skill);
+                            }
+                    )
+            );
+        } else {
+            skillEffect(initiator,target,gameScene,skill);
+            // 开启技能冷却
+            startSkillCd(initiator,skill);
+        }
+        return true;
+    }
 
+
+    /**
+     *  施放的技能产生影响
+     * @param initiator 施放者
+     * @param target 施放目标
+     * @param gameScene 场景
+     * @param skill 技能
+     */
+    private void skillEffect(Creature initiator, Creature target, GameScene gameScene, Skill skill) {
         // 消耗mp和损伤目标hp
         initiator.setMp(initiator.getMp() - skill.getMpConsumption());
         target.setHp(target.getHp() - skill.getHpLose());
 
-        // 如果技能类型是2，则对敌方单体目标释放buffer
-        if (skill.getSkillType() == 2) {
+        // 如果技能触发的buffer不是0，则对敌方单体目标释放buffer
+        if (!skill.getBuffer().equals(0)) {
             Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
             // 如果buffer存在则启动buffer
             Optional.ofNullable(buffer).map(
@@ -112,13 +142,11 @@ public class SkillsService {
         }
 
         // 召唤兽类型的技能
-        if (skill.getSkillType() == 5 ) {
+        if (skill.getSkillType().equals(SkillType.CALL_PET.getTypeId())) {
             petService.callPet(initiator,target,gameScene,skill.getCall());
         }
-        // 开启技能冷却
-        startSkill(initiator,skill);
-        return true;
     }
+
 
     /**
      *  释放群体技能
@@ -144,7 +172,7 @@ public class SkillsService {
                 }
         );
         // 开启技能冷却
-        startSkill(initiator,skill);
+        startSkillCd(initiator,skill);
         return true;
     }
 
@@ -200,7 +228,7 @@ public class SkillsService {
         }
         // 技能类型为1则对自己使用
         if (skill.getSkillType() == 1 ) {
-            useSkill(player,player,gameScene,skill);
+            castSkill(player,player,gameScene,skill);
         }
     }
 }

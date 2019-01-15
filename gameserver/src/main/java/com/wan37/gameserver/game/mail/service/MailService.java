@@ -54,8 +54,8 @@ public class MailService {
         Item item = bagsService.removeItem(player,bagIndex);
 
         sendMail(player.getId(),targetPlayer.getId(),subject,content,item);
-        notificationManager.notifyPlayer(targetPlayer,MessageFormat.format("你收到一封来自 {0} 邮件 ",
-                player.getName()));
+        notificationManager.notifyPlayer(targetPlayer,MessageFormat.format("你收到一封来自 {0} 邮件，主题是 {1} ",
+                player.getName(),subject));
         return new Msg(200,"邮件发送成功");
     }
 
@@ -64,9 +64,9 @@ public class MailService {
      *     发送邮件
      * @param sender    发送者
      * @param receiver  接收者
-     * @param subject
-     * @param content
-     * @param item
+     * @param subject 邮件主题
+     * @param content 邮件内容
+     * @param item 附件物品
      */
     public void sendMail(Long sender, Long receiver,
                         String subject, String content, Item item) {

@@ -53,7 +53,7 @@ public class ShopService {
 
         if(bagsService.addItem(player,item)) {
             // 商品放入背包成功，扣钱
-            player.setMoney(player.getMoney() - thingInfo.getPrice());
+            player.moneyChange(-thingInfo.getPrice());
             return new Msg(200,"购买物品 "+ thingInfo.getName()+" 成功", item);
         } else {
             return new Msg(402,"购买失败，可能是因为背包已满");
@@ -62,9 +62,10 @@ public class ShopService {
     }
 
 
-
+    /**
+     *  展示商店
+     */
     public Map<Integer, ThingInfo> showGoods(Integer shopId) {
-
         Shop shop =  shopManager.get(shopId);
         return shop.getGoodsMap();
     }

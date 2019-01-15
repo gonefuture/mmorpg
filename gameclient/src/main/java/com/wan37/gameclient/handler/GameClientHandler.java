@@ -1,4 +1,4 @@
-package com.wan37.gameClient.handler;
+package com.wan37.gameclient.handler;
 /*
  *  @author : 钱伟健 gonefuture@qq.com
  *  @version    : 2018/6/13 11:26.
@@ -6,17 +6,13 @@ package com.wan37.gameClient.handler;
  */
 
 import com.wan37.common.entity.Message;
-import com.wan37.gameClient.view.MainView;
-import io.netty.buffer.ByteBuf;
+import com.wan37.gameclient.view.MainView;
 
 
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 

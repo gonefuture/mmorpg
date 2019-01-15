@@ -1,4 +1,4 @@
-package com.wan37.gameClient;
+package com.wan37.gameclient;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

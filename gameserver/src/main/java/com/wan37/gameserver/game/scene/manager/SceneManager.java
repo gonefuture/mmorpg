@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.scene.manager;
 
 
-import com.wan37.gameserver.game.player.service.PlayerDataService;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.wan37.gameserver.game.sceneObject.manager.GameObjectManager;
 import com.wan37.gameserver.game.sceneObject.model.Monster;
 
@@ -9,7 +9,7 @@ import com.wan37.gameserver.game.sceneObject.model.SceneObject;
 import com.wan37.gameserver.game.scene.model.GameScene;
 
 
-import com.wan37.gameserver.game.sceneObject.service.MonsterAIService;
+import com.wan37.gameserver.game.sceneObject.service.MonsterAiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +17,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,11 +34,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SceneManager {
 
-    // 单线程定时执行器
-    private ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-
-    @Resource
-    private SceneCacheMgr sceneCacheMgr;
+    /** 单线程定时执行器 */
+    private static ThreadFactory sceneLoopThreadFactory = new ThreadFactoryBuilder()
+            .setNameFormat("scheduledThreadPool-%d").setUncaughtExceptionHandler((t,e) -> e.printStackTrace()).build();
+    private static ScheduledExecutorService sceneLoop =
+            Executors.newSingleThreadScheduledExecutor(sceneLoopThreadFactory);
 
 
     @Resource
@@ -44,15 +46,13 @@ public class SceneManager {
 
 
     @Resource
-    private MonsterAIService monsterAIService;
+    private MonsterAiService monsterAIService;
 
-    @Resource
-    private PlayerDataService playerDataService;
 
 
     @PostConstruct
     private void tick() {
-        executorService.scheduleWithFixedDelay(
+        sceneLoop.scheduleWithFixedDelay(
                 this::refreshScene,
                 1000, 20, TimeUnit.MILLISECONDS);
         log.debug("场景定时器启动");
@@ -60,7 +60,7 @@ public class SceneManager {
 
 
     private void refreshScene() {
-        List<GameScene>  gameSceneList= sceneCacheMgr.list();
+        List<GameScene>  gameSceneList= SceneCacheMgr.list();
         for (GameScene gameScene : gameSceneList) {
             // 刷新怪物和NPC
             gameScene.getMonsters().values().forEach(this::refreshDeadCreature);
@@ -91,7 +91,7 @@ public class SceneManager {
      *  刷新怪物攻击
      */
     private void monsterAttack(Monster monster,GameScene gameScene) {
-        if (null != monster.getTarget()) {
+        if (Objects.nonNull(monster.getTarget())) {
             monsterAIService.startAI(monster.getTarget(),monster,gameScene);
 
         }

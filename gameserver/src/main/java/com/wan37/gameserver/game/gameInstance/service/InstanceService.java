@@ -8,7 +8,7 @@ import com.wan37.gameserver.game.scene.model.SceneType;
 import com.wan37.gameserver.game.sceneObject.model.Monster;
 import com.wan37.gameserver.game.sceneObject.model.NPC;
 import com.wan37.gameserver.game.sceneObject.service.GameObjectService;
-import com.wan37.gameserver.game.sceneObject.service.MonsterAIService;
+import com.wan37.gameserver.game.sceneObject.service.MonsterAiService;
 import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.game.scene.servcie.GameSceneService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
@@ -47,7 +47,7 @@ public class InstanceService {
     private GameObjectService gameObjectService;
 
     @Resource
-    private MonsterAIService monsterAIService;
+    private MonsterAiService monsterAIService;
 
 
 
@@ -67,8 +67,9 @@ public class InstanceService {
         // 初始化好的副本场景
         GameInstance gameInstance = initGameInstance(player,instanceId);
 
-        if (null == gameInstance || null == gameInstance.getInstanceTime())
+        if (null == gameInstance || null == gameInstance.getInstanceTime()) {
             return null;
+        }
         // 记录玩家原先的位置
         gameInstance.getPlayerFrom().put(player.getId(),player.getScene());
         // 进入副本
@@ -134,9 +135,9 @@ public class InstanceService {
     private GameInstance initGameInstance(Player player, Integer instanceId) {
         GameScene sceneTemplate = SceneCacheMgr.getScene(instanceId);
         // 如果不是副本，返回null
-        if (!sceneTemplate.getType().equals(SceneType.INSTANCE_SCENE.getType()))
+        if (!sceneTemplate.getType().equals(SceneType.INSTANCE_SCENE.getType())) {
             return null;
-
+        }
         GameInstance gameInstance = new GameInstance();
 
         gameInstance.setId(sceneTemplate.getId());
@@ -217,7 +218,6 @@ public class InstanceService {
                                             }
                                         }
                                 );
-
                             }
                         }
                     }

@@ -37,11 +37,10 @@ public class PlayerLoginService {
     private PlayerDataService playerDataService;
 
     @Resource
-    private UserCacheManger userCacheManger;
-
+    private UserService userService;
 
     @Resource
-    private UserService userService;
+    private PlayerQuitService playerQuitService;
 
 
 
@@ -51,6 +50,8 @@ public class PlayerLoginService {
      */
     public Player login(Long playerId, ChannelHandlerContext ctx) {
         Player playerCache  = playerCacheMgr.getPlayerByCtx(ctx);
+        // 清理当前通道的角色
+        playerQuitService.logoutScene(ctx);
 
         // 如果角色缓存为空 或者 缓存中的角色不是要加载的角色，那就从数据库查询
         if (playerCache == null || !playerCache.getId().equals(playerId)) {
@@ -77,7 +78,6 @@ public class PlayerLoginService {
             playerCacheMgr.savePlayerCtx(playerId,ctx);
             // 玩家初始化
             playerDataService.initPlayer(playerCache);
-
             return playerCache;
         }
     }

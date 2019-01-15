@@ -33,7 +33,7 @@ public class SkillController {
      *  自身使用技能
      */
     private void useSkill(ChannelHandlerContext cxt, Message message) {
-        String[] args =ParameterCheckUtil.checkParameter(cxt,message,1);
+        String[] args =ParameterCheckUtil.checkParameter(cxt,message,2);
         Integer skillId = Integer.valueOf(args[1]);
         skillsService.useSkillSelf(cxt,skillId);
 

@@ -5,7 +5,7 @@ import com.wan37.gameserver.event.model.PKEvent;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.sceneObject.model.Monster;
 import com.wan37.gameserver.game.player.model.Player;
-import com.wan37.gameserver.game.sceneObject.service.MonsterAIService;
+import com.wan37.gameserver.game.sceneObject.service.MonsterAiService;
 import com.wan37.gameserver.game.sceneObject.service.MonsterDropsService;
 import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.game.scene.servcie.GameSceneService;
@@ -51,7 +51,7 @@ public class CombatService {
 
 
     @Resource
-    private MonsterAIService monsterAIService;
+    private MonsterAiService monsterAIService;
 
 
 
@@ -169,7 +169,7 @@ public class CombatService {
             return;
         }
 
-        if (!skillsService.useSkill(player,targetPlayer,gameScene, skill)) {
+        if (!skillsService.castSkill(player,targetPlayer,gameScene, skill)) {
             notificationManager.notifyPlayer(player,"使用技能失败，可能是mp不足");
             return;
         }
@@ -241,7 +241,7 @@ public class CombatService {
         target.setTarget(player);
 
         // 使用技能
-        if (!skillsService.useSkill(player,target,gameScene, skill)) {
+        if (!skillsService.castSkill(player,target,gameScene, skill)) {
             notificationManager.notifyPlayer(player,"使用技能失败，可能是mp不足的原因");
             return;
         }

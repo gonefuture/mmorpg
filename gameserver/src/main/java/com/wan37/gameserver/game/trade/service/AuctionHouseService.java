@@ -60,11 +60,11 @@ public class AuctionHouseService  {
         auctionItem.setThingInfoId(item.getThingInfo().getId());
         auctionItem.setAuctionMode(auctionMode);
         auctionItem.setAuctionPrice(auctionPrice);
-        auctionItem.setPushTime(new Date());
+        auctionItem.setPublishTime(new Date());
         log.debug("{}",player.getId());
         auctionItem.setPublisherId(player.getId());
         auctionHouseManager.putAuctionItem(auctionItem);
-        notificationManager.notifyPlayer(player, MessageFormat.format("发布物品{0}成功,初始化价格是{1}",
+        notificationManager.notifyPlayer(player, MessageFormat.format("发布物品{0}成功,初始价格是{1}",
                 item.getThingInfo().getName(),auctionPrice));
     }
 
@@ -97,9 +97,15 @@ public class AuctionHouseService  {
         // 如果是一口价模式
        if (auctionItem.getAuctionMode().equals(AuctionMode.SHELL_NOW.getType())
                && bagsService.addItem(player,item)) {
+           // 买家付钱
            player.moneyChange(-auctionItem.getAuctionPrice());
            notificationManager.notifyPlayer(player,"恭喜你，你已经获得了该物品");
-           mailService.sendMail(DefaultSender.AuctionHouse.getId(),player.getId(),"物品出售时间已到",
+
+           // 卖家获得金钱
+           Player publisher = playerDataService.getPlayerById(auctionItem.getPublisherId());
+           beSell(publisher,auctionItem);
+
+           mailService.sendMail(DefaultSender.AuctionHouse.getId(),player.getId(),"恭喜你，你竞拍成功了",
                    MessageFormat.format("物品 {0} x {1}",thingInfo.getName(),auctionItem.getNumber())
                    ,item);
            auctionHouseManager.removeAuctionItem(auctionItem.getAuctionId());
@@ -162,12 +168,26 @@ public class AuctionHouseService  {
                 .ifPresent(
                         entry -> {
                             Player winner = playerDataService.getOnlinePlayerById(entry.getKey());
-                            notificationManager.notifyPlayer(winner,"恭喜你，你竞拍成功了，拍卖品已发往你的邮箱，请注意查收");
                             mailService.sendMail(DefaultSender.AuctionHouse.getId(),winner.getId(),"恭喜你，你竞拍成功了",
                                     MessageFormat.format("物品 {0} x {1}",thingInfo.getName(),auctionItem.getNumber())
                                     ,item);
+                            // 卖家获得金钱
+                            Player publisher = playerDataService.getPlayerById(auctionItem.getPublisherId());
+                            beSell(publisher,auctionItem);
                         }
                 );
         auctionHouseManager.removeAuctionItem(auctionItem.getAuctionId());
     }
+
+
+
+
+    public void beSell(Player publisher, AuctionItem auctionItem) {
+        mailService.sendMail(DefaultSender.AuctionHouse.getId(),publisher.getId(),"你的货物已经卖出去",
+                MessageFormat.format("获得 {0} 金币",auctionItem.getAuctionPrice())
+                ,null);
+        publisher.moneyChange(auctionItem.getAuctionPrice());
+    }
+
+
 }

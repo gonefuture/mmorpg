@@ -1,17 +1,14 @@
 package com.wan37.gameserver.game.skills.model;
-/*
+
+import com.wan37.gameserver.model.IExcel;
+import com.wan37.gameserver.util.excel.EntityName;
+import lombok.Data;
+/**
  *  @author : 钱伟健 gonefuture@qq.com
  *  @version : 2018/10/30 21:39.
  *  说明：
  */
 
-import com.wan37.gameserver.model.IExcel;
-import com.wan37.gameserver.util.excel.EntityName;
-import lombok.Data;
-
-/**
- * <pre> </pre>
- */
 @Data
 public class Skill implements IExcel<Integer> {
 
@@ -23,6 +20,9 @@ public class Skill implements IExcel<Integer> {
 
     @EntityName(column = "类型")
     private Integer skillType;
+
+    @EntityName(column = "施法时间")
+    private Integer castTime;
 
     @EntityName(column = "cd")
     private Long cd;

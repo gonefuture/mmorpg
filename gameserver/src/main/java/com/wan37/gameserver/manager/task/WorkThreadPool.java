@@ -26,13 +26,6 @@ public final class WorkThreadPool {
     public static ExecutorService threadPool = new ThreadPoolExecutor(4,8,
             1000, TimeUnit.SECONDS,new LinkedBlockingQueue<>(100), persistenceThreadFactory );
 
-    /**
-     *  拍卖行的单线程循环
-     */
-    private static ThreadFactory auctionHouseThreadFactory = new ThreadFactoryBuilder()
-            .setNameFormat("auctionHouse-%d").build();
-    public static ExecutorService auctionHouseThread =  Executors.newSingleThreadScheduledExecutor(auctionHouseThreadFactory);
-
 
 
 

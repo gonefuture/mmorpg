@@ -137,7 +137,8 @@ public class AuctionHouseManager {
                                         item -> {
                                             log.debug("拍卖品{}",item);
                                             // 如果拍卖品被拍卖超过一天，结束拍卖
-                                            if (System.currentTimeMillis() - item.getPushTime().getTime() > Duration.ofMinutes(1).toMillis()) {
+                                            if (System.currentTimeMillis() - item.getPublishTime().getTime() >
+                                                    Duration.ofMinutes(2).toMillis()) {
                                                 auctionHouseService.finishAuction(item);
                                             }
                                         }

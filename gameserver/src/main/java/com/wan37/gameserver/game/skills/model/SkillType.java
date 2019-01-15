@@ -14,6 +14,9 @@ public enum  SkillType {
     /** 多人技能 **/
     ATTACK_MULTI(3),
 
+
+    CALL_PET(5)
+
     ;
 
 

@@ -18,7 +18,7 @@ public class AuctionSqlProvider {
                     .VALUES("number","#{number}")
                     .VALUES("auction_price","#{auctionPrice}")
                     .VALUES("auction_mode","#{auctionMode}")
-                    .VALUES("push_time","#{pushTime}")
+                    .VALUES("publish_time","#{pushTime}")
                     .VALUES("bidders","#{bidders}")
                     .VALUES("publisher_id","#{publisherId}");
         }}.toString();

@@ -1,10 +1,10 @@
-package com.wan37.gameClient.view;
+package com.wan37.gameclient.view;
 
 
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameClient.GameClient;
+import com.wan37.gameclient.GameClient;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;

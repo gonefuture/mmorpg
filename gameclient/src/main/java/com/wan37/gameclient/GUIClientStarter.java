@@ -1,6 +1,6 @@
-package com.wan37.gameClient;
+package com.wan37.gameclient;
 
-import com.wan37.gameClient.view.MainView;
+import com.wan37.gameclient.view.MainView;
 
 
 /**

@@ -1,13 +1,13 @@
-package com.wan37.gameClient;
+package com.wan37.gameclient;
 
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.MsgId;
-import com.wan37.gameClient.coder.MessageDecoder;
-import com.wan37.gameClient.coder.MessageEncoder;
+import com.wan37.gameclient.coder.MessageDecoder;
+import com.wan37.gameclient.coder.MessageEncoder;
 
 
-import com.wan37.gameClient.handler.GameClientHandler;
+import com.wan37.gameclient.handler.GameClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;

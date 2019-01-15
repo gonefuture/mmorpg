@@ -55,6 +55,19 @@ public  class NotificationManager {
         });
     }
 
+
+    /**
+     *  通知场景活物
+     * @param creature 活物
+     * @param e 信息
+     * @param <E> 信息类型
+     */
+    public <E> void notifyCreature(Creature creature, E e) {
+        if (creature instanceof Player) {
+            notifyPlayer((Player) creature,e);
+        }
+    }
+
     /**
      *  通知单个玩家
      * @param player 玩家

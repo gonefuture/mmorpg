@@ -1,11 +1,10 @@
-package com.wan37.gameClient.coder;
+package com.wan37.gameclient.coder;
 
 
 import com.wan37.common.entity.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 
