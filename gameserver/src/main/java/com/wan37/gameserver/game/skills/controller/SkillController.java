@@ -29,8 +29,13 @@ public class SkillController {
         ControllerManager.add(MsgId.USE_SKILL,this::useSkill);
     }
 
+
+
+
+
+
     /**
-     *  自身使用技能
+     *  对友方使用技能
      */
     private void useSkill(ChannelHandlerContext cxt, Message message) {
         String[] args =ParameterCheckUtil.checkParameter(cxt,message,2);

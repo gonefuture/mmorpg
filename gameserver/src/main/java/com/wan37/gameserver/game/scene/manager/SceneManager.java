@@ -10,6 +10,7 @@ import com.wan37.gameserver.game.scene.model.GameScene;
 
 
 import com.wan37.gameserver.game.sceneObject.service.MonsterAiService;
+import com.wan37.gameserver.model.Creature;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -36,7 +38,7 @@ public class SceneManager {
 
     /** 单线程定时执行器 */
     private static ThreadFactory sceneLoopThreadFactory = new ThreadFactoryBuilder()
-            .setNameFormat("scheduledThreadPool-%d").setUncaughtExceptionHandler((t,e) -> e.printStackTrace()).build();
+            .setNameFormat("sceneLoop-%d").setUncaughtExceptionHandler((t,e) -> e.printStackTrace()).build();
     private static ScheduledExecutorService sceneLoop =
             Executors.newSingleThreadScheduledExecutor(sceneLoopThreadFactory);
 
@@ -92,8 +94,8 @@ public class SceneManager {
      */
     private void monsterAttack(Monster monster,GameScene gameScene) {
         if (Objects.nonNull(monster.getTarget())) {
+            log.debug("怪物{}开始攻击,攻击目标是{}",monster.getName(), Optional.ofNullable(monster.getTarget()).map(Creature::getName));
             monsterAIService.startAI(monster.getTarget(),monster,gameScene);
-
         }
     }
 

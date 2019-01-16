@@ -8,14 +8,20 @@ package com.wan37.gameserver.game.skills.model;
  */
 public enum  SkillType {
 
-    /** 单人技能 **/
-    ATTACK_SINGLE(1),
+    /** 对自身或友方使用 */
+    FRIENDLY(1),
+
+    /** 对敌人单人使用 **/
+    ATTACK_SINGLE(2),
 
     /** 多人技能 **/
     ATTACK_MULTI(3),
 
+    /** 召唤宠物 */
+    CALL_PET(5),
 
-    CALL_PET(5)
+    /** 只能自身使用 */
+    ONLY_SELF(6)
 
     ;
 

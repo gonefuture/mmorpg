@@ -30,8 +30,11 @@ public class Skill implements IExcel<Integer> {
     @EntityName(column = "消耗mp")
     private Long mpConsumption;
 
-    @EntityName(column = "伤害")
-    private Long hpLose;
+    @EntityName(column = "伤害量")
+    private Long hurt;
+
+    @EntityName(column = "治疗量")
+    private Long heal;
 
     @EntityName(column = "等级")
     private Integer level;

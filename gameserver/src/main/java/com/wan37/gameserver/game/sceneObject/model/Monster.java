@@ -18,12 +18,12 @@ import java.text.MessageFormat;
 @EqualsAndHashCode(callSuper=true)
 public class Monster  extends SceneObject implements Creature {
 
-    // 攻击速率，默认10000毫秒
+    /** 攻击速率，默认10000毫秒 */
     private Integer attackSpeed = 10000;
     private long attackTime = System.currentTimeMillis();
 
 
-    // 当前攻击目标
+    /** 当前攻击目标 */
     Creature target;
 
 

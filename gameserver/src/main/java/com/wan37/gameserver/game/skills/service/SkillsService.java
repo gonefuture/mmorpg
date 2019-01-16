@@ -15,6 +15,7 @@ import com.wan37.gameserver.manager.notification.NotificationManager;
 import com.wan37.gameserver.manager.task.TimedTaskManager;
 import com.wan37.gameserver.model.Creature;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ import java.util.Optional;
  * Description: mmorpg
  */
 @Service
+@Slf4j
 public class SkillsService {
 
 
@@ -96,6 +98,7 @@ public class SkillsService {
      * @return 是否成功
      */
     public boolean castSkill(Creature initiator, Creature target , GameScene gameScene, Skill skill) {
+        long start = System.currentTimeMillis();
         // 如果技能施法时间不少于0
         if (!skill.getCastTime().equals(0)) {
             notificationManager.notifyCreature(initiator,
@@ -105,6 +108,7 @@ public class SkillsService {
                     () -> gameScene.getSingleThreadSchedule().execute(
                             () ->  {
                                 // 注意，这里的技能进行还是要用场景执行器执行，不然会导致多线程问题
+                                log.debug("延迟时间{}",System.currentTimeMillis()-start);
                                 skillEffect(initiator,target,gameScene,skill);
                                 // 开启技能冷却
                                 startSkillCd(initiator,skill);
@@ -130,7 +134,9 @@ public class SkillsService {
     private void skillEffect(Creature initiator, Creature target, GameScene gameScene, Skill skill) {
         // 消耗mp和损伤目标hp
         initiator.setMp(initiator.getMp() - skill.getMpConsumption());
-        target.setHp(target.getHp() - skill.getHpLose());
+        target.setHp(target.getHp() - skill.getHurt());
+        target.setHp(target.getHp() + skill.getHeal());
+
 
         // 如果技能触发的buffer不是0，则对敌方单体目标释放buffer
         if (!skill.getBuffer().equals(0)) {
@@ -140,13 +146,11 @@ public class SkillsService {
                     (b) -> bufferService.startBuffer(target,b)
             );
         }
-
         // 召唤兽类型的技能
         if (skill.getSkillType().equals(SkillType.CALL_PET.getTypeId())) {
             petService.callPet(initiator,target,gameScene,skill.getCall());
         }
     }
-
 
     /**
      *  释放群体技能
@@ -161,7 +165,7 @@ public class SkillsService {
         initiator.setMp(initiator.getMp() - skill.getMpConsumption());
         targetList.forEach(
                 target ->  {
-                    target.setHp(target.getHp() - skill.getHpLose());
+                    target.setHp(target.getHp() - skill.getHurt());
                     if(skill.getBuffer() != 0) {
                         Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
                         // 如果buffer存在则启动buffer
@@ -212,9 +216,7 @@ public class SkillsService {
             }
             return false;
         }
-
         return true;
-
     }
 
 
@@ -224,11 +226,14 @@ public class SkillsService {
         GameScene gameScene = gameSceneService.getSceneByPlayer(player);
 
         if (!canSkill(player,skill)) {
+            notificationManager.notifyCreature(player,"你现在不能使用这个技能");
             return;
         }
-        // 技能类型为1则对自己使用
-        if (skill.getSkillType() == 1 ) {
+        // 技能类型为4则对友方使用
+        if (skill.getSkillType().equals(SkillType.FRIENDLY.getTypeId())) {
             castSkill(player,player,gameScene,skill);
+        } else {
+            notificationManager.notifyCreature(player,"这个技能不能对自身或友方使用");
         }
     }
 }

@@ -3,7 +3,6 @@ package com.wan37.gameserver.game.sceneObject.service;
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.AttackMonsterEvent;
 import com.wan37.gameserver.event.model.MonsterEventDeadEvent;
-import com.wan37.gameserver.game.combat.service.CombatService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.scene.model.GameScene;
@@ -58,7 +57,7 @@ public class MonsterAiService {
     public void monsterAttack(Monster monster, Creature target,GameScene gameScene) {
         Integer attack = monster.getAttack();
         target.setHp(target.getHp() - attack);
-
+        log.debug("怪物攻击 目标",target.getName());
         notificationManager.notifyScene(gameScene,
                 MessageFormat.format("{0}在攻击{1}，造成了{2}点伤害，{3}当前的hp为 {4} \n",
                 monster.getName(),target.getName(), monster.getAttack(),target.getName(),target.getHp()));
@@ -85,7 +84,7 @@ public class MonsterAiService {
                     if (skillsService.canSkill(monster,skill) && skillsService.castSkill(monster,target,gameScene,skill)) {
                         notificationManager.notifyScene(gameScene,
                                 MessageFormat.format("{0} 对 {1}用技能 {2}， 造成了{3}点伤害，{4} 当前的hp为 {5}\n",
-                                        monster.getName(), target.getName(),skill.getName(),skill.getHpLose()
+                                        monster.getName(), target.getName(),skill.getName(),skill.getHurt()
                                         ,target.getName(),target.getHp()));
                     }
                 }
@@ -124,10 +123,11 @@ public class MonsterAiService {
             return;
         }
 
-
+        log.debug("怪物 {} 准备好攻击",monster.getName());
         if ((monster.getAttackTime() + monster.getAttackSpeed()) < System.currentTimeMillis()) {
             // 进行普通攻击
             monsterAttack(monster, target,gameScene);
+            log.debug("怪物 {} 进行了普通攻击",monster.getName());
 
             // 更新普通攻击的攻击时间
             monster.setAttackTime(System.currentTimeMillis());
@@ -137,6 +137,7 @@ public class MonsterAiService {
         if (monster.getHasUseSkillMap().size() < 1) {
             monsterUseSkill(monster, target,gameScene);
         }
+
     }
 
 

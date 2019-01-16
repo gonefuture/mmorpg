@@ -180,7 +180,7 @@ public class CombatService {
 
 
         // 通知攻击结果
-        notificationManager.playerBeAttacked(player,targetPlayer, skill.getHpLose());
+        notificationManager.playerBeAttacked(player,targetPlayer, skill.getHurt());
 
         // 检测玩家是否死亡
         if (playerDataService.isPlayerDead(targetPlayer,player)) {
@@ -249,7 +249,7 @@ public class CombatService {
                 MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
                         player.getName(),target.getName(),skill.getName()));
         //
-        monsterAIService.monsterBeAttack(player,target,gameScene,skill.getHpLose().intValue());
+        monsterAIService.monsterBeAttack(player,target,gameScene,skill.getHurt().intValue());
 
     }
 
