@@ -29,6 +29,7 @@ public class Monster  extends SceneObject implements Creature {
 
 
 
+
     public String displayData() {
         return MessageFormat.format("id:{0}  name:{1}  hp:{2}  mp:{3}  state:{4}"
                 ,this.getId(),this.getName(), this.getHp(), this.getMp(),this.getState()  );

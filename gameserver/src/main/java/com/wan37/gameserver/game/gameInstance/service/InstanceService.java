@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -211,7 +208,10 @@ public class InstanceService {
                                 gameInstance.getPlayers().values().forEach(
                                         player -> {
                                             // 开始怪物自动攻击的AI
-                                            monsterAIService.startAI(player, boss, gameInstance);
+                                            if (Objects.isNull(boss.getTarget())) {
+                                                boss.setTarget(player);
+                                            }
+                                            monsterAIService.startAI(boss, gameInstance);
                                             if (player.getHp() < 0) {
                                                 notificationManager.notifyPlayer(player,"很遗憾，你挑战副本失败");
                                                 exitInstance(player,gameInstance);

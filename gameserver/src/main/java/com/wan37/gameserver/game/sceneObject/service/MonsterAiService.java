@@ -94,22 +94,22 @@ public class MonsterAiService {
 
     /**
      *  怪物（包括玩家宠物）自动攻击
-     * @param target 被攻击的目标
      * @param monster   怪物
      * @param gameScene 战斗的场景
      */
-    public void startAI(Creature target, Monster monster, GameScene gameScene) {
+    public void startAI(Monster monster, GameScene gameScene) {
+        Creature target = monster.getTarget();
         // 目标死了,不进行攻击
         if (target instanceof Player){
             if (playerDataService.isPlayerDead((Player) target, monster)) {
                 monster.setTarget(null);
                 return;
             }
-        } else {
-            if (target.getHp() <=0 || target.getState() == -1) {
-                monster.setTarget(null);
-                return;
-            }
+        }
+
+        if (target.getHp() <=0 || target.getState() == -1) {
+            monster.setTarget(null);
+            return;
         }
 
         // 玩家不在场景内，不进行攻击
@@ -132,7 +132,6 @@ public class MonsterAiService {
             // 更新普通攻击的攻击时间
             monster.setAttackTime(System.currentTimeMillis());
         }
-
         // 使用没有冷却的技能
         if (monster.getHasUseSkillMap().size() < 1) {
             monsterUseSkill(monster, target,gameScene);

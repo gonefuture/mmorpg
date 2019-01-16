@@ -130,10 +130,10 @@ public class CombatService {
      */
     public void useSkillPVP(Player player, Integer skillId, List<Long> targetIdList) {
         Skill skill = skillsService.getSkill(skillId);
-        if (!skillsService.canSkill(player,skill))
+        if (!skillsService.canSkill(player,skill)) {
             return;
-
-        if (targetIdList.size() > 1 && skill.getSkillType() !=3) {
+        }
+        if (targetIdList.size() > 1 && skill.getSkillType().equals(SkillType.ATTACK_MULTI.getTypeId())) {
             notificationManager.notifyPlayer(player,"该技能不能对多个目标使用");
             return;
         }
@@ -200,8 +200,9 @@ public class CombatService {
     public void useSkillAttackMonster(ChannelHandlerContext ctx,Integer skillId,  List<Long> targetIdList ) {
         Player player = playerDataService.getPlayerByCtx(ctx);
         Skill skill = skillsService.getSkill(skillId);
-        if (!skillsService.canSkill(player,skill))
+        if (!skillsService.canSkill(player,skill)) {
             return;
+        }
         GameScene gameScene = gameSceneService.getSceneByPlayer(player);
 
 

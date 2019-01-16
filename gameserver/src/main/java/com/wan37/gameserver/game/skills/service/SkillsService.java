@@ -49,6 +49,9 @@ public class SkillsService {
     @Resource
     private GameSceneService gameSceneService;
 
+    @Resource
+    SkillEffect skillEffect;
+
     /**
      *
      * @param creature  活物
@@ -105,18 +108,20 @@ public class SkillsService {
                     MessageFormat.format("开始施法，吟唱需要{0}秒",skill.getCastTime()));
             // 按吟唱时间延迟执行
             TimedTaskManager.singleThreadSchedule( skill.getCastTime()*1000,
-                    () -> gameScene.getSingleThreadSchedule().execute(
-                            () ->  {
-                                // 注意，这里的技能进行还是要用场景执行器执行，不然会导致多线程问题
-                                log.debug("延迟时间{}",System.currentTimeMillis()-start);
-                                skillEffect(initiator,target,gameScene,skill);
-                                // 开启技能冷却
-                                startSkillCd(initiator,skill);
-                            }
-                    )
+                    () -> {
+                            // 开启技能冷却
+                            startSkillCd(initiator, skill);
+                            gameScene.getSingleThreadSchedule().execute(
+                                    () -> {
+                                        // 注意，这里的技能进行还是要用场景执行器执行，不然会导致多线程问题
+                                        log.debug("延迟时间{}", System.currentTimeMillis() - start);
+                                        skillEffect.castSkill(skill.getSkillType(), initiator, target, gameScene, skill);
+                                    }
+                            );
+                        }
             );
         } else {
-            skillEffect(initiator,target,gameScene,skill);
+            skillEffect.castSkill(skill.getSkillType(),initiator,target,gameScene,skill);
             // 开启技能冷却
             startSkillCd(initiator,skill);
         }
@@ -124,33 +129,6 @@ public class SkillsService {
     }
 
 
-    /**
-     *  施放的技能产生影响
-     * @param initiator 施放者
-     * @param target 施放目标
-     * @param gameScene 场景
-     * @param skill 技能
-     */
-    private void skillEffect(Creature initiator, Creature target, GameScene gameScene, Skill skill) {
-        // 消耗mp和损伤目标hp
-        initiator.setMp(initiator.getMp() - skill.getMpConsumption());
-        target.setHp(target.getHp() - skill.getHurt());
-        target.setHp(target.getHp() + skill.getHeal());
-
-
-        // 如果技能触发的buffer不是0，则对敌方单体目标释放buffer
-        if (!skill.getBuffer().equals(0)) {
-            Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
-            // 如果buffer存在则启动buffer
-            Optional.ofNullable(buffer).map(
-                    (b) -> bufferService.startBuffer(target,b)
-            );
-        }
-        // 召唤兽类型的技能
-        if (skill.getSkillType().equals(SkillType.CALL_PET.getTypeId())) {
-            petService.callPet(initiator,target,gameScene,skill.getCall());
-        }
-    }
 
     /**
      *  释放群体技能
@@ -219,7 +197,9 @@ public class SkillsService {
         return true;
     }
 
-
+    /**
+     *  自身使用技能
+     */
     public void useSkillSelf(ChannelHandlerContext cxt, Integer skillId) {
         Skill skill = SkillsManager.get(skillId);
         Player player = playerDataService.getPlayerByCtx(cxt);

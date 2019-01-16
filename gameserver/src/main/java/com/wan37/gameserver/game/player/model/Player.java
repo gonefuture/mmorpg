@@ -44,10 +44,13 @@ public class Player extends TPlayer   implements Creature  {
     // 当前通道上下文
     private ChannelHandlerContext ctx;
 
-    // 玩家战力
+    /** 当前目标 */
+    private Creature target;
+
+    /** 玩家战力 **/
     private int attack;
 
-    // 受职业配置表和装备影响
+    /**  受职业配置表和装备影响 */
     private Long hp;
     private Long mp;
 
@@ -56,7 +59,7 @@ public class Player extends TPlayer   implements Creature  {
     private Integer level;
 
 
-    private Date LastOnlineTime = new Date();
+    private Date lastOnlineTime = new Date();
 
     // 角色当前使用技能的集合
     private Map<Integer, Skill> hasUseSkillMap = new ConcurrentHashMap<>();

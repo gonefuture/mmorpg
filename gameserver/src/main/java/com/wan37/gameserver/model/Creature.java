@@ -17,35 +17,41 @@ import java.util.Map;
 
 public interface Creature  {
 
-    // 活物的id
+    /** 活物的id */
     Long getId();
 
 
-    // 活物的名字
+    /** 活物的名字 **/
     String getName();
 
 
-    // 活物的血量
+    /** 活物的血量 */
     Long getHp();
     void setHp(Long hp);
 
-    // 活物的mp
+    /** 活物的mp */
     Long getMp();
     void setMp(Long hp);
 
 
-    // 活物的状态，生存 or 死亡
+    /** 活物的状态，生存 or 死亡 */
     Integer getState();
     void setState(Integer state);
 
 
-    // 活物当前使用的技能
+    /**  活物当前使用的技能 */
     Map<Integer, Skill> getHasUseSkillMap();
     void setHasUseSkillMap(Map<Integer, Skill> skillMap);
 
-    // 活物的当前buffer
+    /** 活物的当前buffer */
     List<Buffer> getBufferList();
     void setBufferList(List<Buffer> bufferList);
+
+
+    /** 活物的当前目标 */
+    Creature getTarget();
+    void setTarget(Creature target);
+
 
 
 

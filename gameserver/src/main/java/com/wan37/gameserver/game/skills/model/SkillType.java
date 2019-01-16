@@ -21,7 +21,12 @@ public enum  SkillType {
     CALL_PET(5),
 
     /** 只能自身使用 */
-    ONLY_SELF(6)
+    ONLY_SELF(6),
+
+    /** 嘲讽技能 **/
+    TAUNT(7)
+
+
 
     ;
 
