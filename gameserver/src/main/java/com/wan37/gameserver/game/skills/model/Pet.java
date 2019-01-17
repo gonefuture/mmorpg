@@ -1,6 +1,7 @@
 package com.wan37.gameserver.game.skills.model;
 
 
+import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.sceneObject.model.Monster;
 
 import lombok.Data;
@@ -18,7 +19,10 @@ import lombok.EqualsAndHashCode;
 public class Pet extends Monster {
 
 
-    private Integer petId;
+    private Long petId;
+
+    /** 宠物主人 */
+    private Player master;
 
 
 

@@ -95,6 +95,12 @@ public class GameSceneService {
         // 放入目的场景
         targetScene.getPlayers().put(player.getId(), player);
         player.setCurrentScene(targetScene);
+
+        // 宠物相关
+        if (Objects.nonNull(player.getPet())) {
+            gameScene.getMonsters().remove(player.getPet().getPetId());
+            targetScene.getMonsters().put(player.getPet().getPetId(),player.getPet());
+        }
     }
 
 

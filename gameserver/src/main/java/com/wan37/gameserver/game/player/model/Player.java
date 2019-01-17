@@ -11,6 +11,7 @@ import com.wan37.gameserver.game.roleProperty.model.RoleProperty;
 
 
 import com.wan37.gameserver.game.scene.model.GameScene;
+import com.wan37.gameserver.game.skills.model.Pet;
 import com.wan37.gameserver.game.skills.model.Skill;
 
 import com.wan37.gameserver.model.Creature;
@@ -36,7 +37,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
-@ToString(exclude = {"currentScene","rolePropertyMap","equipmentBar","bag","FriendMap"})
+@ToString(exclude = {"ctx","pet","","currentScene","rolePropertyMap","equipmentBar","bag","friendMap"})
 @Slf4j
 public class Player extends TPlayer   implements Creature  {
 
@@ -46,6 +47,16 @@ public class Player extends TPlayer   implements Creature  {
 
     /** 当前目标 */
     private Creature target;
+
+    @Override
+    public void setTarget(Creature target) {
+        this.target = target;
+        // 设置宠物目标
+        Optional.ofNullable(this.getPet()).ifPresent(p -> p.setTarget(target));
+    }
+
+    /** 宠物 **/
+    private Pet pet;
 
     /** 玩家战力 **/
     private int attack;
@@ -91,7 +102,7 @@ public class Player extends TPlayer   implements Creature  {
     private String teamId = "";
 
     // 玩家好友列表
-    private Map<Long, Friend> FriendMap = new HashMap<>();
+    private Map<Long, Friend> friendMap = new HashMap<>();
 
 
     /**

@@ -101,20 +101,21 @@ public class SkillsService {
      * @return 是否成功
      */
     public boolean castSkill(Creature initiator, Creature target , GameScene gameScene, Skill skill) {
-        long start = System.currentTimeMillis();
         // 如果技能施法时间不少于0
         if (!skill.getCastTime().equals(0)) {
             notificationManager.notifyCreature(initiator,
-                    MessageFormat.format("开始施法，吟唱需要{0}秒",skill.getCastTime()));
+                    MessageFormat.format("开始施法，吟唱需要{0}秒",skill.getCastTime()/1000));
             // 按吟唱时间延迟执行
-            TimedTaskManager.singleThreadSchedule( skill.getCastTime()*1000,
+            TimedTaskManager.singleThreadSchedule( skill.getCastTime(),
                     () -> {
                             // 开启技能冷却
                             startSkillCd(initiator, skill);
+                            notificationManager.notifyScene(gameScene,
+                                MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
+                                        initiator.getName(),target.getName(),skill.getName()));
                             gameScene.getSingleThreadSchedule().execute(
                                     () -> {
                                         // 注意，这里的技能进行还是要用场景执行器执行，不然会导致多线程问题
-                                        log.debug("延迟时间{}", System.currentTimeMillis() - start);
                                         skillEffect.castSkill(skill.getSkillType(), initiator, target, gameScene, skill);
                                     }
                             );

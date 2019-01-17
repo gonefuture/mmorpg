@@ -2,6 +2,8 @@ package com.wan37.gameserver.game.scene.manager;
 
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.wan37.gameserver.game.player.model.Player;
+import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.sceneObject.manager.GameObjectManager;
 import com.wan37.gameserver.game.sceneObject.model.Monster;
 
@@ -46,9 +48,11 @@ public class SceneManager {
     @Resource
     private GameObjectManager gameObjectManager;
 
-
     @Resource
     private MonsterAiService monsterAIService;
+
+    @Resource
+    private PlayerDataService playerDataService;
 
 
 
@@ -93,6 +97,7 @@ public class SceneManager {
      *  刷新怪物攻击
      */
     private void monsterAttack(Monster monster,GameScene gameScene) {
+
         if (Objects.nonNull(monster.getTarget())) {
             log.debug("怪物{}开始攻击,攻击目标是{}",monster.getName(), Optional.ofNullable(monster.getTarget()).map(Creature::getName));
             monsterAIService.startAI(monster,gameScene);

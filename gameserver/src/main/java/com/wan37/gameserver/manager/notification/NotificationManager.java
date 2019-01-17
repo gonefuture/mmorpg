@@ -149,7 +149,10 @@ public  class NotificationManager {
     }
 
 
-
-
-
+    public void playerBeHealed(Player form, Player to, Long heal) {
+        GameScene gameScene = gameSceneService.getSceneByPlayer(form);
+        notifyScene(gameScene,
+                MessageFormat.format("\n玩家 {0} 受到 {1} 的治疗，  hp减增加{2},当前hp为 {3}\n",
+                        to.getName(),form.getName(),heal, to.getHp()));
+    }
 }

@@ -13,6 +13,7 @@ import com.wan37.gameserver.game.skills.model.Skill;
 import com.wan37.gameserver.game.skills.model.SkillType;
 import com.wan37.gameserver.game.skills.service.SkillsService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
+import com.wan37.gameserver.manager.task.TimedTaskManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -72,8 +74,9 @@ public class CombatService {
         }
 
         // 将场景对象的当前目标设置为玩家
-        target.setTarget(player);
-
+        if (Objects.isNull(target.getTarget())) {
+            target.setTarget(player);
+        }
         // 攻击力
         int attack = player.getAttack();
 
@@ -140,9 +143,7 @@ public class CombatService {
 
         if (targetIdList.size() >1) {
             targetIdList.forEach(
-                    targetId -> {
-                        skillPVP(player,skill,targetId);
-                    }
+                    targetId -> skillPVP(player,skill,targetId)
             );
         } else {
             skillPVP(player,skill, targetIdList.get(0));
@@ -168,25 +169,30 @@ public class CombatService {
             notificationManager.notifyPlayer(player,"自己不能攻击自己");
             return;
         }
-
-        if (!skillsService.castSkill(player,targetPlayer,gameScene, skill)) {
-            notificationManager.notifyPlayer(player,"使用技能失败，可能是mp不足");
+        if (!skillsService.canSkill(player,skill)) {
             return;
         }
 
-        notificationManager.notifyScene(gameScene,
-                MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
-                        player.getName(),targetPlayer.getName(),skill.getName()));
+        // 施放技能
+        if (skillsService.castSkill(player,targetPlayer,gameScene, skill)) {
+            TimedTaskManager.singleThreadSchedule(skill.getCastTime(), () ->
+                    notificationManager.notifyScene(gameScene,
+                            MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
+                                    player.getName(),targetPlayer.getName(),skill.getName())));
 
+            // 通知攻击结果
+            if (skill.getHeal() >0) {
+                notificationManager.playerBeHealed(player,targetPlayer, skill.getHeal());
+            } else {
+                notificationManager.playerBeAttacked(player,targetPlayer, skill.getHurt());
+            }
 
-        // 通知攻击结果
-        notificationManager.playerBeAttacked(player,targetPlayer, skill.getHurt());
-
-        // 检测玩家是否死亡
-        if (playerDataService.isPlayerDead(targetPlayer,player)) {
-            // 如果目标死亡，玩家pk胜利,抛出pk胜利事件
+            // 检测玩家是否死亡
+            if (playerDataService.isPlayerDead(targetPlayer,player)) {
+                // 如果目标死亡，玩家pk胜利,抛出pk胜利事件
                 EventBus.publish(new PKEvent(player,true));
 
+            }
         }
     }
 
@@ -205,7 +211,6 @@ public class CombatService {
         }
         GameScene gameScene = gameSceneService.getSceneByPlayer(player);
 
-
         if (targetIdList.size() > 1 && !skill.getSkillType().equals(SkillType.ATTACK_MULTI.getTypeId())) {
             notificationManager.notifyPlayer(player,"该技能不能对多个目标使用");
             return;
@@ -213,9 +218,7 @@ public class CombatService {
 
         if (targetIdList.size() >1) {
             targetIdList.forEach(
-                    targetId -> {
-                        skillPVE(player,targetId,gameScene,skill);
-                    }
+                    targetId -> skillPVE(player,targetId,gameScene,skill)
             );
         } else {
             skillPVE(player,targetIdList.get(0),gameScene,skill);
@@ -230,28 +233,20 @@ public class CombatService {
      * @param gameScene 场景
      * @param skill 技能
      */
-    public void skillPVE(Player player,Long targetId, GameScene gameScene, Skill skill){
+    private void skillPVE(Player player, Long targetId, GameScene gameScene, Skill skill){
         Monster target = gameScene.getMonsters().get(targetId);
-
 
         if (null == target) {
             notificationManager.notifyPlayer(player,"目标怪物不存在此场景");
             return;
         }
-        // 将怪物当前目标设置为玩家,让怪物攻击玩家
-        target.setTarget(player);
 
         // 使用技能
-        if (!skillsService.castSkill(player,target,gameScene, skill)) {
-            notificationManager.notifyPlayer(player,"使用技能失败，可能是mp不足的原因");
-            return;
-        }
-        notificationManager.notifyScene(gameScene,
-                MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
-                        player.getName(),target.getName(),skill.getName()));
-        //
-        monsterAIService.monsterBeAttack(player,target,gameScene,skill.getHurt().intValue());
+        if (skillsService.castSkill(player,target,gameScene,skill)) {
+            TimedTaskManager.singleThreadSchedule(skill.getCastTime(),
+                    () -> monsterAIService.monsterBeAttack(player,target,gameScene,skill.getHurt().intValue()));
 
+        }
     }
 
 

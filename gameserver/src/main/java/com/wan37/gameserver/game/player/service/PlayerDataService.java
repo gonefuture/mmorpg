@@ -158,7 +158,7 @@ public class PlayerDataService {
      */
     public synchronized boolean isPlayerDead(Player casualty, Creature murderer) {
 
-        if (casualty.getHp() < 0){
+        if (casualty.getHp() <= 0){
             casualty.setHp((long)0);
             casualty.setState(-1);
 

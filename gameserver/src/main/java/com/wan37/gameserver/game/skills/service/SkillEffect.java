@@ -99,13 +99,16 @@ public class SkillEffect {
      *  嘲讽技能
      */
     private void taunt(Creature initiator, Creature target, GameScene gameScene, Skill skill) {
+
+        // 将怪物目标设定为发起者
+        target.setTarget(initiator);
+
         // 消耗mp和损伤目标hp
         initiator.setMp(initiator.getMp() - skill.getMpConsumption());
         target.setHp(target.getHp() - skill.getHurt());
         target.setHp(target.getHp() + skill.getHeal());
 
-        // 讲怪物目标设定为发起者
-        target.setTarget(initiator);
+
 
     }
 
