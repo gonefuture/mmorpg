@@ -101,6 +101,10 @@ public class SkillsService {
      * @return 是否成功
      */
     public boolean castSkill(Creature initiator, Creature target , GameScene gameScene, Skill skill) {
+        if (!canSkill(initiator,skill)) {
+            return false;
+        }
+
         // 如果技能施法时间不少于0
         if (!skill.getCastTime().equals(0)) {
             notificationManager.notifyCreature(initiator,

@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -107,18 +108,15 @@ public class InstanceService {
      * @param player 玩家
      */
     public void exitInstance(Player player,GameInstance gameInstance) {
-        if (player.getCurrentScene() != null) {
-            gameInstance.getPlayers().remove(player.getId());
+        gameInstance.getPlayers().remove(player.getId());
 
-            // 返回原来的场景
-            player.setScene(gameInstance.getPlayerFrom().get(player.getId()));
-            gameSceneService.initPlayerScene(player);
+        // 返回原来的场景
+        player.setScene(gameInstance.getPlayerFrom().get(player.getId()));
+        gameSceneService.initPlayerScene(player);
+        log.debug("返回原来的厂场景",player.getCurrentScene());
 
-            // 设置当前副本实例为空
-            notificationManager.notifyPlayer(player,"你已经退出副本");
-        } else {
-            notificationManager.notifyPlayer(player,"你不在副本中");
-        }
+        // 设置当前副本实例为空
+        notificationManager.notifyPlayer(player,"你已经退出副本");
     }
 
 
@@ -167,7 +165,6 @@ public class InstanceService {
         gameInstance.setGuardBoss(firstBoss);
         // 开启场景心跳
         startTick(gameInstance);
-
         return gameInstance;
     }
 
@@ -182,7 +179,8 @@ public class InstanceService {
     private void startTick(GameInstance gameInstance) {
 
         // 副本500ms进行心跳一次
-        ScheduledFuture<?> attackTask = TimedTaskManager.scheduleWithFixedDelay(0, 500, () -> {
+
+        ScheduledFuture<?> attackTask = gameInstance.getSingleThreadSchedule().scheduleWithFixedDelay( () -> {
 
             Monster guardBoss = gameInstance.getGuardBoss();
             Map<Long, Monster> monsterMap = gameInstance.getMonsters();
@@ -211,7 +209,6 @@ public class InstanceService {
                                             if (Objects.isNull(boss.getTarget())) {
                                                 boss.setTarget(player);
                                             }
-                                            monsterAIService.startAI(boss, gameInstance);
                                             if (player.getHp() < 0) {
                                                 notificationManager.notifyPlayer(player,"很遗憾，你挑战副本失败");
                                                 exitInstance(player,gameInstance);
@@ -222,18 +219,17 @@ public class InstanceService {
                         }
                     }
             );
-        });
 
-        // 根据副本存在时间销毁副本定时器
+
+            gameInstance.getMonsters().values().forEach( m -> monsterAIService.startAI(m, gameInstance));
+        },0,500, TimeUnit.MILLISECONDS);
+
+        // 副本存活时间到期， 销毁副本，传送玩家出副本。 根据副本存在时间销毁副本定时器
         TimedTaskManager.schedule(gameInstance.getInstanceTime(), () -> {
+            gameInstance.getPlayers().values().forEach(p -> exitInstance(p,gameInstance));
             attackTask.cancel(false);
             destroyInstance(gameInstance);
         });
-
-        // 副本存活时间到期， 销毁副本，传送玩家出副本。
-        TimedTaskManager.schedule(gameInstance.getInstanceTime(),
-                () -> gameInstance.getPlayers().values().forEach(p -> exitInstance(p,gameInstance))
-        );
 
         // 副本关闭通知,提前10000毫秒（10秒）通知
         TimedTaskManager.schedule(gameInstance.getInstanceTime()-10000,
