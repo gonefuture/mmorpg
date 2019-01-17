@@ -31,11 +31,8 @@ public class SkillController {
 
 
 
-
-
-
     /**
-     *  对友方使用技能
+     *  对自身使用技能
      */
     private void useSkill(ChannelHandlerContext cxt, Message message) {
         String[] args =ParameterCheckUtil.checkParameter(cxt,message,2);

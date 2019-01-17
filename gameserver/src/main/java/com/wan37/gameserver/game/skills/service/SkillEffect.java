@@ -11,6 +11,7 @@ import com.wan37.gameserver.model.Creature;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class SkillEffect {
         skillEffectMap.put(SkillType.ATTACK_SINGLE.getTypeId(),this::attackSingle);
         skillEffectMap.put(SkillType.CALL_PET.getTypeId(),this::callPet);
         skillEffectMap.put(SkillType.TAUNT.getTypeId(),this::taunt);
+        skillEffectMap.put(SkillType.FRIENDLY.getTypeId(),this::friendly);
 
     }
 
@@ -76,6 +78,10 @@ public class SkillEffect {
         target.setHp(target.getHp() - skill.getHurt());
         target.setHp(target.getHp() + skill.getHeal());
 
+        notificationManager.notifyScene(gameScene,
+                MessageFormat.format(" {0} 受到 {1} 的攻击，  hp减少{2},当前hp为 {3}\n",
+                        target.getName(),initiator.getName(),skill.getHurt(), target.getHp()));
+
 
         // 如果技能触发的buffer不是0，则对敌方单体目标释放buffer
         if (!skill.getBuffer().equals(0)) {
@@ -91,7 +97,7 @@ public class SkillEffect {
      *  召唤兽类型的技能
      */
     private void callPet(Creature initiator, Creature target, GameScene gameScene, Skill skill) {
-        petService.callPet(initiator,target,gameScene,skill.getCall());
+        petService.callPet(initiator,gameScene,skill.getCall());
     }
 
 
@@ -108,9 +114,24 @@ public class SkillEffect {
         target.setHp(target.getHp() - skill.getHurt());
         target.setHp(target.getHp() + skill.getHeal());
 
+    }
 
+
+    /**
+     *  对友方使用的技能
+     */
+    private void friendly(Creature initiator, Creature target, GameScene gameScene, Skill skill) {
+        // 消耗mp和治疗目标hp
+        initiator.setMp(initiator.getMp() - skill.getMpConsumption());
+        target.setHp(target.getHp() + skill.getHeal());
+
+        if(skill.getHeal() > 0) {
+            notificationManager.notifyScene(gameScene, MessageFormat.format("{0} 受到 {1} 的治疗,hp增加了 {2}，当前hp是 {3}",
+                    target.getName(),initiator.getName(),skill.getHeal(),target.getHp()));
+        }
 
     }
+
 
 
 

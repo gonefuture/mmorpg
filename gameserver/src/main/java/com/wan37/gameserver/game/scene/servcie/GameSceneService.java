@@ -49,8 +49,9 @@ public class GameSceneService {
      */
     public List<GameScene> getNeighborsSceneByIds(String sceneIds) {
         List<GameScene> gameSceneList = new ArrayList<>();
-        if (Objects.isNull(sceneIds) || sceneIds.isEmpty())
+        if (Objects.isNull(sceneIds) || sceneIds.isEmpty()) {
             return gameSceneList;
+        }
         String[] stringIds = sceneIds.split(",");
         Arrays.stream(stringIds).forEach((stringId) -> {
             Integer id = Integer.valueOf(stringId);
@@ -65,7 +66,7 @@ public class GameSceneService {
      * @param player 玩家
      * @return 相邻的场景
      */
-    public List<GameScene> getNeighborsSceneByPlayer(Player player) {
+    private List<GameScene> getNeighborsSceneByPlayer(Player player) {
         GameScene gameScene = getSceneByPlayer(player);
         return getNeighborsSceneByIds(gameScene.getNeighbors());
     }
@@ -107,16 +108,25 @@ public class GameSceneService {
     /**
      *  移动到某个场景
      * @param player 玩家
-     * @param gameScene 场景
+     * @param targetScene 场景
      */
-    public void moveToScene(Player player, GameScene gameScene) {
+    public void moveToScene(Player player, GameScene targetScene) {
         // 从旧场景移除
         player.getCurrentScene().getPlayers().remove(player.getId());
+        player.setScene(targetScene.getId());
 
-        player.setScene(gameScene.getId());
+        // 宠物相关
+        if (Objects.nonNull(player.getPet())) {
+            player.getCurrentScene().getMonsters().remove(player.getPet().getPetId());
+            targetScene.getMonsters().put(player.getPet().getPetId(),player.getPet());
+        }
+
         // 放入目的场景
-        gameScene.getPlayers().put(player.getId(), player);
-        player.setCurrentScene(gameScene);
+        targetScene.getPlayers().put(player.getId(), player);
+        player.setCurrentScene(targetScene);
+
+
+
     }
 
 

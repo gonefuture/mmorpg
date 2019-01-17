@@ -8,6 +8,7 @@ import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.scene.servcie.GameSceneService;
+import com.wan37.gameserver.game.skills.model.Pet;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -76,9 +77,16 @@ public class AOIController  {
             gameScene.getNpcs().values().forEach( npc -> sb.append(npc.displayData()).append("\n"));
 
             sb. append("场景内怪物: ").append("\n");
-            gameScene.getMonsters().values().forEach( monster -> sb.append(monster.displayData()).append("\n"));
-
-
+            gameScene.getMonsters().values().forEach(
+                    monster -> {
+                        if (monster instanceof Pet) {
+                            Pet pet = (Pet) monster;
+                            sb.append(MessageFormat.format("id:{1} name:{2} hp:{3} mp:{4} ({0}的宠物) 目标:{5} \n",
+                                    pet.getMaster().getName(),pet.getPetId(),pet.getName(),pet.getHp(),pet.getHp(),pet.getTarget())) ;
+                        } else {
+                            sb.append(monster.displayData()).append("\n");
+                        }
+                    });
         }
         message.setFlag((byte)1);
         message.setContent(sb.toString().getBytes());

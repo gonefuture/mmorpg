@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <pre> </pre>
@@ -57,6 +58,8 @@ public class MonsterDropsService {
 
         Bag bag = player.getBag();
         List<Drop> dropList = calculateDrop(sceneObject);
+        if (Objects.isNull(dropList))
+            return;
         for (Drop drop : dropList) {
             log.debug("drop {}", drop);
             int chance = drop.getChance();

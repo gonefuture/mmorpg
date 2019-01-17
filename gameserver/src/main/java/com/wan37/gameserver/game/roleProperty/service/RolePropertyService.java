@@ -74,12 +74,17 @@ public class RolePropertyService {
         thingPropertySet.forEach(
                 thingProperty -> {
                     // 改变属性
-                    RoleProperty playerProperty = playerPropertyMap.get(Optional.ofNullable(thingProperty.getKey()).orElse(-1));
-                    playerProperty.setValue(playerProperty.getValue() - thingProperty.getThingPropertyValue());
-                    // 防止出现负数的属性
-                    if (playerProperty.getValue() <0) {
-                        playerProperty.setValue(0);
-                    }
+                //  改变属性
+                    Optional<RoleProperty> playerProperty = Optional.ofNullable(thingProperty.getKey())
+                            .map(playerPropertyMap::get);
+                    playerProperty.ifPresent(p -> {
+                        p.setValue(p.getValue() - thingProperty.getThingPropertyValue());
+                        // 防止出现负数的属性
+                        if (p.getValue() <0) {
+                            p.setValue(0);
+                        }
+                    });
+
                 }
         );
 

@@ -11,6 +11,7 @@ import com.wan37.gameserver.game.sceneObject.model.NPC;
 import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.game.sceneObject.model.SceneObject;
 import com.wan37.gameserver.manager.notification.NotificationManager;
+import com.wan37.gameserver.util.SnowFlake;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -124,5 +125,15 @@ public class GameObjectService {
         notificationManager.notifyPlayer(player,sceneObject.getTalk());
     }
 
+
+
+    /**
+     *  场景对象id生成
+     */
+    public Long generateObjectId() {
+        // 使用推特的雪花算法
+        SnowFlake snowFlake = new SnowFlake(1, 1);
+        return snowFlake.nextId();
+    }
 
 }

@@ -99,7 +99,7 @@ public class SceneManager {
     private void monsterAttack(Monster monster,GameScene gameScene) {
 
         if (Objects.nonNull(monster.getTarget())) {
-            log.debug("怪物{}开始攻击,攻击目标是{}",monster.getName(), Optional.ofNullable(monster.getTarget()).map(Creature::getName));
+            log.debug("怪物{}开始攻击目标{}",monster.getName(),monster.getTarget().getName());
             monsterAIService.startAI(monster,gameScene);
         }
     }

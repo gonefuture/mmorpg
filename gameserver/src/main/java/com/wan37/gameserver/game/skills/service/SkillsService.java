@@ -199,7 +199,7 @@ public class SkillsService {
     }
 
     /**
-     *  自身使用技能
+     *  对自身使用技能
      */
     public void useSkillSelf(ChannelHandlerContext cxt, Integer skillId) {
         Skill skill = SkillsManager.get(skillId);
@@ -210,8 +210,11 @@ public class SkillsService {
             notificationManager.notifyCreature(player,"你现在不能使用这个技能");
             return;
         }
-        // 技能类型为4则对友方使用
-        if (skill.getSkillType().equals(SkillType.FRIENDLY.getTypeId())) {
+        // 技能类型为不需要选定目标的
+        if (skill.getSkillType().equals(SkillType.FRIENDLY.getTypeId())
+        || skill.getSkillType().equals(SkillType.CALL_PET.getTypeId())
+        || skill.getSkillType().equals(SkillType.ONLY_SELF.getTypeId())
+        ) {
             castSkill(player,player,gameScene,skill);
         } else {
             notificationManager.notifyCreature(player,"这个技能不能对自身或友方使用");

@@ -59,7 +59,7 @@ public class Player extends TPlayer   implements Creature  {
     private Pet pet;
 
     /** 玩家战力 **/
-    private int attack;
+    private Long attack;
 
     /**  受职业配置表和装备影响 */
     private Long hp;

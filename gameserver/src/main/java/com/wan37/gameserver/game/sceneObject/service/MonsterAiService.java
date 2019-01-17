@@ -57,16 +57,19 @@ public class MonsterAiService {
      * @param target 目标
      */
     private void monsterAttack(Monster monster, Creature target, GameScene gameScene) {
-        Integer attack = monster.getAttack();
+        Long attack = monster.getAttack();
         target.setHp(target.getHp() - attack);
 
         notificationManager.notifyScene(gameScene,
                 MessageFormat.format("{0}在攻击{1}，造成了{2}点伤害，{3}当前的hp为 {4} \n",
-                monster.getName(),target.getName(), monster.getAttack(),target.getName(),target.getHp()));
+                        monster.getName(),target.getName(), monster.getAttack(),target.getName(),target.getHp()));
 
         if (target instanceof Player) {
             playerDataService.isPlayerDead((Player) target,monster);
+        } else {
+            monsterBeAttack(monster,(Monster)target,gameScene,attack);
         }
+
     }
 
 
@@ -91,6 +94,8 @@ public class MonsterAiService {
                                         ,target.getName(),target.getHp()));
                         if (target instanceof Player) {
                             playerDataService.isPlayerDead((Player) target,monster);
+                        }  else {
+                            monsterBeAttack(monster,(Monster)target,gameScene,skill.getHurt());
                         }
                     }
                 }
@@ -107,6 +112,12 @@ public class MonsterAiService {
         Creature target = monster.getTarget();
         // 目标死了,不进行攻击
         if (target instanceof Player){
+            // 玩家不在场景内，不进行攻击
+            if (null == gameScene.getPlayers().get(target.getId())) {
+                monster.setTarget(null);
+                return;
+            }
+
             if (playerDataService.isPlayerDead((Player) target, monster)) {
                 monster.setTarget(null);
                 return;
@@ -118,11 +129,6 @@ public class MonsterAiService {
             return;
         }
 
-        // 玩家不在场景内，不进行攻击
-        if (null == gameScene.getPlayers().get(target.getId())) {
-            monster.setTarget(null);
-            return;
-        }
         // 怪物死亡了，不进行攻击
         if (monster.getHp() <=0 || monster.getState() == -1) {
             monster.setTarget(null);
@@ -143,6 +149,25 @@ public class MonsterAiService {
     }
 
 
+
+    /**
+     *  怪物被攻击并广播
+     * @param creature 玩家
+     * @param monster    怪物目标
+     * @param gameScene 游戏场景
+     * @param damage    伤害
+     */
+    public void notifyMonsterBeAttack(Creature creature,Monster monster,GameScene gameScene,Long damage) {
+
+        notificationManager.notifyScene(gameScene,
+                MessageFormat.format("{0} 受到 {1} 攻击，hp减少{2},当前hp为 {3} \n"
+                        ,monster.getName(),creature.getName(),damage ,monster.getHp()));
+        monsterBeAttack(creature,monster,gameScene,damage);
+    }
+
+
+
+
     /**
      *  怪物被攻击
      * @param creature 玩家
@@ -150,15 +175,12 @@ public class MonsterAiService {
      * @param gameScene 游戏场景
      * @param damage    伤害
      */
-    public void monsterBeAttack(Creature creature,Monster monster,GameScene gameScene,Integer damage) {
+    public void monsterBeAttack(Creature creature,Monster monster,GameScene gameScene,Long damage) {
 
         // 将怪物当前目标设置为玩家,让怪物攻击玩家
         if (Objects.isNull(monster.getTarget())) {
             monster.setTarget(creature);
         }
-        notificationManager.notifyScene(gameScene,
-                MessageFormat.format("{0} 受到{1}的攻击，hp减少{2},当前hp为 {3} \n"
-                        ,monster.getName(),creature.getName(),damage, monster.getHp()));
 
 
         Player player = null;
@@ -166,9 +188,9 @@ public class MonsterAiService {
             player = (Player) creature;
         }
 
-        if (creature instanceof Pet) {
+        if (creature instanceof Pet && ((Pet) creature).getMaster() instanceof Player) {
             Pet pet = (Pet) creature;
-            player = pet.getMaster();
+            player =  (Player) pet.getMaster();
         }
 
         if (Objects.nonNull(player)) {

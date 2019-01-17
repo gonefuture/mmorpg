@@ -1,6 +1,7 @@
 package com.wan37.gameserver.model;
 
 import com.wan37.gameserver.game.player.model.Buffer;
+import com.wan37.gameserver.game.skills.model.Pet;
 import com.wan37.gameserver.game.skills.model.Skill;
 
 
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 
 
-public interface Creature  {
+public interface Creature   {
 
     /** 活物的id */
     Long getId();
@@ -53,7 +54,17 @@ public interface Creature  {
     void setTarget(Creature target);
 
 
+    /**
+     *  获得宠物
+     * @return 宠物
+     */
+    Pet getPet();
 
+    /**
+     *  设置宠物
+     * @param pet 宠物
+     */
+    void setPet(Pet pet);
 
 
 

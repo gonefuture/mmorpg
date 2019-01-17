@@ -25,7 +25,7 @@ public class MonsterEventDeadEvent  extends Event {
     private Player player;
     private Monster target;
     private GameScene gameScene;
-    private Integer damage;
+    private Long damage;
 
 
 

@@ -147,7 +147,7 @@ public class PlayerDataService {
         int power  = Optional.ofNullable(rolePropertyMap.get(5).getValue()).orElse(100);
 
 
-        player.setAttack(basicAttack + power);
+        player.setAttack((long)basicAttack + power);
     }
 
 

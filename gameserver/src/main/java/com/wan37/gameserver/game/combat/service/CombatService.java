@@ -45,8 +45,7 @@ public class CombatService {
     @Resource
     private NotificationManager notificationManager;
 
-    @Resource
-    private MonsterDropsService monsterDropsService;
+
 
     @Resource
     private SkillsService skillsService;
@@ -64,9 +63,7 @@ public class CombatService {
     public void commonAttack(Player player, Long gameObjectId) {
 
         GameScene gameScene = gameSceneService.getSceneByPlayer(player);
-        Monster target;
-
-        target = gameScene.getMonsters().get(gameObjectId);
+        Monster target = gameScene.getMonsters().get(gameObjectId);
 
         if (target == null) {
             notificationManager.notifyPlayer(player,"攻击的目标不存在");
@@ -78,18 +75,19 @@ public class CombatService {
             target.setTarget(player);
         }
         // 攻击力
-        int attack = player.getAttack();
+        Long attack = player.getAttack();
 
         notificationManager.notifyScene(gameScene,
                 MessageFormat.format("玩家{0}  向 {1} 发动普通攻击,攻击力为 {2} \n",player.getName(),target.getName(), attack));
 
+        player.setTarget(target);
         if (target.getState() ==  -1) {
             notificationManager.notifyScene(gameScene,
                     MessageFormat.format("目标 {0} 已经死亡 \n",target.getName()));
             notificationManager.notifyPlayer(player,"不能攻击，目标已经死亡 \n");
         } else {
             target.setHp(target.getHp() - attack);
-            monsterAIService.monsterBeAttack(player,target,gameScene,player.getAttack());
+            monsterAIService.notifyMonsterBeAttack(player,target,gameScene,player.getAttack());
         }
     }
 
@@ -101,9 +99,9 @@ public class CombatService {
      */
     public void commonAttackByPVP(Player player, Player targetPlayer) {
         GameScene gameScene = gameSceneService.getSceneByPlayer(player);
-
+        player.setTarget(player);
         // 获取发起攻击者的战力
-        int attack = player.getAttack();
+        long attack = player.getAttack();
         notificationManager.notifyScene(gameScene,
                 MessageFormat.format("玩家 {0} 向 {1} 发起攻击，攻击力是{2} \n",
                         player.getName(),targetPlayer.getName(),attack));
@@ -172,7 +170,7 @@ public class CombatService {
         if (!skillsService.canSkill(player,skill)) {
             return;
         }
-
+        player.setTarget(targetPlayer);
         // 施放技能
         if (skillsService.castSkill(player,targetPlayer,gameScene, skill)) {
             TimedTaskManager.singleThreadSchedule(skill.getCastTime(), () ->
@@ -180,12 +178,6 @@ public class CombatService {
                             MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
                                     player.getName(),targetPlayer.getName(),skill.getName())));
 
-            // 通知攻击结果
-            if (skill.getHeal() >0) {
-                notificationManager.playerBeHealed(player,targetPlayer, skill.getHeal());
-            } else {
-                notificationManager.playerBeAttacked(player,targetPlayer, skill.getHurt());
-            }
 
             // 检测玩家是否死亡
             if (playerDataService.isPlayerDead(targetPlayer,player)) {
@@ -240,11 +232,16 @@ public class CombatService {
             notificationManager.notifyPlayer(player,"目标怪物不存在此场景");
             return;
         }
-
+        player.setTarget(target);
         // 使用技能
         if (skillsService.castSkill(player,target,gameScene,skill)) {
             TimedTaskManager.singleThreadSchedule(skill.getCastTime(),
-                    () -> monsterAIService.monsterBeAttack(player,target,gameScene,skill.getHurt().intValue()));
+                    () -> {
+                        monsterAIService.monsterBeAttack(player,target,gameScene,skill.getHurt());
+                        notificationManager.notifyScene(gameScene,
+                                MessageFormat.format("{0} 受到 {1} 的技能 {2} 攻击，hp减少{3},当前hp为 {4} \n"
+                                        ,target.getName(),player.getName(),skill.getName(),skill.getHurt(), target.getHp()));
+            });
 
         }
     }

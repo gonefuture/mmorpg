@@ -1,11 +1,8 @@
 package com.wan37.gameserver.game.sceneObject.model;
-/*
- *  @author : 钱伟健 gonefuture@qq.com
- *  @version : 2018/10/30 23:39.
- *  说明：
- */
+
 
 import com.wan37.gameserver.game.player.model.Buffer;
+import com.wan37.gameserver.game.skills.model.Pet;
 import com.wan37.gameserver.game.skills.model.Skill;
 import com.wan37.gameserver.model.Creature;
 import com.wan37.gameserver.model.IExcel;
@@ -17,9 +14,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+
 /**
- * <pre> </pre>
+ *  @author : 钱伟健 gonefuture@qq.com
+ *  @version : 2018/10/30 23:39.
+ *  说明： 场景对象，包括怪物,npc,宠物
  */
+
 
 @Data
 public class SceneObject implements IExcel<Long>  {
@@ -37,7 +38,7 @@ public class SceneObject implements IExcel<Long>  {
     private Long mp;
 
     @EntityName(column = "攻击力")
-    private Integer attack;
+    private Long attack;
 
     @EntityName(column = "交谈文本")
     private String talk = "";
@@ -71,6 +72,9 @@ public class SceneObject implements IExcel<Long>  {
 
     // 当前攻击对象
     private Creature target;
+
+    /** 宠物 **/
+    private Pet pet;
 
 
 
