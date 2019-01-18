@@ -30,17 +30,27 @@ import java.util.List;
 public class UserController  {
 
 
-    {
-        ControllerManager.add(MsgId.USER_LOGIN,this::userLogin);
-        ControllerManager.add(MsgId.LIST_GAME_ROLES,this::roleList);
-    }
-
-
     @Resource
     private UserService userService;
 
     @Resource
     private NotificationManager notificationManager;
+
+
+    {
+        ControllerManager.add(MsgId.USER_LOGIN,this::userLogin);
+        ControllerManager.add(MsgId.LIST_GAME_ROLES,this::roleList);
+        ControllerManager.add(MsgId.USER_CREATE,this::userCreate);
+    }
+
+    private void userCreate(ChannelHandlerContext ctx, Message message) {
+        String[] args = ParameterCheckUtil.checkParameter(ctx,message,4);
+        String userName = args[1];
+        String password = args[2];
+        String phone = args[3];
+        userService.register(ctx,userName,password,phone);
+
+    }
 
 
 

@@ -11,12 +11,14 @@ import com.wan37.mysql.pojo.entity.TPlayer;
 import com.wan37.mysql.pojo.entity.TPlayerExample;
 
 import com.wan37.mysql.pojo.entity.TUser;
+import com.wan37.mysql.pojo.entity.TUserExample;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import com.wan37.mysql.pojo.mapper.TUserMapper;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -58,7 +60,8 @@ public class UserService {
 
         User user = Optional.ofNullable(userCache)
                 .orElseGet(
-                        () -> { // 缓存中不存在用户,或者当前连接在线的不是现在要登陆的账号，如果缓存中不存在用户返回null
+                        () -> {
+                            // 缓存中不存在用户,或者当前连接在线的不是现在要登陆的账号，如果缓存中不存在用户返回null
                             TUser tUser = tUserMapper.selectByPrimaryKey(userId);
                             return Optional.ofNullable(tUser)
                                     .map(tU -> {
@@ -125,5 +128,36 @@ public class UserService {
 
     public boolean isUserOnline(ChannelHandlerContext ctx) {
         return UserCacheManger.getUserByCtx(ctx) != null;
+    }
+
+
+    public void register(ChannelHandlerContext ctx,String userName, String password,String phone) {
+        TUser tUser = new TUser();
+        tUser.setName(userName);
+        tUser.setPassword(password);
+        tUser.setPhone(phone);
+        try {
+            tUserMapper.insertSelective(tUser);
+        } catch(DuplicateKeyException e) {
+            NotificationManager.notifyByCtx(ctx,"用户名已经存在");
+            return;
+        }
+        TUserExample tUserExample = new TUserExample();
+        tUserExample.or().andNameEqualTo(userName);
+        List<TUser> newUserList = tUserMapper.selectByExample(tUserExample);
+        if (newUserList.size()> 0) {
+            TUser newUser = newUserList.get(0);
+            NotificationManager.notifyByCtx(ctx,MessageFormat.format("账户注册成功，你的登陆id是{0},用户名是{1}",
+            newUser.getId(),newUser.getName()));
+        } else {
+            NotificationManager.notifyByCtx(ctx,"没有注册成功");
+        }
+    }
+
+    /**
+     *  通过连接上下文找到用户
+     */
+    public User getUserByCxt(ChannelHandlerContext ctx) {
+        return UserCacheManger.getUserByCtx(ctx);
     }
 }

@@ -12,6 +12,8 @@ import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.game.scene.servcie.GameSceneService;
 import com.wan37.gameserver.game.user.service.UserService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
+import com.wan37.gameserver.model.User;
 import com.wan37.gameserver.util.ParameterCheckUtil;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -32,21 +35,11 @@ import java.util.Optional;
 @Controller
 @Slf4j
 public class PlayerController {
-
-    {
-        ControllerManager.add(MsgId.PLAYER_LOGIN,this::playerLogin);
-        ControllerManager.add(MsgId.PLAYER_EXIT,this::playerQuit);
-        ControllerManager.add(MsgId.SHOW_PLAYER,this::showPlayer);
-    }
-
-
     @Resource
     private PlayerDataService playerDataService;
 
     @Resource
     private PlayerLoginService playerLoginService;
-
-
 
     @Resource
     private UserService userService;
@@ -56,6 +49,32 @@ public class PlayerController {
 
     @Resource
     private PlayerQuitService playerQuitService;
+
+
+    {
+        ControllerManager.add(MsgId.PLAYER_LOGIN,this::playerLogin);
+        ControllerManager.add(MsgId.PLAYER_EXIT,this::playerQuit);
+        ControllerManager.add(MsgId.SHOW_PLAYER,this::showPlayer);
+        ControllerManager.add(MsgId.ROLE_CREATE,this::roleCreate);
+
+    }
+
+    private void roleCreate(ChannelHandlerContext ctx, Message message) {
+        User user = userService.getUserByCxt(ctx);
+        if (Objects.isNull(user)) {
+            NotificationManager.notifyByCtx(ctx,"创建角色前需要登陆账号");
+            return;
+        }
+
+        String[] args = ParameterCheckUtil.checkParameter(ctx,message,3);
+        String roleName = args[1];
+        Integer roleClass = Integer.valueOf(args[2]);
+        playerLoginService.roleCreate(ctx,roleName,roleClass,user.getId());
+
+
+    }
+
+
 
 
     /**

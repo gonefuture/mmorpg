@@ -2,18 +2,23 @@ package com.wan37.gameserver.game.player.service;
 
 
 import com.wan37.gameserver.game.player.model.Player;
+import com.wan37.gameserver.game.scene.model.CommonSceneId;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import com.wan37.gameserver.model.User;
 import com.wan37.gameserver.game.player.manager.PlayerCacheMgr;
 import com.wan37.gameserver.game.user.manager.UserCacheManger;
 import com.wan37.gameserver.game.user.service.UserService;
 import com.wan37.mysql.pojo.entity.TPlayer;
+import com.wan37.mysql.pojo.entity.TPlayerExample;
 import com.wan37.mysql.pojo.mapper.TPlayerMapper;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.List;
 
 
@@ -99,5 +104,39 @@ public class PlayerLoginService {
             }
         }
         return  false;
+    }
+
+    /**
+     *  创建新角色
+     * @param roleName  角色名字，数据路唯一
+     * @param roleClass   职业
+     * @param userId    用户id
+     */
+    public void roleCreate(ChannelHandlerContext ctx, String roleName, Integer roleClass, Long userId) {
+        TPlayer tPlayer = new TPlayer();
+        tPlayer.setName(roleName);
+        tPlayer.setRoleClass(roleClass);
+        tPlayer.setUserId(userId);
+        tPlayer.setScene(CommonSceneId.BEGIN_SCENE.getId());
+
+        try {
+            tPlayerMapper.insertSelective(tPlayer);
+        } catch( DuplicateKeyException e) {
+            NotificationManager.notifyByCtx(ctx,"角色名已经存在");
+            return;
+        }
+        TPlayerExample tPlayerExample = new TPlayerExample();
+        tPlayerExample.or().andNameEqualTo(roleName);
+        List<TPlayer> tPlayerList = tPlayerMapper.selectByExample(tPlayerExample);
+        if (tPlayerList.size() > 0) {
+            TPlayer newPlayer = tPlayerList.get(0);
+            NotificationManager.notifyByCtx(ctx, MessageFormat.format("角色创建成功，登陆命id是{0}，名字是{1}",
+                    newPlayer.getId(),newPlayer.getName()));
+        }else {
+            NotificationManager.notifyByCtx(ctx,"角色创建失败");
+        }
+
+
+
     }
 }

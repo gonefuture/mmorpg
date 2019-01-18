@@ -82,7 +82,7 @@ public class AOIController  {
                         if (monster instanceof Pet) {
                             Pet pet = (Pet) monster;
                             sb.append(MessageFormat.format("id:{1} name:{2} hp:{3} mp:{4} ({0}的宠物) 目标:{5} \n",
-                                    pet.getMaster().getName(),pet.getPetId(),pet.getName(),pet.getHp(),pet.getHp(),pet.getTarget())) ;
+                                    pet.getMaster().getName(),pet.getPetId(),pet.getName(),pet.getHp(),pet.getHp(),pet.getTarget().getName())) ;
                         } else {
                             sb.append(monster.displayData()).append("\n");
                         }

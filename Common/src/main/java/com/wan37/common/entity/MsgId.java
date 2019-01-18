@@ -19,6 +19,15 @@ import java.util.Map;
 public enum MsgId {
 
 
+
+
+    // 创建用户
+    USER_CREATE("user_create",900),
+
+    // 创建角色
+    ROLE_CREATE("role_create",9001),
+
+
     // 玩家登陆, 参数为 用户账号和密码，例： login 2 123456
     USER_LOGIN("login",1001),
 
