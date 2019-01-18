@@ -56,16 +56,15 @@ public class InstanceService {
 
 
 
-
     /**
      *  进入副本，将副本与玩家绑定起来
      */
     public GameInstance enterInstance(Player player, Integer instanceId) {
 
         // 初始化好的副本场景
-        GameInstance gameInstance = initGameInstance(player,instanceId);
+        GameInstance gameInstance = initGameInstance(instanceId);
 
-        if (null == gameInstance || null == gameInstance.getInstanceTime()) {
+        if (Objects.isNull(gameInstance) || Objects.isNull(gameInstance.getInstanceTime())) {
             return null;
         }
         // 记录玩家原先的位置
@@ -75,6 +74,31 @@ public class InstanceService {
 
         return gameInstance;
     }
+
+
+
+
+
+    public GameInstance enterTeamInstance(Collection<Player> players, Integer instanceId) {
+        // 初始化好的副本场景
+        GameInstance gameInstance = initGameInstance(instanceId);
+
+        if (Objects.isNull(gameInstance) || Objects.isNull(gameInstance.getInstanceTime())) {
+            return null;
+        }
+        players.forEach(
+                player -> {
+                    // 记录玩家原先的位置
+                    gameInstance.getPlayerFrom().put(player.getId(),player.getScene());
+                    // 进入副本
+                    gameSceneService.moveToScene(player,gameInstance);
+                }
+        );
+
+        return gameInstance;
+
+    }
+
 
 
 
@@ -123,11 +147,10 @@ public class InstanceService {
 
     /**
      *  初始化的副本实例
-     * @param player 玩家
      * @param instanceId 副本id
      * @return 一个初始化好的副本实例
      */
-    private GameInstance initGameInstance(Player player, Integer instanceId) {
+    private GameInstance initGameInstance( Integer instanceId) {
         GameScene sceneTemplate = SceneCacheMgr.getScene(instanceId);
         // 如果不是副本，返回null
         if (!sceneTemplate.getType().equals(SceneType.INSTANCE_SCENE.getType())) {

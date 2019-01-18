@@ -14,9 +14,11 @@ import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.swing.text.html.Option;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -52,14 +54,15 @@ public class TeamService {
      */
     public boolean inviteTeam(Player invitor,Player invitee) {
         // 如果被要求者已经有队伍了，不能组队
-        if (!invitee.getTeamId().isEmpty())
+        if (!invitee.getTeamId().isEmpty()) {
             return false;
+        }
 
         Long invitorIdNow = TeamManager.getTeamRequest(invitee.getId());
         // 如果当前有人正在邀请玩家，则不能组队
-        if (null != invitorIdNow)
+        if (null != invitorIdNow) {
             return false;
-
+        }
         //保存组队请求
         TeamManager.putTeamRequest(invitee.getId(),invitor.getId());
 
@@ -74,10 +77,10 @@ public class TeamService {
      */
     public void leaveTeam(ChannelHandlerContext ctx) {
         Player leaver = playerDataService.getPlayerByCtx(ctx);
-        if (leaver.getTeamId().isEmpty()) {
+        Team team = TeamManager.getTeam(leaver.getTeamId());
+        if (leaver.getTeamId().isEmpty() || Objects.isNull(team)) {
             notificationManager.notifyPlayer(leaver,"你并不在任何队伍里");
         } else {
-            Team team = TeamManager.getTeam(leaver.getTeamId());
             team.getTeamPlayer().remove(leaver.getId());
             leaver.setTeamId("");
             // 如果退出者是队长，随机指定一个队员作为队长
@@ -107,7 +110,7 @@ public class TeamService {
          // 检测发起组队的玩家是否已经有队伍
         if (invitorTeamId.isEmpty()) {
             // 新建队伍
-            Map<Long,Player> playerMap = new ConcurrentHashMap<>();
+            Map<Long,Player> playerMap = new ConcurrentHashMap<>(5);
             playerMap.putIfAbsent(invitor.getId(), invitor);
             playerMap.putIfAbsent(invitee.getId(),invitee) ;
             String teamId = invitor.getId().toString();
@@ -159,7 +162,6 @@ public class TeamService {
                             }
                     )
             );
-
         }
     }
 
@@ -169,13 +171,14 @@ public class TeamService {
      * @param instanceId 副本id
      */
     public void teamInstance(Team team, Integer instanceId) {
-        Player captain = team.getTeamPlayer().get(team.getCaptainId());
-        GameInstance gameInstance = instanceService.enterInstance(captain,instanceId);
 
-        team.getTeamPlayer().values()
-                .forEach(player -> gameSceneService.moveToScene(player,gameInstance));
+        instanceService.enterTeamInstance(team.getTeamPlayer().values(),instanceId);
+
         team.getTeamPlayer().values()
                 .forEach(player -> notificationManager.notifyPlayer(player,MessageFormat.format("{0}进入副本",
                         player.getName())));
     }
+
+
+
 }

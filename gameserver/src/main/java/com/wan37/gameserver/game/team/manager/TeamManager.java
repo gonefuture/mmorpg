@@ -33,9 +33,6 @@ public class TeamManager {
 
 
     public static Team getTeam(String id) {
-        // 如果队伍id是默认的空，则返回null
-       if (id.isEmpty())
-            return null;
         return teamCache.getIfPresent(id);
     }
 
