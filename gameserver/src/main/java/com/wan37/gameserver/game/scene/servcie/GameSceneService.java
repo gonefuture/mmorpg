@@ -148,7 +148,6 @@ public class GameSceneService {
             return;
         }
         scene.getPlayers().put(player.getId(),player);
-        log.debug("当前场景{}",scene);
         player.setCurrentScene(scene);
     }
 

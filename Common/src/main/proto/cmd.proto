@@ -1,0 +1,6 @@
+syntax = "proto3";
+option java_outer_classname = "CmdProto";
+message Cmd {
+  int32 mgsId = 1;
+  string content = 2;
+}

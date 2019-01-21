@@ -201,7 +201,7 @@ public class InstanceService {
      */
     private void startTick(GameInstance gameInstance) {
 
-        // 副本500ms进行心跳一次
+        // 副本60ms进行心跳一次
 
         ScheduledFuture<?> attackTask = gameInstance.getSingleThreadSchedule().scheduleWithFixedDelay( () -> {
 
@@ -223,15 +223,15 @@ public class InstanceService {
                             gameInstance.setGuardBoss(nextBoss(gameInstance));
                             monsterMap.remove(guardBoss.getKey());
                         } else {
-                            // 如果boss尚未死亡，攻击玩家
+                            // 如果boss尚未死亡，检测玩家玩家状态
                             if (!gameInstance.getFail()) {
-                                // 守关boos主动攻击场景内玩家
+                                // 设置怪物的攻击目标
+                                if (Objects.isNull(boss.getTarget())) {
+                                    gameInstance.getPlayers().values().stream().findAny()
+                                            .ifPresent(boss::setTarget);
+                                }
                                 gameInstance.getPlayers().values().forEach(
                                         player -> {
-                                            // 开始怪物自动攻击的AI
-                                            if (Objects.isNull(boss.getTarget())) {
-                                                boss.setTarget(player);
-                                            }
                                             if (player.getHp() < 0) {
                                                 notificationManager.notifyPlayer(player,"很遗憾，你挑战副本失败");
                                                 exitInstance(player,gameInstance);
@@ -242,10 +242,12 @@ public class InstanceService {
                         }
                     }
             );
+            gameInstance.getMonsters().values().forEach( m -> {
+                if (Objects.nonNull(m.getTarget())) {
+                    monsterAIService.startAI(m, gameInstance);
+                }});
 
-
-            gameInstance.getMonsters().values().forEach( m -> monsterAIService.startAI(m, gameInstance));
-        },0,500, TimeUnit.MILLISECONDS);
+        },20,60, TimeUnit.MILLISECONDS);
 
         // 副本存活时间到期， 销毁副本，传送玩家出副本。 根据副本存在时间销毁副本定时器
         TimedTaskManager.schedule(gameInstance.getInstanceTime(), () -> {

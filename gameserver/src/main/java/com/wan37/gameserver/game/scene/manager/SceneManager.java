@@ -51,8 +51,7 @@ public class SceneManager {
     @Resource
     private MonsterAiService monsterAIService;
 
-    @Resource
-    private PlayerDataService playerDataService;
+
 
 
 
@@ -60,7 +59,7 @@ public class SceneManager {
     private void tick() {
         sceneLoop.scheduleWithFixedDelay(
                 this::refreshScene,
-                1000, 20, TimeUnit.MILLISECONDS);
+                1000, 60, TimeUnit.MILLISECONDS);
         log.debug("场景定时器启动");
     }
 
@@ -99,7 +98,6 @@ public class SceneManager {
     private void monsterAttack(Monster monster,GameScene gameScene) {
 
         if (Objects.nonNull(monster.getTarget())) {
-            log.debug("怪物{}开始攻击目标{}",monster.getName(),monster.getTarget().getName());
             monsterAIService.startAI(monster,gameScene);
         }
     }

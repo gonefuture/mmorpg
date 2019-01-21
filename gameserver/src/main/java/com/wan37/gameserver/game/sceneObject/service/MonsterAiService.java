@@ -87,11 +87,7 @@ public class MonsterAiService {
                 skillId -> {
                     // 如果技能存在，则释放技能
                     Skill skill = skillsService.getSkill(skillId);
-                    if (skillsService.canSkill(monster,skill) && skillsService.castSkill(monster,target,gameScene,skill)) {
-                        notificationManager.notifyScene(gameScene,
-                                MessageFormat.format("{0} 对 {1}用技能 {2}， 造成了{3}点伤害，{4} 当前的hp为 {5}\n",
-                                        monster.getName(), target.getName(),skill.getName(),skill.getHurt()
-                                        ,target.getName(),target.getHp()));
+                    if (skillsService.castSkill(monster,target,gameScene,skill)) {
                         if (target instanceof Player) {
                             playerDataService.isPlayerDead((Player) target,monster);
                         }  else {
@@ -206,8 +202,6 @@ public class MonsterAiService {
         }
 
     }
-
-
 
 
 
