@@ -111,22 +111,23 @@ public class SkillsService {
             notificationManager.notifyCreature(initiator,
                     MessageFormat.format("开始施法，吟唱需要{0}秒",skill.getCastTime()/1000));
             // 开启技能冷却
-            //startSkillCd(initiator, skill);
+            startSkillCd(initiator, skill);
             // 按吟唱时间延迟执行
             TimedTaskManager.singleThreadSchedule( skill.getCastTime(),
-                    () -> {
-                            notificationManager.notifyScene(gameScene,
-                                MessageFormat.format(" {0}  对 {1} 使用了 {2} 技能",
-                                        initiator.getName(),target.getName(),skill.getName()));
-                            gameScene.getSingleThreadSchedule().execute(
-                                    () -> {
-                                        // 注意，这里的技能进行还是要用场景执行器执行，不然会导致多线程问题
-                                        skillEffect.castSkill(skill.getSkillType(), initiator, target, gameScene, skill);
-                                    }
-                            );
-                        }
+                    () -> gameScene.getSingleThreadSchedule().execute(
+                            () -> {
+                                notificationManager.notifyScene(gameScene,
+                                        MessageFormat.format(" {0}  对 {1} 使用了技能  {2} ",
+                                                initiator.getName(),target.getName(),skill.getName()));
+                                // 注意，这里的技能进行还是要用场景执行器执行，不然会导致多线程问题
+                                skillEffect.castSkill(skill.getSkillType(), initiator, target, gameScene, skill);
+                            }
+                    )
             );
         } else {
+            notificationManager.notifyScene(gameScene,
+                    MessageFormat.format(" {0}  对 {1} 使用了技能  {2} ",
+                            initiator.getName(),target.getName(),skill.getName()));
             skillEffect.castSkill(skill.getSkillType(),initiator,target,gameScene,skill);
             // 开启技能冷却
             startSkillCd(initiator,skill);

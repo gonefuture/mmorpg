@@ -8,6 +8,7 @@ import com.wan37.gameserver.game.skills.model.Skill;
 import com.wan37.gameserver.game.skills.model.SkillType;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import com.wan37.gameserver.model.Creature;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import java.util.Optional;
  * Description: 技能作用
  */
 @Component
+@Slf4j
 public class SkillEffect {
 
     @Resource
@@ -36,15 +38,6 @@ public class SkillEffect {
 
 
     private  Map<Integer, ISkillEffect>  skillEffectMap = new HashMap<>();
-
-
-    {
-        skillEffectMap.put(SkillType.ATTACK_SINGLE.getTypeId(),this::attackSingle);
-        skillEffectMap.put(SkillType.CALL_PET.getTypeId(),this::callPet);
-        skillEffectMap.put(SkillType.TAUNT.getTypeId(),this::taunt);
-        skillEffectMap.put(SkillType.FRIENDLY.getTypeId(),this::friendly);
-
-    }
 
 
     /**
@@ -64,6 +57,34 @@ public class SkillEffect {
     }
 
 
+    {
+        skillEffectMap.put(SkillType.ATTACK_SINGLE.getTypeId(),this::attackSingle);
+        skillEffectMap.put(SkillType.CALL_PET.getTypeId(),this::callPet);
+        skillEffectMap.put(SkillType.TAUNT.getTypeId(),this::taunt);
+        skillEffectMap.put(SkillType.FRIENDLY.getTypeId(),this::friendly);
+        // 群体攻击技能
+        skillEffectMap.put(SkillType.ATTACK_MULTI.getTypeId(),this::attackSMulti);
+
+    }
+
+    /**
+     *  群体攻击技能
+     */
+    private void attackSMulti(Creature initiator, Creature target, GameScene gameScene, Skill skill) {
+        // 消耗mp和损伤目标hp
+        initiator.setMp(initiator.getMp() - skill.getMpConsumption());
+        target.setHp(target.getHp() - skill.getHurt());
+        target.setHp(target.getHp() + skill.getHeal());
+        notificationManager.notifyScene(gameScene,
+                MessageFormat.format(" {0} 受到 {1} 群体攻击技能 {2}攻击，  hp减少{3},当前hp为 {4}\n",
+                        target.getName(),initiator.getName(),skill.getName(),skill.getHurt(), target.getHp()));
+
+    }
+
+
+
+
+
 
     /**
      *  施放单体攻击技能造成影响
@@ -78,10 +99,6 @@ public class SkillEffect {
         target.setHp(target.getHp() - skill.getHurt());
         target.setHp(target.getHp() + skill.getHeal());
 
-        notificationManager.notifyScene(gameScene,
-                MessageFormat.format(" {0} 受到 {1} 技能 {2}攻击，  hp减少{3},当前hp为 {4}\n",
-                        target.getName(),initiator.getName(),skill.getName(),skill.getHurt(), target.getHp()));
-
         // 如果技能触发的buffer不是0，则对敌方单体目标释放buffer
         if (!skill.getBuffer().equals(0)) {
             Buffer buffer = bufferService.getTBuffer(skill.getBuffer());
@@ -90,6 +107,10 @@ public class SkillEffect {
                     (b) -> bufferService.startBuffer(target,b)
             );
         }
+
+        notificationManager.notifyScene(gameScene,
+                MessageFormat.format(" {0} 受到 {1} 技能 {2}攻击，  hp减少{3},当前hp为 {4}\n",
+                        target.getName(),initiator.getName(),skill.getName(),skill.getHurt(), target.getHp()));
     }
 
     /**
@@ -112,6 +133,10 @@ public class SkillEffect {
         initiator.setMp(initiator.getMp() - skill.getMpConsumption());
         target.setHp(target.getHp() - skill.getHurt());
         target.setHp(target.getHp() + skill.getHeal());
+
+        notificationManager.notifyScene(gameScene,
+                MessageFormat.format(" {0} 受到 {1} 技能 {2}攻击，  hp减少{3},当前hp为 {4}， {0}受到嘲讽\n",
+                        target.getName(),initiator.getName(),skill.getName(),skill.getHurt(), target.getHp()));
 
     }
 
