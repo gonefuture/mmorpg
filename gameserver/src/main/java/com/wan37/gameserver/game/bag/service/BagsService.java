@@ -206,8 +206,8 @@ public class BagsService {
             key, value.getThingInfo().getName(), value.getThingInfo().getPart(),
                     value.getCount(), value.getThingInfo().getDescribe()));
             // 遍历物品属性
-            Set<RoleProperty> rolePropertyList = value.getThingInfo().getThingRoleProperty();
-            rolePropertyList.forEach(
+            Map<Integer,RoleProperty> rolePropertyList = value.getThingInfo().getThingRoleProperty();
+            rolePropertyList.values().forEach(
                     roleProperty ->
                         sb.append(MessageFormat.format("{0}:{1} "
                                 , roleProperty.getName(), roleProperty.getThingPropertyValue()))

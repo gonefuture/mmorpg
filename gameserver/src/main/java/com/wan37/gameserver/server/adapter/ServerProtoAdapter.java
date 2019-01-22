@@ -26,7 +26,7 @@ import javax.annotation.Resource;
 @Slf4j
 @ChannelHandler.Sharable
 @Component
-public class ServerPoHandlerProto  extends ChannelInboundHandlerAdapter {
+public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
 
 
     @Resource

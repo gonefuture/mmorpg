@@ -59,7 +59,7 @@ public class ThingInfoService {
                         RoleProperty roleProperty = rolePropertyService.getRoleProperty(rolePropertyId);
                         roleProperty.setThingPropertyValue(thingProperty.getValue());
                         thingInfo.getThingRoleProperty()
-                                .add(roleProperty);
+                                .put(roleProperty.getKey(),roleProperty);
                     }
                 }
             );

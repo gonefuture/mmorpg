@@ -84,7 +84,7 @@ public class SceneManager {
      */
     private void refreshDeadCreature(SceneObject creature) {
         if (creature.getState() == -1 &&
-                creature.getDeadTime()+ creature.getRefreshTime() <System.currentTimeMillis()) {
+                creature.getDeadTime()+ creature.getRefreshTime() < System.currentTimeMillis()) {
             SceneObject sceneObject = gameObjectManager.get(creature.getId());
             creature.setHp(sceneObject.getHp());
             creature.setState(sceneObject.getState());

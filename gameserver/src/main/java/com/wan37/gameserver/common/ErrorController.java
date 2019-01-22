@@ -1,9 +1,12 @@
 package com.wan37.gameserver.common;
 
 import com.wan37.common.entity.Message;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.text.MessageFormat;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -17,9 +20,6 @@ public class ErrorController implements IController {
     @Override
     public void handle(ChannelHandlerContext ctx, Message message) {
         log.debug("请求的服务不存在");
-        message.setContent(("你请求的服务不存在.. 你请求的信息为： "+
-                new String(message.getContent())).getBytes()
-        );
-        ctx.writeAndFlush(message);
+        NotificationManager.notifyByCtx(ctx, MessageFormat.format("你请求的服务不存在.. 你请求的信息为： ",message.getContent()));
     }
 }

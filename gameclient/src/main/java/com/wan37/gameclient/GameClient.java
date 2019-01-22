@@ -1,13 +1,11 @@
 package com.wan37.gameclient;
 
 
-import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
-import com.wan37.gameclient.coder.MessageDecoder;
-import com.wan37.gameclient.coder.MessageEncoder;
+import com.wan37.common.entity.Cmd;
+import com.wan37.common.proto.CmdProto;
+import com.wan37.gameclient.adapter.ClientProtoAdapter;
 
 
-import com.wan37.gameclient.handler.GameClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
@@ -16,6 +14,10 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.channel.Channel;
 
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -60,10 +62,16 @@ public class GameClient {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ch.pipeline()
-                        .addLast(new MessageEncoder())
-                        .addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
+                        //.addLast(new MessageEncoder())
+                        //.addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
+                        //.addLast(new GameClientHandler())
+                        .addLast(new ProtobufVarint32FrameDecoder())
+                        .addLast("proto-decoder",
+                                new ProtobufDecoder(CmdProto.Cmd.getDefaultInstance()))
+                        .addLast(new ProtobufVarint32LengthFieldPrepender())
+                        .addLast("proto-encoder", new ProtobufEncoder())
                         // 处理器
-                        .addLast(new GameClientHandler())
+                        .addLast(new ClientProtoAdapter())
                 ;
                 channel = ch;
             }
@@ -106,18 +114,18 @@ public class GameClient {
                 if (StringUtils.equalsIgnoreCase(content, "q")) {
                     System.exit(1);
                 }
-                //log.debug("客户端发送的信息： "+content);
                 String[] array = content.split("\\s+");
-                Message message = new Message();
-                MsgId msgId = MsgId.findByCommand(array[0],MsgId.UNKNOWN);
-                message.setMsgId(msgId.getMsgId());
-                message.setType((byte)1);
-                message.setContent(content.getBytes());
-                channel.writeAndFlush(message);
+                Cmd msgId = Cmd.findByCommand(array[0], Cmd.UNKNOWN);
+
+                CmdProto.Cmd cmd = CmdProto.Cmd.newBuilder()
+                        .setMgsId(msgId.getMsgId())
+                        .setContent(content).build();
+
+                channel.writeAndFlush(cmd);
             }
         }
     }
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         new GameClient().run();
     }
 }

@@ -2,6 +2,7 @@ package com.wan37.gameserver.util;
 
 
 import com.wan37.common.entity.Message;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -17,14 +18,12 @@ public final class ParameterCheckUtil {
     public static String[] checkParameter(ChannelHandlerContext ctx, Message message,int parameterNumber) {
         String[] args;
         try {
-            args = new String(message.getContent()).split("\\s+");
+            args = message.getContent().split("\\s+");
             if (args.length != parameterNumber) {
                 throw new IndexOutOfBoundsException();
             }
         }catch (IndexOutOfBoundsException e) {
-            message.setFlag((byte) 1);
-            message.setContent("您输入的参数数目不正确！".getBytes());
-            ctx.writeAndFlush(message);
+            NotificationManager.notifyByCtx(ctx,message);
             throw new RuntimeException(e);
         }
         return args;

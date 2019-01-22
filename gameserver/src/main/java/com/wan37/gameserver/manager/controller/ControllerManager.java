@@ -1,8 +1,8 @@
 package com.wan37.gameserver.manager.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
 import com.wan37.gameserver.common.IController;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
@@ -34,17 +34,17 @@ public class ControllerManager {
 
 
     /** MsgId标志和服务之间的映射 */
-    private final static Map<MsgId,IController> CONTROLLER_MAP = new ConcurrentHashMap<>();
+    private final static Map<Cmd,IController> CONTROLLER_MAP = new ConcurrentHashMap<>();
     
-    public static void add(MsgId msgId, IController controller) {
-        CONTROLLER_MAP.put(msgId, controller);
+    public static void add(Cmd cmd, IController controller) {
+        CONTROLLER_MAP.put(cmd, controller);
     }
 
 
 
     public IController get(int msgId) {
         // 通过int的msgId找到枚举的MsgId
-        return CONTROLLER_MAP.get(MsgId.find(msgId,MsgId.UNKNOWN));
+        return CONTROLLER_MAP.get(Cmd.find(msgId, Cmd.UNKNOWN));
     }
 
     /**

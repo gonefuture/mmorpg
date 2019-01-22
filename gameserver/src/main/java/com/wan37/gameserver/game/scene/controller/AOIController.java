@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.scene.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 
 import com.wan37.gameserver.game.player.model.Player;
 
@@ -10,6 +10,7 @@ import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.scene.servcie.GameSceneService;
 import com.wan37.gameserver.game.skills.model.Pet;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,6 @@ import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -33,8 +33,8 @@ public class AOIController  {
 
 
     {
-        ControllerManager.add(MsgId.AOI,this::aoi);
-        ControllerManager.add(MsgId.LOCATION,this::location);
+        ControllerManager.add(Cmd.AOI,this::aoi);
+        ControllerManager.add(Cmd.LOCATION,this::location);
     }
 
 
@@ -91,9 +91,8 @@ public class AOIController  {
                         }
                     });
         }
-        message.setFlag((byte)1);
-        message.setContent(sb.toString().getBytes());
-        ctx.writeAndFlush(message);
+
+        NotificationManager.notifyByCtx(ctx,sb);
     }
 
 
@@ -112,9 +111,7 @@ public class AOIController  {
                 neighbor -> neighbors.append(MessageFormat.format("{0}: {1} ",neighbor.getId(), neighbor.getName() ))
         );
 
-        message.setFlag((byte) 1);
-        message.setContent(neighbors.toString().getBytes());
-        ctx.writeAndFlush(message);
+        NotificationManager.notifyByCtx(ctx,neighbors);
     }
 
 

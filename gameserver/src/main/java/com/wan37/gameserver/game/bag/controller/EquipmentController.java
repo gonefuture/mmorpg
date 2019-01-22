@@ -1,8 +1,8 @@
 package com.wan37.gameserver.game.bag.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Msg;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.bag.model.Item;
 import com.wan37.gameserver.game.bag.service.BagsService;
 import com.wan37.gameserver.game.player.model.Player;
@@ -30,9 +30,9 @@ import java.util.Map;
 @Controller
 public class EquipmentController  {
     {
-        ControllerManager.add(MsgId.SHOW_EQUIPMENT_BAR,this::showEquip);
-        ControllerManager.add(MsgId.EQUIP,this::equip);
-        ControllerManager.add(MsgId.REMOVE_EQUIP,this::removeEquip);
+        ControllerManager.add(Cmd.SHOW_EQUIPMENT_BAR,this::showEquip);
+        ControllerManager.add(Cmd.EQUIP,this::equip);
+        ControllerManager.add(Cmd.REMOVE_EQUIP,this::removeEquip);
 
     }
 
@@ -57,13 +57,12 @@ public class EquipmentController  {
         boolean flag = equipmentBarService.equip(player,cellId);
 
         if (flag) {
-            message.setFlag((byte) 1);
-            message.setContent(MessageFormat.format("装备 {0} 在 {1} 成功", thingInfo.getName() , thingInfo.getPart()).getBytes());
+            NotificationManager.notifyByCtx(ctx,MessageFormat.format("装备 {0} 在 {1} 成功",
+                    thingInfo.getName() , thingInfo.getPart()));
+
         } else {
-            message.setFlag((byte) -1);
-            message.setContent("装备失败".getBytes());
+            NotificationManager.notifyByCtx(ctx,"装备失败");
         }
-        ctx.writeAndFlush(message);
     }
 
 
@@ -79,11 +78,10 @@ public class EquipmentController  {
                                     things.getPart(),things.getName())
                             );
 
-                            things.getThingRoleProperty().forEach(
+                            things.getThingRoleProperty().values().forEach(
                                     roleProperty -> sb.append(MessageFormat.format(" {0}：{1} ",
                                             roleProperty.getName(),roleProperty.getThingPropertyValue()))
                             );
-
                             sb.append("\n");
                         }
                 );
@@ -105,10 +103,8 @@ public class EquipmentController  {
         Player player = playerDataService.getPlayerByCtx(ctx);
         Msg msg = equipmentBarService.removeEquip(player,part);
 
-        message.setFlag((byte) 1);
-        message.setContent(msg.getMsg().getBytes());
+        NotificationManager.notifyByCtx(ctx,msg.getMsg());
 
-        ctx.writeAndFlush(message);
     }
 
 

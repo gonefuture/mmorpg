@@ -43,10 +43,10 @@ public class RolePropertyService {
      * @return 是否加载属性成功
      */
     public boolean loadThingPropertyToPlayer(Player player, ThingInfo thingInfo) {
-        Set<RoleProperty> thingPropertySet = thingInfo.getThingRoleProperty();
+        Map<Integer,RoleProperty> thingPropertySet = thingInfo.getThingRoleProperty();
         Map<Integer,RoleProperty> playerPropertyMap = player.getRolePropertyMap();
 
-        thingPropertySet.forEach(
+        thingPropertySet.values().forEach(
                 thingProperty -> {
 
                     //  改变属性
@@ -69,9 +69,9 @@ public class RolePropertyService {
      * @param thingInfo 物品
      */
     public boolean removeThingPropertyForPlayer(Player player, ThingInfo thingInfo) {
-        Set<RoleProperty> thingPropertySet = thingInfo.getThingRoleProperty();
+        Map<Integer,RoleProperty> thingPropertyMap = thingInfo.getThingRoleProperty();
         Map<Integer,RoleProperty> playerPropertyMap = player.getRolePropertyMap();
-        thingPropertySet.forEach(
+        thingPropertyMap.values().forEach(
                 thingProperty -> {
                     // 改变属性
                 //  改变属性

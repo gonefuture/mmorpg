@@ -1,11 +1,15 @@
 package com.wan37.gameserver.server.channelInitializer;
 
+import com.wan37.common.proto.CmdProto;
+import com.wan37.gameserver.server.adapter.ServerProtoAdapter;
 import com.wan37.gameserver.server.dispatcher.RequestDispatcher;
-import com.wan37.gameserver.server.handler.MessageDecoder;
-import com.wan37.gameserver.server.handler.MessageEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -23,17 +27,24 @@ public class SocketChannelInitializer extends ChannelInitializer<SocketChannel> 
     @Resource
     private RequestDispatcher requestDispatcher;
 
+    @Resource
+    private ServerProtoAdapter serverProtoAdapter;
+
 
     @Override
     protected void initChannel(SocketChannel ch)  {
 
         ChannelPipeline pipeline = ch.pipeline();
 
-         pipeline.addLast("encode",new MessageEncoder())
-                //解码器 (继承Netty的LengthFieldBasedFrameDecoder，处理TCP粘包拆包问题)
-                .addLast("encoder",new MessageDecoder(Integer.MAX_VALUE , 1, 4))
-                // 消息业务分派器
-                .addLast("dispatcher",requestDispatcher)
+         pipeline
+                 .addLast(new ProtobufVarint32FrameDecoder())
+                 .addLast("proto-decoder", new ProtobufDecoder(CmdProto.Cmd.getDefaultInstance()))
+                 .addLast(new ProtobufVarint32LengthFieldPrepender())
+                 .addLast("proto-encoder",
+                new ProtobufEncoder())
+                 .addLast(serverProtoAdapter);
+
+
         ;
 
     }

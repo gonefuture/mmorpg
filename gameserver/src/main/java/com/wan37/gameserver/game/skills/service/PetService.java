@@ -61,12 +61,12 @@ public class PetService {
                 MessageFormat.format("{0} 召唤了 {1}",master.getName(),pet.getName()));
 
         // cd结束召唤兽就消失
-        TimedTaskManager.singleThreadSchedule(pet.getRefreshTime(),
-                ()-> {
-            notificationManager.notifyCreature(master,"你的宠物已经解散                                                ");
-            gameScene.getMonsters().remove(pet.getPetId());
-
-        });
+//        TimedTaskManager.singleThreadSchedule(pet.getRefreshTime(),
+//                ()-> {
+//            notificationManager.notifyCreature(master,"你的宠物已经解散                                                ");
+//            gameScene.getMonsters().remove(pet.getPetId());
+//
+//        });
         return true;
     }
 

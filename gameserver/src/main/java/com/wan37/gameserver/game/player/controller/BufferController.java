@@ -1,18 +1,18 @@
 package com.wan37.gameserver.game.player.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.Msg;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.player.model.Buffer;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.BufferService;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 public class BufferController {
 
     {
-        ControllerManager.add(MsgId.START_BUFFER,this::startBuffer);
+        ControllerManager.add(Cmd.START_BUFFER,this::startBuffer);
     }
 
     @Resource
@@ -43,13 +43,12 @@ public class BufferController {
         Player player = playerDataService.getPlayer(ctx);
         boolean flag = bufferService.startBuffer(player,buffer);
 
-        String result = "";
+        String result ;
         if (flag) {
-            result = "开始使用Buffer " + JSON.toJSONString(buffer);
+            result = MessageFormat.format( "开始使用Buffer {}",buffer.getName());
         } else {
-            Msg errorMsg = new Msg(404,"buffer不能使用");
+            result = "buffer不能使用";
         }
-        message.setContent(result.getBytes());
-        ctx.writeAndFlush(message);
+        NotificationManager.notifyByCtx(ctx,result);
     }
 }

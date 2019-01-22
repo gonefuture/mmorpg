@@ -2,7 +2,7 @@ package com.wan37.gameserver.game.mail.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Msg;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.mail.service.MailService;
@@ -29,9 +29,9 @@ import java.util.Optional;
 public class MailController  {
 
     {
-        ControllerManager.add(MsgId.MAIL_LIST,this::mailList);
-        ControllerManager.add(MsgId.GET_MAIL,this::getMail);
-        ControllerManager.add(MsgId.SEND_MAIL,this::sendMail);
+        ControllerManager.add(Cmd.MAIL_LIST,this::mailList);
+        ControllerManager.add(Cmd.GET_MAIL,this::getMail);
+        ControllerManager.add(Cmd.SEND_MAIL,this::sendMail);
     }
 
 
@@ -85,8 +85,7 @@ public class MailController  {
         Integer bagIndex = Integer.valueOf(cmd[4]);
         Player player = playerDataService.getPlayerByCtx(ctx);
         Msg msg = mailService.playerSendMail(player,targetId,subject,content,bagIndex);
-        message.setContent(msg.getMsg().getBytes());
-        ctx.writeAndFlush(message);
+        NotificationManager.notifyByCtx(ctx,msg.getMsg());
 
     }
 }

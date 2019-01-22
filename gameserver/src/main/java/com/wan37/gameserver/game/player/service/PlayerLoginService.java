@@ -49,7 +49,6 @@ public class PlayerLoginService {
 
 
 
-
     /**
      *  角色登陆
      */
@@ -99,7 +98,6 @@ public class PlayerLoginService {
         List<TPlayer>  tPlayerList = userService.findPlayers(user.getId());
         for (TPlayer tPlayer : tPlayerList) {
             if (tPlayer.getId().equals(playerId)) {
-                log.debug("tPlayerId {0}   playerId {1} ",tPlayer.getId(),playerId);
                 return true;
             }
         }

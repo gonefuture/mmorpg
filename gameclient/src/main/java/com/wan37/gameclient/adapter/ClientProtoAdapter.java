@@ -10,11 +10,11 @@ import lombok.extern.slf4j.Slf4j;
  * @author gonefuture  gonefuture@qq.com
  * time 2019/1/21 14:38
  * @version 1.00
- * Description: mmorpg
+ * Description: 客户端Protobuf适配器
  */
 
 @Slf4j
-public class ClientPoHandlerProto extends ChannelInboundHandlerAdapter {
+public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {

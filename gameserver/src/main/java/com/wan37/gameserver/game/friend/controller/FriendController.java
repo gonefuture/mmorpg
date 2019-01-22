@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.friend.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.friend.service.FriendService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
@@ -23,8 +23,8 @@ import javax.annotation.Resource;
 public class FriendController {
 
     {
-        ControllerManager.add(MsgId.FRIEND_LIST,this::friendList);
-        ControllerManager.add(MsgId.FRIEND_ADD,this::friendAdd);
+        ControllerManager.add(Cmd.FRIEND_LIST,this::friendList);
+        ControllerManager.add(Cmd.FRIEND_ADD,this::friendAdd);
     }
 
 

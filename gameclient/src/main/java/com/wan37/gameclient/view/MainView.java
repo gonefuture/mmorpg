@@ -2,8 +2,8 @@ package com.wan37.gameclient.view;
 
 
 
-import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
+import com.wan37.common.proto.CmdProto;
 import com.wan37.gameclient.GameClient;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,14 +41,14 @@ public class MainView extends JFrame {
                     String text = input.getText().replaceAll("\n", "");
                     output.append(text + "\n");
 
-                    //log.debug("GameClient.channel {}",GameClient.channel);
+
                     String[] array = text.split("\\s+");
-                    Message message = new Message();
-                    MsgId msgId = MsgId.findByCommand(array[0],MsgId.UNKNOWN);
-                    message.setMsgId(msgId.getMsgId());
-                    message.setType((byte)1);
-                    message.setContent(text.getBytes());
-                    GameClient.channel.writeAndFlush(message);
+                    Cmd msgId = Cmd.findByCommand(array[0], Cmd.UNKNOWN);
+
+                    CmdProto.Cmd cmd = CmdProto.Cmd.newBuilder()
+                            .setMgsId(msgId.getMsgId())
+                            .setContent(text).build();
+                    GameClient.channel.writeAndFlush(cmd);
                     input.setText("");
                 }
             }

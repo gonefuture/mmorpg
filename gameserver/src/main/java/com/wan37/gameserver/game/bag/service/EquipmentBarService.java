@@ -109,7 +109,8 @@ public class EquipmentBarService {
             return new Msg(404,"你身上没有穿戴这件装备");
         }
         // 移除属性增益,放入背包
-        if (bagsService.addItem(player,item)
+        if ( equipmentBar.remove(part,item)
+                &&bagsService.addItem(player,item)
                 && rolePropertyService.removeThingPropertyForPlayer(player,item.getThingInfo())) {
             return new Msg(200,"卸下装备成功");
         } else {

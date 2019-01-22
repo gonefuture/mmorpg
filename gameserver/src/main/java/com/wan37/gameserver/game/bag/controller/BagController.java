@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.bag.controller;
 
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.bag.model.Item;
 import com.wan37.gameserver.game.bag.service.BagsService;
 import com.wan37.gameserver.game.player.model.Player;
@@ -31,8 +31,8 @@ import java.util.Set;
 @Slf4j
 public class BagController  {
     {
-        ControllerManager.add(MsgId.PACK_BAG,this::packBag);
-        ControllerManager.add(MsgId.SHOW_BAGS,this::showBag);
+        ControllerManager.add(Cmd.PACK_BAG,this::packBag);
+        ControllerManager.add(Cmd.SHOW_BAGS,this::showBag);
     }
 
     @Resource
@@ -69,8 +69,8 @@ public class BagController  {
                     entry.getKey(), entry.getValue().getThingInfo().getName(), entry.getValue().getThingInfo().getPart(),
                     entry.getValue().getCount() ,entry.getValue().getThingInfo().getDescribe()));
             // 遍历物品属性
-            Set<RoleProperty> rolePropertyList = entry.getValue().getThingInfo().getThingRoleProperty();
-            rolePropertyList.forEach(
+            Map<Integer,RoleProperty> rolePropertyList = entry.getValue().getThingInfo().getThingRoleProperty();
+            rolePropertyList.values().forEach(
                     roleProperty -> sb.append(MessageFormat.format("{0}:{1} "
                                 ,roleProperty.getName(),roleProperty.getThingPropertyValue()))
             );

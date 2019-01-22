@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.guild.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.guild.service.GuildService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
@@ -23,14 +23,14 @@ public class GuildController  {
 
     // 注册分派的方法
     {
-        ControllerManager.add(MsgId.GUILD_CREATE,this::guildCreate);
-        ControllerManager.add(MsgId.GUILD_SHOW,this::guildShow);
-        ControllerManager.add(MsgId.GUILD_JOIN,this::guildJoin);
-        ControllerManager.add(MsgId.GUILD_GRANT,this::guildGrant);
-        ControllerManager.add(MsgId.GUILD_DONATE,this::guildDonate);
-        ControllerManager.add(MsgId.GUILD_TAKE,this::guildTake);
-        ControllerManager.add(MsgId.GUILD_PERMIT,this::guildPermit);
-        ControllerManager.add(MsgId.GUILD_QUIT,this::guildQuit);
+        ControllerManager.add(Cmd.GUILD_CREATE,this::guildCreate);
+        ControllerManager.add(Cmd.GUILD_SHOW,this::guildShow);
+        ControllerManager.add(Cmd.GUILD_JOIN,this::guildJoin);
+        ControllerManager.add(Cmd.GUILD_GRANT,this::guildGrant);
+        ControllerManager.add(Cmd.GUILD_DONATE,this::guildDonate);
+        ControllerManager.add(Cmd.GUILD_TAKE,this::guildTake);
+        ControllerManager.add(Cmd.GUILD_PERMIT,this::guildPermit);
+        ControllerManager.add(Cmd.GUILD_QUIT,this::guildQuit);
 
     }
 

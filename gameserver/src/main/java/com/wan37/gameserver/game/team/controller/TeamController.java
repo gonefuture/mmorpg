@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.team.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.team.service.TeamService;
@@ -27,10 +27,10 @@ public class TeamController {
 
 
     {
-        ControllerManager.add(MsgId.INVITE_TEAM,this::inviteTeam);
-        ControllerManager.add(MsgId.LEAVE_TEAM,this::teamQuit);
-        ControllerManager.add(MsgId.SHOW_TEAM,this::teamShow);
-        ControllerManager.add(MsgId.JOIN_TEAM,this::teamJoin);
+        ControllerManager.add(Cmd.INVITE_TEAM,this::inviteTeam);
+        ControllerManager.add(Cmd.LEAVE_TEAM,this::teamQuit);
+        ControllerManager.add(Cmd.SHOW_TEAM,this::teamShow);
+        ControllerManager.add(Cmd.JOIN_TEAM,this::teamJoin);
 
     }
 

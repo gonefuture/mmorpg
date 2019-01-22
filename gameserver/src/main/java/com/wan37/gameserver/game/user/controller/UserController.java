@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.user.controller;
 
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.player.manager.RoleClassManager;
 import com.wan37.gameserver.game.user.service.UserService;
 import com.wan37.gameserver.game.user.manager.UserCacheManger;
@@ -38,9 +38,9 @@ public class UserController  {
 
 
     {
-        ControllerManager.add(MsgId.USER_LOGIN,this::userLogin);
-        ControllerManager.add(MsgId.LIST_GAME_ROLES,this::roleList);
-        ControllerManager.add(MsgId.USER_CREATE,this::userCreate);
+        ControllerManager.add(Cmd.USER_LOGIN,this::userLogin);
+        ControllerManager.add(Cmd.LIST_GAME_ROLES,this::roleList);
+        ControllerManager.add(Cmd.USER_CREATE,this::userCreate);
     }
 
     private void userCreate(ChannelHandlerContext ctx, Message message) {

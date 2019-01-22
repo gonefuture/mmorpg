@@ -79,9 +79,8 @@ public class SkillEffect {
         target.setHp(target.getHp() + skill.getHeal());
 
         notificationManager.notifyScene(gameScene,
-                MessageFormat.format(" {0} 受到 {1} 的攻击，  hp减少{2},当前hp为 {3}\n",
-                        target.getName(),initiator.getName(),skill.getHurt(), target.getHp()));
-
+                MessageFormat.format(" {0} 受到 {1} 技能 {2}攻击，  hp减少{3},当前hp为 {4}\n",
+                        target.getName(),initiator.getName(),skill.getName(),skill.getHurt(), target.getHp()));
 
         // 如果技能触发的buffer不是0，则对敌方单体目标释放buffer
         if (!skill.getBuffer().equals(0)) {

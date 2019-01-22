@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.trade.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.things.service.ThingInfoService;
@@ -31,9 +31,9 @@ import java.util.Map;
 @Slf4j
 public class AuctionHouseController {
     {
-        ControllerManager.add(MsgId.AUCTION_BID,this::bid);
-        ControllerManager.add(MsgId.AUCTION_PUSH,this::pushAuction);
-        ControllerManager.add(MsgId.AUCTION_SHOW,this::showAuction);
+        ControllerManager.add(Cmd.AUCTION_BID,this::bid);
+        ControllerManager.add(Cmd.AUCTION_PUSH,this::pushAuction);
+        ControllerManager.add(Cmd.AUCTION_SHOW,this::showAuction);
     }
 
 

@@ -1,12 +1,13 @@
 package com.wan37.gameserver.game.gameInstance.controller;
 
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.gameInstance.model.GameInstance;
 import com.wan37.gameserver.game.gameInstance.service.InstanceService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -24,8 +25,8 @@ import java.text.MessageFormat;
 public class InstanceController {
 
     {
-        ControllerManager.add(MsgId.ENTER_INSTANCE,this::instanceEnter);
-        ControllerManager.add(MsgId.EXIT_INSTANCE,this::instanceExit);
+        ControllerManager.add(Cmd.ENTER_INSTANCE,this::instanceEnter);
+        ControllerManager.add(Cmd.EXIT_INSTANCE,this::instanceExit);
 
     }
 
@@ -48,10 +49,10 @@ public class InstanceController {
         Player player = playerDataService.getPlayer(ctx);
         GameInstance gameInstance = instanceService.enterInstance(player,instanceId);
         if (gameInstance != null) {
-            message.setFlag((byte) 1);
-            message.setContent(("进入副本 "+gameInstance.getName() ).getBytes());
+
+            NotificationManager.notifyByCtx(ctx,MessageFormat.format("进入副本 {}",gameInstance.getName()));
         } else {
-            message.setContent(MessageFormat.format("进入id为{}的失败", instanceId).getBytes());
+            NotificationManager.notifyByCtx(ctx,MessageFormat.format("进入id为{}的失败", instanceId));
         }
         ctx.writeAndFlush(message);
     }
@@ -62,10 +63,9 @@ public class InstanceController {
 
         if (instanceService.isInInstance(player)) {
             instanceService.exitInstance(player,(GameInstance)player.getCurrentScene());
-            message.setFlag((byte) 1);
-            message.setContent("退出副本成功".getBytes());
+            NotificationManager.notifyByCtx(ctx,"退出副本成功");
         } else {
-            message.setContent("你不在副本中".getBytes());
+            NotificationManager.notifyByCtx(ctx,"你不在副本中");
         }
         ctx.writeAndFlush(message);
     }

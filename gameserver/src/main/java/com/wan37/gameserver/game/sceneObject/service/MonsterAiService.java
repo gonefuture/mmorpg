@@ -200,7 +200,6 @@ public class MonsterAiService {
                 EventBus.publish(new MonsterEventDeadEvent(player,monster,gameScene,damage));
             }
         }
-
     }
 
 

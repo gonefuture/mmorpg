@@ -21,21 +21,19 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-// 标记该类的实例可以被多个Channel共享
+/**  标记该类的实例可以被多个Channel共享 **/
 @ChannelHandler.Sharable
 public class GameClientHandler extends SimpleChannelInboundHandler<Message> {
 
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        // 当被通知Channel是活跃的时候,发送一条信息
-        //ctx.writeAndFlush(Unpooled.copiedBuffer(Unpooled.copiedBuffer("客户端: " + ctx.channel().id() + "连接",CharsetUtil.UTF_8)));
-
-
+        // 当被通知Channel是活跃的时候
+        log.debug("连接服务器成功");
     }
 
 
-    /*
+    /**
         在发生异常时,记录错误并关闭Channel
      */
     @Override
@@ -46,8 +44,11 @@ public class GameClientHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message message) throws Exception {
-        // 记录信息已经被接受
-        //log.info("客户端:"+ ctx.channel().id() + "接受到信息: \n"+ new String((message.getContent())));
+        /**
+         *       记录信息已经被接受
+         *     log.info("客户端:"+ ctx.channel().id() + "接受到信息: \n"+ new String((message.getContent())));
+         */
+
         System.out.println(new String((message.getContent())));
 
 

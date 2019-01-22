@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.team.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.scene.manager.SceneCacheMgr;
@@ -29,7 +29,7 @@ import java.util.Objects;
 public class TeamInstanceController  {
 
     {
-        ControllerManager.add(MsgId.TEAM_INSTANCE,this::teamInstance);
+        ControllerManager.add(Cmd.TEAM_INSTANCE,this::teamInstance);
     }
 
 

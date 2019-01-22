@@ -2,12 +2,13 @@ package com.wan37.gameserver.game.shop.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Msg;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.shop.service.ShopService;
 import com.wan37.gameserver.game.things.model.ThingInfo;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -27,8 +28,8 @@ public class GoodsController {
 
 
     {
-        ControllerManager.add(MsgId.BUY_GOODS,this::buyGoods);
-        ControllerManager.add(MsgId.SHOW_SHOP,this::showGoods);
+        ControllerManager.add(Cmd.BUY_GOODS,this::buyGoods);
+        ControllerManager.add(Cmd.SHOW_SHOP,this::showGoods);
 
     }
 
@@ -39,6 +40,7 @@ public class GoodsController {
 
     @Resource
     private PlayerDataService playerDataService;
+
 
 
 
@@ -56,9 +58,7 @@ public class GoodsController {
                 }
         );
 
-        message.setFlag((byte)1);
-        message.setContent(sb.toString().getBytes());
-        ctx.writeAndFlush(message);
+        NotificationManager.notifyByCtx(ctx,sb);
     }
 
 
@@ -69,8 +69,7 @@ public class GoodsController {
         Player player = playerDataService.getPlayerByCtx(ctx);
         Msg msg = shopService.buyGoods(player,1,goodsId);
 
-        message.setFlag((byte)1);
-        message.setContent(msg.getMsg().getBytes());
-        ctx.writeAndFlush(message);
+
+        NotificationManager.notifyByCtx(ctx,msg.getMsg());
     }
 }

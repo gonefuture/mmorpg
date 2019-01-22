@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.trade.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.trade.service.TradeService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import com.wan37.gameserver.util.ParameterCheckUtil;
@@ -21,11 +21,11 @@ import javax.annotation.Resource;
 public class TradeController{
 
     {
-        ControllerManager.add(MsgId.INITIATE_TRADE,this::tradeInitiate);
-        ControllerManager.add(MsgId.BEGIN_TRADE,this::tradeBegin);
-        ControllerManager.add(MsgId.TRADE_MONEY,this::tradeMoney);
-        ControllerManager.add(MsgId.TRADE_GOODS,this::tradeGoods);
-        ControllerManager.add(MsgId.CONFIRM_TRADE,this::tradeConfirm);
+        ControllerManager.add(Cmd.INITIATE_TRADE,this::tradeInitiate);
+        ControllerManager.add(Cmd.BEGIN_TRADE,this::tradeBegin);
+        ControllerManager.add(Cmd.TRADE_MONEY,this::tradeMoney);
+        ControllerManager.add(Cmd.TRADE_GOODS,this::tradeGoods);
+        ControllerManager.add(Cmd.CONFIRM_TRADE,this::tradeConfirm);
     }
 
     @Resource

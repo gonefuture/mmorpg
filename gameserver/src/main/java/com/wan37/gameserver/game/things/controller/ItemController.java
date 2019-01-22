@@ -1,11 +1,12 @@
 package com.wan37.gameserver.game.things.controller;
 
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.things.service.ThingInfoService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -22,7 +23,7 @@ public class ItemController {
 
 
     {
-        ControllerManager.add(MsgId.USE_ITEM,this::useItem);
+        ControllerManager.add(Cmd.USE_ITEM,this::useItem);
     }
 
     @Resource
@@ -30,6 +31,9 @@ public class ItemController {
 
     @Resource
     private PlayerDataService playerDataService;
+
+    @Resource
+    private NotificationManager notificationManager;
 
 
     private void useItem(ChannelHandlerContext ctx, Message message) {
@@ -39,13 +43,11 @@ public class ItemController {
         boolean flag  = thingInfoService.useItem(player,locationIndex);
         String result ;
         if (flag) {
-            message.setFlag((byte) 1);
             result = "使用物品成功";
         } else {
-            message.setFlag((byte) -1);
             result = "使用物品失败,角色为拥有这个物品或其他原因";
         }
-        message.setContent(result.getBytes());
-        ctx.writeAndFlush(message);
+
+        notificationManager.notifyPlayer(player,result);
     }
 }

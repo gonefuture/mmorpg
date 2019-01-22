@@ -1,12 +1,13 @@
 package com.wan37.gameserver.game.chat.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Msg;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.chat.service.ChatService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -23,8 +24,8 @@ public class ChatController {
 
 
     {
-        ControllerManager.add(MsgId.PUBLIC_CHAT,this::publicChat);
-        ControllerManager.add(MsgId.WHISPER,this::whisper);
+        ControllerManager.add(Cmd.PUBLIC_CHAT,this::publicChat);
+        ControllerManager.add(Cmd.WHISPER,this::whisper);
     }
 
 
@@ -55,8 +56,6 @@ public class ChatController {
 
         Msg msg = chatService.whisper(player,targetId,words);
 
-        message.setFlag((byte) 1);
-        message.setContent(msg.getMsg().getBytes());
-        ctx.writeAndFlush(message);
+        NotificationManager.notifyByCtx(ctx,msg.getMsg());
     }
 }

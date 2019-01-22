@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.mission.controller;
 
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
+import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.mission.service.MissionService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,8 +21,8 @@ import javax.annotation.Resource;
 public class MissionController {
 
     {
-        ControllerManager.add(MsgId.MISSION_SHOW,this::missionShow);
-        ControllerManager.add(MsgId.ALL_MISSION,this::allMission);
+        ControllerManager.add(Cmd.MISSION_SHOW,this::missionShow);
+        ControllerManager.add(Cmd.ALL_MISSION,this::allMission);
     }
 
 

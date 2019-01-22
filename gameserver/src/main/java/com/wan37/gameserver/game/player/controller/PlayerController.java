@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.player.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.player.manager.RoleClassManager;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.model.RoleClass;
@@ -52,10 +52,10 @@ public class PlayerController {
 
 
     {
-        ControllerManager.add(MsgId.PLAYER_LOGIN,this::playerLogin);
-        ControllerManager.add(MsgId.PLAYER_EXIT,this::playerQuit);
-        ControllerManager.add(MsgId.SHOW_PLAYER,this::showPlayer);
-        ControllerManager.add(MsgId.ROLE_CREATE,this::roleCreate);
+        ControllerManager.add(Cmd.PLAYER_LOGIN,this::playerLogin);
+        ControllerManager.add(Cmd.PLAYER_EXIT,this::playerQuit);
+        ControllerManager.add(Cmd.SHOW_PLAYER,this::showPlayer);
+        ControllerManager.add(Cmd.ROLE_CREATE,this::roleCreate);
 
     }
 
@@ -73,8 +73,6 @@ public class PlayerController {
 
 
     }
-
-
 
 
     /**
@@ -100,28 +98,20 @@ public class PlayerController {
                 result.append(neighbor.getId()).append(": ").append(neighbor.getName()).append(", ");
             });
 
-            message.setFlag((byte) 1);
         } else {
             result.append("用户尚未登陆，不能加载角色");
-            message.setFlag((byte) -1);
         }
 
-
-        message.setContent(result.toString().getBytes());
         log.debug("角色登陆返回的信息: "+ result);
-        ctx.writeAndFlush(message);
+        NotificationManager.notifyByCtx(ctx,result);
     }
-
-
 
 
     public void playerQuit(ChannelHandlerContext ctx, Message message) {
 
         // 断开连接退出
         playerQuitService.logout(ctx);
-
     }
-
 
     private void showPlayer(ChannelHandlerContext ctx, Message message) {
 
@@ -170,17 +160,14 @@ public class PlayerController {
                 }
         );
         RoleClass roleClass= RoleClassManager.getRoleClass(player.getRoleClass());
-        sb.append(MessageFormat.format("玩家的职业是{0} ：\n",roleClass.getName()));
+        sb.append(MessageFormat.format("玩家的职业是  {0} \n",roleClass.getName()));
         sb.append("拥有技能：\n");
         roleClass.getSkillMap().values().forEach( skill ->
                 sb.append(MessageFormat.format("技能id：{0} 名字：{1} 伤害：{2} 消耗：{3} cd：{4} 描述：{5}  \n" ,
                         skill.getId(),skill.getName(),skill.getHurt(),skill.getMpConsumption(),
                         skill.getCd(),skill.getDescribe())));
 
-
-        message.setFlag((byte) 1);
-        message.setContent(sb.toString().getBytes());
-        ctx.writeAndFlush(message);
+        NotificationManager.notifyByCtx(ctx,sb);
     }
 
 

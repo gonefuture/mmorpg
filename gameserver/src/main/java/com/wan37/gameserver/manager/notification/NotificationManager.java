@@ -42,16 +42,14 @@ public  class NotificationManager {
      */
     public <E> void notifyScene(GameScene gameScene, E e) {
         Message message = new Message();
-        if (e instanceof String) {
-            message.setContent(e.toString().getBytes());
+        if (e instanceof String || e instanceof StringBuilder) {
+            message.setContent(e.toString());
         } else {
-            message.setContent(JSON.toJSONString(e).getBytes());
+            message.setContent(JSON.toJSONString(e));
         }
-        message.setFlag((byte) 1);
-
         gameScene.getPlayers().keySet().forEach( playerId -> {
             ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(playerId);
-            ctx.writeAndFlush(message);
+            ctx.writeAndFlush(message.toProto());
         });
     }
 
@@ -76,10 +74,9 @@ public  class NotificationManager {
      */
     public <E> void notifyPlayer(Player player, E e) {
         Message message = new Message();
-        message.setFlag((byte) 1);
-        message.setContent((e.toString()+"\n").getBytes());
+        message.setContent(e.toString());
         ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(player.getId());
-        Optional.ofNullable(ctx).ifPresent(c -> c.writeAndFlush(message));
+        Optional.ofNullable(ctx).ifPresent(c -> c.writeAndFlush(message.toProto()));
     }
 
 
@@ -93,12 +90,11 @@ public  class NotificationManager {
      */
     public <E> void notifyPlayers(List<Player> players, E e) {
         Message message = new Message();
-        message.setFlag((byte) 1);
-        message.setContent(e.toString().getBytes());
+        message.setContent(e.toString());
         players.forEach(
                 player -> {
                     ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(player.getId());
-                    ctx.writeAndFlush(message);
+                    ctx.writeAndFlush(message.toProto());
                 }
         );
     }
@@ -113,9 +109,8 @@ public  class NotificationManager {
      */
     public static  <E> void notifyByCtx(ChannelHandlerContext ctx,E e) {
         Message message = new Message();
-        message.setFlag((byte) 1);
-        message.setContent((e.toString()+"\n").getBytes());
-        ctx.writeAndFlush(message);
+        message.setContent((e.toString()+"\n"));
+        ctx.writeAndFlush(message.toProto());
     }
 
 

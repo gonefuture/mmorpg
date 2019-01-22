@@ -16,7 +16,7 @@ import java.util.Map;
  */
 
 
-public enum MsgId {
+public enum Cmd {
 
 
 
@@ -204,10 +204,10 @@ public enum MsgId {
 
     private Integer msgId;
 
-    private static final Map<String, MsgId> COMMAND_MAP = new  HashMap<>();
-    private static final Map<Integer, MsgId> ID_MAP = new  HashMap<>();
+    private static final Map<String, Cmd> COMMAND_MAP = new  HashMap<>();
+    private static final Map<Integer, Cmd> ID_MAP = new  HashMap<>();
 
-    MsgId(String command, Integer msgId) {
+    Cmd(String command, Integer msgId) {
         this.command = command;
         this.msgId = msgId;
     }
@@ -216,7 +216,7 @@ public enum MsgId {
      *  程序启动时将字符串的命令与枚举对象通过map关联起来
      */
     static {
-        for (MsgId e : EnumSet.allOf(MsgId.class)) {
+        for (Cmd e : EnumSet.allOf(Cmd.class)) {
             COMMAND_MAP.put(e.command,e);
             ID_MAP.put(e.msgId,e);
         }
@@ -228,8 +228,8 @@ public enum MsgId {
      * @param defaultValue 默认命令枚举
      * @return 一个相关服务的枚举
      */
-    public static MsgId findByCommand(String command, MsgId defaultValue){
-        MsgId value = COMMAND_MAP.get(command);
+    public static Cmd findByCommand(String command, Cmd defaultValue){
+        Cmd value = COMMAND_MAP.get(command);
         if(value == null){
             return defaultValue;
         }
@@ -242,8 +242,8 @@ public enum MsgId {
      * @param defaultValue  默认命令枚举
      * @return 一个相关服务的枚举
      */
-    public static MsgId find(int msgId,  MsgId defaultValue){
-        MsgId value = ID_MAP.get(msgId);
+    public static Cmd find(int msgId, Cmd defaultValue){
+        Cmd value = ID_MAP.get(msgId);
         if(value == null){
             return defaultValue;
         }
@@ -271,7 +271,7 @@ public enum MsgId {
 
     @Override
     public String toString() {
-        return "MsgId{" +
+        return "Cmd{" +
                 "command='" + command + '\'' +
                 ", msgId=" + msgId +
                 '}';

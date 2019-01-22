@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.skills.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.skills.service.SkillsService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import com.wan37.gameserver.util.ParameterCheckUtil;
@@ -26,7 +26,7 @@ public class SkillController {
 
 
     {
-        ControllerManager.add(MsgId.USE_SKILL,this::useSkill);
+        ControllerManager.add(Cmd.USE_SKILL,this::useSkill);
     }
 
 

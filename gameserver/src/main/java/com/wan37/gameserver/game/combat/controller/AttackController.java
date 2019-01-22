@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.combat.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.combat.service.CombatService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
@@ -31,10 +31,10 @@ import java.util.stream.Collectors;
 public class AttackController {
 
     {
-        ControllerManager.add(MsgId.COMMON_ATTACK,this::commonAttack);
-        ControllerManager.add(MsgId.PVE_SKILL,this::useSkillAttackMonster);
-        ControllerManager.add(MsgId.PVP,this::pvpAttack);
-        ControllerManager.add(MsgId.SKILL_PVP,this::pvpBySkill);
+        ControllerManager.add(Cmd.COMMON_ATTACK,this::commonAttack);
+        ControllerManager.add(Cmd.PVE_SKILL,this::useSkillAttackMonster);
+        ControllerManager.add(Cmd.PVP,this::pvpAttack);
+        ControllerManager.add(Cmd.SKILL_PVP,this::pvpBySkill);
     }
 
 

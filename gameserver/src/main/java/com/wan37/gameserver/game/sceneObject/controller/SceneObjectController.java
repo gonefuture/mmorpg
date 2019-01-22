@@ -1,7 +1,7 @@
 package com.wan37.gameserver.game.sceneObject.controller;
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.common.entity.MsgId;
 import com.wan37.gameserver.game.sceneObject.service.GameObjectService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import com.wan37.gameserver.util.ParameterCheckUtil;
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 public class SceneObjectController {
 
     {
-        ControllerManager.add(MsgId.TALK_WITH_NPC,this::talkWithNPC);
+        ControllerManager.add(Cmd.TALK_WITH_NPC,this::talkWithNPC);
     }
 
 

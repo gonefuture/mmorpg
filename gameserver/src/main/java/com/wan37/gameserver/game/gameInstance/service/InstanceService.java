@@ -7,6 +7,7 @@ import com.wan37.gameserver.game.scene.manager.SceneCacheMgr;
 import com.wan37.gameserver.game.scene.model.SceneType;
 import com.wan37.gameserver.game.sceneObject.model.Monster;
 import com.wan37.gameserver.game.sceneObject.model.NPC;
+import com.wan37.gameserver.game.sceneObject.model.SceneObjectType;
 import com.wan37.gameserver.game.sceneObject.service.GameObjectService;
 import com.wan37.gameserver.game.sceneObject.service.MonsterAiService;
 import com.wan37.gameserver.game.scene.model.GameScene;
@@ -170,13 +171,13 @@ public class InstanceService {
                 .map(Long::valueOf)
                 .map( gameObjectService::getGameObject)
                 .forEach( sceneObject -> {
-                            if ( sceneObject.getRoleType() == 1) {
+                            if ( sceneObject.getRoleType().equals(SceneObjectType.NPC.getType())) {
                                 NPC npc = new NPC();
                                 BeanUtils.copyProperties(sceneObject,npc);
                                 gameInstance.getNpcs().put(sceneObject.getId(), npc);
                             }
                             // 加载boss进怪物列表
-                            if (sceneObject.getRoleType() == 3) {
+                            if (sceneObject.getRoleType().equals(SceneObjectType.INSTANCE_MONSTER.getType())) {
                                 Monster monster = new Monster();
                                 BeanUtils.copyProperties(sceneObject,monster);
                                 gameInstance.getBossList().add(monster);
