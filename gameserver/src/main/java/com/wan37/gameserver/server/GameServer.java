@@ -36,12 +36,13 @@ public class GameServer {
         // 工作线程
         EventLoopGroup workGroup = new NioEventLoopGroup();
 
-        ServerBootstrap bootstrap = new ServerBootstrap(); // 启动器
+        // 启动器
+        ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
                 //.option(ChannelOption.SO_BACKLOG, 1024) // 最大客户端连接数为1024
                 //是否启用心跳保活机制
-                //.childOption(ChannelOption.SO_KEEPALIVE, true)
+                .childOption(ChannelOption.SO_KEEPALIVE, true)
         .childHandler(socketChannelInitializer);
 
         try {

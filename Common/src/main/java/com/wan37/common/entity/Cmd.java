@@ -19,8 +19,6 @@ import java.util.Map;
 public enum Cmd {
 
 
-
-
     // 创建用户
     USER_CREATE("user_create",900),
 
@@ -192,7 +190,13 @@ public enum Cmd {
     AUCTION_PUSH("auction_push",4030),
 
     /** 查看拍卖品 */
-    AUCTION_SHOW("auction_show",4031),
+    AUCTION_SHOW("auction_show",4031,"查看拍卖品"),
+
+
+    /** 展示所有命令 **/
+    SHOW_CMD("show_cmd",100000,"展示所有命令"),
+
+
 
    /** 未知的命令 */
     UNKNOWN("unknown", 9999)
@@ -204,12 +208,23 @@ public enum Cmd {
 
     private Integer msgId;
 
+    /** 说明 **/
+    private String explain;
+
+
     private static final Map<String, Cmd> COMMAND_MAP = new  HashMap<>();
     private static final Map<Integer, Cmd> ID_MAP = new  HashMap<>();
 
     Cmd(String command, Integer msgId) {
         this.command = command;
         this.msgId = msgId;
+    }
+
+
+    Cmd(String command, Integer msgId, String explain) {
+        this.command = command;
+        this.msgId = msgId;
+        this.explain = explain;
     }
 
     /*
@@ -256,18 +271,15 @@ public enum Cmd {
         return command;
     }
 
-    public void setCommand(String command) {
-        this.command = command;
-    }
 
     public Integer getMsgId() {
         return msgId;
     }
 
-    public void setMsgId(Integer msgId) {
-        this.msgId = msgId;
-    }
 
+    public String getExplain() {
+        return explain;
+    }
 
     @Override
     public String toString() {
