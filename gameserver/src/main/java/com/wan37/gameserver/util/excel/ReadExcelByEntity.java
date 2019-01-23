@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -53,8 +54,9 @@ public class ReadExcelByEntity<T> {
 	        }  
 	        
 	        String lastName = filepath.substring(filepath.lastIndexOf("."));  
-	        try {  
-	            InputStream is = new FileInputStream(filepath);  
+	        try {
+				ClassPathResource resource = new ClassPathResource(filepath);
+	            InputStream is = resource.getInputStream();
 	            if(".xls".equals(lastName)){  
 	                wb = new HSSFWorkbook(is);  
 	            }else if(".xlsx".equals(lastName)){  

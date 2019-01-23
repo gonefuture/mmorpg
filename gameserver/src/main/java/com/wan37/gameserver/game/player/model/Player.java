@@ -37,7 +37,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
-@ToString(exclude = {"ctx","pet","","currentScene","rolePropertyMap","equipmentBar","bag","friendMap"})
+@ToString(exclude = {"ctx","pet","target","currentScene","rolePropertyMap","equipmentBar","bag","friendMap"})
 @Slf4j
 public class Player extends TPlayer   implements Creature  {
 

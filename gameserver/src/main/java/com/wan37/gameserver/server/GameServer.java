@@ -28,8 +28,7 @@ public class GameServer {
     private SocketChannelInitializer socketChannelInitializer;
 
 
-
-    //绑定端口
+    /** 绑定端口 **/
     private void bind(int port) throws Exception {
         // 逻辑线程组
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -48,7 +47,7 @@ public class GameServer {
         try {
             ChannelFuture future = bootstrap.bind(port).sync();
             if (future.isSuccess()) {
-                System.out.println("Server starts success at port:"+port);
+                log.debug("服务器成功监听:{}",port);
             }
             future.channel().closeFuture().sync();
         } catch (Exception e) {

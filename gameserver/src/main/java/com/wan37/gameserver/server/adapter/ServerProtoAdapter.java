@@ -46,6 +46,8 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("客户端: " + ctx.channel().id() + " 加入连接", CharsetUtil.UTF_8);
+        NotificationManager.notifyByCtx(ctx,"欢迎来到斯拉泽艾大陆");
+        NotificationManager.notifyByCtx(ctx,"请使用魔法咒语 ` show_cmd ` 展现所有指令");
     }
 
     /**
@@ -79,8 +81,6 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
             controllerManager.execute(controller,ctx,msg);
         }
     }
-
-
 
 
 

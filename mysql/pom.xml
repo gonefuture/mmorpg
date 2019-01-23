@@ -61,11 +61,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
             <!--mybatis插件-->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
@@ -78,14 +73,14 @@
                     <!--允许覆盖生成的文件-->
                     <overwrite>true</overwrite>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>GenerateMyBatis Artifacts</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>GenerateMyBatis Artifacts</id>-->
+                        <!--<goals>-->
+                            <!--<goal>generate</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
                 <dependencies>
                     <dependency>
                         <groupId>org.mybatis.generator</groupId>
@@ -94,7 +89,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
         </plugins>
     </build>
 

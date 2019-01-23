@@ -2,7 +2,6 @@ package com.wan37.gameserver.server.channelInitializer;
 
 import com.wan37.common.proto.CmdProto;
 import com.wan37.gameserver.server.adapter.ServerProtoAdapter;
-import com.wan37.gameserver.server.dispatcher.RequestDispatcher;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -24,8 +23,7 @@ import javax.annotation.Resource;
 public class SocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 
 
-    @Resource
-    private RequestDispatcher requestDispatcher;
+
 
     @Resource
     private ServerProtoAdapter serverProtoAdapter;

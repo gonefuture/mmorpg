@@ -6,6 +6,7 @@ import com.wan37.common.proto.CmdProto;
 import com.wan37.gameclient.adapter.ClientProtoAdapter;
 
 
+import com.wan37.gameclient.view.MainView;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
@@ -41,10 +42,12 @@ public class GameClient {
 
     public static Channel channel = null;
 
+    public static final MainView mainView = new MainView();
 
     private static String ip = "127.0.0.1";
 
     private static int port = 8000;
+
 
 
 
@@ -62,9 +65,6 @@ public class GameClient {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ch.pipeline()
-                        //.addLast(new MessageEncoder())
-                        //.addLast(new MessageDecoder(Integer.MAX_VALUE , 1, 4))
-                        //.addLast(new GameClientHandler())
                         .addLast(new ProtobufVarint32FrameDecoder())
                         .addLast("proto-decoder",
                                 new ProtobufDecoder(CmdProto.Cmd.getDefaultInstance()))
@@ -82,20 +82,9 @@ public class GameClient {
             // 循环监听输入
             loop();
 
-        } catch (InterruptedException e) {
-            log.debug("=========== 线程中断错误 =========");
-        } catch (IOException e) {
-            try {
-                // 四秒后重启客户端
-                Thread.sleep(4000);
-            } catch (InterruptedException e1) {
-                log.debug("=========== 睡眠错误 =========");
-            }
-            // 重启连接
-            log.debug("=========== 重启中 =========");
-            new GameClient().run();
         }catch (Exception e) {
-            log.debug("=========== 其他错误 =========");
+            log.debug("=========== 发生错误 =========");
+            e.printStackTrace();
         }
     }
 
@@ -116,7 +105,6 @@ public class GameClient {
                 }
                 String[] array = content.split("\\s+");
                 Cmd msgId = Cmd.findByCommand(array[0], Cmd.UNKNOWN);
-
                 CmdProto.Cmd cmd = CmdProto.Cmd.newBuilder()
                         .setMgsId(msgId.getMsgId())
                         .setContent(content).build();
