@@ -227,7 +227,7 @@ public class PlayerDataService {
         equipmentBarService.load(player);
 
         // 加载任务进度
-        missionService.playerMissionProgressInit(player.getId());
+        missionService.playerMissionProgressInit(player);
 
         // 加载到场景中
         gameSceneService.initPlayerScene(player);

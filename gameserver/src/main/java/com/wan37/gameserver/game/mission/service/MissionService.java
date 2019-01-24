@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -74,8 +75,8 @@ public class MissionService {
 
 
 
-    public void playerMissionProgressInit(Long playerId) {
-        missionManager.loadMissionProgress(playerId);
+    public void playerMissionProgressInit(Player player) {
+        missionManager.loadMissionProgress(player);
     }
 
 
@@ -245,6 +246,8 @@ public class MissionService {
     }
 
 
+    public Map<Integer, MissionProgress> getPlayerMissionProgress(Player player) {
 
-
+        return player.getMissionProgresses();
+    }
 }

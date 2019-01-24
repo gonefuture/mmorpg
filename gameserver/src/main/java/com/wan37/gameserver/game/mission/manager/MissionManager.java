@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.wan37.gameserver.game.mission.model.*;
+import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.manager.task.WorkThreadPool;
 import com.wan37.gameserver.util.FileUtil;
 import com.wan37.mysql.pojo.entity.TMissionProgress;
@@ -107,13 +108,13 @@ public class MissionManager {
 
     /**
      * 加载任务成就进度
-     * @param playerId  玩家id
+     * @param player 玩家
      */
-    public void loadMissionProgress(Long playerId) {
+    public void loadMissionProgress(Player player) {
         TMissionProgressExample tMissionProgressExample = new TMissionProgressExample();
-        tMissionProgressExample.or().andPlayerIdEqualTo(playerId);
+        tMissionProgressExample.or().andPlayerIdEqualTo(player.getId());
         List<TMissionProgress> tMissionProgressList =  tMissionProgressMapper.selectByExample(tMissionProgressExample);
-        Map<Integer,MissionProgress> playerMissionProgressMap = new ConcurrentHashMap<>();
+        Map<Integer,MissionProgress> playerMissionProgressMap = new ConcurrentHashMap<>(15);
 
         tMissionProgressList.forEach(
                 tMP -> {
@@ -131,9 +132,11 @@ public class MissionManager {
                     log.debug("========== 从数据库加载的任务进程 {}",  mp);
                     mp.setProgressMap(missionProgressMap);
                     playerMissionProgressMap.put(mp.getMissionId(),mp);
+                    player.getMissionProgresses().put(mp.getMissionId(),mp);
                 }
         );
-        missionProgressCache.put(playerId,playerMissionProgressMap);
+
+        missionProgressCache.put(player.getId(),playerMissionProgressMap);
         log.debug("玩家任务成就进度数据数据完毕 {}", playerMissionProgressMap);
     }
 

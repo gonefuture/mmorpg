@@ -38,8 +38,14 @@ public class Mission implements IExcel<Integer>{
     @EntityName(column = "等级")
     private Integer level;
 
+
+
+    @EntityName(column = "接受条件")
+    private String acceptConditions;
+
+
     @EntityName(column = "完成条件")
-    private String conditions;
+    private String completionConditions;
 
 
     @EntityName(column = "描述")
@@ -71,8 +77,8 @@ public class Mission implements IExcel<Integer>{
      *  加载完成条件
      */
     public  Map<String,Integer> getConditionsMap() {
-        if (conditionsMap.isEmpty() && !Strings.isNullOrEmpty(this.conditions)) {
-            Map<String,Integer> conditionsMapLoaded = JSON.parseObject(this.conditions,new TypeReference<Map<String, Integer>>(){});
+        if (conditionsMap.isEmpty() && !Strings.isNullOrEmpty(this.completionConditions)) {
+            Map<String,Integer> conditionsMapLoaded = JSON.parseObject(this.completionConditions,new TypeReference<Map<String, Integer>>(){});
             log.debug("conditionsMap {}",conditionsMapLoaded);
             this.conditionsMap = conditionsMapLoaded;
         }

@@ -7,6 +7,8 @@ import com.wan37.gameserver.event.model.MoneyEvent;
 import com.wan37.gameserver.game.bag.model.Bag;
 import com.wan37.gameserver.game.bag.model.Item;
 import com.wan37.gameserver.game.friend.model.Friend;
+import com.wan37.gameserver.game.mission.model.Mission;
+import com.wan37.gameserver.game.mission.model.MissionProgress;
 import com.wan37.gameserver.game.roleProperty.model.RoleProperty;
 
 
@@ -37,17 +39,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
-@ToString(exclude = {"ctx","pet","target","currentScene","rolePropertyMap","equipmentBar","bag","friendMap"})
+@ToString(exclude = {"ctx","missionProgresses","pet","target","currentScene","rolePropertyMap","equipmentBar","bag","friendMap"})
 @Slf4j
 public class Player extends TPlayer   implements Creature  {
 
 
-    // 当前通道上下文
+    /** 当前通道上下文 **/
     private ChannelHandlerContext ctx;
 
     /** 当前目标 */
     private Creature target;
 
+    /** 玩家任务 **/
+    private Map<Integer, MissionProgress> missionProgresses = new ConcurrentHashMap<>();
     @Override
     public void setTarget(Creature target) {
         this.target = target;

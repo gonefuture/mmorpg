@@ -174,10 +174,13 @@ public enum Cmd {
     GUILD_QUIT("guild_quit", 4024),
 
     // 显示已接任务
-    MISSION_SHOW("mission", 4025),
+    MISSION_SHOW("mission", 4025,"显示已接任务"),
 
     // 显示所有任务和成就
-    ALL_MISSION("all_mission",4026),
+    ALL_MISSION("all_mission",4026,"显示所有任务和成就"),
+
+    /** 展示玩家当前的任务 **/
+    MISSION_ACEEPT("mission_accept",14026,"展示玩家当前的任务"),
 
     FRIEND_LIST("friend_list",4027),
 
