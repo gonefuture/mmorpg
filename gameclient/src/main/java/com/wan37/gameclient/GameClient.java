@@ -19,11 +19,7 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,23 +31,24 @@ import java.io.InputStreamReader;
  * @version 1.00
  * Description: JavaLearn
  */
-
-@Slf4j
-@Component
 public class GameClient {
 
     public static Channel channel = null;
-
-    public static final MainView mainView = new MainView();
 
     private static String ip = "127.0.0.1";
 
     private static int port = 8000;
 
+    static  {
+        MainView mainView = new MainView();
+    }
 
 
 
-    @PostConstruct
+
+
+
+
     public void run() {
         //设置一个多线程循环器
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -79,11 +76,14 @@ public class GameClient {
         try {
             //连接服务
             Channel channel = bootstrap.connect(ip, port).sync().channel();
+
             // 循环监听输入
             loop();
 
+
+
         }catch (Exception e) {
-            log.debug("=========== 发生错误 =========");
+            System.out.println("=========== 发生错误 =========");
             e.printStackTrace();
         }
     }

@@ -32,11 +32,7 @@ public final class FileUtil {
     }
 
     public static String getStringPath(String fileName) {
-        File file = getFile(fileName);
-        if (file == null) {
-            return null;
-        }
-        return  file.getAbsolutePath();
+        return  fileName;
     }
 
 }

@@ -4,7 +4,6 @@ import com.wan37.common.proto.CmdProto;
 import com.wan37.gameclient.view.MainView;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -13,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * Description: 客户端Protobuf适配器
  */
 
-@Slf4j
+
 public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
 
     @Override

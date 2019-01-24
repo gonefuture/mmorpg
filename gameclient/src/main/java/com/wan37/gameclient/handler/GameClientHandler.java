@@ -12,15 +12,13 @@ import com.wan37.gameclient.view.MainView;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+
 
 
 /**
  * <pre> </pre>
  */
-@Slf4j
-@Component
+
 /**  标记该类的实例可以被多个Channel共享 **/
 @ChannelHandler.Sharable
 public class GameClientHandler extends SimpleChannelInboundHandler<Message> {
@@ -29,7 +27,8 @@ public class GameClientHandler extends SimpleChannelInboundHandler<Message> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         // 当被通知Channel是活跃的时候
-        log.debug("连接服务器成功");
+        System.out.println("连接服务器成功");
+
     }
 
 

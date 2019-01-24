@@ -40,8 +40,8 @@ public class ReadExcelByEntity<T> {
 	private Class<T> entity;  //泛型类
 
     private List<Class> typeList; //转化类型
-	
-	private Map<String,String> mapByAno=new HashMap<>();//初始化集：<注解,属性名>
+    /** 初始化集：<注解,属性名> */
+	private Map<String,String> mapByAno=new HashMap<>();
 
 	/**
 	 * 构造工具类

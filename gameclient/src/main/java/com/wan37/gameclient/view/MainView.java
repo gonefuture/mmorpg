@@ -5,7 +5,7 @@ package com.wan37.gameclient.view;
 import com.wan37.common.entity.Cmd;
 import com.wan37.common.proto.CmdProto;
 import com.wan37.gameclient.GameClient;
-import lombok.extern.slf4j.Slf4j;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.awt.event.KeyListener;
 
 
 
-@Slf4j
+
 public class MainView extends JFrame {
 
     public static final JTextArea output = new JTextArea();

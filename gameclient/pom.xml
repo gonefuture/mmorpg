@@ -8,15 +8,18 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+
+
+    <parent>
+        <artifactId>mmorpg</artifactId>
+        <groupId>com.wan37</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+
     <name>gameclient</name>
     <description>A game client for rpg game.</description>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.5.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,10 +29,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -44,16 +43,7 @@
             <version>4.1.29.Final</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
 
         <!-- String工具类 -->
         <dependency>
@@ -79,7 +69,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.wan37.gameclient.GameClientApplication</mainClass>
+                    <mainClass>com.wan37.gameclient.GameClient</mainClass>
                 </configuration>
             </plugin>
         </plugins>
