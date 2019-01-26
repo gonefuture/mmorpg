@@ -44,14 +44,9 @@ public class MissionManager {
             ).build();
 
 
-    // 玩家任务成就进度
-    private static Cache<Long, Map<Integer,MissionProgress>> missionProgressCache = CacheBuilder.newBuilder()
-            .removalListener(
-                    notification -> log.info(notification.getKey() + " 玩家任务成就进度被移除，原因是" + notification.getCause())
-            ).build();
 
 
-    private static Mission getMission(Integer missionId) {
+    public static Mission getMission(Integer missionId) {
         return missionCache.getIfPresent(missionId);
     }
 
@@ -60,27 +55,6 @@ public class MissionManager {
     }
 
 
-    public static MissionProgress getMissionProgress(Long playerId,Integer missionId) {
-        return Optional.ofNullable(missionProgressCache.getIfPresent(playerId))
-                .map(missionProgressMap -> missionProgressMap.get(missionId)).orElse(null);
-    }
-
-
-    public static void putMissionProgress(Long playerId, MissionProgress missionProgress) {
-        Optional.ofNullable(missionProgressCache.getIfPresent(playerId))
-                .map(missionProgressMap -> missionProgressMap.put(missionProgress.getMissionId(),missionProgress))
-                .orElseGet( () ->  {
-                    missionProgressCache.put(playerId,new ConcurrentHashMap<Integer, MissionProgress>() {{
-                        put(missionProgress.getMissionId(),missionProgress);
-                    }});
-                    return  null;
-                });
-    }
-
-
-    public static Map<Integer,MissionProgress> getMissionProgressMap(Long playerId) {
-        return missionProgressCache.getIfPresent(playerId);
-    }
 
 
 
@@ -135,8 +109,6 @@ public class MissionManager {
                     player.getMissionProgresses().put(mp.getMissionId(),mp);
                 }
         );
-
-        missionProgressCache.put(player.getId(),playerMissionProgressMap);
         log.debug("玩家任务成就进度数据数据完毕 {}", playerMissionProgressMap);
     }
 

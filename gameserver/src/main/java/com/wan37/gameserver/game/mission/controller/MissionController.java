@@ -8,6 +8,7 @@ import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import com.wan37.gameserver.manager.notification.NotificationManager;
+import com.wan37.gameserver.util.ParameterCheckUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
@@ -35,7 +36,7 @@ public class MissionController {
 
 
     {
-        ControllerManager.add(Cmd.MISSION_SHOW,this::showPlaerMission);
+        ControllerManager.add(Cmd.MISSION_SHOW,this::showPlayerMission);
         ControllerManager.add(Cmd.ALL_MISSION,this::allMission);
         ControllerManager.add(Cmd.MISSION_ACEEPT,this::acceptMission);
     }
@@ -45,19 +46,15 @@ public class MissionController {
      *  接受任务
      */
     private void acceptMission(ChannelHandlerContext cxt, Message message) {
+        String[] args = ParameterCheckUtil.checkParameter(cxt,message,2);
+        Integer missionId = Integer.valueOf(args[1]);
+        Player player = playerDataService.getPlayerByCtx(cxt);
+        missionService.acceptMission(player,missionId);
+
     }
 
 
 
-    /**
-     *  显示任务成就
-     * @param cxt 上下文
-     * @param message 信息
-     */
-    private void missionShow(ChannelHandlerContext cxt, Message message) {
-
-        missionService.missionShow(cxt);
-    }
 
 
     /**
@@ -70,7 +67,7 @@ public class MissionController {
 
 
 
-    private void showPlaerMission(ChannelHandlerContext cxt, Message message) {
+    private void showPlayerMission(ChannelHandlerContext cxt, Message message) {
         Player player = playerDataService.getPlayerByCtx(cxt);
         Map<Integer, MissionProgress> missionProgressMap = missionService.getPlayerMissionProgress(player);
         StringBuilder sb = new StringBuilder();

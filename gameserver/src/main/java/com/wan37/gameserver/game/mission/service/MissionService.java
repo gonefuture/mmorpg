@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -43,16 +44,7 @@ public class MissionService {
     private NotificationManager notificationManager;
 
 
-    public void missionShow(ChannelHandlerContext cxt) {
-        Player player = playerDataService.getPlayerByCtx(cxt);
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("玩家的当前进行的任务：\n");
-        MissionManager.getMissionProgressMap(player.getId()).forEach(
-                (k,v) -> sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n",
-                            k,v.getMission().getName(),v.getMission().getLevel(),v.getMission().getDescribe())));
-        notificationManager.notifyPlayer(player,sb);
-    }
 
 
     public void allMissionShow(ChannelHandlerContext cxt) {
@@ -142,20 +134,19 @@ public class MissionService {
     /**
      *     获取一个任务进度，如果玩家进度尚未记录，新建一个并持久化
      * @param m 任务
-     * @param playerId 玩家id
+     * @param player 玩家
      * @return 一个任务进度
      */
-    public MissionProgress getOrCreateProgress(Mission m, Long playerId) {
+    public MissionProgress getOrCreateProgress(Mission m, Player player) {
         // 获取玩家的任务进度
-        MissionProgress  missionProgress = MissionManager.
-                getMissionProgress(playerId,m.getId());
+        MissionProgress  missionProgress = player.getMissionProgresses().get(m.getId());
         log.debug("missionProgress {}",missionProgress);
         // 如果玩家没有记录，现在创建记录
        return Optional.ofNullable(missionProgress)
                 .orElseGet( () -> {
                             MissionProgress missionProgressNow = new MissionProgress();
                             missionProgressNow.setMissionId(m.getId());
-                            missionProgressNow.setPlayerId(playerId);
+                            missionProgressNow.setPlayerId(player.getId());
                             missionProgressNow.setBeginTime(new Date());
 
                             missionProgressNow.setMissionState(MissionState.NOT_START.getCode());
@@ -165,8 +156,8 @@ public class MissionService {
                             );
                             missionProgressNow.setProgress(JSON.toJSONString(missionProgressNow.getProgressMap()));
                             log.debug("missionProgressNow前 {}",missionProgressNow);
-                            // 放入缓存并持久化进度
-                            MissionManager.putMissionProgress(playerId,missionProgressNow);
+                            // 将任务进度放入玩家当中并持久化进度
+                            player.getMissionProgresses().put(missionProgressNow.getMissionId(),missionProgressNow);
                             missionManager.saveOrUpdateMissionProgress(missionProgressNow);
                             return missionProgressNow;
                         }
@@ -186,7 +177,7 @@ public class MissionService {
                 .forEach(
                 m ->{
                     // 如果角色没有该任务进度，新建一个
-                    MissionProgress mp = getOrCreateProgress(m,player.getId());
+                    MissionProgress mp = getOrCreateProgress(m,player);
                     if (mp.getMissionState().equals(MissionState.NEVER.getCode())){
                         return;
                     }
@@ -217,10 +208,10 @@ public class MissionService {
                 .forEach(
                         m ->{
                             // 如果角色没有该任务进度，新建一个
-                            MissionProgress mp = getOrCreateProgress(m,player.getId());
-                            if (mp.getMissionState().equals(MissionState.NEVER.getCode()))
+                            MissionProgress mp = getOrCreateProgress(m,player);
+                            if (mp.getMissionState().equals(MissionState.NEVER.getCode())) {
                                 return;
-
+                            }
                             // 如果任务进行中
                             //if (MissionState.RUNNING.getType().equals(mp.getMissionState())) {
                             // 增加任务进度
@@ -249,5 +240,22 @@ public class MissionService {
     public Map<Integer, MissionProgress> getPlayerMissionProgress(Player player) {
 
         return player.getMissionProgresses();
+    }
+
+
+    /**
+     *  接受任务
+     * @param player   玩家
+     * @param missionId 任务id
+     */
+    public void acceptMission(Player player, Integer missionId) {
+        Mission mission = MissionManager.getMission(missionId);
+        if (Objects.isNull(mission)) {
+            notificationManager.notifyPlayer(player,"该任务不存在");
+            return;
+        }
+        MissionProgress missionProgress = new MissionProgress();
+        missionProgress.setMission(mission);
+        player.getMissionProgresses().put(missionProgress.getMissionId(),missionProgress);
     }
 }

@@ -8,13 +8,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0221ca9b-06b3-465a-8b39-366dc9ae7b8a" name="Default" comment="Merge branch 'master' of github.com:gonefuture/mmorpg&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/controller/MissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/controller/MissionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/manager/MissionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/manager/MissionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/model/Mission.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/model/Mission.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/service/MissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/service/MissionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/service/PlayerDataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/service/PlayerDataService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gameserver/src/main/resources/gameData/mission.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/gameserver/src/main/resources/gameData/mission.xlsx" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/Common/target/" />
@@ -88,32 +85,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/service/PlayerDataService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="229" column="55" selection-start-line="229" selection-start-column="55" selection-end-line="229" selection-end-column="55" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/service/BufferService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/controller/MissionController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="92" column="46" selection-start-line="92" selection-start-column="46" selection-end-line="92" selection-end-column="46" />
-              <folding>
-                <element signature="e#1075#1076#0" expanded="true" />
-                <element signature="e#1125#1126#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="703">
+              <caret line="51" column="31" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -121,7 +96,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/model/MissionProgress.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
+            <state relative-caret-position="323">
               <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
             </state>
           </provider>
@@ -130,21 +105,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common/src/main/java/com/wan37/common/entity/Cmd.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="178" column="16" lean-forward="true" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="16" />
+            <state relative-caret-position="3344">
+              <caret line="178" column="16" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/service/MissionService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="51" column="78" lean-forward="true" selection-start-line="51" selection-start-column="57" selection-end-line="51" selection-end-column="78" />
-              <folding>
-                <element signature="e#2657#2658#0" expanded="true" />
-                <element signature="e#2717#2718#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="523">
+              <caret line="260" column="1" lean-forward="true" selection-start-line="260" selection-start-column="1" selection-end-line="260" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -152,8 +123,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/manager/MissionManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="134" column="39" selection-start-line="134" selection-start-column="39" selection-end-line="134" selection-end-column="39" />
+            <state relative-caret-position="2109">
+              <caret line="135" column="7" selection-start-line="135" selection-start-column="7" selection-end-line="135" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/GameClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/view/MainView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -161,7 +156,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/model/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-314">
+            <state relative-caret-position="494">
               <caret line="53" column="88" selection-start-line="53" selection-start-column="88" selection-end-line="53" selection-end-column="88" />
             </state>
           </provider>
@@ -179,7 +174,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/model/Mission.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
+            <state relative-caret-position="1235">
               <caret line="78" column="32" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
             </state>
           </provider>
@@ -284,12 +279,12 @@
         <option value="$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/view/MainView.java" />
         <option value="$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/adapter/ClientProtoAdapter.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/model/Mission.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/manager/MissionManager.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/service/PlayerDataService.java" />
-        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/service/MissionService.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/model/Player.java" />
         <option value="$PROJECT_DIR$/common/src/main/java/com/wan37/common/entity/Cmd.java" />
         <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/controller/MissionController.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/manager/MissionManager.java" />
+        <option value="$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/service/MissionService.java" />
       </list>
     </option>
   </component>
@@ -321,10 +316,10 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="40" />
+    <option name="y" value="71" />
+    <option name="width" value="1700" />
+    <option name="height" value="970" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -334,7 +329,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -503,6 +497,18 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="gameserver" type="462c0819:PsiDirectoryNode" />
+              <item name="game" type="462c0819:PsiDirectoryNode" />
+              <item name="mission" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mmorpg" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mmorpg" type="462c0819:PsiDirectoryNode" />
+              <item name="gameserver" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gameserver" type="462c0819:PsiDirectoryNode" />
               <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -563,6 +569,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -575,7 +582,7 @@
     <property name="SearchEverywhereHistoryKey" value="initPl&#9;PSI&#9;JAVA://com.wan37.gameServer.game.gameRole.service.PlayerDataService#initPlayer&#10;savePl&#9;PSI&#9;JAVA://com.wan37.gameServer.game.gameRole.service.PlayerQuitService#savePlayer" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548325705601" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548325924026" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
@@ -774,7 +781,11 @@
       <workItem from="1548233044562" duration="6310000" />
       <workItem from="1548292420361" duration="1060000" />
       <workItem from="1548294211237" duration="1402000" />
-      <workItem from="1548299290224" duration="17089000" />
+      <workItem from="1548299290224" duration="17390000" />
+      <workItem from="1548379554996" duration="5574000" />
+      <workItem from="1548412180881" duration="732000" />
+      <workItem from="1548416416367" duration="991000" />
+      <workItem from="1548467667066" duration="2057000" />
     </task>
     <task id="LOCAL-00001" summary="Merge branch 'master' of github.com:gonefuture/mmorpg&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
       <created>1541124653875</created>
@@ -787,7 +798,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1137695000" />
+    <option name="totallyTimeSpent" value="1147350000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -801,7 +812,7 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.25871313" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.2580429" />
       <window_info id="Structure" order="1" sideWeight="0.50141644" side_tool="true" weight="0.25737265" />
       <window_info id="Nl-Palette" order="2" />
       <window_info id="Capture Tool" order="3" />
@@ -813,7 +824,7 @@
       <window_info anchor="bottom" id="Flutter Performance" order="0" sideWeight="0.4899464" side_tool="true" weight="0.4348442" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.41926345" />
-      <window_info active="true" anchor="bottom" id="Run" order="3" sideWeight="0.53351206" visible="true" weight="0.0878187" />
+      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.53351206" weight="0.25212464" />
       <window_info anchor="bottom" id="Debug" order="4" sideWeight="0.5093834" weight="0.41926345" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -831,7 +842,7 @@
       <window_info anchor="bottom" id="Database Console" order="18" weight="0.3286119" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="19" weight="0.41926345" />
       <window_info anchor="bottom" id="Inspection Results" order="20" weight="0.3286119" />
-      <window_info anchor="bottom" id="Terminal" order="21" sideWeight="0.52077746" weight="0.24504249" />
+      <window_info anchor="bottom" id="Terminal" order="21" sideWeight="0.52077746" weight="0.16997167" />
       <window_info anchor="right" id="Maven" order="0" weight="0.27010724" />
       <window_info anchor="right" id="Database" order="1" weight="0.1621984" />
       <window_info anchor="right" id="Flutter Inspector" order="2" weight="0.3297587" />
@@ -852,7 +863,7 @@
       <window_info anchor="right" id="Mongo Explorer" order="17" weight="0.14142092" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.30093834" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49858356" visible="true" weight="0.2580429" />
       <window_info id="Structure" order="1" sideWeight="0.50141644" side_tool="true" weight="0.25737265" />
       <window_info id="Nl-Palette" order="2" />
       <window_info id="Capture Tool" order="3" />
@@ -864,7 +875,7 @@
       <window_info anchor="bottom" id="Flutter Performance" order="0" sideWeight="0.4899464" side_tool="true" weight="0.4348442" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.41926345" />
-      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.53351206" visible="true" weight="0.5892351" />
+      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.53351206" weight="0.36260623" />
       <window_info anchor="bottom" id="Debug" order="4" sideWeight="0.5093834" weight="0.41926345" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -872,19 +883,19 @@
       <window_info anchor="bottom" id="Application Servers" order="8" sideWeight="0.49785408" weight="0.053227633" />
       <window_info anchor="bottom" id="SBT Console" order="9" />
       <window_info anchor="bottom" id="Java Enterprise" order="10" />
-      <window_info anchor="bottom" id="Version Control" order="11" weight="0.7209632" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.3045326" />
       <window_info anchor="bottom" id="TODO" order="12" weight="0.3286119" />
-      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49570817" weight="0.38526914" />
+      <window_info anchor="bottom" id="Messages" order="13" sideWeight="0.49570817" weight="0.28611898" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Spring" order="15" weight="0.3281471" />
+      <window_info anchor="bottom" id="Spring" order="15" weight="0.32719547" />
       <window_info anchor="bottom" id="Docker" order="16" show_stripe_button="false" />
       <window_info anchor="bottom" id="Duplicate detector" order="17" weight="0.32577905" />
       <window_info anchor="bottom" id="Database Console" order="18" weight="0.3286119" />
       <window_info anchor="bottom" id="FindBugs-IDEA" order="19" weight="0.41926345" />
       <window_info anchor="bottom" id="Inspection Results" order="20" weight="0.3286119" />
-      <window_info anchor="bottom" id="Terminal" order="21" sideWeight="0.52077746" weight="0.16855524" />
-      <window_info anchor="right" id="Maven" order="0" weight="0.22319035" />
-      <window_info active="true" anchor="right" id="Database" order="1" visible="true" weight="0.13873994" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="21" sideWeight="0.52077746" visible="true" weight="0.16997167" />
+      <window_info anchor="right" id="Maven" order="0" weight="0.27010724" />
+      <window_info anchor="right" id="Database" order="1" weight="0.1621984" />
       <window_info anchor="right" id="Flutter Inspector" order="2" weight="0.3297587" />
       <window_info anchor="right" id="Ant Build" order="3" sideWeight="0.49541286" weight="0.48793566" />
       <window_info anchor="right" id="Commander" order="4" weight="0.4" />
@@ -899,7 +910,7 @@
       <window_info anchor="right" id="Bean Validation" order="13" />
       <window_info anchor="right" id="Theme Preview" order="14" />
       <window_info anchor="right" x="0" y="0" width="337" height="638" id="Documentation" order="15" sideWeight="0.5110024" side_tool="true" weight="0.24664879" />
-      <window_info anchor="right" id="Flutter Outline" order="16" weight="0.3297587" />
+      <window_info anchor="right" id="Flutter Outline" order="16" weight="0.347185" />
       <window_info anchor="right" id="Mongo Explorer" order="17" weight="0.14142092" />
     </layout-to-restore>
   </component>
@@ -1148,13 +1159,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/GameClientApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="17" selection-start-line="12" selection-start-column="33" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/GameClientApplication.java" />
     <entry file="file://$PROJECT_DIR$/gameclient/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1176,26 +1181,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/view/MainView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/GameClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-709">
-          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1240,30 +1225,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/service/PlayerDataService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3667">
+          <caret line="229" column="55" selection-start-line="229" selection-start-column="55" selection-end-line="229" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/service/BufferService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
+        <state relative-caret-position="247">
           <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/service/PlayerDataService.java">
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/controller/MissionController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="229" column="55" selection-start-line="229" selection-start-column="55" selection-end-line="229" selection-end-column="55" />
+        <state relative-caret-position="703">
+          <caret line="51" column="31" selection-start-line="51" selection-start-column="31" selection-end-line="51" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/model/MissionProgress.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/wan37/common/entity/Cmd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3344">
+          <caret line="178" column="16" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/manager/MissionManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="134" column="39" selection-start-line="134" selection-start-column="39" selection-end-line="134" selection-end-column="39" />
+        <state relative-caret-position="2109">
+          <caret line="135" column="7" selection-start-line="135" selection-start-column="7" selection-end-line="135" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/GameClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gameclient/src/main/java/com/wan37/gameclient/view/MainView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/player/model/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-314">
+        <state relative-caret-position="494">
           <caret line="53" column="88" selection-start-line="53" selection-start-column="88" selection-end-line="53" selection-end-column="88" />
         </state>
       </provider>
@@ -1275,46 +1301,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/service/MissionService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="51" column="78" lean-forward="true" selection-start-line="51" selection-start-column="57" selection-end-line="51" selection-end-column="78" />
-          <folding>
-            <element signature="e#2657#2658#0" expanded="true" />
-            <element signature="e#2717#2718#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/model/Mission.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
+        <state relative-caret-position="1235">
           <caret line="78" column="32" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/model/MissionProgress.java">
+    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/service/MissionService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/src/main/java/com/wan37/common/entity/Cmd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="178" column="16" lean-forward="true" selection-start-line="178" selection-start-column="16" selection-end-line="178" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gameserver/src/main/java/com/wan37/gameserver/game/mission/controller/MissionController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="92" column="46" selection-start-line="92" selection-start-column="46" selection-end-line="92" selection-end-column="46" />
-          <folding>
-            <element signature="e#1075#1076#0" expanded="true" />
-            <element signature="e#1125#1126#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="523">
+          <caret line="260" column="1" lean-forward="true" selection-start-line="260" selection-start-column="1" selection-end-line="260" selection-end-column="1" />
         </state>
       </provider>
     </entry>
