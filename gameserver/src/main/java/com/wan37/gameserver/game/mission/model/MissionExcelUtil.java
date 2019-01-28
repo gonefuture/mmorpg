@@ -8,7 +8,7 @@ import com.wan37.gameserver.util.excel.ReadExcelByEntity;
  * @version 1.00
  * Description: mmorpg
  */
-public class MissionExcelUtil extends ReadExcelByEntity<Mission> {
+public class MissionExcelUtil extends ReadExcelByEntity<Quest> {
     /**
      * 构造工具类
      *

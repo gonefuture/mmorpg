@@ -2,8 +2,8 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.TradeEvent;
-import com.wan37.gameserver.game.mission.model.MissionCondition;
-import com.wan37.gameserver.game.mission.model.MissionType;
+import com.wan37.gameserver.game.mission.model.QuestCondition;
+import com.wan37.gameserver.game.mission.model.QuestType;
 import com.wan37.gameserver.game.mission.service.MissionService;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +29,8 @@ public class TradeEventHandler {
 
     private void firstTrade(TradeEvent tradeEvent) {
         // 分别检测交易发起者和交易被动者
-        missionService.checkMissionProgress(MissionType.TRADE,tradeEvent.getInitiator(), MissionCondition.FIRST_ACHIEVEMENT);
-        missionService.checkMissionProgress(MissionType.TRADE,tradeEvent.getAccepter(), MissionCondition.FIRST_ACHIEVEMENT);
+        missionService.checkMissionProgress(QuestType.TRADE,tradeEvent.getInitiator(), QuestCondition.FIRST_ACHIEVEMENT);
+        missionService.checkMissionProgress(QuestType.TRADE,tradeEvent.getAccepter(), QuestCondition.FIRST_ACHIEVEMENT);
     }
 
 

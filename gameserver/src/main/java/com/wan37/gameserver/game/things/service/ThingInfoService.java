@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -90,6 +91,19 @@ public class ThingInfoService {
             bufferService.startBuffer(player,buffer);
         }
         return true;
+    }
+
+
+    /**
+     * 创建物品条目
+     */
+    public Item createItemByThingInfo(Integer thingId, Integer number) {
+        ThingInfo thingInfo = getThingInfo(thingId);
+
+        if (Objects.isNull(thingInfo)) {
+            return null;
+        }
+        return new Item(generateItemId(),number,thingInfo);
     }
 
 

@@ -2,8 +2,8 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.LevelEvent;
-import com.wan37.gameserver.game.mission.model.MissionCondition;
-import com.wan37.gameserver.game.mission.model.MissionType;
+import com.wan37.gameserver.game.mission.model.QuestCondition;
+import com.wan37.gameserver.game.mission.model.QuestType;
 import com.wan37.gameserver.game.mission.service.MissionService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import org.springframework.stereotype.Component;
@@ -33,8 +33,8 @@ public class LevelEventHandler {
 
     private  void levelUp(LevelEvent levelEvent) {
         notificationManager.notifyPlayer(levelEvent.getPlayer(), MessageFormat.format("恭喜你，您的等级升到了{0}级",levelEvent.getLevel()));
-        missionService.checkMissionProgressByNumber(MissionType.LEVEL,levelEvent.getPlayer(),
-                MissionCondition.FIRST_ACHIEVEMENT,levelEvent.getLevel());
+        missionService.checkMissionProgressByNumber(QuestType.LEVEL,levelEvent.getPlayer(),
+                QuestCondition.FIRST_ACHIEVEMENT,levelEvent.getLevel());
     }
 
 

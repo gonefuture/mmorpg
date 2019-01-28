@@ -7,8 +7,7 @@ import com.wan37.gameserver.event.model.MoneyEvent;
 import com.wan37.gameserver.game.bag.model.Bag;
 import com.wan37.gameserver.game.bag.model.Item;
 import com.wan37.gameserver.game.friend.model.Friend;
-import com.wan37.gameserver.game.mission.model.Mission;
-import com.wan37.gameserver.game.mission.model.MissionProgress;
+import com.wan37.gameserver.game.mission.model.QuestProgress;
 import com.wan37.gameserver.game.roleProperty.model.RoleProperty;
 
 
@@ -51,7 +50,7 @@ public class Player extends TPlayer   implements Creature  {
     private Creature target;
 
     /** 玩家任务 **/
-    private Map<Integer, MissionProgress> missionProgresses = new ConcurrentHashMap<>();
+    private Map<Integer, QuestProgress> missionProgresses = new ConcurrentHashMap<>();
     @Override
     public void setTarget(Creature target) {
         this.target = target;

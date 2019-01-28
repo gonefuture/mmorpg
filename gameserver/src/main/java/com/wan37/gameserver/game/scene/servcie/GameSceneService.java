@@ -40,7 +40,9 @@ public class GameSceneService {
      * @return 空或者场景
      */
     public GameScene getSceneByPlayer(Player player) {
+
         player.setScene(player.getCurrentScene().getId());
+
         return player.getCurrentScene();
     }
 

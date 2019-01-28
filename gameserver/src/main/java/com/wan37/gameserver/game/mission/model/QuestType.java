@@ -6,7 +6,7 @@ package com.wan37.gameserver.game.mission.model;
  * @version 1.00
  * Description: mmorpg
  */
-public enum MissionType {
+public enum QuestType {
 
 
     KILL_MONSTER(1),
@@ -29,7 +29,7 @@ public enum MissionType {
     ;
 
 
-    MissionType(Integer typeId) {
+    QuestType(Integer typeId) {
         this.typeId = typeId;
     }
 

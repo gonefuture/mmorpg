@@ -2,8 +2,8 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.FriendEvent;
-import com.wan37.gameserver.game.mission.model.MissionCondition;
-import com.wan37.gameserver.game.mission.model.MissionType;
+import com.wan37.gameserver.game.mission.model.QuestCondition;
+import com.wan37.gameserver.game.mission.model.QuestType;
 import com.wan37.gameserver.game.mission.service.MissionService;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +28,6 @@ public class FriendEventHandler {
 
 
     private  void addFriend(FriendEvent guildEvent) {
-        missionService.checkMissionProgress(MissionType.FRIEND,guildEvent.getPlayer(), MissionCondition.FIRST_ACHIEVEMENT);
+        missionService.checkMissionProgress(QuestType.FRIEND,guildEvent.getPlayer(), QuestCondition.FIRST_ACHIEVEMENT);
     }
 }

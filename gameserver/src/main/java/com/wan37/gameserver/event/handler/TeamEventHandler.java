@@ -2,8 +2,8 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.TeamEvent;
-import com.wan37.gameserver.game.mission.model.MissionCondition;
-import com.wan37.gameserver.game.mission.model.MissionType;
+import com.wan37.gameserver.game.mission.model.QuestCondition;
+import com.wan37.gameserver.game.mission.model.QuestType;
 import com.wan37.gameserver.game.mission.service.MissionService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class TeamEventHandler {
     private  void firstTeam(TeamEvent teamEvent) {
         // 检测队伍是否是第一次组队
         teamEvent.getTeammate().forEach(
-                p -> missionService.checkMissionProgress(MissionType.TEAM,p, MissionCondition.FIRST_ACHIEVEMENT)
+                p -> missionService.checkMissionProgress(QuestType.TEAM,p, QuestCondition.FIRST_ACHIEVEMENT)
         );
 
     }

@@ -46,7 +46,7 @@ public class KillMonsterEventHandler {
         Long monsterId = deadEvent.getTarget().getId();
         Player player = deadEvent.getPlayer();
 
-        missionService.checkMissionProgress(MissionType.KILL_MONSTER,player,String.valueOf(monsterId));
+        missionService.checkMissionProgress(QuestType.KILL_MONSTER,player,String.valueOf(monsterId));
 
     }
 

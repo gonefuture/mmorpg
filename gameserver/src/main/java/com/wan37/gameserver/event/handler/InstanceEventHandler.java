@@ -2,8 +2,8 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.InstanceEvent;
-import com.wan37.gameserver.game.mission.model.MissionCondition;
-import com.wan37.gameserver.game.mission.model.MissionType;
+import com.wan37.gameserver.game.mission.model.QuestCondition;
+import com.wan37.gameserver.game.mission.model.QuestType;
 import com.wan37.gameserver.game.mission.service.MissionService;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +28,6 @@ public class InstanceEventHandler {
 
 
     private  void passInstance(InstanceEvent guildEvent) {
-        missionService.checkMissionProgress(MissionType.INSTANCE,guildEvent.getPlayer(), MissionCondition.FIRST_ACHIEVEMENT);
+        missionService.checkMissionProgress(QuestType.INSTANCE,guildEvent.getPlayer(), QuestCondition.FIRST_ACHIEVEMENT);
     }
 }

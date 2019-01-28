@@ -6,7 +6,7 @@ package com.wan37.gameserver.game.mission.model;
  * @version 1.00
  * Description: 任务条件
  */
-public final class MissionCondition {
+public final class QuestCondition {
     // 第一次类型的任务，只能完成一次
     public static final String FIRST_ACHIEVEMENT = "first";
 

@@ -3,8 +3,8 @@ package com.wan37.gameserver.event.model;
 
 import com.wan37.gameserver.event.Event;
 import com.wan37.gameserver.game.player.model.Player;
-import com.wan37.gameserver.game.mission.model.Mission;
-import com.wan37.gameserver.game.mission.model.MissionProgress;
+import com.wan37.gameserver.game.mission.model.Quest;
+import com.wan37.gameserver.game.mission.model.QuestProgress;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,13 +19,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=true)
 public class MissionEvent extends Event {
     private Player player;
-    private Mission mission;
-    private MissionProgress missionProgress;
+    private Quest quest;
+    private QuestProgress missionProgress;
 
 
-    public MissionEvent(Player player, Mission mission, MissionProgress missionProgress) {
+    public MissionEvent(Player player, Quest quest, QuestProgress missionProgress) {
         this.player = player;
-        this.mission = mission;
+        this.quest = quest;
         this.missionProgress = missionProgress;
     }
 }

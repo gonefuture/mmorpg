@@ -19,8 +19,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -38,7 +36,7 @@ public class MissionManager {
     private TMissionProgressMapper tMissionProgressMapper;
 
     // 任务成就
-    private static Cache<Integer, Mission> missionCache = CacheBuilder.newBuilder()
+    private static Cache<Integer, Quest> missionCache = CacheBuilder.newBuilder()
             .removalListener(
                     notification -> log.info(notification.getKey() + " 任务成就被移除，原因是" + notification.getCause())
             ).build();
@@ -46,11 +44,11 @@ public class MissionManager {
 
 
 
-    public static Mission getMission(Integer missionId) {
+    public static Quest getMission(Integer missionId) {
         return missionCache.getIfPresent(missionId);
     }
 
-    public static Map<Integer, Mission> allMission() {
+    public static Map<Integer, Quest> allMission() {
         return missionCache.asMap();
     }
 
@@ -66,9 +64,9 @@ public class MissionManager {
     }
 
     private void loadMission() {
-        String path = FileUtil.getStringPath("gameData/mission.xlsx");
+        String path = FileUtil.getStringPath("gameData/quest.xlsx");
         MissionExcelUtil missionExcelUtil = new MissionExcelUtil(path);
-        Map<Integer, Mission> missionMap = missionExcelUtil.getMap();
+        Map<Integer, Quest> missionMap = missionExcelUtil.getMap();
 
         missionMap.values().forEach(
                 mission -> {
@@ -88,18 +86,18 @@ public class MissionManager {
         TMissionProgressExample tMissionProgressExample = new TMissionProgressExample();
         tMissionProgressExample.or().andPlayerIdEqualTo(player.getId());
         List<TMissionProgress> tMissionProgressList =  tMissionProgressMapper.selectByExample(tMissionProgressExample);
-        Map<Integer,MissionProgress> playerMissionProgressMap = new ConcurrentHashMap<>(15);
+        Map<Integer, QuestProgress> playerMissionProgressMap = new ConcurrentHashMap<>(15);
 
         tMissionProgressList.forEach(
                 tMP -> {
-                    MissionProgress mp = new MissionProgress();
+                    QuestProgress mp = new QuestProgress();
                     mp.setPlayerId(tMP.getPlayerId());
                     mp.setMissionId(tMP.getMissionId());
                     mp.setBeginTime(tMP.getBeginTime());
                     mp.setEndTime(tMP.getEndTime());
                     mp.setMissionState(tMP.getMissionState());
                     // 加载任务实体
-                    mp.setMission(getMission(mp.getMissionId()));
+                    mp.setQuest(getMission(mp.getMissionId()));
                     // 从数据库获取任务成就进度
                     Map<String, ProgressNumber>  missionProgressMap = JSON.parseObject(tMP.getProgress(),
                             new TypeReference<Map<String,ProgressNumber>>(){});
@@ -118,7 +116,7 @@ public class MissionManager {
      *  创建或更新一个玩家任务成就进度记录
      * @param progress 新创建的进度
      */
-    public  void saveOrUpdateMissionProgress(MissionProgress progress) {
+    public  void saveOrUpdateMissionProgress(QuestProgress progress) {
         WorkThreadPool.threadPool.execute(() -> {
             TMissionProgressKey key = new TMissionProgressKey();
             key.setMissionId(progress.getMissionId());
@@ -137,7 +135,7 @@ public class MissionManager {
      *  更新瓦加进程
      * @param progress 更新玩家进程
      */
-    public void updateMissionProgress(MissionProgress progress) {
+    public void updateMissionProgress(QuestProgress progress) {
         WorkThreadPool.threadPool.execute(() -> tMissionProgressMapper.updateByPrimaryKeySelective(progress) );
     }
 

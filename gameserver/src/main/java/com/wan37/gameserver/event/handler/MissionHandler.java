@@ -2,8 +2,8 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.MissionEvent;
-import com.wan37.gameserver.game.mission.model.MissionProgress;
-import com.wan37.gameserver.game.mission.model.MissionState;
+import com.wan37.gameserver.game.mission.model.QuestProgress;
+import com.wan37.gameserver.game.mission.model.QuestState;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -36,22 +36,22 @@ public class MissionHandler {
      * @param missionEvent   任务事件
      */
     private  void notificationMission(MissionEvent missionEvent) {
-       MissionProgress missionProgress = missionEvent.getMissionProgress();
-       if (MissionState.COMPLETE.getCode().equals(missionProgress.getMissionState())) {
+       QuestProgress missionProgress = missionEvent.getMissionProgress();
+       if (QuestState.COMPLETE.getCode().equals(missionProgress.getMissionState())) {
            notificationManager.notifyPlayer(missionEvent.getPlayer(), MessageFormat.format("任务{0}  达成 \n" +
                            "{1}",
-                   missionEvent.getMission().getName(),missionEvent.getMission().getDescribe()));
+                   missionEvent.getQuest().getName(),missionEvent.getQuest().getDescribe()));
        }
 
-        if (MissionState.FINISH.getCode().equals(missionProgress.getMissionState())) {
+        if (QuestState.FINISH.getCode().equals(missionProgress.getMissionState())) {
             notificationManager.notifyPlayer(missionEvent.getPlayer(),MessageFormat.format("完成任务{0}",
-                    missionEvent.getMission().getName()));
+                    missionEvent.getQuest().getName()));
         }
 
-        if (MissionState.NEVER.getCode().equals(missionProgress.getMissionState())) {
+        if (QuestState.NEVER.getCode().equals(missionProgress.getMissionState())) {
             notificationManager.notifyPlayer(missionEvent.getPlayer(), MessageFormat.format("成就 {0}  达成 \n" +
                             "{1}",
-                    missionEvent.getMission().getName(),missionEvent.getMission().getDescribe()));
+                    missionEvent.getQuest().getName(),missionEvent.getQuest().getDescribe()));
         }
 
 

@@ -8,7 +8,7 @@ package com.wan37.gameserver.game.mission.model;
  */
 
 
-public enum MissionState {
+public enum QuestState {
 
 
     NOT_START("任务未接", 1),
@@ -26,7 +26,7 @@ public enum MissionState {
 
     Integer code;
 
-    MissionState(String name, Integer code) {
+    QuestState(String name, Integer code) {
         this.name = name;
         this.code = code;
     }
@@ -36,7 +36,7 @@ public enum MissionState {
         return code;
     }
 
-    public static MissionState valueOf(Integer code) {
+    public static QuestState valueOf(Integer code) {
         switch (code) {
             case 1:
                 return NOT_START;

@@ -16,11 +16,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class MissionProgress extends TMissionProgress {
+public class QuestProgress extends TMissionProgress {
 
 
 
-    private Mission mission;
+    private Quest quest;
 
 
     // 进度

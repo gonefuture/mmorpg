@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Data
 @Slf4j
-public class Mission implements IExcel<Integer>{
+public class Quest implements IExcel<Integer>{
 
 
     @EntityName(column = "id")
@@ -35,9 +35,13 @@ public class Mission implements IExcel<Integer>{
     @EntityName(column = "类型")
     private Integer type;
 
+    /** 成就，主线，日常，周常，月常**/
+    @EntityName(column = "种类")
+    private Integer kind;
+
+
     @EntityName(column = "等级")
     private Integer level;
-
 
 
     @EntityName(column = "接受条件")

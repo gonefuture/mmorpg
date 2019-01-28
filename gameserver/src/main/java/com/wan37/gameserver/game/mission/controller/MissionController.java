@@ -2,7 +2,7 @@ package com.wan37.gameserver.game.mission.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Cmd;
-import com.wan37.gameserver.game.mission.model.MissionProgress;
+import com.wan37.gameserver.game.mission.model.QuestProgress;
 import com.wan37.gameserver.game.mission.service.MissionService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
@@ -69,18 +69,18 @@ public class MissionController {
 
     private void showPlayerMission(ChannelHandlerContext cxt, Message message) {
         Player player = playerDataService.getPlayerByCtx(cxt);
-        Map<Integer, MissionProgress> missionProgressMap = missionService.getPlayerMissionProgress(player);
+        Map<Integer, QuestProgress> missionProgressMap = missionService.getPlayerMissionProgress(player);
         StringBuilder sb = new StringBuilder();
         sb.append("玩家当前进行的任务： \n");
         missionProgressMap.values().forEach(
                 missionProgress -> {
                     sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}  进度: ",
-                            missionProgress.getMission().getId(),
-                            missionProgress.getMission().getName(),
-                            missionProgress.getMission().getLevel(),
-                            missionProgress.getMission().getDescribe()
+                            missionProgress.getQuest().getId(),
+                            missionProgress.getQuest().getName(),
+                            missionProgress.getQuest().getLevel(),
+                            missionProgress.getQuest().getDescribe()
                             ));
-                    missionProgress.getMission().getConditionsMap().forEach(
+                    missionProgress.getQuest().getConditionsMap().forEach(
                             (k,v) -> sb.append(MessageFormat.format("{0}: {1}/{2} \n",k,
                                     missionProgress.getProgressMap().get(k).getNow(),
                                     missionProgress.getProgressMap().get(k).getGoal()))
