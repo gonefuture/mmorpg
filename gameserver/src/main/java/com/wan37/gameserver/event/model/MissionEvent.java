@@ -3,8 +3,8 @@ package com.wan37.gameserver.event.model;
 
 import com.wan37.gameserver.event.Event;
 import com.wan37.gameserver.game.player.model.Player;
-import com.wan37.gameserver.game.mission.model.Quest;
-import com.wan37.gameserver.game.mission.model.QuestProgress;
+import com.wan37.gameserver.game.quest.model.Quest;
+import com.wan37.gameserver.game.quest.model.QuestProgress;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

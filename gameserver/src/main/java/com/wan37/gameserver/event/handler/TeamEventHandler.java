@@ -2,9 +2,9 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.TeamEvent;
-import com.wan37.gameserver.game.mission.model.QuestCondition;
-import com.wan37.gameserver.game.mission.model.QuestType;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.model.QuestCondition;
+import com.wan37.gameserver.game.quest.model.QuestType;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,13 +31,13 @@ public class TeamEventHandler {
     private NotificationManager notificationManager;
 
     @Resource
-    private MissionService missionService;
+    private QuestService questService;
 
 
     private  void firstTeam(TeamEvent teamEvent) {
         // 检测队伍是否是第一次组队
         teamEvent.getTeammate().forEach(
-                p -> missionService.checkMissionProgress(QuestType.TEAM,p, QuestCondition.FIRST_ACHIEVEMENT)
+                p -> questService.checkMissionProgress(QuestType.TEAM,p, QuestCondition.FIRST_ACHIEVEMENT)
         );
 
     }

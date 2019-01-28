@@ -58,6 +58,11 @@ public class SceneObject implements IExcel<Long>  {
     @EntityName(column = "掉落")
     private String drop;
 
+    @EntityName(column = "任务")
+    private String quests;
+
+
+
 
     // 死亡时间
     private long deadTime;

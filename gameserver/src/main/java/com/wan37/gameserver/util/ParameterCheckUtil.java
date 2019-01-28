@@ -16,16 +16,13 @@ public final class ParameterCheckUtil {
 
 
     public static String[] checkParameter(ChannelHandlerContext ctx, Message message,int parameterNumber) {
-        String[] args;
-        try {
-            args = message.getContent().split("\\s+");
-            if (args.length != parameterNumber) {
-                throw new IndexOutOfBoundsException();
-            }
-        }catch (IndexOutOfBoundsException e) {
-            NotificationManager.notifyByCtx(ctx,message);
-            throw new RuntimeException(e);
+        String[] args = null;
+
+        args = message.getContent().split("\\s+");
+        if (args.length != parameterNumber) {
+            NotificationManager.notifyByCtx(ctx,"您输入的参数数目不正确，请重新输入");
         }
+
         return args;
     }
 }

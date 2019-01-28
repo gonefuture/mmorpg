@@ -7,7 +7,7 @@ import com.google.common.base.Strings;
 import com.wan37.gameserver.game.bag.service.BagsService;
 import com.wan37.gameserver.game.bag.service.EquipmentBarService;
 import com.wan37.gameserver.game.friend.model.Friend;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import com.wan37.gameserver.game.roleProperty.model.RoleProperty;
 import com.wan37.gameserver.game.roleProperty.service.RolePropertyService;
 import com.wan37.gameserver.game.player.model.Player;
@@ -63,7 +63,7 @@ public class PlayerDataService {
     private GameSceneService gameSceneService;
 
     @Resource
-    private MissionService missionService;
+    private QuestService questService;
 
 
     /**
@@ -227,7 +227,7 @@ public class PlayerDataService {
         equipmentBarService.load(player);
 
         // 加载任务进度
-        missionService.playerMissionProgressInit(player);
+        questService.playerMissionProgressInit(player);
 
         // 加载到场景中
         gameSceneService.initPlayerScene(player);

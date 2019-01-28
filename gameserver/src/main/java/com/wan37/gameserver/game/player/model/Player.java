@@ -7,7 +7,7 @@ import com.wan37.gameserver.event.model.MoneyEvent;
 import com.wan37.gameserver.game.bag.model.Bag;
 import com.wan37.gameserver.game.bag.model.Item;
 import com.wan37.gameserver.game.friend.model.Friend;
-import com.wan37.gameserver.game.mission.model.QuestProgress;
+import com.wan37.gameserver.game.quest.model.QuestProgress;
 import com.wan37.gameserver.game.roleProperty.model.RoleProperty;
 
 

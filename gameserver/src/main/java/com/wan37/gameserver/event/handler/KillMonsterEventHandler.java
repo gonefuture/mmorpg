@@ -5,9 +5,9 @@ import com.wan37.gameserver.event.EventBus;
 
 import com.wan37.gameserver.event.model.MonsterEventDeadEvent;
 import com.wan37.gameserver.game.player.model.Player;
-import com.wan37.gameserver.game.mission.manager.MissionManager;
-import com.wan37.gameserver.game.mission.model.*;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.manager.QuestManager;
+import com.wan37.gameserver.game.quest.model.*;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -32,10 +32,10 @@ public class KillMonsterEventHandler {
 
 
     @Resource
-    private MissionManager missionManager;
+    private QuestManager missionManager;
 
     @Resource
-    private MissionService missionService;
+    private QuestService questService;
 
 
     /**
@@ -46,7 +46,7 @@ public class KillMonsterEventHandler {
         Long monsterId = deadEvent.getTarget().getId();
         Player player = deadEvent.getPlayer();
 
-        missionService.checkMissionProgress(QuestType.KILL_MONSTER,player,String.valueOf(monsterId));
+        questService.checkMissionProgress(QuestType.KILL_MONSTER,player,String.valueOf(monsterId));
 
     }
 

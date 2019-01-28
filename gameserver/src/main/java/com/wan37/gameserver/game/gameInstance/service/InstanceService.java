@@ -171,11 +171,6 @@ public class InstanceService {
                 .map(Long::valueOf)
                 .map( gameObjectService::getGameObject)
                 .forEach( sceneObject -> {
-                            if ( sceneObject.getRoleType().equals(SceneObjectType.NPC.getType())) {
-                                NPC npc = new NPC();
-                                BeanUtils.copyProperties(sceneObject,npc);
-                                gameInstance.getNpcs().put(sceneObject.getId(), npc);
-                            }
                             // 加载boss进怪物列表
                             if (sceneObject.getRoleType().equals(SceneObjectType.INSTANCE_MONSTER.getType())) {
                                 Monster monster = new Monster();

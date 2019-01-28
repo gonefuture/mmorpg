@@ -63,23 +63,26 @@ public enum Cmd {
     // 与npc谈话
     TALK_WITH_NPC("talk",13002),
 
-    // 使用技能
-    USE_SKILL("skill",13003),
+    /** 查看npc任务 **/
+    SHOW__NPC_QUEST("npc_quest",130021,"查看npc任务"),
 
-    // 使用技能攻击怪物
+    /** 使用技能 **/
+    USE_SKILL("skill",13003,"使用技能"),
+
+    /** 使用技能攻击怪物 **/
     PVE_SKILL("skill_e",3003),
 
     // buffer开始
     START_BUFFER("start_buffer",3004),
 
-    // 装备武器装备
-    EQUIP("equip",3005),
+    /** 装备武器装备 **/
+    EQUIP("equip",3005,"装备武器装备"),
 
     // 使用道具物品
     USE_ITEM("use_item",3006),
 
-    // 角色使用普通攻击怪物
-    COMMON_ATTACK("attack",3007),
+    /** 角色使用普通攻击怪物 **/
+    COMMON_ATTACK("attack",3007,"色使用普通攻击怪物"),
 
     // 进入副本
     ENTER_INSTANCE("instance",3008),
@@ -96,8 +99,7 @@ public enum Cmd {
     // 技能攻击玩家
     SKILL_PVP("skill_p",30012),
 
-
-    // 私聊
+    /** 私聊 **/
     WHISPER("whisper",4001),
 
     // 公共聊天
@@ -173,14 +175,14 @@ public enum Cmd {
     // 退出公会
     GUILD_QUIT("guild_quit", 4024),
 
-    // 显示已接任务
+    /** 显示已接任务 **/
     MISSION_SHOW("quest", 4025,"显示已接任务"),
 
-    // 显示所有任务和成就
-    ALL_MISSION("all_mission",4026,"显示所有任务和成就"),
+    /**  显示所有任务和成就 **/
+    ALL_MISSION("all_quest",4026,"显示所有任务和成就"),
 
-    /** 展示玩家当前的任务 **/
-    MISSION_ACEEPT("mission_accept",14026,"展示玩家当前的任务"),
+    /** 接受的任务 **/
+    MISSION_ACCEPT("accept",14026,"接受任务"),
 
     FRIEND_LIST("friend_list",4027),
 

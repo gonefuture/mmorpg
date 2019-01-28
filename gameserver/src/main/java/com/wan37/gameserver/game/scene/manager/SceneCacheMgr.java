@@ -28,7 +28,7 @@ import java.util.*;
 public class SceneCacheMgr  {
 
 
-    // 缓存不过期
+    /** 缓存不过期 **/
     private static Cache<Integer, GameScene> sceneCache = CacheBuilder.newBuilder()
             .removalListener(
                     notification -> System.out.println(notification.getKey() + "场景被移除, 原因是" + notification.getCause())
@@ -54,7 +54,6 @@ public class SceneCacheMgr  {
 
             sceneCache.put(gameScene.getId(), gameScene);
         }
-        log.debug("场景资源 {}" , gameSceneMap);
         log.info("场景资源加载进缓存完毕");
     }
 

@@ -1,4 +1,4 @@
-package com.wan37.gameserver.game.mission.service;
+package com.wan37.gameserver.game.quest.service;
 
 import com.alibaba.fastjson.JSON;
 import com.wan37.gameserver.event.EventBus;
@@ -7,10 +7,11 @@ import com.wan37.gameserver.game.bag.model.Item;
 import com.wan37.gameserver.game.bag.service.BagsService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
-import com.wan37.gameserver.game.mission.manager.MissionManager;
-import com.wan37.gameserver.game.mission.model.*;
+import com.wan37.gameserver.game.quest.manager.QuestManager;
+import com.wan37.gameserver.game.quest.model.*;
 import com.wan37.gameserver.game.things.service.ThingInfoService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
+import com.wan37.mysql.pojo.entity.TMissionProgress;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 
@@ -34,11 +35,11 @@ import java.util.stream.Stream;
 
 @Service
 @Slf4j
-public class MissionService {
+public class QuestService {
 
 
     @Resource
-    private MissionManager missionManager;
+    private QuestManager missionManager;
 
     @Resource
     private PlayerDataService playerDataService;
@@ -57,12 +58,12 @@ public class MissionService {
 
         StringBuilder sb = new StringBuilder();
         sb.append("所有的任务：\n");
-        MissionManager.allMission().values().stream().
+        QuestManager.allMission().values().stream().
                 filter( mission -> mission.getType() !=  4)
                 .forEach( mission -> sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n"
                             ,mission.getName(),mission.getLevel(),mission.getDescribe())));
         sb.append("\n").append("所有的成就：\n");
-        MissionManager.allMission().values().stream().
+        QuestManager.allMission().values().stream().
                 filter( mission -> mission.getType() ==  4)
                 .forEach(
                         mission -> sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}\n"
@@ -82,8 +83,8 @@ public class MissionService {
      * @param missionType 任务类型
      * @return 任务类型是否相同
      */
-    private Stream<Quest> getMissionType(QuestType missionType) {
-        return MissionManager.allMission().values().stream().
+    private Stream<Quest> getMissionByType(QuestType missionType) {
+        return QuestManager.allMission().values().stream().
                 filter(
                 mission -> mission.getType().equals(missionType.getTypeId())
         );
@@ -139,88 +140,82 @@ public class MissionService {
 
     /**
      *     获取一个任务进度，如果玩家进度尚未记录，新建一个并持久化
-     * @param m 任务
+     * @param quest 任务
      * @param player 玩家
      * @return 一个任务进度
      */
-    public QuestProgress getOrCreateProgress(Quest m, Player player) {
+    public QuestProgress getOrCreateProgress(Quest quest, Player player) {
         // 获取玩家的任务进度
-        QuestProgress missionProgress = player.getMissionProgresses().get(m.getId());
-        log.debug("missionProgress {}",missionProgress);
-        //
-        if (m.getType().equals(QuestType.KILL_MONSTER.getTypeId() )
-                || m.getType().equals(QuestType.COLLECT_THINGS.getTypeId())) {
-            return null;
+        QuestProgress missionProgress = player.getMissionProgresses().get(quest.getId());
+
+        // 如果是成就且玩家没有记录，现在创建记录
+        if (Objects.isNull(missionProgress) &&
+                quest.getKind().equals(QuestKindType.ACHIEVEMENT.getKind())) {
+            QuestProgress missionProgressNow = new QuestProgress();
+            missionProgressNow.setMissionId(quest.getId());
+            missionProgressNow.setPlayerId(player.getId());
+            missionProgressNow.setBeginTime(new Date());
+            missionProgressNow.setQuest(quest);
+
+            missionProgressNow.setMissionState(QuestState.NOT_START.getCode());
+            // 初始化进度
+            quest.getConditionsMap().forEach(   (id,goal) ->
+                    missionProgressNow.getProgressMap().put(id,new ProgressNumber(goal))
+            );
+            missionProgressNow.setProgress(JSON.toJSONString(missionProgressNow.getProgressMap()));
+            log.debug("missionProgressNow前 {}",missionProgressNow);
+            // 将任务进度放入玩家当中并持久化进度
+            player.getMissionProgresses().put(missionProgressNow.getMissionId(),missionProgressNow);
+            missionManager.saveOrUpdateMissionProgress(missionProgressNow);
+            missionProgress = missionProgressNow;
         }
 
-        // 如果玩家没有记录，现在创建记录
-       return Optional.ofNullable(missionProgress)
-                .orElseGet( () -> {
-                            QuestProgress missionProgressNow = new QuestProgress();
-                            missionProgressNow.setMissionId(m.getId());
-                            missionProgressNow.setPlayerId(player.getId());
-                            missionProgressNow.setBeginTime(new Date());
-                            missionProgressNow.setQuest(m);
-
-                            missionProgressNow.setMissionState(QuestState.NOT_START.getCode());
-                            // 初始化进度
-                            m.getConditionsMap().forEach(   (id,goal) ->
-                                    missionProgressNow.getProgressMap().put(id,new ProgressNumber(goal))
-                            );
-                            missionProgressNow.setProgress(JSON.toJSONString(missionProgressNow.getProgressMap()));
-                            log.debug("missionProgressNow前 {}",missionProgressNow);
-                            // 将任务进度放入玩家当中并持久化进度
-                            player.getMissionProgresses().put(missionProgressNow.getMissionId(),missionProgressNow);
-                            missionManager.saveOrUpdateMissionProgress(missionProgressNow);
-                            return missionProgressNow;
-                        }
-                );
+        log.debug("missionProgress {}",missionProgress);
+        return missionProgress;
     }
 
 
     /**
      *  检测进度
-     * @param missionType   任务类型
+     * @param questType   任务类型
      * @param player 玩家
      * @param condition 条件
      */
-    public void checkMissionProgress(QuestType missionType, Player player, String condition) {
-        getMissionType(missionType)
+    public void checkMissionProgress(QuestType questType, Player player, String condition) {
+        getMissionByType(questType)
                 .filter(m -> hasCondition(m,condition))
-                .forEach(
-                m ->{
+                .forEach( m ->{
                     // 如果角色没有该任务进度，新建一个
-                    QuestProgress mp = getOrCreateProgress(m,player);
-                    if (mp.getMissionState().equals(QuestState.NEVER.getCode())){
+                    QuestProgress questProgress = getOrCreateProgress(m,player);
+                    if (Objects.isNull(questProgress)) {
                         return;
                     }
-
-                    // 如果任务进行中
-                    //if (QuestState.RUNNING.getType().equals(mp.getMissionState())) {
-                        // 增加任务进度
-                        increaseProgress(mp,condition);
-                        //检测任务是否完成
-                        if (isMissionComplete(mp)) {
-                            EventBus.publish(new MissionEvent(player,m,mp));
-                            // 如果任务成就是只有一次的，则设置为不再触发
-                            if(QuestCondition.FIRST_ACHIEVEMENT.equals(condition)) {
-                                mp.setMissionState(QuestState.NEVER.getCode());
-                            }
+                    // 增加任务进度
+                    increaseProgress(questProgress,condition);
+                    //检测任务是否完成
+                    if (isMissionComplete(questProgress)) {
+                        EventBus.publish(new MissionEvent(player,m,questProgress));
+                        // 如果任务成就是只有一次的，则设置为不再触发
+                        if(QuestCondition.FIRST_ACHIEVEMENT.equals(condition)) {
+                            questProgress.setMissionState(QuestState.NEVER.getCode());
                         }
-                        mp.setProgress(JSON.toJSONString(mp.getProgressMap()));
-                        missionManager.updateMissionProgress(mp);
-                    //}
+                    }
+                    questProgress.setProgress(JSON.toJSONString(questProgress.getProgressMap()));
+                    missionManager.updateMissionProgress(questProgress);
                 }
         );
-
     }
 
     public void checkMissionProgressByNumber(QuestType missionType, Player player, String condition, Integer nowNumber) {
-        getMissionType(missionType)
+        getMissionByType(missionType)
                 .filter(m -> hasCondition(m,condition))
                 .forEach(   m ->{
                         // 如果角色没有该任务进度，新建一个
                         QuestProgress mp = getOrCreateProgress(m,player);
+                        if (Objects.isNull(mp)) {
+                            return;
+                        }
+
                         if (mp.getMissionState().equals(QuestState.NEVER.getCode())) {
                             return;
                         }
@@ -259,16 +254,16 @@ public class MissionService {
      * @param player   玩家
      * @param missionId 任务id
      */
-    public void acceptMission(Player player, Integer missionId) {
-        Quest quest = MissionManager.getMission(missionId);
+    public Quest acceptMission(Player player, Integer missionId) {
+        Quest quest = QuestManager.getQuest(missionId);
         if (Objects.isNull(quest)) {
             notificationManager.notifyPlayer(player,"该任务不存在");
-            return;
+            return null;
         }
 
         if (Objects.isNull(player.getMissionProgresses().get(missionId))) {
             notificationManager.notifyPlayer(player,"该任务已经接过");
-            return;
+            return null;
         }
 
         // 创建任务进度
@@ -281,6 +276,10 @@ public class MissionService {
         // 放入玩家实体中
         player.getMissionProgresses().put(missionProgress.getMissionId(),missionProgress);
         missionManager.saveOrUpdateMissionProgress(missionProgress);
+
+        notificationManager.notifyPlayer(player,MessageFormat.format("接受任务 {0}  ",
+                quest.getName()));
+        return quest;
     }
 
 
@@ -301,7 +300,6 @@ public class MissionService {
         } else {
             notificationManager.notifyPlayer(player,"任务尚未完成");
         }
-
     }
 
 
@@ -318,4 +316,8 @@ public class MissionService {
                 }
         );
     }
+
+
+
+
 }

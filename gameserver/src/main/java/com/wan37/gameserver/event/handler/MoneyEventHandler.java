@@ -3,9 +3,9 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.MoneyEvent;
-import com.wan37.gameserver.game.mission.model.QuestCondition;
-import com.wan37.gameserver.game.mission.model.QuestType;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.model.QuestCondition;
+import com.wan37.gameserver.game.quest.model.QuestType;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import org.springframework.stereotype.Component;
 
@@ -30,14 +30,14 @@ public class MoneyEventHandler {
 
 
     @Resource
-    private MissionService missionService;
+    private QuestService questService;
 
     @Resource
     private NotificationManager notificationManager;
 
 
     private  void moneyNumber(MoneyEvent moneyEvent) {
-        missionService.checkMissionProgressByNumber(QuestType.MONEY,moneyEvent.getPlayer(),
+        questService.checkMissionProgressByNumber(QuestType.MONEY,moneyEvent.getPlayer(),
                 QuestCondition.FIRST_ACHIEVEMENT,moneyEvent.getPlayer().getMoney());
     }
 

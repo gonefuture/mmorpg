@@ -2,8 +2,8 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.TalkWithEvent;
-import com.wan37.gameserver.game.mission.model.QuestType;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.model.QuestType;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -24,10 +24,10 @@ public class TalkWithEventHandler {
 
 
     @Resource
-    private MissionService missionService;
+    private QuestService questService;
 
     private  void talkWithNPC(TalkWithEvent event) {
-        missionService.checkMissionProgress(QuestType.TALK_WITH,event.getPlayer(), String.valueOf(event.getSceneObjectId()));
+        questService.checkMissionProgress(QuestType.TALK_WITH,event.getPlayer(), String.valueOf(event.getSceneObjectId()));
     }
 
 }

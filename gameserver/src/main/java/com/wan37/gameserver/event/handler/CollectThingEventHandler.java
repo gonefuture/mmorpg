@@ -3,9 +3,9 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.CollectThingEvent;
-import com.wan37.gameserver.game.mission.model.QuestCondition;
-import com.wan37.gameserver.game.mission.model.QuestType;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.model.QuestCondition;
+import com.wan37.gameserver.game.quest.model.QuestType;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import com.wan37.gameserver.game.things.model.ThingInfo;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +28,7 @@ public class CollectThingEventHandler {
 
 
     @Resource
-    private MissionService missionService;
+    private QuestService questService;
 
 
     /**
@@ -37,7 +37,7 @@ public class CollectThingEventHandler {
      */
     private  void getMissionThing(CollectThingEvent collectThingEvent) {
         // 任务物品的获取加一
-        missionService.checkMissionProgress(QuestType.COLLECT_THINGS,collectThingEvent.getPlayer(),
+        questService.checkMissionProgress(QuestType.COLLECT_THINGS,collectThingEvent.getPlayer(),
                 String.valueOf(collectThingEvent.getThingInfo().getId()));
     }
 
@@ -49,7 +49,7 @@ public class CollectThingEventHandler {
         // 筛选出装备，计算装备的等级事件
         Optional<Integer> level = Optional.ofNullable(collectThingEvent.getThingInfo())
                 .filter(things -> things.getKind() == 1).map(ThingInfo::getLevel);
-        missionService.checkMissionProgressByNumber(QuestType.COLLECT_THINGS,collectThingEvent.getPlayer(),
+        questService.checkMissionProgressByNumber(QuestType.COLLECT_THINGS,collectThingEvent.getPlayer(),
                 QuestCondition.FIRST_ACHIEVEMENT,level.orElse(0));
     }
 }

@@ -2,8 +2,8 @@ package com.wan37.gameserver.event.handler;
 
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.MissionEvent;
-import com.wan37.gameserver.game.mission.model.QuestProgress;
-import com.wan37.gameserver.game.mission.model.QuestState;
+import com.wan37.gameserver.game.quest.model.QuestProgress;
+import com.wan37.gameserver.game.quest.model.QuestState;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

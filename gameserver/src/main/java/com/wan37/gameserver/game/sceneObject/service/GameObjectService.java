@@ -5,11 +5,14 @@ import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.TalkWithEvent;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
+import com.wan37.gameserver.game.quest.manager.QuestManager;
+import com.wan37.gameserver.game.quest.model.Quest;
 import com.wan37.gameserver.game.sceneObject.manager.GameObjectManager;
 import com.wan37.gameserver.game.sceneObject.model.Monster;
 import com.wan37.gameserver.game.sceneObject.model.NPC;
 import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.game.sceneObject.model.SceneObject;
+import com.wan37.gameserver.game.sceneObject.model.SceneObjectType;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import com.wan37.gameserver.util.SnowFlake;
 import io.netty.channel.ChannelHandlerContext;
@@ -18,6 +21,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -36,6 +42,9 @@ public class GameObjectService {
 
     @Resource
     private PlayerDataService playerDataService;
+
+    @Resource
+    private QuestManager questManager;
 
 
 
@@ -85,12 +94,12 @@ public class GameObjectService {
                 .map(Long::valueOf)
                 .map( this::getGameObject)
                 .forEach( sceneObject -> {
-                    if ( sceneObject.getRoleType() == 1) {
+                    if ( sceneObject.getRoleType().equals(SceneObjectType.NPC.getType())) {
                         NPC npc = new NPC();
                         BeanUtils.copyProperties(sceneObject,npc);
                         gameScene.getNpcs().put(sceneObject.getId(), npc);
                     }
-                    if (sceneObject.getRoleType() == 2 ) {
+                    if (sceneObject.getRoleType().equals(SceneObjectType.WILD_MONSTER.getType()) ) {
                         Monster monster = new Monster();
                         BeanUtils.copyProperties(sceneObject,monster);
                         gameScene.getMonsters().put(sceneObject.getId(), monster);
@@ -136,4 +145,15 @@ public class GameObjectService {
         return snowFlake.nextId();
     }
 
+    public List<Quest> npcQuest(Long npcId) {
+        SceneObject sceneObject = getGameObject(npcId);
+        String quests = sceneObject.getQuests();
+        if (Objects.isNull(quests)) {
+            return null;
+        }
+        return Arrays.stream(quests.split(",")).
+                map(Integer::valueOf)
+                .map(QuestManager::getQuest)
+                .collect(Collectors.toList());
+    }
 }

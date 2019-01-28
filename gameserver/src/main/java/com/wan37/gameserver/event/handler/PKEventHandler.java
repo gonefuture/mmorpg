@@ -3,9 +3,9 @@ package com.wan37.gameserver.event.handler;
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.PKEvent;
 import com.wan37.gameserver.game.player.model.Player;
-import com.wan37.gameserver.game.mission.model.QuestCondition;
-import com.wan37.gameserver.game.mission.model.QuestType;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.model.QuestCondition;
+import com.wan37.gameserver.game.quest.model.QuestType;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -28,14 +28,14 @@ public class PKEventHandler  {
 
 
     @Resource
-    private MissionService missionService;
+    private QuestService questService;
 
     private  void firstPKWin(PKEvent event) {
         Player player = event.getPlayer();
 
         // 玩家pk胜利
         if (event.isWin()) {
-            missionService.checkMissionProgress(QuestType.PK,player, QuestCondition.FIRST_ACHIEVEMENT);
+            questService.checkMissionProgress(QuestType.PK,player, QuestCondition.FIRST_ACHIEVEMENT);
         }
     }
 

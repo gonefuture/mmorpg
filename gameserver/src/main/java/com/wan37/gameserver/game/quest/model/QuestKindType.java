@@ -1,4 +1,4 @@
-package com.wan37.gameserver.game.mission.model;
+package com.wan37.gameserver.game.quest.model;
 
 /**
  * @author gonefuture  gonefuture@qq.com

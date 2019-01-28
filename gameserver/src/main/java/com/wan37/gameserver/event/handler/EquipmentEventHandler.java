@@ -3,9 +3,9 @@ package com.wan37.gameserver.event.handler;
 import com.wan37.gameserver.event.EventBus;
 import com.wan37.gameserver.event.model.EquipmentEvent;
 import com.wan37.gameserver.game.bag.model.Item;
-import com.wan37.gameserver.game.mission.model.QuestCondition;
-import com.wan37.gameserver.game.mission.model.QuestType;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.model.QuestCondition;
+import com.wan37.gameserver.game.quest.model.QuestType;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import com.wan37.gameserver.game.things.model.ThingInfo;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ public class EquipmentEventHandler {
     }
 
     @Resource
-    private MissionService missionService;
+    private QuestService questService;
 
 
     private  void equipmentLevel(EquipmentEvent equipmentEvent) {
@@ -36,7 +36,7 @@ public class EquipmentEventHandler {
                 .map(ThingInfo::getLevel)
                 .reduce(Integer::sum);
 
-        missionService.checkMissionProgressByNumber(QuestType.EQUIPMENT,equipmentEvent.getPlayer(), QuestCondition.
+        questService.checkMissionProgressByNumber(QuestType.EQUIPMENT,equipmentEvent.getPlayer(), QuestCondition.
                 FIRST_ACHIEVEMENT,level.orElse(0));
     }
 

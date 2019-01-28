@@ -1,20 +1,28 @@
-package com.wan37.gameserver.game.mission.controller;
+package com.wan37.gameserver.game.quest.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Cmd;
-import com.wan37.gameserver.game.mission.model.QuestProgress;
-import com.wan37.gameserver.game.mission.service.MissionService;
+import com.wan37.gameserver.game.quest.manager.QuestManager;
+import com.wan37.gameserver.game.quest.model.Quest;
+import com.wan37.gameserver.game.quest.model.QuestProgress;
+import com.wan37.gameserver.game.quest.service.QuestService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
+import com.wan37.gameserver.game.things.model.ThingInfo;
+import com.wan37.gameserver.game.things.service.ThingInfoService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import com.wan37.gameserver.util.ParameterCheckUtil;
+import com.wan37.mysql.pojo.entity.TMissionProgress;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -25,20 +33,24 @@ import java.util.Map;
 
 
 @Controller
-public class MissionController {
+@Slf4j
+public class QuestController {
 
     @Resource
-    private MissionService missionService;
-
+    private QuestService questService;
 
     @Resource
     private PlayerDataService playerDataService;
+
+    @Resource
+    private ThingInfoService thingInfoService;
+
 
 
     {
         ControllerManager.add(Cmd.MISSION_SHOW,this::showPlayerMission);
         ControllerManager.add(Cmd.ALL_MISSION,this::allMission);
-        ControllerManager.add(Cmd.MISSION_ACEEPT,this::acceptMission);
+        ControllerManager.add(Cmd.MISSION_ACCEPT,this::acceptMission);
     }
 
 
@@ -49,12 +61,32 @@ public class MissionController {
         String[] args = ParameterCheckUtil.checkParameter(cxt,message,2);
         Integer missionId = Integer.valueOf(args[1]);
         Player player = playerDataService.getPlayerByCtx(cxt);
-        missionService.acceptMission(player,missionId);
+        Quest quest = questService.acceptMission(player,missionId);
 
     }
 
 
+    /**
+     *  任务详情
+     *
+     */
+    private void getQuestDetail(ChannelHandlerContext cxt, Message message) {
+        String[] args = ParameterCheckUtil.checkParameter(cxt,message,2);
+        Integer questId = Integer.valueOf(args[1]);
+        Quest quest = QuestManager.getQuest(questId);
+        NotificationManager.notifyByCtx(cxt,MessageFormat.format("{0} {1} ",
+                quest.getId(),quest.getName()));
+        NotificationManager.notifyByCtx(cxt,MessageFormat.format("任务详情： {0} ",
+                quest.getDescribe()));
 
+        NotificationManager.notifyByCtx(cxt,"奖励：  ");
+        quest.getRewardThingsMap().forEach( (thingId,number) ->
+                        NotificationManager.notifyByCtx(cxt,MessageFormat.format("{0} x {1}",
+                                Optional.ofNullable(thingInfoService.getThingInfo(thingId)).map(ThingInfo::getName),
+                                number))
+        );
+
+    }
 
 
     /**
@@ -62,14 +94,17 @@ public class MissionController {
      */
 
     private void allMission(ChannelHandlerContext cxt, Message message) {
-        missionService.allMissionShow(cxt);
+        questService.allMissionShow(cxt);
     }
 
 
-
+    /**
+     *  展示玩家当前的成就和任务进度
+     */
     private void showPlayerMission(ChannelHandlerContext cxt, Message message) {
         Player player = playerDataService.getPlayerByCtx(cxt);
-        Map<Integer, QuestProgress> missionProgressMap = missionService.getPlayerMissionProgress(player);
+        Map<Integer, QuestProgress> missionProgressMap = questService.getPlayerMissionProgress(player);
+        log.debug("任务 {}",missionProgressMap);
         StringBuilder sb = new StringBuilder();
         sb.append("玩家当前进行的任务： \n");
         missionProgressMap.values().forEach(

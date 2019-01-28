@@ -1,10 +1,10 @@
-package com.wan37.gameserver.game.mission.manager;
+package com.wan37.gameserver.game.quest.manager;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.wan37.gameserver.game.mission.model.*;
+import com.wan37.gameserver.game.quest.model.*;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.manager.task.WorkThreadPool;
 import com.wan37.gameserver.util.FileUtil;
@@ -30,13 +30,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Slf4j
-public class MissionManager {
+public class QuestManager {
 
     @Resource
     private TMissionProgressMapper tMissionProgressMapper;
 
     // 任务成就
-    private static Cache<Integer, Quest> missionCache = CacheBuilder.newBuilder()
+    private static Cache<Integer, Quest> questCache = CacheBuilder.newBuilder()
             .removalListener(
                     notification -> log.info(notification.getKey() + " 任务成就被移除，原因是" + notification.getCause())
             ).build();
@@ -44,23 +44,18 @@ public class MissionManager {
 
 
 
-    public static Quest getMission(Integer missionId) {
-        return missionCache.getIfPresent(missionId);
+    public static Quest getQuest(Integer missionId) {
+        return questCache.getIfPresent(missionId);
     }
 
     public static Map<Integer, Quest> allMission() {
-        return missionCache.asMap();
+        return questCache.asMap();
     }
-
-
-
-
 
 
     @PostConstruct
     public void init() {
         loadMission();
-
     }
 
     private void loadMission() {
@@ -72,7 +67,7 @@ public class MissionManager {
                 mission -> {
                     mission.getConditionsMap();
                     mission.getRewardThingsMap();
-                    missionCache.put(mission.getKey(),mission);}
+                    questCache.put(mission.getKey(),mission);}
         );
         log.info("任务成就资源加载完毕");
     }
@@ -97,7 +92,7 @@ public class MissionManager {
                     mp.setEndTime(tMP.getEndTime());
                     mp.setMissionState(tMP.getMissionState());
                     // 加载任务实体
-                    mp.setQuest(getMission(mp.getMissionId()));
+                    mp.setQuest(getQuest(mp.getMissionId()));
                     // 从数据库获取任务成就进度
                     Map<String, ProgressNumber>  missionProgressMap = JSON.parseObject(tMP.getProgress(),
                             new TypeReference<Map<String,ProgressNumber>>(){});
