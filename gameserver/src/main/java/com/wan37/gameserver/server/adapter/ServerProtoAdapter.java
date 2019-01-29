@@ -48,6 +48,8 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
         log.info("客户端: " + ctx.channel().id() + " 加入连接", CharsetUtil.UTF_8);
         NotificationManager.notifyByCtx(ctx,"欢迎来到斯拉泽艾大陆");
         NotificationManager.notifyByCtx(ctx,"请使用魔法咒语 ` show_cmd ` 展现所有指令");
+
+        NotificationManager.notifyByCtx(ctx,"测试账号登陆示例: login 1  123 ; login 2  123 ; login 3 123;");
     }
 
     /**

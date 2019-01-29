@@ -133,11 +133,12 @@ public class QuestController {
                             missionProgress.getQuest().getLevel(),
                             missionProgress.getQuest().getDescribe()
                             ));
-                    missionProgress.getQuest().getConditionsMap().forEach(
-                            (k,v) -> sb.append(MessageFormat.format("{0}: {1}/{2} \n",k,
+                    missionProgress.getProgressMap().forEach(
+                            (k,v) -> sb.append(MessageFormat.format("{0}: {1}/{2} ", k,
                                     missionProgress.getProgressMap().get(k).getNow(),
                                     missionProgress.getProgressMap().get(k).getGoal()))
                     );
+                    sb.append("\n");
                 }
         );
         NotificationManager.notifyByCtx(cxt,sb);

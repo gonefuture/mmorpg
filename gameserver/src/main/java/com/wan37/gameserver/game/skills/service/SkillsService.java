@@ -101,7 +101,6 @@ public class SkillsService {
      * @return 是否成功
      */
     public boolean castSkill(Creature initiator, Creature target , GameScene gameScene, Skill skill) {
-        log.debug("initiator.getHasUseSkillMap() {}",initiator.getHasUseSkillMap());
         if (!canSkill(initiator,skill)) {
             return false;
         }

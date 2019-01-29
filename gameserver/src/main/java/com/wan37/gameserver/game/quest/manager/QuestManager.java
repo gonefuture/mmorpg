@@ -9,6 +9,9 @@ import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.manager.task.WorkThreadPool;
 import com.wan37.gameserver.util.FileUtil;
 
+import com.wan37.mysql.pojo.entity.TQuestProgress;
+import com.wan37.mysql.pojo.entity.TQuestProgressExample;
+import com.wan37.mysql.pojo.entity.TQuestProgressKey;
 import com.wan37.mysql.pojo.mapper.TQuestProgressMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class QuestManager {
 
     @Resource
-    private TQuestProgressMapper tMissionProgressMapper;
+    private TQuestProgressMapper tQuestProgressMapper;
 
     // 任务成就
     private static Cache<Integer, Quest> questCache = CacheBuilder.newBuilder()
@@ -76,9 +79,9 @@ public class QuestManager {
      * @param player 玩家
      */
     public void loadMissionProgress(Player player) {
-        TMissionProgressExample tMissionProgressExample = new TMissionProgressExample();
+        TQuestProgressExample tMissionProgressExample = new TQuestProgressExample();
         tMissionProgressExample.or().andPlayerIdEqualTo(player.getId());
-        List<TMissionProgress> tMissionProgressList =  tMissionProgressMapper.selectByExample(tMissionProgressExample);
+        List<TQuestProgress> tMissionProgressList =  tQuestProgressMapper.selectByExample(tMissionProgressExample);
         Map<Integer, QuestProgress> playerMissionProgressMap = new ConcurrentHashMap<>(15);
 
         tMissionProgressList.forEach(
@@ -92,10 +95,12 @@ public class QuestManager {
                     // 加载任务实体
                     mp.setQuest(getQuest(mp.getMissionId()));
                     // 从数据库获取任务成就进度
-                    Map<String, ProgressNumber>  missionProgressMap = JSON.parseObject(tMP.getProgress(),
+                    Map<String, ProgressNumber>  questProgressMap = JSON.parseObject(tMP.getProgress(),
                             new TypeReference<Map<String,ProgressNumber>>(){});
                     log.debug("========== 从数据库加载的任务进程 {}",  mp);
-                    mp.setProgressMap(missionProgressMap);
+                    Optional.ofNullable(questProgressMap).ifPresent( qP ->
+                            mp.setProgressMap(questProgressMap)
+                    );
                     playerMissionProgressMap.put(mp.getMissionId(),mp);
                     player.getMissionProgresses().put(mp.getMissionId(),mp);
                 }
@@ -111,14 +116,14 @@ public class QuestManager {
      */
     public  void saveOrUpdateMissionProgress(QuestProgress progress) {
         WorkThreadPool.threadPool.execute(() -> {
-            TMissionProgressKey key = new TMissionProgressKey();
+            TQuestProgressKey key = new TQuestProgressKey();
             key.setMissionId(progress.getMissionId());
             key.setPlayerId(progress.getPlayerId());
-            TMissionProgress tMissionProgress = tMissionProgressMapper.selectByPrimaryKey(key);
-            if (Objects.isNull(tMissionProgress)) {
-                tMissionProgressMapper.insertSelective(progress);
+            TQuestProgress tQuestProgress = tQuestProgressMapper.selectByPrimaryKey(key);
+            if (Objects.isNull(tQuestProgress)) {
+                tQuestProgressMapper.insertSelective(progress);
             } else {
-                tMissionProgressMapper.updateByPrimaryKeySelective(progress);
+                tQuestProgressMapper.updateByPrimaryKeySelective(progress);
             }
         });
     }
@@ -129,7 +134,7 @@ public class QuestManager {
      * @param progress 更新玩家进程
      */
     public void updateQuestProgress(QuestProgress progress) {
-        WorkThreadPool.threadPool.execute(() -> tMissionProgressMapper.updateByPrimaryKeySelective(progress) );
+        WorkThreadPool.threadPool.execute(() -> tQuestProgressMapper.updateByPrimaryKeySelective(progress) );
     }
 
     /**
@@ -138,10 +143,10 @@ public class QuestManager {
      * @param questId 任务id
      */
     public void removeQuestProgress(Long playerId, Integer questId) {
-        TMissionProgressKey key = new TMissionProgressKey();
+        TQuestProgressKey key = new TQuestProgressKey();
         key.setMissionId(questId);
         key.setPlayerId(playerId);
-        WorkThreadPool.threadPool.execute(() -> tMissionProgressMapper.deleteByPrimaryKey(key) );
+        WorkThreadPool.threadPool.execute(() -> tQuestProgressMapper.deleteByPrimaryKey(key) );
     }
 
 

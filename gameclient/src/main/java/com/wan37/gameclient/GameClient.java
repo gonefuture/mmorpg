@@ -98,7 +98,7 @@ public class GameClient {
      */
     private void loop() throws IOException {
         while (true) {
-            System.out.println("请输入您的操作：  操作 + 数据（多个数据之间用空格隔开）");
+            System.out.println("请输入您的操作：  操作 + 数据（多个数据之间用空格隔开） (或者请使用指令` show_cmd `查看指令说明)");
             //向服务端发送内容
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             String content = reader.readLine();
