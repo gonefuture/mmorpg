@@ -29,7 +29,7 @@ public class TeamController {
     {
         ControllerManager.add(Cmd.INVITE_TEAM,this::inviteTeam);
         ControllerManager.add(Cmd.LEAVE_TEAM,this::teamQuit);
-        ControllerManager.add(Cmd.SHOW_TEAM,this::teamShow);
+        ControllerManager.add(Cmd.TEAM_SHOW,this::teamShow);
         ControllerManager.add(Cmd.JOIN_TEAM,this::teamJoin);
 
     }

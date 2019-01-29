@@ -51,7 +51,6 @@ public class ThingsManager implements ICacheManager<Integer, ThingInfo> {
 
                 put(thingInfoExcel.getId(), thingInfo);
             }
-            log.debug("物品配置配置表数据 {}",thingsMap);
             log.info("物品配置表加载完毕");
 
         } catch (Exception e) {

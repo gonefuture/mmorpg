@@ -35,15 +35,15 @@ public class GameClient {
 
     public static Channel channel = null;
 
-    private static String ip = "127.0.0.1";
 
-    private static int port = 8000;
+    /**   39.108.88.129 **/
+    private static String IP = "localhost";
+
+    private static int PORT = 8000;
 
     static  {
         MainView mainView = new MainView();
     }
-
-
 
 
 
@@ -75,7 +75,7 @@ public class GameClient {
         });
         try {
             //连接服务
-            Channel channel = bootstrap.connect(ip, port).sync().channel();
+            Channel channel = bootstrap.connect(IP, PORT).sync().channel();
 
             // 循环监听输入
             loop();
@@ -85,6 +85,9 @@ public class GameClient {
         }catch (Exception e) {
             System.out.println("=========== 发生错误 =========");
             e.printStackTrace();
+
+            System.out.println("=========== 尝试重连 =========");
+            run();
         }
     }
 
@@ -114,6 +117,9 @@ public class GameClient {
         }
     }
     public static void main(String[] args) {
+        if (args.length > 1) {
+            IP = args[0];
+        }
         new GameClient().run();
     }
 }

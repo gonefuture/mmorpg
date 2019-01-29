@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -149,7 +150,7 @@ public class GameObjectService {
         SceneObject sceneObject = getGameObject(npcId);
         String quests = sceneObject.getQuests();
         if (Objects.isNull(quests)) {
-            return null;
+            return Collections.emptyList();
         }
         return Arrays.stream(quests.split(",")).
                 map(Integer::valueOf)

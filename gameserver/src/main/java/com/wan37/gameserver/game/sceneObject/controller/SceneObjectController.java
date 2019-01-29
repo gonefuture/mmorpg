@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -44,6 +45,7 @@ public class SceneObjectController {
         Long npcId = Long.valueOf(args[1]);
         List<Quest> questList =  gameObjectService.npcQuest(npcId);
         NotificationManager.notifyByCtx(ctx,"任务列表：");
+
         questList.forEach(quest -> NotificationManager.notifyByCtx(ctx, MessageFormat.format("{0} {1}",
                 quest.getId(),quest.getName()
                 )));

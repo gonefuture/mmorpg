@@ -3,7 +3,7 @@ package com.wan37.mysql.pojo.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TMissionProgress extends TMissionProgressKey implements Serializable {
+public class TQuestProgress extends TQuestProgressKey implements Serializable {
     private Integer missionState;
 
     private Date beginTime;

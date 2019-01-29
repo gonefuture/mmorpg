@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TMissionProgressExample {
+public class TQuestProgressExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public TMissionProgressExample() {
+    public TQuestProgressExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

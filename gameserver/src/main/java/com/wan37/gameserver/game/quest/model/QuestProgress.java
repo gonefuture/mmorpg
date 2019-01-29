@@ -1,6 +1,7 @@
 package com.wan37.gameserver.game.quest.model;
 
-import com.wan37.mysql.pojo.entity.TMissionProgress;
+
+import com.wan37.mysql.pojo.entity.TQuestProgress;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,14 +17,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class QuestProgress extends TMissionProgress {
+public class QuestProgress extends TQuestProgress {
 
 
 
     private Quest quest;
 
 
-    // 进度
+    /** 进度 **/
     Map<String, ProgressNumber> progressMap = new ConcurrentHashMap<>();
 
 

@@ -8,10 +8,8 @@ import com.wan37.gameserver.game.quest.model.*;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.manager.task.WorkThreadPool;
 import com.wan37.gameserver.util.FileUtil;
-import com.wan37.mysql.pojo.entity.TMissionProgress;
-import com.wan37.mysql.pojo.entity.TMissionProgressExample;
-import com.wan37.mysql.pojo.entity.TMissionProgressKey;
-import com.wan37.mysql.pojo.mapper.TMissionProgressMapper;
+
+import com.wan37.mysql.pojo.mapper.TQuestProgressMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class QuestManager {
 
     @Resource
-    private TMissionProgressMapper tMissionProgressMapper;
+    private TQuestProgressMapper tMissionProgressMapper;
 
     // 任务成就
     private static Cache<Integer, Quest> questCache = CacheBuilder.newBuilder()
@@ -127,11 +125,23 @@ public class QuestManager {
 
 
     /**
-     *  更新瓦加进程
+     *  更新玩家任务进程
      * @param progress 更新玩家进程
      */
-    public void updateMissionProgress(QuestProgress progress) {
+    public void updateQuestProgress(QuestProgress progress) {
         WorkThreadPool.threadPool.execute(() -> tMissionProgressMapper.updateByPrimaryKeySelective(progress) );
+    }
+
+    /**
+     *  移除数据库玩家任务进程
+     * @param playerId 玩家id
+     * @param questId 任务id
+     */
+    public void removeQuestProgress(Long playerId, Integer questId) {
+        TMissionProgressKey key = new TMissionProgressKey();
+        key.setMissionId(questId);
+        key.setPlayerId(playerId);
+        WorkThreadPool.threadPool.execute(() -> tMissionProgressMapper.deleteByPrimaryKey(key) );
     }
 
 

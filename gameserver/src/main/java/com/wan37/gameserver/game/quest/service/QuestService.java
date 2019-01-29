@@ -11,7 +11,6 @@ import com.wan37.gameserver.game.quest.manager.QuestManager;
 import com.wan37.gameserver.game.quest.model.*;
 import com.wan37.gameserver.game.things.service.ThingInfoService;
 import com.wan37.gameserver.manager.notification.NotificationManager;
-import com.wan37.mysql.pojo.entity.TMissionProgress;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -39,7 +37,7 @@ public class QuestService {
 
 
     @Resource
-    private QuestManager missionManager;
+    private QuestManager questManager;
 
     @Resource
     private PlayerDataService playerDataService;
@@ -74,7 +72,7 @@ public class QuestService {
 
 
     public void playerMissionProgressInit(Player player) {
-        missionManager.loadMissionProgress(player);
+        questManager.loadMissionProgress(player);
     }
 
 
@@ -166,7 +164,7 @@ public class QuestService {
             log.debug("missionProgressNow前 {}",missionProgressNow);
             // 将任务进度放入玩家当中并持久化进度
             player.getMissionProgresses().put(missionProgressNow.getMissionId(),missionProgressNow);
-            missionManager.saveOrUpdateMissionProgress(missionProgressNow);
+            questManager.saveOrUpdateMissionProgress(missionProgressNow);
             missionProgress = missionProgressNow;
         }
 
@@ -201,7 +199,7 @@ public class QuestService {
                         }
                     }
                     questProgress.setProgress(JSON.toJSONString(questProgress.getProgressMap()));
-                    missionManager.updateMissionProgress(questProgress);
+                    questManager.updateQuestProgress(questProgress);
                 }
         );
     }
@@ -237,7 +235,7 @@ public class QuestService {
                         }
                         mp.setProgress(JSON.toJSONString(mp.getProgressMap()));
                         log.debug("进度更新前{}",mp);
-                        missionManager.updateMissionProgress(mp);
+                        questManager.updateQuestProgress(mp);
                         }
                 );
     }
@@ -254,14 +252,14 @@ public class QuestService {
      * @param player   玩家
      * @param missionId 任务id
      */
-    public Quest acceptMission(Player player, Integer missionId) {
+    public Quest acceptQuest(Player player, Integer missionId) {
         Quest quest = QuestManager.getQuest(missionId);
         if (Objects.isNull(quest)) {
             notificationManager.notifyPlayer(player,"该任务不存在");
             return null;
         }
 
-        if (Objects.isNull(player.getMissionProgresses().get(missionId))) {
+        if (Objects.nonNull(player.getMissionProgresses().get(missionId))) {
             notificationManager.notifyPlayer(player,"该任务已经接过");
             return null;
         }
@@ -275,7 +273,7 @@ public class QuestService {
         missionProgress.setMissionState(QuestState.RUNNING.getCode());
         // 放入玩家实体中
         player.getMissionProgresses().put(missionProgress.getMissionId(),missionProgress);
-        missionManager.saveOrUpdateMissionProgress(missionProgress);
+        questManager.saveOrUpdateMissionProgress(missionProgress);
 
         notificationManager.notifyPlayer(player,MessageFormat.format("接受任务 {0}  ",
                 quest.getName()));
@@ -318,6 +316,12 @@ public class QuestService {
     }
 
 
-
-
+    /**
+     *  放弃任务
+     */
+    public QuestProgress  questGiveUp(Player player, Integer questId) {
+        QuestProgress questProgress = player.getMissionProgresses().remove(questId);
+        questManager.removeQuestProgress(player.getId(),questId);
+        return questProgress;
+    }
 }

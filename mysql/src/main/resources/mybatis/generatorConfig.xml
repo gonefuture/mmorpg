@@ -91,7 +91,7 @@
             <columnOverride column="join_request"  jdbcType="VARCHAR" />
         </table>
 
-        <table tableName="t_mission_progress">
+        <table tableName="t_quest_progress">
             <columnOverride column="progress"  jdbcType="VARCHAR" />
         </table>
 

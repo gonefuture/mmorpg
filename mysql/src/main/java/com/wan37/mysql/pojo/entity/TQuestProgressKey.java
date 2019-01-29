@@ -2,7 +2,7 @@ package com.wan37.mysql.pojo.entity;
 
 import java.io.Serializable;
 
-public class TMissionProgressKey implements Serializable {
+public class TQuestProgressKey implements Serializable {
     private Long playerId;
 
     private Integer missionId;

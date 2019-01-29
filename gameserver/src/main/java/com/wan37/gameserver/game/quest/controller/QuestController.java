@@ -13,7 +13,6 @@ import com.wan37.gameserver.game.things.service.ThingInfoService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import com.wan37.gameserver.util.ParameterCheckUtil;
-import com.wan37.mysql.pojo.entity.TMissionProgress;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -48,20 +47,39 @@ public class QuestController {
 
 
     {
-        ControllerManager.add(Cmd.MISSION_SHOW,this::showPlayerMission);
-        ControllerManager.add(Cmd.ALL_MISSION,this::allMission);
-        ControllerManager.add(Cmd.MISSION_ACCEPT,this::acceptMission);
+        ControllerManager.add(Cmd.QUEST_SHOW,this::showPlayerQuests);
+        ControllerManager.add(Cmd.QUEST_ALL,this::allQuests);
+        ControllerManager.add(Cmd.QUEST_ACCEPT,this::acceptQuest);
+        ControllerManager.add(Cmd.QUEST_DESCRIBE,this::questDescribe);
+        ControllerManager.add(Cmd.QUEST_GIVE_UP,this::questGiveUp);
+
+    }
+
+
+    /**
+     *  放弃任务
+     */
+    private void questGiveUp(ChannelHandlerContext cxt, Message message) {
+        String[] args = ParameterCheckUtil.checkParameter(cxt,message,2);
+        Integer questId = Integer.valueOf(args[1]);
+        Player player = playerDataService.getPlayerByCtx(cxt);
+        QuestProgress questProgress = questService.questGiveUp(player,questId);
+        if (Objects.nonNull(questProgress)) {
+            NotificationManager.notifyByCtx(cxt,"成功放弃任务");
+        } else {
+            NotificationManager.notifyByCtx(cxt,"放弃任务失败，任务可能尚未被接受");
+        }
     }
 
 
     /**
      *  接受任务
      */
-    private void acceptMission(ChannelHandlerContext cxt, Message message) {
+    private void acceptQuest(ChannelHandlerContext cxt, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(cxt,message,2);
         Integer missionId = Integer.valueOf(args[1]);
         Player player = playerDataService.getPlayerByCtx(cxt);
-        Quest quest = questService.acceptMission(player,missionId);
+        Quest quest = questService.acceptQuest(player,missionId);
 
     }
 
@@ -70,7 +88,7 @@ public class QuestController {
      *  任务详情
      *
      */
-    private void getQuestDetail(ChannelHandlerContext cxt, Message message) {
+    private void questDescribe(ChannelHandlerContext cxt, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(cxt,message,2);
         Integer questId = Integer.valueOf(args[1]);
         Quest quest = QuestManager.getQuest(questId);
@@ -93,7 +111,7 @@ public class QuestController {
      *  显示所有任务和成就
      */
 
-    private void allMission(ChannelHandlerContext cxt, Message message) {
+    private void allQuests(ChannelHandlerContext cxt, Message message) {
         questService.allMissionShow(cxt);
     }
 
@@ -101,7 +119,7 @@ public class QuestController {
     /**
      *  展示玩家当前的成就和任务进度
      */
-    private void showPlayerMission(ChannelHandlerContext cxt, Message message) {
+    private void showPlayerQuests(ChannelHandlerContext cxt, Message message) {
         Player player = playerDataService.getPlayerByCtx(cxt);
         Map<Integer, QuestProgress> missionProgressMap = questService.getPlayerMissionProgress(player);
         log.debug("任务 {}",missionProgressMap);

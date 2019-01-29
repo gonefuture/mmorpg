@@ -45,7 +45,6 @@ public class SkillsManager  {
         for (Skill skill : skillMap.values()) {
             skillsCache.put(skill.getKey(), skill);
         }
-        log.debug("技能 {}",skillMap);
         log.info("技能配置表加载");
 
     }

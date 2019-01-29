@@ -9,7 +9,7 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   check-config-location: true
-  #type-aliases-package: com.wan37.mysql.pojo.
+  type-aliases-package: com.wan37.mysql.pojo
 
 debug: true
 logging:

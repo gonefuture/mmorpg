@@ -43,7 +43,6 @@ public class RolePropertyManager  implements ICacheManager<Integer,RoleProperty>
         for (RoleProperty roleProperty : rolePropertyMap.values()) {
             put(roleProperty.getKey(),roleProperty);
         }
-        log.debug("角色属性配置内容 {}",rolePropertyMap);
         log.info("角色属性配置表加载完毕");
     }
 
