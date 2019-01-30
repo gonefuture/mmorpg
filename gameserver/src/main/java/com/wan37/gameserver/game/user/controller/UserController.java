@@ -74,6 +74,7 @@ public class UserController  {
                 tPlayer.getId(),tPlayer.getName(),
                 RoleClassManager.getRoleClass(tPlayer.getRoleClass()).getName())));
         NotificationManager.notifyByCtx(ctx,sb.toString());
+        NotificationManager.notifyByCtx(ctx,"请使用`load {id}` 的加载角色 ");
 
     }
 }

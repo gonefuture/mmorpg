@@ -41,7 +41,7 @@ public class MainView extends JFrame {
                     String text = input.getText().replaceAll("\n", "");
                     output.append(text + "\n");
 
-
+                    System.out.println("客户端输入： "+text);
                     String[] array = text.split("\\s+");
                     Cmd msgId = Cmd.findByCommand(array[0], Cmd.UNKNOWN);
 

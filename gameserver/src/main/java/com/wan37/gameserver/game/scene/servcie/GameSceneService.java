@@ -141,6 +141,10 @@ public class GameSceneService {
     public void initPlayerScene(Player player) {
         GameScene scene = SceneCacheMgr.getScene(player.getScene());
 
+        if (Objects.isNull(scene)) {
+            scene = SceneCacheMgr.getScene(CommonSceneId.CEMETERY.getId());
+        }
+
         // 如果玩家场景id显示在副本但是身上却没关联副本实例，返回墓地的场景
         if (scene.getType().equals(SceneType.INSTANCE_SCENE.getType()) && Objects.isNull(player.getCurrentScene())){
             GameScene cemetery = SceneCacheMgr.getScene(CommonSceneId.CEMETERY.getId());

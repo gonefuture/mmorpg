@@ -19,10 +19,12 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.apache.commons.lang3.StringUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -33,20 +35,23 @@ import java.io.InputStreamReader;
  */
 public class GameClient {
 
+    public GameClient() {
+    }
+
+    public GameClient(String ip) {
+        IP = ip;
+    }
+
     public static Channel channel = null;
 
-
     /**   39.108.88.129 **/
-    private static String IP = "localhost";
+    private static String IP = "gonefuture.top";
 
     private static int PORT = 8000;
 
     static  {
         MainView mainView = new MainView();
     }
-
-
-
 
 
     public void run() {
@@ -57,11 +62,13 @@ public class GameClient {
         //指定所使用的NIO传输channel
         bootstrap.group(workerGroup).channel(NioSocketChannel.class);
 
+
         //指定客户端初始化处理
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ch.pipeline()
+                        //.addLast("ping", new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS))
                         .addLast(new ProtobufVarint32FrameDecoder())
                         .addLast("proto-decoder",
                                 new ProtobufDecoder(CmdProto.Cmd.getDefaultInstance()))
@@ -80,8 +87,6 @@ public class GameClient {
             // 循环监听输入
             loop();
 
-
-
         }catch (Exception e) {
             System.out.println("=========== 发生错误 =========");
             e.printStackTrace();
@@ -93,15 +98,17 @@ public class GameClient {
 
 
     /**
-     *
+     *  循环接受输入
      * @throws IOException
      */
     private void loop() throws IOException {
+        MainView.output.append("========== 连接服务器  "+ IP +"  成功==========\n");
         while (true) {
             System.out.println("请输入您的操作：  操作 + 数据（多个数据之间用空格隔开） (或者请使用指令` show_cmd `查看指令说明)");
-            //向服务端发送内容
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             String content = reader.readLine();
+            System.out.println("客户端输入： "+content);
             if (StringUtils.isNotEmpty(content)) {
                 if (StringUtils.equalsIgnoreCase(content, "q")) {
                     System.exit(1);
@@ -111,13 +118,13 @@ public class GameClient {
                 CmdProto.Cmd cmd = CmdProto.Cmd.newBuilder()
                         .setMgsId(msgId.getMsgId())
                         .setContent(content).build();
-
+                //向服务端发送内容
                 channel.writeAndFlush(cmd);
             }
         }
     }
     public static void main(String[] args) {
-        if (args.length > 1) {
+        if (args.length > 0) {
             IP = args[0];
         }
         new GameClient().run();

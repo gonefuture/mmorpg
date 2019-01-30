@@ -72,10 +72,12 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object message) {
+        log.debug("服务端收到  {}",message);
         CmdProto.Cmd cmd = (CmdProto.Cmd) message;
         Message msg = new Message();
         msg.setMsgId(cmd.getMgsId());
         msg.setContent(cmd.getContent());
+
         IController controller = controllerManager.get(cmd.getMgsId());
         if (controller == null) {
             errorController.handle( ctx ,msg);

@@ -39,7 +39,8 @@ public class GameServer {
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
-                //.option(ChannelOption.SO_BACKLOG, 1024) // 最大客户端连接数为1024
+                // 最大客户端连接数为1024
+                .option(ChannelOption.SO_BACKLOG, 1024)
                 //是否启用心跳保活机制
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
         .childHandler(socketChannelInitializer);

@@ -98,11 +98,11 @@ public class PlayerController {
                 result.append(neighbor.getId()).append(": ").append(neighbor.getName()).append(", ");
             });
 
+            result.append("\n").append("使用指令 `aoi` 查看周围环境");
+
         } else {
             result.append("用户尚未登陆，不能加载角色");
         }
-
-        log.debug("角色登陆返回的信息: "+ result);
         NotificationManager.notifyByCtx(ctx,result);
     }
 
