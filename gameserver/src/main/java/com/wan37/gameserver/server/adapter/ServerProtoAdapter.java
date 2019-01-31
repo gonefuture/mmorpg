@@ -45,7 +45,7 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("客户端: " + ctx.channel().id() + " 加入连接", CharsetUtil.UTF_8);
+        log.info("客户端: " + ctx.channel().id() + " 加入连接");
         NotificationManager.notifyByCtx(ctx,"欢迎来到斯拉泽艾大陆");
         NotificationManager.notifyByCtx(ctx,"请使用魔法咒语 ` show_cmd ` 展现所有指令");
 
@@ -72,8 +72,13 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object message) {
-        log.debug("服务端收到  {}",message);
         CmdProto.Cmd cmd = (CmdProto.Cmd) message;
+        // 如果发送的是心跳，直接无视
+        if (cmd.getMgsId() == 0) {
+            return;
+        }
+
+        log.debug("==========》 服务端收到  {}",message);
         Message msg = new Message();
         msg.setMsgId(cmd.getMgsId());
         msg.setContent(cmd.getContent());
@@ -88,15 +93,13 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
 
 
 
-
     /**
      *  玩家意外退出时保存是数据
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)  {
-
-        NotificationManager.notifyByCtx(ctx,"出现了点小意外"+cause.getMessage());
         log.error("服务器内部发生错误");
+        NotificationManager.notifyByCtx(ctx,"出现了点小意外"+cause.getMessage());
 
         // 将角色信息保存到数据库
         playerQuitService.savePlayer(ctx);
@@ -105,7 +108,6 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
 
         // 打印错误
         cause.printStackTrace();
-
     }
 
 }

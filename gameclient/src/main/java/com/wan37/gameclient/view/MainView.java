@@ -14,7 +14,6 @@ import java.awt.event.KeyListener;
 
 
 
-
 public class MainView extends JFrame {
 
     public static final JTextArea output = new JTextArea();
@@ -48,6 +47,16 @@ public class MainView extends JFrame {
                     CmdProto.Cmd cmd = CmdProto.Cmd.newBuilder()
                             .setMgsId(msgId.getMsgId())
                             .setContent(text).build();
+
+                    System.out.println("channel open: "+GameClient.channel.isOpen() );
+
+                    System.out.println("active:"+GameClient.channel.isActive());
+
+                    System.out.println("writable:"+ GameClient.channel.isWritable());
+
+                    System.out.println("registered:"+ GameClient.channel.isRegistered());
+
+
                     GameClient.channel.writeAndFlush(cmd);
                     input.setText("");
                 }

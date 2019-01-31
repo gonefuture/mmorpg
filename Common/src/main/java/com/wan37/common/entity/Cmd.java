@@ -189,6 +189,9 @@ public enum Cmd {
     /** 放弃任务 **/
     QUEST_GIVE_UP("quest_give_up",14028,"放弃任务"),
 
+    /** 交付完成任务 **/
+    QUEST_FINISH("quest_finish",14029,"交付完成任务"),
+
     FRIEND_LIST("friend_list",4027,"好友列表"),
 
     FRIEND_ADD("friend_add",4028,"添加好友"),
@@ -207,7 +210,10 @@ public enum Cmd {
 
 
    /** 未知的命令 */
-    UNKNOWN("unknown", 9999,"未知的命令")
+    UNKNOWN("unknown", 9999,"未知的命令"),
+
+    /** 心跳 **/
+    HERATBEAT("heartbeat",0,"心跳")
 
     ;
 

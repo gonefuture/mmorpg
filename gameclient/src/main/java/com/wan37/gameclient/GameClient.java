@@ -19,8 +19,11 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+
+
 import io.netty.handler.timeout.IdleStateHandler;
 import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,7 +36,9 @@ import java.util.concurrent.TimeUnit;
  * @version 1.00
  * Description: JavaLearn
  */
+
 public class GameClient {
+
 
     public GameClient() {
     }
@@ -62,20 +67,22 @@ public class GameClient {
         //指定所使用的NIO传输channel
         bootstrap.group(workerGroup).channel(NioSocketChannel.class);
 
+        ClientProtoAdapter clientProtoAdapter = new ClientProtoAdapter();
+        clientProtoAdapter.setServerIp(IP);
 
         //指定客户端初始化处理
         bootstrap.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ch.pipeline()
-                        //.addLast("ping", new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS))
+                        .addLast("ping", new IdleStateHandler(60, 60, 60, TimeUnit.SECONDS))
                         .addLast(new ProtobufVarint32FrameDecoder())
                         .addLast("proto-decoder",
                                 new ProtobufDecoder(CmdProto.Cmd.getDefaultInstance()))
                         .addLast(new ProtobufVarint32LengthFieldPrepender())
                         .addLast("proto-encoder", new ProtobufEncoder())
                         // 处理器
-                        .addLast(new ClientProtoAdapter())
+                        .addLast(clientProtoAdapter)
                 ;
                 channel = ch;
             }
@@ -86,7 +93,6 @@ public class GameClient {
 
             // 循环监听输入
             loop();
-
         }catch (Exception e) {
             System.out.println("=========== 发生错误 =========");
             e.printStackTrace();
@@ -99,10 +105,10 @@ public class GameClient {
 
     /**
      *  循环接受输入
-     * @throws IOException
+     * @throws IOException 连接异常
      */
     private void loop() throws IOException {
-        MainView.output.append("========== 连接服务器  "+ IP +"  成功==========\n");
+        MainView.output.append("========== 连接服务器  "+ IP +"  成功,当前连接是 "+channel.id()+"==========\n");
         while (true) {
             System.out.println("请输入您的操作：  操作 + 数据（多个数据之间用空格隔开） (或者请使用指令` show_cmd `查看指令说明)");
 
@@ -123,6 +129,9 @@ public class GameClient {
             }
         }
     }
+
+
+
     public static void main(String[] args) {
         if (args.length > 0) {
             IP = args[0];

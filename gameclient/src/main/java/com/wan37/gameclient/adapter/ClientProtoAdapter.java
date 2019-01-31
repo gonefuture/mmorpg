@@ -6,6 +6,8 @@ import com.wan37.gameclient.GameClient;
 import com.wan37.gameclient.view.MainView;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.timeout.IdleStateEvent;
+
 
 
 
@@ -16,8 +18,21 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * Description: 客户端Protobuf适配器
  */
 
-
 public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
+
+    private CmdProto.Cmd heartbeat = CmdProto.Cmd.newBuilder()
+            .setMgsId(0)
+            .setContent("心跳").build();
+
+    private String serverIp;
+
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
@@ -39,18 +54,32 @@ public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        super.userEventTriggered(ctx, evt);
-        System.out.println("用户事件： "+evt);
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent e = (IdleStateEvent) evt;
+            switch (e.state()) {
+                case READER_IDLE:
+                    ctx.writeAndFlush(heartbeat);
+                    break;
+                case WRITER_IDLE:
+                    ctx.writeAndFlush(heartbeat);
+                    break;
+                case ALL_IDLE:
+                    ctx.writeAndFlush(heartbeat);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         System.out.println("连接出现错误：");
-        System.out.println("====================channel"+ ctx);
+        System.out.println("====================channel 手否可写 ：{}"+ ctx.channel().isWritable());
         cause.printStackTrace();
         System.out.println("=====重新连接服务器  ===");
         MainView.output.append("================重新连接服务器==========\n");
-        new GameClient("gonefuture.top").run();
+        new GameClient(serverIp).run();
     }
 
 }

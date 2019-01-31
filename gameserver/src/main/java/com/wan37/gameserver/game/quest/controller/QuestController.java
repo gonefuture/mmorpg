@@ -51,7 +51,20 @@ public class QuestController {
         ControllerManager.add(Cmd.QUEST_ALL,this::allQuests);
         ControllerManager.add(Cmd.QUEST_ACCEPT,this::acceptQuest);
         ControllerManager.add(Cmd.QUEST_DESCRIBE,this::questDescribe);
+        ControllerManager.add(Cmd.QUEST_FINISH,this::questFinish);
         ControllerManager.add(Cmd.QUEST_GIVE_UP,this::questGiveUp);
+
+    }
+
+
+    /**
+     *  完成并交付任务
+     */
+    private void questFinish(ChannelHandlerContext cxt, Message message) {
+        String[] args = ParameterCheckUtil.checkParameter(cxt,message,2);
+        Integer questId = Integer.valueOf(args[1]);
+        Player player = playerDataService.getPlayerByCtx(cxt);
+        questService.finishMission(player,questId);
 
     }
 
