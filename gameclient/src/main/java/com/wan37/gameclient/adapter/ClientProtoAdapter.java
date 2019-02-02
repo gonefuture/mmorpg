@@ -26,9 +26,6 @@ public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
 
     private String serverIp;
 
-    public String getServerIp() {
-        return serverIp;
-    }
 
     public void setServerIp(String serverIp) {
         this.serverIp = serverIp;
@@ -75,7 +72,6 @@ public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         System.out.println("连接出现错误：");
-        System.out.println("====================channel 手否可写 ：{}"+ ctx.channel().isWritable());
         cause.printStackTrace();
         System.out.println("=====重新连接服务器  ===");
         MainView.output.append("================重新连接服务器==========\n");

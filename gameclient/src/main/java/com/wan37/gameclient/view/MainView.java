@@ -48,15 +48,6 @@ public class MainView extends JFrame {
                             .setMgsId(msgId.getMsgId())
                             .setContent(text).build();
 
-                    System.out.println("channel open: "+GameClient.channel.isOpen() );
-
-                    System.out.println("active:"+GameClient.channel.isActive());
-
-                    System.out.println("writable:"+ GameClient.channel.isWritable());
-
-                    System.out.println("registered:"+ GameClient.channel.isRegistered());
-
-
                     GameClient.channel.writeAndFlush(cmd);
                     input.setText("");
                 }

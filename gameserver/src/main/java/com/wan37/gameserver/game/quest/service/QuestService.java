@@ -161,7 +161,7 @@ public class QuestService {
                     missionProgressNow.getProgressMap().put(id,new ProgressNumber(goal))
             );
             missionProgressNow.setProgress(JSON.toJSONString(missionProgressNow.getProgressMap()));
-            log.debug("missionProgressNow前 {}",missionProgressNow);
+
             // 将任务进度放入玩家当中并持久化进度
             player.getMissionProgresses().put(missionProgressNow.getMissionId(),missionProgressNow);
             questManager.saveOrUpdateMissionProgress(missionProgressNow);
@@ -264,16 +264,8 @@ public class QuestService {
             return null;
         }
 
-        // 创建任务进度
-        QuestProgress missionProgress = new QuestProgress();
-        missionProgress.setMissionId(quest.getId());
-        missionProgress.setQuest(quest);
-        missionProgress.setBeginTime(new Date());
-        missionProgress.setPlayerId(player.getId());
-        missionProgress.setMissionState(QuestState.RUNNING.getCode());
-        // 放入玩家实体中
-        player.getMissionProgresses().put(missionProgress.getMissionId(),missionProgress);
-        questManager.saveOrUpdateMissionProgress(missionProgress);
+        // 新建创建任务进度
+        QuestProgress questProgress = getOrCreateProgress(quest,player);
 
         notificationManager.notifyPlayer(player,MessageFormat.format("接受任务 {0}  ",
                 quest.getName()));

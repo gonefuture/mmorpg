@@ -75,7 +75,7 @@ public class GameClient {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
                 ch.pipeline()
-                        .addLast("ping", new IdleStateHandler(60, 60, 60, TimeUnit.SECONDS))
+                        .addLast("ping", new IdleStateHandler(30, 30, 30, TimeUnit.SECONDS))
                         .addLast(new ProtobufVarint32FrameDecoder())
                         .addLast("proto-decoder",
                                 new ProtobufDecoder(CmdProto.Cmd.getDefaultInstance()))
