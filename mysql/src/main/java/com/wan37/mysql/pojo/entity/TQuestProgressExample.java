@@ -165,123 +165,123 @@ public class TQuestProgressExample {
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdIsNull() {
-            addCriterion("mission_id is null");
+        public Criteria andQuestIdIsNull() {
+            addCriterion("quest_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdIsNotNull() {
-            addCriterion("mission_id is not null");
+        public Criteria andQuestIdIsNotNull() {
+            addCriterion("quest_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdEqualTo(Integer value) {
-            addCriterion("mission_id =", value, "missionId");
+        public Criteria andQuestIdEqualTo(Integer value) {
+            addCriterion("quest_id =", value, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdNotEqualTo(Integer value) {
-            addCriterion("mission_id <>", value, "missionId");
+        public Criteria andQuestIdNotEqualTo(Integer value) {
+            addCriterion("quest_id <>", value, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdGreaterThan(Integer value) {
-            addCriterion("mission_id >", value, "missionId");
+        public Criteria andQuestIdGreaterThan(Integer value) {
+            addCriterion("quest_id >", value, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("mission_id >=", value, "missionId");
+        public Criteria andQuestIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("quest_id >=", value, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdLessThan(Integer value) {
-            addCriterion("mission_id <", value, "missionId");
+        public Criteria andQuestIdLessThan(Integer value) {
+            addCriterion("quest_id <", value, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdLessThanOrEqualTo(Integer value) {
-            addCriterion("mission_id <=", value, "missionId");
+        public Criteria andQuestIdLessThanOrEqualTo(Integer value) {
+            addCriterion("quest_id <=", value, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdIn(List<Integer> values) {
-            addCriterion("mission_id in", values, "missionId");
+        public Criteria andQuestIdIn(List<Integer> values) {
+            addCriterion("quest_id in", values, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdNotIn(List<Integer> values) {
-            addCriterion("mission_id not in", values, "missionId");
+        public Criteria andQuestIdNotIn(List<Integer> values) {
+            addCriterion("quest_id not in", values, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdBetween(Integer value1, Integer value2) {
-            addCriterion("mission_id between", value1, value2, "missionId");
+        public Criteria andQuestIdBetween(Integer value1, Integer value2) {
+            addCriterion("quest_id between", value1, value2, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("mission_id not between", value1, value2, "missionId");
+        public Criteria andQuestIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("quest_id not between", value1, value2, "questId");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateIsNull() {
-            addCriterion("mission_state is null");
+        public Criteria andQuestStateIsNull() {
+            addCriterion("quest_state is null");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateIsNotNull() {
-            addCriterion("mission_state is not null");
+        public Criteria andQuestStateIsNotNull() {
+            addCriterion("quest_state is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateEqualTo(Integer value) {
-            addCriterion("mission_state =", value, "missionState");
+        public Criteria andQuestStateEqualTo(Integer value) {
+            addCriterion("quest_state =", value, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateNotEqualTo(Integer value) {
-            addCriterion("mission_state <>", value, "missionState");
+        public Criteria andQuestStateNotEqualTo(Integer value) {
+            addCriterion("quest_state <>", value, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateGreaterThan(Integer value) {
-            addCriterion("mission_state >", value, "missionState");
+        public Criteria andQuestStateGreaterThan(Integer value) {
+            addCriterion("quest_state >", value, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateGreaterThanOrEqualTo(Integer value) {
-            addCriterion("mission_state >=", value, "missionState");
+        public Criteria andQuestStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("quest_state >=", value, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateLessThan(Integer value) {
-            addCriterion("mission_state <", value, "missionState");
+        public Criteria andQuestStateLessThan(Integer value) {
+            addCriterion("quest_state <", value, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateLessThanOrEqualTo(Integer value) {
-            addCriterion("mission_state <=", value, "missionState");
+        public Criteria andQuestStateLessThanOrEqualTo(Integer value) {
+            addCriterion("quest_state <=", value, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateIn(List<Integer> values) {
-            addCriterion("mission_state in", values, "missionState");
+        public Criteria andQuestStateIn(List<Integer> values) {
+            addCriterion("quest_state in", values, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateNotIn(List<Integer> values) {
-            addCriterion("mission_state not in", values, "missionState");
+        public Criteria andQuestStateNotIn(List<Integer> values) {
+            addCriterion("quest_state not in", values, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateBetween(Integer value1, Integer value2) {
-            addCriterion("mission_state between", value1, value2, "missionState");
+        public Criteria andQuestStateBetween(Integer value1, Integer value2) {
+            addCriterion("quest_state between", value1, value2, "questState");
             return (Criteria) this;
         }
 
-        public Criteria andMissionStateNotBetween(Integer value1, Integer value2) {
-            addCriterion("mission_state not between", value1, value2, "missionState");
+        public Criteria andQuestStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("quest_state not between", value1, value2, "questState");
             return (Criteria) this;
         }
 

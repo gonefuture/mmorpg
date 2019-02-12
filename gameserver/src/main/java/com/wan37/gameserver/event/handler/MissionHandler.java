@@ -37,18 +37,18 @@ public class MissionHandler {
      */
     private  void notificationMission(MissionEvent missionEvent) {
        QuestProgress missionProgress = missionEvent.getMissionProgress();
-       if (QuestState.COMPLETE.getCode().equals(missionProgress.getMissionState())) {
+       if (QuestState.COMPLETE.getCode().equals(missionProgress.getQuestState())) {
            notificationManager.notifyPlayer(missionEvent.getPlayer(), MessageFormat.format("任务{0}  达成 \n" +
                            "{1}",
                    missionEvent.getQuest().getName(),missionEvent.getQuest().getDescribe()));
        }
 
-        if (QuestState.FINISH.getCode().equals(missionProgress.getMissionState())) {
+        if (QuestState.FINISH.getCode().equals(missionProgress.getQuestState())) {
             notificationManager.notifyPlayer(missionEvent.getPlayer(),MessageFormat.format("完成任务{0}",
                     missionEvent.getQuest().getName()));
         }
 
-        if (QuestState.NEVER.getCode().equals(missionProgress.getMissionState())) {
+        if (QuestState.NEVER.getCode().equals(missionProgress.getQuestState())) {
             notificationManager.notifyPlayer(missionEvent.getPlayer(), MessageFormat.format("成就 {0}  达成 \n" +
                             "{1}",
                     missionEvent.getQuest().getName(),missionEvent.getQuest().getDescribe()));

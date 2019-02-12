@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class TQuestProgress extends TQuestProgressKey implements Serializable {
-    private Integer missionState;
+    private Integer questState;
 
     private Date beginTime;
 
@@ -14,12 +14,12 @@ public class TQuestProgress extends TQuestProgressKey implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getMissionState() {
-        return missionState;
+    public Integer getQuestState() {
+        return questState;
     }
 
-    public void setMissionState(Integer missionState) {
-        this.missionState = missionState;
+    public void setQuestState(Integer questState) {
+        this.questState = questState;
     }
 
     public Date getBeginTime() {
@@ -52,7 +52,7 @@ public class TQuestProgress extends TQuestProgressKey implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", missionState=").append(missionState);
+        sb.append(", questState=").append(questState);
         sb.append(", beginTime=").append(beginTime);
         sb.append(", endTime=").append(endTime);
         sb.append(", progress=").append(progress);

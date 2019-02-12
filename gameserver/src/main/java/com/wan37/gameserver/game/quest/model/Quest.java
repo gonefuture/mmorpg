@@ -96,13 +96,8 @@ public class Quest implements IExcel<Integer>{
      */
     public Map<Integer,Integer>  getRewardThingsMap() {
         if (rewardThingsMap.isEmpty()  && !Strings.isNullOrEmpty(this.rewardThings)) {
-            Map<Integer,Integer> rewardItemMap = JSON.parseObject(this.rewardThings,new TypeReference<Map<Integer,Integer>>(){});
-            rewardItemMap.forEach(
-                    (k,v) -> {
-                        Integer thingId = Integer.valueOf(k);
-                        rewardItemMap.put(thingId,v);
-                    }
-            );
+            Map<String,Integer> rewardItemMap = JSON.parseObject(this.rewardThings,new TypeReference<Map<String,Integer>>(){});
+            rewardItemMap.forEach( (k,v) -> rewardThingsMap.put(Integer.valueOf(k),v));
         }
         return this.rewardThingsMap;
     }

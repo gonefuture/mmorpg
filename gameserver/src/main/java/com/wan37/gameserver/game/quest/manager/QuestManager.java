@@ -56,10 +56,10 @@ public class QuestManager {
 
     @PostConstruct
     public void init() {
-        loadMission();
+        loadQuest();
     }
 
-    private void loadMission() {
+    private void loadQuest() {
         String path = FileUtil.getStringPath("gameData/quest.xlsx");
         MissionExcelUtil missionExcelUtil = new MissionExcelUtil(path);
         Map<Integer, Quest> missionMap = missionExcelUtil.getMap();
@@ -78,7 +78,7 @@ public class QuestManager {
      * 加载任务成就进度
      * @param player 玩家
      */
-    public void loadMissionProgress(Player player) {
+    public void loadQuestProgress(Player player) {
         TQuestProgressExample tMissionProgressExample = new TQuestProgressExample();
         tMissionProgressExample.or().andPlayerIdEqualTo(player.getId());
         List<TQuestProgress> tMissionProgressList =  tQuestProgressMapper.selectByExample(tMissionProgressExample);
@@ -88,12 +88,12 @@ public class QuestManager {
                 tMP -> {
                     QuestProgress mp = new QuestProgress();
                     mp.setPlayerId(tMP.getPlayerId());
-                    mp.setMissionId(tMP.getMissionId());
+                    mp.setQuestId(tMP.getQuestId());
                     mp.setBeginTime(tMP.getBeginTime());
                     mp.setEndTime(tMP.getEndTime());
-                    mp.setMissionState(tMP.getMissionState());
+                    mp.setQuestState(tMP.getQuestState());
                     // 加载任务实体
-                    mp.setQuest(getQuest(mp.getMissionId()));
+                    mp.setQuest(getQuest(mp.getQuestId()));
                     // 从数据库获取任务成就进度
                     Map<String, ProgressNumber>  questProgressMap = JSON.parseObject(tMP.getProgress(),
                             new TypeReference<Map<String,ProgressNumber>>(){});
@@ -101,8 +101,8 @@ public class QuestManager {
                     Optional.ofNullable(questProgressMap).ifPresent( qP ->
                             mp.setProgressMap(questProgressMap)
                     );
-                    playerMissionProgressMap.put(mp.getMissionId(),mp);
-                    player.getMissionProgresses().put(mp.getMissionId(),mp);
+                    playerMissionProgressMap.put(mp.getQuestId(),mp);
+                    player.getQuestProgresses().put(mp.getQuestId(),mp);
                 }
         );
         log.debug("玩家任务成就进度数据数据完毕 {}", playerMissionProgressMap);
@@ -117,7 +117,7 @@ public class QuestManager {
     public  void saveOrUpdateMissionProgress(QuestProgress progress) {
         WorkThreadPool.threadPool.execute(() -> {
             TQuestProgressKey key = new TQuestProgressKey();
-            key.setMissionId(progress.getMissionId());
+            key.setQuestId(progress.getQuestId());
             key.setPlayerId(progress.getPlayerId());
             TQuestProgress tQuestProgress = tQuestProgressMapper.selectByPrimaryKey(key);
             if (Objects.isNull(tQuestProgress)) {
@@ -144,7 +144,7 @@ public class QuestManager {
      */
     public void removeQuestProgress(Long playerId, Integer questId) {
         TQuestProgressKey key = new TQuestProgressKey();
-        key.setMissionId(questId);
+        key.setQuestId(questId);
         key.setPlayerId(playerId);
         WorkThreadPool.threadPool.execute(() -> tQuestProgressMapper.deleteByPrimaryKey(key) );
     }

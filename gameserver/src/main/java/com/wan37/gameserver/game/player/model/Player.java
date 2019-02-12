@@ -38,7 +38,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
-@ToString(exclude = {"ctx","missionProgresses","pet","target","currentScene","rolePropertyMap","equipmentBar","bag","friendMap"})
+@ToString(exclude = {"ctx","questProgresses","pet","target","currentScene","rolePropertyMap","equipmentBar","bag","friendMap"})
 @Slf4j
 public class Player extends TPlayer   implements Creature  {
 
@@ -50,7 +50,7 @@ public class Player extends TPlayer   implements Creature  {
     private Creature target;
 
     /** 玩家任务 **/
-    private Map<Integer, QuestProgress> missionProgresses = new ConcurrentHashMap<>();
+    private Map<Integer, QuestProgress> questProgresses = new ConcurrentHashMap<>();
     @Override
     public void setTarget(Creature target) {
         this.target = target;
