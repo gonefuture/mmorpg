@@ -288,6 +288,8 @@ public class QuestService {
             return;
         }
         if (questProgress.getQuestState().equals(QuestState.COMPLETE.getCode())) {
+            notificationManager.notifyPlayer(player,MessageFormat.format("您已完成任务：{}",
+                    questProgress.getQuest().getName()));
             missionReward(player,questProgress.getQuest());
             questProgress.setQuestState(QuestState.FINISH.getCode());
             questManager.updateQuestProgress(questProgress);
@@ -322,4 +324,6 @@ public class QuestService {
         questManager.removeQuestProgress(player.getId(),questId);
         return questProgress;
     }
+
+
 }

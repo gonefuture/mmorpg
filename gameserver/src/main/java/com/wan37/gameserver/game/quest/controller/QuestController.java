@@ -4,7 +4,9 @@ import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Cmd;
 import com.wan37.gameserver.game.quest.manager.QuestManager;
 import com.wan37.gameserver.game.quest.model.Quest;
+import com.wan37.gameserver.game.quest.model.QuestKindType;
 import com.wan37.gameserver.game.quest.model.QuestProgress;
+import com.wan37.gameserver.game.quest.model.QuestState;
 import com.wan37.gameserver.game.quest.service.QuestService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
@@ -19,9 +21,11 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -48,6 +52,7 @@ public class QuestController {
 
     {
         ControllerManager.add(Cmd.QUEST_SHOW,this::showPlayerQuests);
+        ControllerManager.add(Cmd.ACHIEVEMENT_SHOW,this::achievementShow);
         ControllerManager.add(Cmd.QUEST_ALL,this::allQuests);
         ControllerManager.add(Cmd.QUEST_ACCEPT,this::acceptQuest);
         ControllerManager.add(Cmd.QUEST_DESCRIBE,this::questDescribe);
@@ -92,7 +97,7 @@ public class QuestController {
         String[] args = ParameterCheckUtil.checkParameter(cxt,message,2);
         Integer missionId = Integer.valueOf(args[1]);
         Player player = playerDataService.getPlayerByCtx(cxt);
-        Quest quest = questService.acceptQuest(player,missionId);
+        questService.acceptQuest(player,missionId);
 
     }
 
@@ -134,18 +139,46 @@ public class QuestController {
      */
     private void showPlayerQuests(ChannelHandlerContext cxt, Message message) {
         Player player = playerDataService.getPlayerByCtx(cxt);
-        Map<Integer, QuestProgress> missionProgressMap = questService.getPlayerMissionProgress(player);
-        log.debug("任务 {}",missionProgressMap);
+        Map<Integer, QuestProgress> questProgressMap = questService.getPlayerMissionProgress(player);
+        log.debug("任务 {}",questProgressMap);
         StringBuilder sb = new StringBuilder();
         sb.append("玩家当前进行的任务： \n");
-        missionProgressMap.values().forEach(
+        List<QuestProgress> list = questProgressMap.values().stream()
+                .filter(qP -> !qP.getQuest().getKind().equals(QuestKindType.ACHIEVEMENT.getKind()))
+                .filter(qP -> !qP.getQuestState().equals(QuestState.FINISH.getCode()))
+                .collect(Collectors.toList());
+        showQuest(list,sb);
+        NotificationManager.notifyByCtx(cxt,sb);
+    }
+
+
+    /**
+     *  展示成就
+     */
+    public void achievementShow(ChannelHandlerContext cxt, Message message) {
+        Player player = playerDataService.getPlayerByCtx(cxt);
+        Map<Integer, QuestProgress> questProgressMap = questService.getPlayerMissionProgress(player);
+        StringBuilder sb = new StringBuilder();
+        sb.append("玩家当前进行的成就： \n");
+        List<QuestProgress> list = questProgressMap.values().stream()
+                .filter(qP -> qP.getQuest().getKind().equals(QuestKindType.ACHIEVEMENT.getKind()))
+                .filter(qP -> !qP.getQuestState().equals(QuestState.FINISH.getCode()))
+                .collect(Collectors.toList());
+        showQuest(list,sb);
+        NotificationManager.notifyByCtx(cxt,sb);
+    }
+
+
+
+    private void showQuest(List<QuestProgress> questProgressList, StringBuilder sb){
+        questProgressList.forEach(
                 missionProgress -> {
                     sb.append(MessageFormat.format("{0} {1} 等级：{2} 描述：{3}  进度: ",
                             missionProgress.getQuest().getId(),
                             missionProgress.getQuest().getName(),
                             missionProgress.getQuest().getLevel(),
                             missionProgress.getQuest().getDescribe()
-                            ));
+                    ));
                     missionProgress.getProgressMap().forEach(
                             (k,v) -> sb.append(MessageFormat.format("{0}: {1}/{2} ", k,
                                     missionProgress.getProgressMap().get(k).getNow(),
@@ -154,9 +187,7 @@ public class QuestController {
                     sb.append("\n");
                 }
         );
-        NotificationManager.notifyByCtx(cxt,sb);
     }
-
 
 
 }

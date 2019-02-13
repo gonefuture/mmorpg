@@ -177,6 +177,9 @@ public enum Cmd {
     /** 显示已接任务 **/
     QUEST_SHOW("quest", 4025,"显示已接任务"),
 
+    /** 显示已接任务 **/
+    ACHIEVEMENT_SHOW("achievement", 14025,"显示成就进展"),
+
     /**  显示所有任务和成就 **/
     QUEST_ALL("quest_all",4026,"显示游戏内所有任务和成就"),
 
