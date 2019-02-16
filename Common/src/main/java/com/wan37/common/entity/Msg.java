@@ -11,17 +11,16 @@ import lombok.Data;
 @Data
 public class Msg {
 
-    // 错误码
+    /** 错误码 **/
     private int code;
 
-    // 错误信息
+    /** 错误信息 **/
     private String msg;
 
-    // 返回的结果
+    /** 返回的结果 **/
     private Object result;
 
     public Msg() {
-
     }
 
     public Msg(int code, String msg) {

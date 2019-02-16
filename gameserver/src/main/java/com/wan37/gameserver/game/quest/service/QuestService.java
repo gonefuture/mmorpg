@@ -256,8 +256,9 @@ public class QuestService {
             notificationManager.notifyPlayer(player,"该任务不存在");
             return null;
         }
-
-        if (Objects.nonNull(player.getQuestProgresses().get(missionId))) {
+        QuestProgress qP = player.getQuestProgresses().get(missionId);
+        if (Objects.nonNull(qP) && qP.getQuestState().equals(QuestState.FINISH.getCode())
+        ) {
             notificationManager.notifyPlayer(player,"该任务已经接过");
             return null;
         }
@@ -288,12 +289,11 @@ public class QuestService {
             return;
         }
         if (questProgress.getQuestState().equals(QuestState.COMPLETE.getCode())) {
-            notificationManager.notifyPlayer(player,MessageFormat.format("您已完成任务：{}",
+            notificationManager.notifyPlayer(player,MessageFormat.format("您已完成任务：{0}",
                     questProgress.getQuest().getName()));
             missionReward(player,questProgress.getQuest());
             questProgress.setQuestState(QuestState.FINISH.getCode());
             questManager.updateQuestProgress(questProgress);
-            player.getQuestProgresses().remove(questProgress.getQuestId());
             notificationManager.notifyPlayer(player,"您获得了任务奖励。");
         } else {
             notificationManager.notifyPlayer(player,"任务尚未完成");

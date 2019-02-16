@@ -48,6 +48,8 @@ public class GameClient {
     }
 
     public static Channel channel = null;
+    // 重启时间
+    private long restTime =1000L;
 
     /**   39.108.88.129 **/
     private static String IP = "gonefuture.top";
@@ -59,7 +61,7 @@ public class GameClient {
     }
 
 
-    public void run() {
+    public void run()  {
         //设置一个多线程循环器
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         //启动附注类
@@ -94,6 +96,14 @@ public class GameClient {
             // 循环监听输入
             loop();
         }catch (Exception e) {
+            try {
+                // 两秒后重启
+                Thread.sleep(restTime);
+                // 下次重启时间翻倍
+                restTime *= 2;
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
             System.out.println("=========== 发生错误 =========");
             e.printStackTrace();
 

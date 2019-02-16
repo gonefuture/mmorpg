@@ -2,6 +2,10 @@ package com.wan37.gameserver.game.sceneObject.controller;
 
 import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
+import com.wan37.gameserver.event.EventBus;
+import com.wan37.gameserver.event.model.TalkWithEvent;
+import com.wan37.gameserver.game.player.model.Player;
+import com.wan37.gameserver.game.player.service.PlayerDataService;
 import com.wan37.gameserver.game.quest.model.Quest;
 import com.wan37.gameserver.game.sceneObject.service.GameObjectService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
@@ -25,6 +29,10 @@ import java.util.Objects;
 @Controller
 public class SceneObjectController {
 
+    @Resource
+    private PlayerDataService playerDataService;
+
+
     {
         ControllerManager.add(Cmd.TALK_WITH_NPC,this::talkWithNPC);
         ControllerManager.add(Cmd.SHOW__NPC_QUEST,this::showNPCQuest);
@@ -35,8 +43,11 @@ public class SceneObjectController {
 
     private void talkWithNPC(ChannelHandlerContext ctx, Message message) {
         String[] args = ParameterCheckUtil.checkParameter(ctx,message,2);
+        Player player = playerDataService.getPlayer(ctx);
         Long npcId = Long.valueOf(args[1]);
         gameObjectService.talkWithNPC(npcId,ctx);
+        TalkWithEvent talkWithEvent = new TalkWithEvent(player,npcId);
+        EventBus.publish(talkWithEvent);
     }
 
 
