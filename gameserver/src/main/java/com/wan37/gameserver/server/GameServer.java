@@ -29,7 +29,7 @@ public class GameServer {
 
 
     /** 绑定端口 **/
-    private void bind(int port) throws Exception {
+    private void bind(int port)  {
         // 逻辑线程组
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         // 工作线程
@@ -39,8 +39,6 @@ public class GameServer {
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workGroup)
                 .channel(NioServerSocketChannel.class)
-                // 最大客户端连接数为1024
-                //.option(ChannelOption.SO_BACKLOG, 1024)
                 //是否启用心跳保活机制
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
         .childHandler(socketChannelInitializer);

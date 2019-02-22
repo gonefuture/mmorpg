@@ -25,8 +25,6 @@ import java.util.concurrent.TimeUnit;
 public class SocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 
 
-
-
     @Resource
     private ServerProtoAdapter serverProtoAdapter;
 
@@ -40,12 +38,9 @@ public class SocketChannelInitializer extends ChannelInitializer<SocketChannel> 
                  .addLast(new ProtobufVarint32FrameDecoder())
                  .addLast("proto-decoder", new ProtobufDecoder(CmdProto.Cmd.getDefaultInstance()))
                  .addLast(new ProtobufVarint32LengthFieldPrepender())
-                 .addLast("proto-encoder",
-                new ProtobufEncoder())
+                 .addLast("proto-encoder", new ProtobufEncoder())
                  .addLast(serverProtoAdapter);
-
-
-        ;
-
     }
+
+
 }

@@ -18,7 +18,7 @@ public class Item {
 
     private Integer count;
 
-    /** 默认的格子是0 */
+    /** 默认的背包格子是0 */
     private Integer locationIndex = 0;
 
     private ThingInfo thingInfo;
