@@ -1,6 +1,7 @@
 package com.wan37.gameclient.adapter;
 
 
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.proto.CmdProto;
 import com.wan37.gameclient.GameClient;
 import com.wan37.gameclient.view.MainView;
@@ -22,7 +23,7 @@ public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
 
     private CmdProto.Cmd heartbeat = CmdProto.Cmd.newBuilder()
             .setMgsId(0)
-            .setContent("心跳").build();
+            .setContent("heartbeat").build();
 
     private String serverIp;
 
@@ -36,12 +37,33 @@ public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
         CmdProto.Cmd message = (CmdProto.Cmd) msg;
         System.out.println("客户端接收： "+message.getContent() + "\n");
 
+
+        //  如果是武器栏和登陆栏的信息，显示在侧边栏上
+        if (message.getMgsId() == Cmd.SHOW_PLAYER.getMsgId()) {
+            MainView.information.setText("");
+            MainView.information.setText("角色信息：\n"+message.getContent());
+            return;
+        }
+
+        if (message.getMgsId() == Cmd.SHOW_EQUIPMENT_BAR.getMsgId()) {
+            MainView.equipment.setText("");
+            MainView.equipment.setText("装备栏：\n "+message.getContent());
+            return;
+        }
+
+
+        if (message.getMgsId() == Cmd.SHOW_BAGS.getMsgId()) {
+            MainView.bag.setText("");
+            MainView.bag.setText("背包：\n "+message.getContent());
+            return;
+        }
+
+        // 普通命令
         MainView.output.append(message.getContent() + "\n");
-        // 使用JTextArea的setCaretPosition();手动设置光标的位置为最后一行。人气颇高。使用方法也很简单
+        // 使用JTextArea的setCaretPosition();手动设置光标的位置为最后一行。
         MainView.output.setCaretPosition(MainView.output.getDocument().getLength());
+
     }
-
-
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {

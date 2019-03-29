@@ -61,7 +61,7 @@ public class ControllerManager {
             scene -> scene.getSingleThreadSchedule().execute(
                     () -> {
                         log.debug("{} 的 {} 在执行命令 {}",
-                                scene.getName(),player.getName(),new String(msg.getContent()));
+                                scene.getName(),player.getName(),msg.getContent());
                         try {
                             controller.handle(ctx,msg);
                         } catch (Exception e) {

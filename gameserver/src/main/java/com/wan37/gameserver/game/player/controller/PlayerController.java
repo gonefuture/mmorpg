@@ -116,6 +116,11 @@ public class PlayerController {
     private void showPlayer(ChannelHandlerContext ctx, Message message) {
 
         Player player = playerDataService.getPlayerByCtx(ctx);
+        if (Objects.isNull(player)) {
+            NotificationManager.notifyByCtxWithMsgId(ctx,"角色信息：\n" +
+                    " 角色尚未登陆",message.getMsgId());
+            return;
+        }
 
         StringBuilder sb = new StringBuilder();
         sb.append(MessageFormat.format("玩家 {0}，hp:{1}, mp:{2} 经验：{3} 战力： {4}  等级：{5} 货币： {6}\n",
@@ -167,7 +172,7 @@ public class PlayerController {
                         skill.getId(),skill.getName(),skill.getHurt(),skill.getMpConsumption(),
                         skill.getCd(),skill.getDescribe())));
 
-        NotificationManager.notifyByCtx(ctx,sb);
+        NotificationManager.notifyByCtxWithMsgId(ctx,sb,Cmd.SHOW_PLAYER.getMsgId());
     }
 
 

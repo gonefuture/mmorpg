@@ -51,7 +51,6 @@ public class ShopManager  implements ICacheManager<Integer,Shop> {
             for (Shop shop : shopMap.values()) {
                 put(shop.getShopId(),shop);
             }
-            log.debug("商店配置配置表数据 {}",shopMap);
             log.info("商店配置表加载完毕");
 
         } catch (Exception e) {

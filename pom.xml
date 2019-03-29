@@ -13,7 +13,7 @@
 
     <modules>
         <module>gameserver</module>
-        <module>mysql</module>
+        <module>gamedata</module>
         <module>gameclient</module>
         <module>common</module>
     </modules>

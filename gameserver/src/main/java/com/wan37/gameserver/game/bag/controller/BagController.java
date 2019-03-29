@@ -2,6 +2,7 @@ package com.wan37.gameserver.game.bag.controller;
 
 import com.wan37.common.entity.Message;
 import com.wan37.common.entity.Cmd;
+import com.wan37.gameserver.game.bag.model.Bag;
 import com.wan37.gameserver.game.bag.model.Item;
 import com.wan37.gameserver.game.bag.service.BagsService;
 import com.wan37.gameserver.game.player.model.Player;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -52,8 +54,13 @@ public class BagController  {
 
 
     public void showBag(ChannelHandlerContext ctx, Message message) {
-
         Player player = playerDataService.getPlayerByCtx(ctx);
+        if (Objects.isNull(player)) {
+            NotificationManager.notifyByCtxWithMsgId(ctx,"背包栏： 角色尚未登陆".toString(),message.getMsgId());
+            return;
+        }
+
+
         Map<Integer, Item> itemMap = bagsService.show(player);
         log.debug("itemMap {}",itemMap);
 
@@ -80,6 +87,6 @@ public class BagController  {
             sb.append("\n");
         }
 
-        notificationManager.notifyPlayer(player,sb.toString());
+        NotificationManager.notifyByCtxWithMsgId(ctx,sb.toString(),message.getMsgId());
     }
 }

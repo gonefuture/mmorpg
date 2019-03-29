@@ -134,9 +134,13 @@ public class GameClient {
                 CmdProto.Cmd cmd = CmdProto.Cmd.newBuilder()
                         .setMgsId(msgId.getMsgId())
                         .setContent(content).build();
+
                 //向服务端发送内容
-                channel.writeAndFlush(cmd);
+                //channel.writeAndFlush(cmd);
             }
+
+
+
         }
     }
 

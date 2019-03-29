@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *  @author : 钱伟健 gonefuture@qq.com
@@ -50,7 +51,7 @@ public class EquipmentController  {
 
 
     private void equip(ChannelHandlerContext ctx, Message message) {
-        String[] command = new String(message.getContent()).split("\\s+");
+        String[] command = message.getContent().split("\\s+");
         Integer cellId = Integer.valueOf(command[1]);
         Player player = playerDataService.getPlayer(ctx);
         ThingInfo thingInfo = bagsService.getThingInfo(player,cellId);
@@ -68,7 +69,14 @@ public class EquipmentController  {
 
 
     private void showEquip(ChannelHandlerContext ctx, Message message) {
-        Map<String, Item> equipmentBar = playerDataService.getPlayerByCtx(ctx).getEquipmentBar();
+        Player player = playerDataService.getPlayerByCtx(ctx);
+        if (Objects.isNull(player)) {
+            NotificationManager.notifyByCtxWithMsgId(ctx,"装备栏：\n" +
+                    " 角色尚未登陆",message.getMsgId());
+            return;
+        }
+
+        Map<String, Item> equipmentBar  = player.getEquipmentBar();
         StringBuilder sb = new StringBuilder();
         equipmentBar.values().stream().
                 map(Item::getThingInfo).
@@ -89,7 +97,7 @@ public class EquipmentController  {
         if (equipmentBar.isEmpty()) {
             sb.append("你没有穿戴装备，快去商城或背包里挑一件吧");
         }
-        NotificationManager.notifyByCtx(ctx,sb.toString());
+        NotificationManager.notifyByCtxWithMsgId(ctx,sb.toString(),Cmd.SHOW_EQUIPMENT_BAR.getMsgId());
     }
 
 

@@ -20,10 +20,10 @@ public enum Cmd {
 
 
     // 创建用户
-    USER_CREATE("user_create",900,"创建用户"),
+    USER_CREATE("user_create",900,"创建用户，参数为用户昵称、密码、手机号，会返回登陆的唯一id, 例： user_create 玩家66 123 1501545"),
 
     // 创建角色
-    ROLE_CREATE("role_create",9001,"创建角色"),
+    ROLE_CREATE("role_create",9001,"创建角色,参数为角色名，职业代码，例：role_create  战不息 1"),
 
 
     // 玩家登陆, 参数为 用户账号和密码，例： login 2 123456

@@ -85,7 +85,7 @@ public class ServerProtoAdapter extends ChannelInboundHandlerAdapter {
 
         IController controller = controllerManager.get(cmd.getMgsId());
         if (controller == null) {
-            errorController.handle( ctx ,msg);
+            errorController.handle(ctx ,msg);
         } else {
             controllerManager.execute(controller,ctx,msg);
         }

@@ -1,6 +1,7 @@
 package com.wan37.gameserver.manager.notification;
 
 import com.alibaba.fastjson.JSON;
+import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
 import com.wan37.gameserver.game.player.manager.PlayerCacheMgr;
 import com.wan37.gameserver.game.player.model.Player;
@@ -110,6 +111,20 @@ public  class NotificationManager {
     public static  <E> void notifyByCtx(ChannelHandlerContext ctx,E e) {
         Message message = new Message();
         message.setContent((e.toString()+"\n"));
+        ctx.writeAndFlush(message.toProto());
+    }
+
+
+    /**
+     *  通过通道上下文和msgId来通知玩家
+     * @param ctx 上下文
+     * @param e 信息
+     * @param <E> 信息的类型
+     */
+    public static  <E> void notifyByCtxWithMsgId(ChannelHandlerContext ctx,E e,int msgId) {
+        Message message = new Message();
+        message.setContent((e.toString()+"\n"));
+        message.setMsgId(msgId);
         ctx.writeAndFlush(message.toProto());
     }
 
