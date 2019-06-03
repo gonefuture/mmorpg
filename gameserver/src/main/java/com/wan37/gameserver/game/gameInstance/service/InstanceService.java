@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -37,7 +38,6 @@ public class InstanceService {
 
     @Resource
     private GameSceneService gameSceneService;
-
 
     @Resource
     private NotificationManager notificationManager;
@@ -275,7 +275,15 @@ public class InstanceService {
     }
 
 
-
+    /**
+     *  查找副本
+     */
+    public List<GameScene> findInstance() {
+        return SceneCacheMgr.list()
+                .stream()
+                .filter(s -> s.getType().equals(SceneType.INSTANCE_SCENE.getType()))
+                .collect(Collectors.toList());
+    }
 
 
 }

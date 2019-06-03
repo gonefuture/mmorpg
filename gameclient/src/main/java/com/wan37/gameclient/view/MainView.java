@@ -16,43 +16,44 @@ import java.awt.event.KeyListener;
 
 public class MainView extends JFrame {
 
-    public static final JTextArea output = new JTextArea();
-    private static final JTextArea input = new JTextArea();
-
-
-    public static final JTextArea information= new JTextArea();
-    public static final JTextArea equipment = new JTextArea();
-    public static final JTextArea bag = new JTextArea();
+    public static final JTextArea OUTPUT = new JTextArea();
+    private static final JTextArea INPUT = new JTextArea();
+    public static final JTextArea INFORMATION = new JTextArea();
+    /** 地图界面 */
+    public static final  JTextArea MAP = new JTextArea();
+    public static final JTextArea EQUIPMENT = new JTextArea();
+    public static final JTextArea BAG = new JTextArea();
 
     public MainView() {
         this.setLayout(null);
 
-        output.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 16));
-        output.setLineWrap(true);
+        OUTPUT.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 16));
+        OUTPUT.setLineWrap(true);
 
-        input.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
-        input.setLineWrap(true);
-        input.setText("请在此处输入命令");
+        INPUT.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
+        INPUT.setLineWrap(true);
+        INPUT.setText("请在此处输入命令");
 
-        information.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
-        information.setLineWrap(true);
-        information.setText("角色信息：\n 角色尚未登陆");
+        INFORMATION.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 16));
+        INFORMATION.setLineWrap(true);
+        INFORMATION.setText("角色信息：\n 角色尚未登陆");
+
+        MAP.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
+        MAP.setLineWrap(true);
+        MAP.setText("位置 ：未知地点\n");
+
+        EQUIPMENT.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
+        EQUIPMENT.setLineWrap(true);
+        EQUIPMENT.setText("装备栏：\n 角色尚未登陆");
+
+        BAG.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
+        BAG.setLineWrap(true);
+        BAG.setText("背包栏：\n 角色尚未登陆");
 
 
-        equipment.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
-        equipment.setLineWrap(true);
-        equipment.setText("装备栏：\n 角色尚未登陆");
-
-        bag.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 20));
-        bag.setLineWrap(true);
-        bag.setText("背包栏：\n 角色尚未登陆");
-
-
-
-        input.addKeyListener(new KeyListener() {
+        INPUT.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-
                 // NOOP
             }
 
@@ -60,8 +61,8 @@ public class MainView extends JFrame {
             public void keyPressed(KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == '\n') {
-                    String text = input.getText().replaceAll("\n", "");
-                    output.append(text + "\n");
+                    String text = INPUT.getText().replaceAll("\n", "");
+                    OUTPUT.append(text + "\n");
 
                     System.out.println("客户端输入： "+text);
                     String[] array = text.split("\\s+");
@@ -72,13 +73,19 @@ public class MainView extends JFrame {
                             .setContent(text).build();
 
                     GameClient.channel.writeAndFlush(cmd);
-                    input.setText("");
+                    INPUT.setText("");
 
                     // 刷新武器栏和登陆栏
                     CmdProto.Cmd informationCmd  = CmdProto.Cmd.newBuilder()
                             .setMgsId(Cmd.SHOW_PLAYER.getMsgId())
                             .setContent("player").build();
                     GameClient.channel.writeAndFlush(informationCmd);
+
+                    // 刷新玩家位置
+                    CmdProto.Cmd locationCmd  = CmdProto.Cmd.newBuilder()
+                            .setMgsId(Cmd.LOCATION.getMsgId())
+                            .setContent("location").build();
+                    GameClient.channel.writeAndFlush(locationCmd);
 
                     CmdProto.Cmd equipmentCmd  = CmdProto.Cmd.newBuilder()
                             .setMgsId(Cmd.SHOW_EQUIPMENT_BAR.getMsgId())
@@ -96,13 +103,13 @@ public class MainView extends JFrame {
             public void keyReleased(KeyEvent e) {
                 int key = e.getKeyCode();
                 if (key == '\n') {
-                    input.setCaretPosition(0);
+                    INPUT.setCaretPosition(0);
                 }
             }
         });
 
 
-        JScrollPane displayBox = new JScrollPane(output);
+        JScrollPane displayBox = new JScrollPane(OUTPUT);
 
         //设置矩形大小.参数依次为(矩形左上角横坐标x,矩形左上角纵坐标y，矩形长度，矩形宽度)
         displayBox.setBounds(0, 0, 1000, 680);
@@ -110,24 +117,26 @@ public class MainView extends JFrame {
         displayBox.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         //在文本框上添加滚动条
-        JScrollPane inputBox = new JScrollPane(input);
+        JScrollPane inputBox = new JScrollPane(INPUT);
         //设置矩形大小.参数依次为(矩形左上角横坐标x,矩形左上角纵坐标y，矩形长度，矩形宽度)
         inputBox.setBounds(0, 690, 1000, 90);
         //默认的设置是超过文本框才会显示滚动条，以下设置让滚动条一直显示
         inputBox.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         // 角色信息栏
-        JScrollPane informationBar = new JScrollPane(information);
-        informationBar.setBounds(1024,0,1368, 380);
+        JScrollPane informationBar = new JScrollPane(INFORMATION);
+        informationBar.setBounds(1024,0,1368, 320);
+
+        // 地图
+        JScrollPane mapBar = new JScrollPane(MAP);
+        mapBar.setBounds(1024,325,1368,75);
 
         // 装备栏
-        JScrollPane equipmentBar = new JScrollPane(equipment);
+        JScrollPane equipmentBar = new JScrollPane(EQUIPMENT);
         equipmentBar.setBounds(1024, 400, 1368, 200);
 
-
         // 背包物品栏
-
-        JScrollPane bagsBar = new JScrollPane(bag);
+        JScrollPane bagsBar = new JScrollPane(BAG);
         bagsBar.setBounds(1024, 600, 1368, 200);
 
 
@@ -135,6 +144,7 @@ public class MainView extends JFrame {
         this.add(displayBox);
         this.add(inputBox);
         this.add(informationBar);
+        this.add(mapBar);
         this.add(equipmentBar);
         this.add(bagsBar);
 

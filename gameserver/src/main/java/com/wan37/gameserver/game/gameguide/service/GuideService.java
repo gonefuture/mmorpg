@@ -1,10 +1,9 @@
-package com.wan37.gameserver.gameguide.service;
+package com.wan37.gameserver.game.gameguide.service;
 
 import com.wan37.common.entity.Cmd;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

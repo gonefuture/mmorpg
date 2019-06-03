@@ -41,7 +41,7 @@ public  class NotificationManager {
      * @param e 信息
      * @param <E> 信息的类型
      */
-    public <E> void notifyScene(GameScene gameScene, E e) {
+    public  <E> void notifyScene(GameScene gameScene, E e) {
         Message message = new Message();
         if (e instanceof String || e instanceof StringBuilder) {
             message.setContent(e.toString());
@@ -79,7 +79,6 @@ public  class NotificationManager {
         ChannelHandlerContext ctx = playerCacheMgr.getCxtByPlayerId(player.getId());
         Optional.ofNullable(ctx).ifPresent(c -> c.writeAndFlush(message.toProto()));
     }
-
 
 
 
@@ -158,11 +157,41 @@ public  class NotificationManager {
 
     }
 
-
+    /**
+     *  玩家被治疗
+     * @param form 治疗施放者
+     * @param to 被治疗者
+     * @param heal 治疗数值
+     */
     public void playerBeHealed(Player form, Player to, Long heal) {
         GameScene gameScene = gameSceneService.getSceneByPlayer(form);
         notifyScene(gameScene,
                 MessageFormat.format("\n玩家 {0} 受到 {1} 的治疗，  hp减增加{2},当前hp为 {3}\n",
                         to.getName(),form.getName(),heal, to.getHp()));
     }
+
+
+    /**
+     *  进入场景
+     */
+
+    public void playerEnter(Player player, GameScene gameScene) {
+        log.debug("=================== {}",gameScene);
+        notifyScene(gameScene,
+                MessageFormat.format("玩家{0} 进入场景 {1}\n",
+                        player.getName(),gameScene.getName()));
+    }
+
+
+    /**
+     *  离开场景
+     */
+
+    public void playerLeave(Player player, GameScene gameScene) {
+        notifyScene(gameScene,
+                MessageFormat.format("玩家{0} 离开场景 {1}\n",
+                        player.getName(),gameScene.getName()));
+    }
+
+
 }

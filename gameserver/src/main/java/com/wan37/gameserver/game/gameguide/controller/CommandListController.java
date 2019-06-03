@@ -1,9 +1,8 @@
-package com.wan37.gameserver.gameguide.controller;
+package com.wan37.gameserver.game.gameguide.controller;
 
 import com.wan37.common.entity.Cmd;
 import com.wan37.common.entity.Message;
-import com.wan37.gameserver.common.IController;
-import com.wan37.gameserver.gameguide.service.GuideService;
+import com.wan37.gameserver.game.gameguide.service.GuideService;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;

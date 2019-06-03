@@ -27,11 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class ControllerManager {
 
-
     @Resource
     private PlayerDataService playerDataService;
-
-
 
     /** MsgId标志和服务之间的映射 */
     private final static Map<Cmd,IController> CONTROLLER_MAP = new ConcurrentHashMap<>();
@@ -39,7 +36,6 @@ public class ControllerManager {
     public static void add(Cmd cmd, IController controller) {
         CONTROLLER_MAP.put(cmd, controller);
     }
-
 
 
     public IController get(int msgId) {

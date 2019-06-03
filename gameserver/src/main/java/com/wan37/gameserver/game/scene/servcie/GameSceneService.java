@@ -7,6 +7,7 @@ import com.wan37.gameserver.game.scene.model.CommonSceneId;
 import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.game.scene.manager.SceneCacheMgr;
 import com.wan37.gameserver.game.scene.model.SceneType;
+import com.wan37.gameserver.manager.notification.NotificationManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class GameSceneService {
 
     @Resource
     private PlayerDataService playerDataService;
+
+    @Resource
+    private NotificationManager notificationManager;
 
 
 
@@ -104,6 +108,7 @@ public class GameSceneService {
             gameScene.getMonsters().remove(player.getPet().getPetId());
             targetScene.getMonsters().put(player.getPet().getPetId(),player.getPet());
         }
+        notificationManager.playerEnter(player,targetScene);
     }
 
 
@@ -114,7 +119,8 @@ public class GameSceneService {
      */
     public void moveToScene(Player player, GameScene targetScene) {
         // 从旧场景移除
-        player.getCurrentScene().getPlayers().remove(player.getId());
+        GameScene formScene = player.getCurrentScene();
+        formScene.getPlayers().remove(player.getId());
         player.setScene(targetScene.getId());
 
         // 宠物相关
@@ -126,9 +132,9 @@ public class GameSceneService {
         // 放入目的场景
         targetScene.getPlayers().put(player.getId(), player);
         player.setCurrentScene(targetScene);
-
-
-
+        // 进入场景广播
+        notificationManager.playerEnter(player,targetScene);
+        notificationManager.playerLeave(player,formScene);
     }
 
 
@@ -155,11 +161,13 @@ public class GameSceneService {
         }
         scene.getPlayers().put(player.getId(),player);
         player.setCurrentScene(scene);
+        // 广播
+        //notificationManager.playerEnter(player,scene);
     }
 
 
     /**
-     *  移动到一个场景
+     *  是否能移动到一个场景
      * @param player player
      * @param willGo 想要去的场景
      * @return 是否移动成功
@@ -172,4 +180,6 @@ public class GameSceneService {
         // 检测是否能够到达想去的地方
         return  gameSceneList.stream().anyMatch(scene -> scene.getId().equals(willGo.getId()));
     }
+
+
 }

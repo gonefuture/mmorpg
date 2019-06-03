@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.Objects;
 
 
 /**
@@ -43,11 +44,13 @@ SceneController  {
 
 
 
-    public void playerMove(ChannelHandlerContext ctx, Message message) {
-        String[] array = new String(message.getContent()).split("\\s+");
+    private void playerMove(ChannelHandlerContext ctx, Message message) {
+        Player player = playerDataService.getPlayerByCtx(ctx);
+
+        String[] array = message.getContent().split("\\s+");
         int willMoveSceneId =  Integer.valueOf(array[1]);
 
-        Player player = playerDataService.getPlayerByCtx(ctx);
+
 
         GameScene gameScene = SceneCacheMgr.getScene(willMoveSceneId);
         StringBuilder sb = new StringBuilder();
@@ -60,7 +63,7 @@ SceneController  {
             sb.append(MessageFormat.format("\n 当前所处的地方是 {0}",player.getCurrentScene().display()));
         }
 
-        NotificationManager.notifyByCtx(ctx,sb);
+        NotificationManager.notifyByCtxWithMsgId(ctx,sb,message.getMsgId());
     }
 }
 

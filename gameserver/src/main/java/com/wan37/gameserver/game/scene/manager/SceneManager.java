@@ -52,9 +52,6 @@ public class SceneManager {
     private MonsterAiService monsterAIService;
 
 
-
-
-
     @PostConstruct
     private void tick() {
         sceneLoop.scheduleWithFixedDelay(

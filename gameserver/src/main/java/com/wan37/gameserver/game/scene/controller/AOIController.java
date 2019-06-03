@@ -99,19 +99,24 @@ public class AOIController  {
     private void location(ChannelHandlerContext ctx, Message message) {
         Player player = playerDataService.getPlayer(ctx);
 
+        if (Objects.isNull(player)) {
+            NotificationManager.notifyByCtxWithMsgId(ctx,"未知位置",message.getMsgId());
+            return;
+        }
+
         GameScene gameScene = gameSceneService.getSceneByPlayer(player);
 
         List<GameScene> gameSceneList = gameSceneService.getNeighborsSceneByIds(gameScene.getNeighbors());
 
         String location = MessageFormat.format("当前场景是： {0} \n",gameScene.getName() );
-        StringBuilder neighbors = new StringBuilder();
-        neighbors.append(location);
-        neighbors.append("相邻的场景是： ");
+        StringBuilder sb = new StringBuilder();
+        sb.append(location);
+        sb.append("相邻的场景是： ");
         gameSceneList.forEach(
-                neighbor -> neighbors.append(MessageFormat.format("{0}: {1} ",neighbor.getId(), neighbor.getName() ))
+                neighbor -> sb.append(MessageFormat.format("{0}: {1} ",neighbor.getId(), neighbor.getName() ))
         );
 
-        NotificationManager.notifyByCtx(ctx,neighbors);
+        NotificationManager.notifyByCtxWithMsgId(ctx,sb,message.getMsgId());
     }
 
 

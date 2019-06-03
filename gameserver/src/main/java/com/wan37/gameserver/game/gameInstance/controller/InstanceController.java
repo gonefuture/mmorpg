@@ -6,13 +6,16 @@ import com.wan37.gameserver.game.gameInstance.model.GameInstance;
 import com.wan37.gameserver.game.gameInstance.service.InstanceService;
 import com.wan37.gameserver.game.player.model.Player;
 import com.wan37.gameserver.game.player.service.PlayerDataService;
+import com.wan37.gameserver.game.scene.model.GameScene;
 import com.wan37.gameserver.manager.controller.ControllerManager;
 import com.wan37.gameserver.manager.notification.NotificationManager;
+import com.wan37.gameserver.server.GameServer;
 import io.netty.channel.ChannelHandlerContext;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * @author gonefuture  gonefuture@qq.com
@@ -27,6 +30,7 @@ public class InstanceController {
     {
         ControllerManager.add(Cmd.ENTER_INSTANCE,this::instanceEnter);
         ControllerManager.add(Cmd.EXIT_INSTANCE,this::instanceExit);
+        ControllerManager.add(Cmd.EXIT_INSTANCE,this::showInstance);
 
     }
 
@@ -39,7 +43,9 @@ public class InstanceController {
 
 
 
-
+    /**
+     *  进入副本
+     */
     public void instanceEnter(ChannelHandlerContext ctx, Message message) {
         String[] cmd  = new String(message.getContent()).split("\\s+");
 
@@ -58,6 +64,9 @@ public class InstanceController {
     }
 
 
+    /**
+     *  退出副本
+     */
     public void instanceExit(ChannelHandlerContext ctx, Message message) {
         Player player = playerDataService.getPlayer(ctx);
 
@@ -69,4 +78,23 @@ public class InstanceController {
         }
         ctx.writeAndFlush(message);
     }
+
+
+    /**
+     *  显示副本
+     *
+     */
+    private void showInstance(ChannelHandlerContext ctx, Message message) {
+
+        List<GameScene> sceneList = instanceService.findInstance();
+        StringBuilder sb = new StringBuilder();
+        sb.append("副本列表： \n");
+        sceneList.stream()
+                .forEach(scene -> sb.append(MessageFormat.format("{副本id ：{}  副本名称：{} ",
+                        scene.getId(),scene.getName())));
+        NotificationManager.notifyByCtx(ctx,sb);
+
+
+    }
+
 }

@@ -40,28 +40,34 @@ public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
 
         //  如果是武器栏和登陆栏的信息，显示在侧边栏上
         if (message.getMgsId() == Cmd.SHOW_PLAYER.getMsgId()) {
-            MainView.information.setText("");
-            MainView.information.setText("角色信息：\n"+message.getContent());
+            MainView.INFORMATION.setText("");
+            MainView.INFORMATION.setText("角色信息：\n"+message.getContent());
+            return;
+        }
+
+        if (message.getMgsId() == Cmd.LOCATION.getMsgId()) {
+            MainView.MAP.setText("");
+            MainView.MAP.setText(message.getContent());
             return;
         }
 
         if (message.getMgsId() == Cmd.SHOW_EQUIPMENT_BAR.getMsgId()) {
-            MainView.equipment.setText("");
-            MainView.equipment.setText("装备栏：\n "+message.getContent());
+            MainView.EQUIPMENT.setText("");
+            MainView.EQUIPMENT.setText(message.getContent());
             return;
         }
 
 
         if (message.getMgsId() == Cmd.SHOW_BAGS.getMsgId()) {
-            MainView.bag.setText("");
-            MainView.bag.setText("背包：\n "+message.getContent());
+            MainView.BAG.setText("");
+            MainView.BAG.setText("背包：\n "+message.getContent());
             return;
         }
 
         // 普通命令
-        MainView.output.append(message.getContent() + "\n");
+        MainView.OUTPUT.append(message.getContent() + "\n");
         // 使用JTextArea的setCaretPosition();手动设置光标的位置为最后一行。
-        MainView.output.setCaretPosition(MainView.output.getDocument().getLength());
+        MainView.OUTPUT.setCaretPosition(MainView.OUTPUT.getDocument().getLength());
 
     }
 
@@ -96,7 +102,7 @@ public class ClientProtoAdapter extends ChannelInboundHandlerAdapter {
         System.out.println("连接出现错误：");
         cause.printStackTrace();
         System.out.println("=====重新连接服务器  ===");
-        MainView.output.append("================重新连接服务器==========\n");
+        MainView.OUTPUT.append("================重新连接服务器==========\n");
         new GameClient(serverIp).run();
     }
 

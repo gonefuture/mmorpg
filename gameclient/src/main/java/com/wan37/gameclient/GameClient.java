@@ -48,7 +48,7 @@ public class GameClient {
     }
 
     public static Channel channel = null;
-    // 重启时间
+    /** 重启时间 **/
     private long restTime =1000L;
 
     /**   39.108.88.129 **/
@@ -118,7 +118,7 @@ public class GameClient {
      * @throws IOException 连接异常
      */
     private void loop() throws IOException {
-        MainView.output.append("========== 连接服务器  "+ IP +"  成功,当前连接是 "+channel.id()+"==========\n");
+        MainView.OUTPUT.append("========== 连接服务器  "+ IP +"  成功,当前连接是 "+channel.id()+"==========\n");
         while (true) {
             System.out.println("请输入您的操作：  操作 + 数据（多个数据之间用空格隔开） (或者请使用指令` show_cmd `查看指令说明)");
 
@@ -138,8 +138,6 @@ public class GameClient {
                 //向服务端发送内容
                 //channel.writeAndFlush(cmd);
             }
-
-
 
         }
     }
